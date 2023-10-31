@@ -4,15 +4,16 @@
     "license": "MIT",
     "name": "Rbook-algorithms_book",
     "source": "src/index.html",
-    "scripts":{
-        "dev":"parcel",
-        "build":"parcel build"
+    "scripts": {
+        "dev": "parcel",
+        "build": "parcel build"
     },
     "dependencies": {
         "ejs": "^3.1.9",
         "markdown-it": "^13.0.2"
     },
     "devDependencies": {
+        "@parcel/transformer-sass": "2.10.1",
         "parcel": "^2.10.1"
     }
 }
