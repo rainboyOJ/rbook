@@ -47,6 +47,25 @@ exports.menu_html = menu_to_ul_list(srcp,menu)
 
 // 把menu数据flatten
 // [path1,path2,path3,...]
-function flatten_menu(parent_path,data) {
+function _flatten_menu(parent_path,resolve,data) {
+    let arr = []
+
+    if ( Array.isArray(data) ) { //是数组
+        for(let d of data ) {
+            arr = arr.concat( _flatten_menu(parent_path,resolve,d) )
+        }
+    }
+    else { // 不是数组,那就是一个item,转成li
+        let path = join(parent_path,data.path)
+        let resolve_path = join(resolve,data.path)
+        if( data.child)
+            arr = arr.concat(_flatten_menu(path,resolve_path,data.child))
+        else
+            arr.push(resolve_path)
+    }
+    return arr;
 }
+
+// [ resolve-path1,...]
+exports.flatten_menu = _flatten_menu(srcp,'',menu)
 
