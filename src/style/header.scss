@@ -1,0 +1,44 @@
+@mixin transition {
+    transition: all .15s ease-in-out;
+}
+
+@mixin shadow-1 {
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
+.header {
+    @include shadow-1;
+    padding:1rem 0;
+
+    nav {
+        padding:0 2rem;
+        display: flex;
+        align-items:center;
+        justify-content:space-between;
+
+        .brand {
+            img {
+                height:4rem;
+                width: auto;
+            }
+        }
+
+        ul {
+            display :flex;
+            list-style:none;
+
+            a {
+                display:block;
+                padding:.5rem 1rem;
+                font-size:1.8rem;
+                text-decoration:none;
+                color:black;
+                @include transition;
+                &:hover {
+                    color:#0d6efd;
+                    text-decoration:underline;
+                }
+            }
+        }
+    }
+}

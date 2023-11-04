@@ -3,9 +3,9 @@
     "author": "rainboy <rainboylvx@qq.com>",
     "license": "MIT",
     "name": "Rbook-algorithms_book",
-    "source": "src/index.html",
+    "source": "src/index.ejs",
     "scripts": {
-        "dev": "parcel",
+        "dev": "parcel --no-cache",
         "build": "parcel build"
     },
     "dependencies": {
@@ -14,6 +14,7 @@
     },
     "devDependencies": {
         "@parcel/transformer-sass": "2.10.1",
-        "parcel": "^2.10.1"
+        "parcel": "^2.10.1",
+        "parcel-transformer-ejs": "^1.0.1"
     }
 }

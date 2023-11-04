@@ -42,10 +42,11 @@ function menu_to_ul_list(parent_path,data) {
     return html;
 }
 
-const menu_html = menu_to_ul_list(srcp,menu)
+exports.menu_html = menu_to_ul_list(srcp,menu)
 // console.log(menu_html)
 
 // 把menu数据flatten
 // [path1,path2,path3,...]
 function flatten_menu(parent_path,data) {
 }
+

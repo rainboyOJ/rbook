@@ -1,5 +1,17 @@
 <li>
-    <div>
+    <div class="item">
+        <span class="icon">
+            <% if (ul.length == 0 ) {%>
+                <%- include("icon/document.svg") %>
+            <% } else {%>
+                <span class="open">
+                    <%- include("icon/folder-minus.svg") %>
+                </span>
+                <span class="close">
+                    <%- include("icon/folder-plus.svg") %>
+                </span>
+            <% }%>
+        </span>
         <a href="link"><%= title%></a>
     </div>
     <%- ul%>

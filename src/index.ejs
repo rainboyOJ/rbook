@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Rbook</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.scss"/>
+  </head>
+  <body>
+    <div class="header">
+        <div class="container">
+            <%- include("component/header.html")%>
+        </div>
+    </div>
+    <div class="container" style="margin-top:4rem;margin-bottom:4rem; height:500px;">
+        <div class="sidebar">
+            <%- menu.html %>
+        </div>
+        <div class="main">
+                <p> this is maiin </p>
+        </div>
+    </div>
+
+    <footer>
+        this is footer
+    </footer>
+    <script src="app.js"></script>
+  </body>
+</html>

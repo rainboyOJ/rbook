@@ -408,7 +408,7 @@
   dependencies:
     "@parcel/plugin" "2.10.1"
 
-"@parcel/plugin@2.10.1":
+"@parcel/plugin@2.10.1", "@parcel/plugin@^2.8.1":
   version "2.10.1"
   resolved "https://registry.yarnpkg.com/@parcel/plugin/-/plugin-2.10.1.tgz#47b25cd93b483c8c643ff9382715e6fc726b9dd0"
   integrity sha512-fhsWI5dzsmkQ2ye6jArDMiObw4yBkp3UoqAYCG/pGSsGXDpn8N0tOknRfycH509CGvw6ooGg6LORhFgak4cjDw==
@@ -1134,7 +1134,7 @@ dotenv@^7.0.0:
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-7.0.0.tgz#a2be3cd52736673206e8a85fb5210eea29628e7c"
   integrity sha512-M3NhsLbV1i6HuGzBUH8vXrtxOk+tWmzWKDMbAVSUp3Zsjm7ywFeuwrUXhmhQyRK1q5B5GGy7hcXPbj3bnfZg2g==
 
-ejs@^3.1.9:
+ejs@^3.1.8, ejs@^3.1.9:
   version "3.1.9"
   resolved "https://registry.yarnpkg.com/ejs/-/ejs-3.1.9.tgz#03c9e8777fe12686a9effcef22303ca3d8eeb361"
   integrity sha512-rC+QVNMJWv+MtPgkt0y+0rVEIdbtxVADApW9JXrUVlzHetgcyczP/E7DJmWJ4fJCZF2cPcBk0laWO9ZHMG3DmQ==
@@ -1530,6 +1530,14 @@ ordered-binary@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/ordered-binary/-/ordered-binary-1.4.1.tgz#205cb6efd6c27fa0ef4eced994a023e081cdc911"
   integrity sha512-9LtiGlPy982CsgxZvJGNNp2/NnrgEr6EAyN3iIEP3/8vd3YLgAZQHbQ75ZrkfBRGrNg37Dk3U6tuVb+B4Xfslg==
+
+parcel-transformer-ejs@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/parcel-transformer-ejs/-/parcel-transformer-ejs-1.0.1.tgz#1ebba626c732a3d89c05b8fd9aea615f1bff2765"
+  integrity sha512-O9OzmhejbFkhsA2EDiJNxxx8NGJ1SDXnoJB16Cr0dWxt9OImJ4sQ3w1imOE4c5Gnjc/q7Ax8itexWbq6t0V9Og==
+  dependencies:
+    "@parcel/plugin" "^2.8.1"
+    ejs "^3.1.8"
 
 parcel@^2.10.1:
   version "2.10.1"

@@ -7,8 +7,9 @@ const srcp = join(cwd,'src')
 const ejsp = join(srcp,'ejs')
 
 function get_ejs_template(name) {
-    let raw = fs.readFileSync(join(ejsp,name),{encoding:'UTF8'})
-    return ejs.compile(raw,{client:true})
+    let filename = join(ejsp,name)
+    let raw = fs.readFileSync(filename,{encoding:'UTF8'})
+    return ejs.compile(raw,{filename})
 }
 
 module.exports = {
