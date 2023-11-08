@@ -1,0 +1,26 @@
+
+.button-menu {
+    transition: all 0.5s ease-in-out;
+    position:fixed;
+    top:10px;
+    left:10px;
+
+    cursor: pointer;
+    padding: .1em .1em;
+    font-weight: bold;
+    border:1px solid rgba(0,0,0,0.1);
+    border-radius:5px;
+
+    img {
+        width: 3rem;
+        height: 3rem;
+    }
+    img.open {display:block;}
+    img.close {display:none;}
+}
+
+.button-menu.active {
+    left:300px + 10px;
+    img.open {display:none;}
+    img.close {display:block;}
+}

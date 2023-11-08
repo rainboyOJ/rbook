@@ -6,6 +6,10 @@ const li_item = get_ejs_template("li_item.html")
 //左侧的菜单
 const menu = [
     {
+        title:'前言',
+        path:"introducation/index.md",
+    },
+    {
         title: "搜索",
         path:"search",
         child:[
@@ -20,6 +24,21 @@ const menu = [
                 ]
             }
         ]
+    },
+    {
+        title:"附录",
+        path:"appendix",
+        child: [
+            {
+                title:"python",
+                path:"python.md"
+            },
+            {
+                title:"编程常用单词",
+                path:"编程常用单词.md"
+            },
+        ]
+
     }
 ]
 
@@ -35,14 +54,15 @@ function menu_to_ul_list(parent_path,data) {
     }
     else { // 不是数组,那就是一个item,转成li
         let ul = ''
+        let cp = join(parent_path,data.path)
         if( data.child)
-            ul = menu_to_ul_list(join(parent_path,data.path),data.child)
-        html = li_item({...data,ul})
+            ul = menu_to_ul_list(cp,data.child)
+        html = li_item({...data,ul,link:cp})
     }
     return html;
 }
 
-exports.menu_html = menu_to_ul_list(srcp,menu)
+exports.menu_html = menu_to_ul_list('/',menu)
 // console.log(menu_html)
 
 // 把menu数据flatten

@@ -1,10 +1,4 @@
-@mixin transition {
-    transition: all .15s ease-in-out;
-}
-
-@mixin shadow-1 {
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-}
+@import "variable.scss";
 
 .header {
     @include shadow-1;
@@ -24,9 +18,7 @@
         }
 
         ul {
-            display :flex;
             list-style:none;
-
             a {
                 display:block;
                 padding:.5rem 1rem;

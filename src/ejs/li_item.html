@@ -1,5 +1,5 @@
 <li>
-    <div class="item">
+    <a class="item <%= ul.length == 0 ? 'document' : ''%>" href="#<%=link || ''%>">
         <span class="icon">
             <% if (ul.length == 0 ) {%>
                 <%- include("icon/document.svg") %>
@@ -12,7 +12,7 @@
                 </span>
             <% }%>
         </span>
-        <a href="link"><%= title%></a>
-    </div>
+        <%= title%>
+    </a>
     <%- ul%>
 </li>

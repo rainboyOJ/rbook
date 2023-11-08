@@ -7,23 +7,31 @@
     <link rel="stylesheet" href="style.scss"/>
   </head>
   <body>
-    <div class="header">
-        <div class="container">
-            <%- include("component/header.html")%>
-        </div>
-    </div>
-    <div class="container" style="margin-top:4rem;margin-bottom:4rem; height:500px;">
-        <div class="sidebar">
-            <%- menu.html %>
-        </div>
-        <div class="main">
-                <p> this is maiin </p>
-        </div>
-    </div>
 
-    <footer>
-        this is footer
-    </footer>
+    <button class="button-menu" id="menu-toggle">
+        <img class="open" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIGZpbGw9J25vbmUnIHZpZXdCb3g9JzAgMCAyNCAyNCcgc3Ryb2tlLXdpZHRoPScxLjUnIHN0cm9rZT0nY3VycmVudENvbG9yJyBjbGFzcz0ndy02IGgtNic+PHBhdGggc3Ryb2tlLWxpbmVjYXA9J3JvdW5kJyBzdHJva2UtbGluZWpvaW49J3JvdW5kJyBkPSdNMy43NSA1LjI1aDE2LjVtLTE2LjUgNC41aDE2LjVtLTE2LjUgNC41aDE2LjVtLTE2LjUgNC41aDE2LjUnIC8+PC9zdmc+Cg==">
+        <img class="close" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIGZpbGw9J25vbmUnIHZpZXdCb3g9JzAgMCAyNCAyNCcgc3Ryb2tlLXdpZHRoPScxLjUnIHN0cm9rZT0nY3VycmVudENvbG9yJyBjbGFzcz0ndy02IGgtNic+PHBhdGggc3Ryb2tlLWxpbmVjYXA9J3JvdW5kJyBzdHJva2UtbGluZWpvaW49J3JvdW5kJyBkPSdNMy43NSA2Ljc1aDE2LjVNMy43NSAxMkgxMm0tOC4yNSA1LjI1aDE2LjUnIC8+PC9zdmc+Cg==">
+    </button>
+    <div class="container">
+        <div class="header sticky-footer__header">
+            <div class="">
+                <%- include("component/header.html")%>
+            </div>
+        </div>
+        <div class="main sticky-footer__main" style="margin-top:4rem;margin-bottom:4rem;">
+            <div class="sidebar box" id="sidebar">
+                <%- menu.html %>
+            </div>
+            <div class="article box">
+                <iframe id="article" frameborder="0"></iframe>
+            </div>
+        </div>
+
+        <footer class="sticky-footer__footer">
+            this is footer
+        </footer>
+    </div>
+    <script>document.getElementById('article').setAttribute('src',"/introducation/index.html")</script>
     <script src="app.js"></script>
   </body>
 </html>

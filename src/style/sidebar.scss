@@ -1,11 +1,12 @@
 @import "variable.scss";
 
 .sidebar {
-    border-right:1px solid gray;
-    position:absolute;
-    top:0;
-    bottom:0;
-    width:$sidebar-width;
+    // border-right:1px solid gray;
+    // position:absolute;
+    // top:0;
+    // bottom:0;
+    // width:$sidebar-width;
+    background:white;
 
     ul {
         list-style:none;
@@ -19,9 +20,38 @@
             }
 
             .item {
+                padding:.5rem;
                 display:flex;
                 align-items:center;
+                cursor:pointer;
+                &:hover {
+                    background: gray;
+                }
             }
+        }
+    }
+    // 隐藏用
+    li > ul{
+        display:none;
+    }
+    li.active > ul{
+        display:unset;
+    }
+
+    li.active > a.item {
+        span.close {
+            display: none;
+        }
+        span.open {
+            display: unset;
+        }
+    }
+    li > a.item {
+        span.close {
+            display: unset;
+        }
+        span.open {
+            display: none;
         }
     }
 }
@@ -63,5 +93,4 @@
 
 
 .main {
-    margin-left:$sidebar-width;
 }
