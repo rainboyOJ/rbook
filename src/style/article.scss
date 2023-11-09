@@ -9,8 +9,11 @@
 
 //Make Iframe to fit 100% of container's remaining height
 //https://stackoverflow.com/a/325334
+.article > iframe {
+    flex: 1 1 auto;
+}
 
-.article-container {
+#article-container {
     overflow-y:auto;
 }
 
@@ -25,8 +28,6 @@
 }
 
 .markdown-body {
-    max-width:1000px;
-    margin:0 auto;
 }
 
 
