@@ -41,3 +41,16 @@ document.querySelectorAll('.sidebar a').forEach( function(link){
 window.addEventListener('hashchange',function(){
     document.getElementById('article').setAttribute('src',location.hash.slice(1) + '.html')
 },false)// ? false
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    const default_index_url = '/introducation/index.html'
+    let cur_hash = location.hash;
+    if( cur_hash && cur_hash.length){
+        cur_hash = cur_hash.slice(1) + '.html';
+        document.getElementById('article').setAttribute('src',cur_hash)
+    }
+    else
+        document.getElementById('article').setAttribute('src',default_index_url)
+});
