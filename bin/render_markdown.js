@@ -14,7 +14,7 @@ const article = get_ejs_template("article.html")
 for( let path of flatten_menu ) {
     console.log('render -> ',path)
     // TODO check file timestap to check if or not to render
-    let real_path = P.join(cwd,path)
+    let real_path = P.join(cwd,'book',path)
     let raw = fs.readFileSync(real_path,{encoding:'utf-8'})
     let ejs = {
         data: {
