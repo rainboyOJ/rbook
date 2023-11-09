@@ -1513,6 +1513,11 @@ ordered-binary@^1.4.1:
   resolved "https://registry.yarnpkg.com/ordered-binary/-/ordered-binary-1.4.1.tgz#205cb6efd6c27fa0ef4eced994a023e081cdc911"
   integrity sha512-9LtiGlPy982CsgxZvJGNNp2/NnrgEr6EAyN3iIEP3/8vd3YLgAZQHbQ75ZrkfBRGrNg37Dk3U6tuVb+B4Xfslg==
 
+parcel-resolver-ignore@^2.1.5:
+  version "2.1.5"
+  resolved "https://registry.yarnpkg.com/parcel-resolver-ignore/-/parcel-resolver-ignore-2.1.5.tgz#5d3063f90c4f7a80fdeaa2bd8f4cf5bfd7c51c30"
+  integrity sha512-/2zgQw3J/2YA7L6JXg4XKBWT/SXDZx+PfweWcCsllchNVwFvK7jDJhG6h+puy+e15Rm9A/ubuuHYwANQHVXp2A==
+
 parcel-transformer-ejs@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/parcel-transformer-ejs/-/parcel-transformer-ejs-1.0.1.tgz#1ebba626c732a3d89c05b8fd9aea615f1bff2765"

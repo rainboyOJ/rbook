@@ -1,0 +1,66 @@
+.article {
+    display:flex;
+    flex-direction:column;
+    overflow:auto;
+    width: 100%;
+    position:relative;
+    // align-items:center;
+}
+
+//Make Iframe to fit 100% of container's remaining height
+//https://stackoverflow.com/a/325334
+
+.article-container {
+    overflow-y:auto;
+}
+
+.full-article {
+    position:fixed;
+    top:0;
+    bottom:0;
+    right:0;
+    left:0;
+    z-index:9999;
+    background:white;
+}
+
+.markdown-body {
+    max-width:1000px;
+    margin:0 auto;
+}
+
+
+#full-button {
+    position:fixed;
+    right:1rem;
+    bottom:6rem;
+    border:1px solid;
+    cursor:pointer;
+    z-index:99999;
+}
+
+
+*::-webkit-scrollbar{
+    width:10px;
+    height:10px;
+    /**/
+}
+*::-webkit-scrollbar-track{
+    background: rgb(239, 239, 239);
+    border-radius:2px;
+}
+*::-webkit-scrollbar-thumb{
+    background: #bfbfbf;
+    border-radius:10px;
+}
+*::-webkit-scrollbar-thumb:hover{
+    background: #333;
+}
+*::-webkit-scrollbar-corner{
+    background: #179a16;
+}
+
+// 作者：莹石
+// 链接：https://juejin.cn/post/6844904004879843336
+// 来源：稀土掘金
+// 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。

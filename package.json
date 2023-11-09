@@ -6,7 +6,8 @@
     "source": "src/index.ejs",
     "scripts": {
         "dev": "parcel --no-cache",
-        "build": "parcel build"
+        "build": "parcel build --no-cache",
+        "postbuild": "node ./bin/render_markdown.js"
     },
     "dependencies": {
         "ejs": "^3.1.9",

@@ -3,10 +3,8 @@
 //     event.preventDefault();
 //     console.log("hello world")
 // });
-
-document.getElementById('menu-toggle').addEventListener("click", function(){
-    document.getElementById('menu-toggle').classList.toggle("active");
-    document.getElementById('sidebar').classList.toggle("active");
+document.getElementById('full-button').addEventListener("click", function(){
+    document.getElementById('article-container').classList.toggle('full-article')
 })
 
 //console.log("h----------")
