@@ -4,6 +4,8 @@
     max-width:800px;
     margin: 0 auto;
 }
+
+@import "./markdown-r.scss";
 @import "./markdownPlugin/pseudocode";
 @import "./markdownPlugin/markdown-it-code-copy.scss";
 @import "./markdownPlugin/markdown-it-container.scss";
