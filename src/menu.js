@@ -10,6 +10,22 @@ const menu = [
         path:"introducation/index.md",
     },
     {
+        title:"枚举与排列组合",
+        path:"enumeration_permutaion_combination/",
+        child: [
+            {
+                title:"排列",
+                path:"permutation",
+                child:[
+                    {
+                        title:"不重复排序",
+                        path:"not_repeat_permutation/index.md"
+                    }
+                ]
+            }
+        ]
+    },
+    {
         title: "搜索",
         path:"search",
         child:[
@@ -20,6 +36,22 @@ const menu = [
                     {
                         title:"序",
                         path:'index.md'
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        title: "动态规划",
+        path:"dynamic_programming",
+        child:[
+            {
+                title:"背包",
+                path:"knapsack",
+                child:[
+                    {
+                        title:"习题1: 整数划分",
+                        path:"exercises/整数划分/problem.md"
                     }
                 ]
             }
