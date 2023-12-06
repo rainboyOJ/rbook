@@ -1,6 +1,6 @@
 #!/bin/bash
 
-./node_modules/bin/parcel build --no-cache --no-content-hash
+./node_modules/.bin/parcel build --no-cache --no-content-hash
 
 node ./bin/render_markdown.js
 
