@@ -10,8 +10,33 @@
     <link rel="stylesheet" href="/prism-theme/prism-vsc-dark-plus.css"/>
   </head>
   <body>
+    <div class="info-header">
+      <%- include("./component/title.html")%>
+      <%- include("./component/badges.html")%>
+    </div>
     <div class="markdown-body">
         <%- content %>
     </div>
+    <script>
+        //copy to clipboard
+        document.querySelectorAll('.zeroclipboard-container').forEach( function(clipContainer){
+            clipContainer.addEventListener('click', function(event) {
+                if( clipContainer.classList.contains('copied')) return;
+
+                let text = clipContainer.parentNode.textContent
+                clipContainer.classList.add('copied');
+                navigator.clipboard.writeText(text).then( ()=>{
+                        setTimeout( ()=> clipContainer.classList.remove('copied'),1500)
+                    },
+                    ()=> { //failed
+                        setTimeout( ()=> clipContainer.classList.remove('copied'),1500)
+                        alert("copy failed!");
+                    }
+                )
+
+
+            })
+        })
+    </script>
   </body>
 </html>

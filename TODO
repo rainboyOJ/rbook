@@ -1,0 +1,5 @@
+全局(除了code)英文字体的修改
+    - table 英文字体
+- [x] 去除h1-6 前面的hash
+- [ ] 新的 TOC
+- [ ] 全局安装 slidev https://cn.sli.dev/guide/install.html#slidev-build-entry 每个文件创建ppt

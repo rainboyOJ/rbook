@@ -1,0 +1,18 @@
+//显示页面的相关信息
+
+.info-header {
+    margin:0 1rem;
+}
+
+.title-bar { 
+    h1 {
+        font-size:2rem;
+    }
+    text-align:center;
+}
+
+.badges {
+    display:flex;
+    justify-content:center;
+    gap:0.5rem;
+}

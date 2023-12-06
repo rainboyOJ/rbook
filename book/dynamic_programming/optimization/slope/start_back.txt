@@ -1,0 +1,34 @@
+
+一个直角坐标系上,有很多的散点,当这些点代入公式$b = 2x+y$时,得出一个值b
+
+这个直线上的点的b值相同
+
+等价于一条斜率为2的直线在上下平移,和散点交汇时,截距就是答案.
+
+<iframe src="https://www.geogebra.org/calculator/t96pcbbx?embed" width="800" height="600" allowfullscreen style="border: 1px solid #e4e4e4;border-radius: 4px;" frameborder="0"></iframe>
+
+
+设有一个公式,如下
+
+$$z = y + k \cdot x$$
+
+其中$k$是定值,$z$的值由$x,y$得到,当$k = -2,x =1 ,y = 1$ 时
+
+
+
+这三个数`y,x,b`都是未知,但`k`是固定的,如何你修改b的值,可以看做是一条斜率为定值(k)的斜线在不停的在上下平移动.
+
+证明: 可以看做是一条斜率为定值(k)的斜线在不停的在上下平移动
+证明: b 是截距
+
+
+$z = -kx + y$在这条直线上所有的点的$y-kx$的值都是$z$ ,**且这条斜率为k**
+
+<iframe scrolling="no" title="z = kx+y" src="https://www.geogebra.org/material/iframe/id/evx3h5xr/width/1920/height/969/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/false/rc/false/ld/false/sdz/false/ctl/false" width="800px" height="600px" style="border:0px;"> </iframe>
+
+
+
+
+有A,B,C三个点,想一想什么时候B点会被淘汰
+
+slope(A,B) > slop(B,C)

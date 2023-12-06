@@ -7,7 +7,8 @@
     "scripts": {
         "dev": "parcel --no-cache",
         "build": "parcel build --no-cache --no-content-hash",
-        "postbuild": "node ./bin/render_markdown.js"
+        "postbuild": "node ./bin/render_markdown.js && make",
+        "start":"http-server dist"
     },
     "dependencies": {
         "ejs": "^3.1.9",

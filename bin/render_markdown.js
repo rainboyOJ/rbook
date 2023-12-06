@@ -28,18 +28,29 @@ function render_md( path) {
         throw 'illegal path: ' + path
     }
 
-    output_path = P.join(cwd, 'dist', P.relative(cwd+'/book',md_file)).replace(/md$/, 'html');
+    let href = P.relative(cwd+'/book',md_file).replace(/md$/, 'html');
+    output_path = P.join(cwd, 'dist',href)
     let raw = fs.readFileSync(md_file,{encoding:'utf-8'})
+
+    // github上的地址
+    data["href"] = href
+    data["git_location"] = `https://github.com/`
+
     let ejs = {
         data,
         options: {
             filename:md_file
         }
     }
+    
     let {header,content} = MDRender(raw,{ ejs })
 
+    if (!data.title) {
+        data.title =  header.title || '未知'
+    }
+
     //渲染数据
-    let html = article({header : { ...header,...data},content})
+    let html = article({header,content,...data})
     // console.log(html)
     //写入
     mkdirp.sync(P.dirname(output_path));

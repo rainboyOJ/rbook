@@ -10,6 +10,28 @@ const menu = [
         path:"introducation/index.md",
     },
     {
+        title:"递归",
+        path:"recursion",
+        child: [
+            {
+                title:"前言",
+                path:"preface.md"
+            },
+            {
+                title:"fibonacci sequence",
+                path:"fibonacci/index.md"
+            },
+            {
+                title:"01_sequence",
+                path:"01_sequence/index.md"
+            },
+            {
+                title:"二分查找",
+                path:"binary_search/index.md"
+            }
+        ]
+    },
+    {
         title:"枚举与排列组合",
         path:"enumeration_permutaion_combination/",
         child: [
@@ -18,10 +40,24 @@ const menu = [
                 path:"permutation",
                 child:[
                     {
-                        title:"不重复排序",
+                        title:"全排列",
+                        path:"full_permutation/index.md"
+                    },
+                    {
+                        title:"不重复排列",
                         path:"not_repeat_permutation/index.md"
                     }
                 ]
+            }
+        ]
+    },
+    {
+        title:"基础",
+        path:"base",
+        child : [
+            {
+                title:"平数",
+                path:"zero_number/index.md"
             }
         ]
     },
@@ -61,6 +97,13 @@ const menu = [
         title:"附录",
         path:"appendix",
         child: [
+            {
+                title:"软件",
+                path: 'SoftWare',
+                child : [
+                    { title:'cgdb', path:'cgdb' }
+                ]
+            },
             {
                 title:"python",
                 path:"python.md"
