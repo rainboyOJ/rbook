@@ -122,7 +122,7 @@ html.dark .markdown-body > h1:first-child {
 .markdown-body {
   figure {
     margin:2rem 0;
-    // display: flex;
+    display: flex;
     flex-direction: column;
     justify-content: center;
     img {

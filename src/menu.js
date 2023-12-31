@@ -27,7 +27,7 @@ const menu = [
             },
             {
                 title:"二分查找",
-                path:"binary_search/index.md"
+                path:"binary_search/"
             }
         ]
     },
@@ -94,6 +94,33 @@ const menu = [
         ]
     },
     {
+        title:"数学",
+        path:"math",
+        child:[
+            {
+                title:"进制",
+                path:"binary"
+            },
+            {
+                title:"对数",
+                path:"logarithm",
+            },
+            // {
+            //     title:"组合",
+            //     path:"combinatorics"
+            // },
+            {
+                title:"数论",
+                path:"numberTheory",
+                child:[
+                    { title:"整除", path:"divisible"},
+                    { title:"余数", path:"remainder"}
+                ]
+            }
+        ]
+
+    },
+    {
         title:"附录",
         path:"appendix",
         child: [
@@ -101,8 +128,20 @@ const menu = [
                 title:"软件",
                 path: 'SoftWare',
                 child : [
-                    { title:'cgdb', path:'cgdb' }
+                    { title:'cgdb', path:'cgdb' },
+                    { title:'pure-ftpd', path:'pure-ftpd' },
+                    { title:'在线工具', path:'online.md' }
                 ]
+            },
+            {
+                title:"脚本",
+                path: 'shellScripts',
+                child : [
+                    { title:"编译", path:"compile" },
+                    { title:"对拍", path:"compare" },
+                    { title:"有趣命令", path:"funny_command" }
+                ]
+
             },
             {
                 title:"python",
@@ -113,7 +152,6 @@ const menu = [
                 path:"编程常用单词.md"
             },
         ]
-
     }
 ]
 

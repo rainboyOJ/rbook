@@ -17,7 +17,7 @@ document.querySelectorAll('.sidebar a').forEach( function(link){
         if(link.classList.contains('document')) {
             let href = link.getAttribute('href');
             // console.log(href)
-            window.location.hash = href.replace(/\.md$/,'');
+            window.location.hash = href.replace(/\.md$/,'.html');
             
         }
         else {
