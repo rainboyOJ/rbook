@@ -6,9 +6,8 @@
     "source": "src/index.ejs",
     "scripts": {
         "dev": "parcel --no-cache",
-        "build": "parcel build --no-cache --no-content-hash",
-        "postbuild": "node ./bin/render_markdown.js && make",
-        "start":"http-server dist"
+        "build": "vite build",
+        "start": "http-server dist"
     },
     "dependencies": {
         "ejs": "^3.1.9",
@@ -17,6 +16,8 @@
     "devDependencies": {
         "@parcel/transformer-sass": "2.10.1",
         "parcel": "^2.10.1",
-        "parcel-transformer-ejs": "^1.0.1"
+        "parcel-transformer-ejs": "^1.0.1",
+        "vite": "^5.0.10",
+        "vite-plugin-ejs": "^1.7.0"
     }
 }

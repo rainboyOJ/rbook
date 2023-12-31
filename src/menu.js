@@ -7,7 +7,7 @@ const li_item = get_ejs_template("li_item.html")
 const menu = [
     {
         title:'前言',
-        path:"introducation/index.md",
+        path:"introducation/",
     },
     {
         title:"递归",
