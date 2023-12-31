@@ -1,0 +1,8 @@
+{
+    "title":"对拍脚本",
+    "file":"index.md",
+    "copy" :[
+        "./compare_complex.sh",
+        "./compare.sh"
+    ]
+}

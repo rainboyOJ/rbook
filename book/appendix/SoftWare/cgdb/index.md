@@ -12,11 +12,11 @@ noilinux 2.0 就是 ubuntu 20.04 ,ubuntu 20.04 下面的cgdb版本为0.6,有bug,
 
 ### 安装依赖的包
 ```
-sudo apt-get install -y libncurses5-dev flex bison texinfo libreadline-dev
+sudo apt-get install -y libncurses5-dev flex bison texinfo libreadline-dev automake autotools-dev
 ```
 ```
-ghproxy="https://mirror.ghproxy.com/"
-git clone -b v0.8.0 $ghproxy.com/https://github.com/cgdb/cgdb
+ghproxy="https://mirror.ghproxy.com"
+git clone -b v0.8.0 $ghproxy/https://github.com/cgdb/cgdb
 ```
 ### 编译安装
 ```

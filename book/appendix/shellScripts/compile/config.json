@@ -1,0 +1,5 @@
+{
+    "title":"编译脚本的使用",
+    "file":"index.md",
+    "copy":["./b.sh"]
+}
