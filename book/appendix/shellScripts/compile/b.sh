@@ -14,8 +14,9 @@ FLAG=(-g)
 # -D,不使用 -DDEBUG 宏
 # -s,-std,编译的标准,可以为空,为空时,检查cxx支持的最高c++标准
 NO_INPUT_FILE=false
-SOURCE_FILE="1.cpp"
-TARGET_FILE="${SOURCE_FILE%.cpp}.out"
+SOURCE_FILE=""
+# TARGET_FILE="${SOURCE_FILE%.cpp}.out"
+TARGET_FILE=""
 STD_OPTION="c++11"
 
 OPTSTRING="-o i:o:IdDs -l std:"
@@ -49,7 +50,8 @@ while [ -n "$1" ]; do
       ;;
     --)
       shift
-      break
+      $SOURCE_FILE="$2"
+      break 2
       ;;
     *)
       echo "Internal error!"
@@ -57,5 +59,24 @@ while [ -n "$1" ]; do
       ;;
   esac
 done
+
+## 函数
+
+# 查找后缀相同的文件
+function find_file {
+    find_str=$1
+    FZF_OPTIONS="--layout=reverse --height 40% --border --margin=0,1"
+    val=$(find . -type f -name "$find_str" -printf "%f\n" | sort -f -i -t "." -k 1 | fzf $FZF_OPTIONS)
+    echo "$val"
+}
+
+### 没有源文件的情况
+if [ -z "$SOURCE_FILE" ]; then
+    SOURCE_FILE=$(find_file "*.cpp")
+fi
+
+
+### 调试,输出所有参数
+echo "SOURCE_FILE" $SOURCE_FILE
 
 ## 编译阶段
