@@ -128,6 +128,7 @@ const menu = [
                 title:"软件",
                 path: 'SoftWare',
                 child : [
+                    { title:'vscode', path:'vscode' },
                     { title:'cgdb', path:'cgdb' },
                     { title:'pure-ftpd', path:'pure-ftpd' },
                     { title:'在线工具', path:'online.md' }
