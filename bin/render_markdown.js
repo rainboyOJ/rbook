@@ -23,6 +23,10 @@ class md_file{
         return this._md_file_path;
     }
 
+    get relative_path() {
+        return P.relative(cwd,this.file_path)
+    }
+
     get file_dir() {
         return P.dirname(this.file_path);
     }
@@ -31,8 +35,6 @@ class md_file{
     get href() {
         let href = P.relative(cwd+'/book',this.file_path).replace(/md$/, 'html');
         return href;
-    let raw = fs.readFileSync(md_file,{encoding:'utf-8'})
-
     }
 
     //输出的绝对路径
@@ -51,13 +53,25 @@ class md_file{
 
     //这个md文件的github 路径
     get git_location() {
-        return `https://github.com/`
+        return `https://github.com/rainboyOJ/rbook/tree/master/${this.relative_path}`
     }
 
     mkdirp_output_path() {
         mkdirp.sync(this.output_dir);
     }
 
+    to_object() {
+        // start with an empty object (see other alternatives below) 
+        return {
+            file_path: this.file_path,
+            file_dir:this.file_dir,
+            relative_path: this.relative_path,
+            href:this.href,
+            output_path:this.output_path,
+            output_dir: this.output_dir,
+            git_location: this.git_location,
+        }
+    }
 }
 
 //处理md_file产生成data
@@ -78,7 +92,7 @@ function deal_md_file_data(md_file_obj,data) {
 
 function render_md( path) {
     let md_file_path = ''
-    let data = {}
+    let data = { ...locals }
     // 1. 是否以结尾
     if (P.basename(path).endsWith('.md'))
     {
@@ -94,23 +108,21 @@ function render_md( path) {
     }
 
     let md_file_obj = new md_file(md_file_path)
-    let href = md_file_obj.href
     let output_path = md_file_obj.output_path
     let raw = md_file_obj.raw
 
     // github上的地址
-    data["href"] = href
-    data["git_location"] = md_file_obj.git_location
-
+    data["md_file"] = md_file_obj.to_object()
     let ejs = {
         data : {
             ...locals,
-            ...data
+            ...data,
         },
         options: {
             filename:md_file_obj.file_path
         }
     }
+    // console.log(data)
     
     let {header,content} = MDRender(raw,{ ejs })
 
