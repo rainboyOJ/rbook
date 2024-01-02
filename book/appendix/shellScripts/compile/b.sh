@@ -21,8 +21,9 @@ STD_OPTION="c++11"
 
 OPTSTRING="-o i:o:IdDs -l std:"
 
-options=$(getopt $OPTSTRING -- "$@")
+options=$(getopt -u $OPTSTRING "$@")
 echo $options
+set -- $options
 
 # 检查是否 getopt 解析失败
 if [ $? -ne 0 ];then
@@ -49,9 +50,8 @@ while [ -n "$1" ]; do
       shift 2
       ;;
     --)
-      shift
-      $SOURCE_FILE="$2"
-      break 2
+      SOURCE_FILE="$2"
+      break
       ;;
     *)
       echo "Internal error!"
@@ -60,23 +60,46 @@ while [ -n "$1" ]; do
   esac
 done
 
-## 函数
+## 函数 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # 查找后缀相同的文件
 function find_file {
-    find_str=$1
-    FZF_OPTIONS="--layout=reverse --height 40% --border --margin=0,1"
+    local find_str=$1
+    local FZF_OPTIONS="--layout=reverse --height 40% --border --margin=0,1"
     val=$(find . -type f -name "$find_str" -printf "%f\n" | sort -f -i -t "." -k 1 | fzf $FZF_OPTIONS)
     echo "$val"
 }
+
+function check_file_exit {
+    local file="$1"
+    if [ ! -e "$file" ];then
+        echo "$file not exit"
+        exit 1
+    fi
+}
+
+function get_cxx_version {
+   local std="-std=c++11" 
+   if [ -n "$(g++ -dM -E -x c++ - < /dev/null | grep -oP '__cplusplus\s+\K[0-9]+')" ]; then
+     echo "c++20"
+   fi
+   echo "$std"
+}
+## 函数 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 ### 没有源文件的情况
 if [ -z "$SOURCE_FILE" ]; then
     SOURCE_FILE=$(find_file "*.cpp")
 fi
 
+check_file_exit "$SOURCE_FILE"
+
+## 检查cxx支持的最高std
+
+## 
+
 
 ### 调试,输出所有参数
-echo "SOURCE_FILE" $SOURCE_FILE
+echo "SOURCE_FILE" "$SOURCE_FILE"
 
 ## 编译阶段
