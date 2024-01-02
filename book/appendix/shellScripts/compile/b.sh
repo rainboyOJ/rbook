@@ -13,6 +13,7 @@ CXXFLAG=("-g")
 # -I,不需要输入文件
 # -d,不使用 -DDEBUG 宏,默认添加
 # -s,-std,编译的标准,可以为空,为空时,检查cxx支持的最高c++标准
+# -n,--norun 编译后不要运行
 CHOOSE_INPUT=false
 NO_INPUT_FILE=false
 INPUT_FILE="in"
@@ -22,8 +23,9 @@ TARGET_FILE=""
 # TARGET_FILE="${SOURCE_FILE%.cpp}.out"
 STD_OPTION="11"
 DEBUG_FLAG=true
+NO_RUN=false
 
-OPTSTRING="-o i:o:Idsc -l std:"
+OPTSTRING="-o i:o:Idscn -l std:"
 
 options=$(getopt -u $OPTSTRING -- "$@")
 echo $options
@@ -46,12 +48,20 @@ while [ -n "$1" ]; do
       CHOOSE_INPUT=true
       shift 1
       ;;
+    -I) #不需要输入文件
+      NO_INPUT_FILE=true
+      shift 1
+      ;;
     -o)
       OUTPUT_FILE="$2"
       shift 2
       ;;
     -d)
       DEBUG_FLAG=false
+      shift 1
+      ;;
+    -n)
+      NO_RUN=true
       shift 1
       ;;
     --std)
@@ -144,7 +154,7 @@ if [ ! -e $TARGET_FILE ] || [ $SOURCE_FILE -nt $TARGET_FILE ];then
       compile_args_arr+=("-DDEBUG")
     fi
 
-    compile_args_arr+=("-o \"$TARGET_FILE\"")
+    compile_args_arr+=("-o $TARGET_FILE")
     compile_args_arr+=("$SOURCE_FILE")
     original_IFS=$IFS
 
@@ -165,3 +175,26 @@ if [ ! -e $TARGET_FILE ] || [ $SOURCE_FILE -nt $TARGET_FILE ];then
         echo "编译成功 " $TARGET_FILE
     fi
 fi
+
+
+## 编译后
+if $NO_RUN;then
+    exit 0
+fi
+
+run_args_arr=("./$TARGET_FILE")
+
+if ! $NO_INPUT_FILE;then
+    run_args_arr+=("< $INPUT_FILE")
+fi
+
+if [ -n "$OUTPUT_FILE" ];then
+    run_args_arr+=("> $OUTPUT_FILE")
+fi
+
+original_IFS=$IFS
+IFS=" "
+run_args_str="${run_args_arr[*]}"
+IFS=$original_IFS
+echo "运行代码" "$run_args_str"
+$run_args_str
