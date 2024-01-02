@@ -7,6 +7,7 @@ const P = require("path")
 const fs = require("fs")
 const {flatten_menu} = require("../src/menu.js")
 const MDRender = require("markdown-r")
+const locals = require("./ejsrc.js").locals
 
 const article = get_ejs_template("article.html")
 
@@ -102,7 +103,10 @@ function render_md( path) {
     data["git_location"] = md_file_obj.git_location
 
     let ejs = {
-        data,
+        data : {
+            ...locals,
+            ...data
+        },
         options: {
             filename:md_file_obj.file_path
         }
