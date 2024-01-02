@@ -14,8 +14,51 @@
 sudo apt install -y fzf
 ```
 
+### 安装到HOME目录
+
+- 优点:不污染其它目录
+- 缺点:需要设置一下`.bashrc`,或`.zshrc`
+
+
+1. 下载
+
+```bash
+mkdir ~/.bin
+curl -O ~/.bin/b <%= self_host _%>appendix/shellScripts/compile/b.sh
+chmod +x ~/.bin/b
 ```
-sudo curl /usr/bin/b https://raw./bin/b.sh
+2. 配置`.zshrc`或配置`.bashrc`
+
+通过命令`echo $SHELL`来确定使用的是哪个shell
+
+如果你使用的是zsh
+
+```bash
+gedit ~/.zshrc
+```
+
+如果你使用的是bash
+
+```bash
+gedit ~/.bashrc
+```
+
+在末尾添加
+
+```bash
+export PATH=$PATH:$HOME/.bin
+```
+
+关闭终端,重新打开
+
+
+### 安装到`/usr/bin`目录
+
+- 优点:简单
+- 缺点:污染`/usr/bin`目录
+
+```
+sudo curl -O /usr/bin/b <%= self_host _%>appendix/shellScripts/compile/b.sh
 sudo chmod +x /usr/bin/b
 ```
 
@@ -31,13 +74,11 @@ b --help
 
 例如
 
-```
--std c++20
-```
+TODO
 
 ## 使用例子
 
-- 选择代码与输入文件,直接`b`
+- 选择代码与默认输入文件`in`,直接`b`
 - 编译`foo.cpp`:  `b foo`,`b foo.`,`b foo.cpp`
 - 选择代码与输入文件,设定输出文件为`1.out`,直接`b -o 1.out`
 - 不重定向输入文件,编译后直接执行,直接`b -ni`

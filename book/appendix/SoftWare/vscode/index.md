@@ -16,29 +16,103 @@ update_time : 2023-04-27
 
 1. 打开首选项设置（ctrl + ,），搜索`auto save` ，选`afterDelay`。
 
+## 配置
+
+### 常用的配置
+
+- 自动格式化 `设置 -> default Formatter :c/c++, Format on Paste ,Format on Save , Format on Type`
+- 彩色括号 `设置-> bracket pair colorization`
+
+### 常用的插件
+
+- c/c++ 一定要安装
+- chinese language 中文界面
+
+
 
 
 ## 运行
 
-`c++ runner` 可以只用单击就能运行c++代码,且可以对代码进行调试,很有用.
+这里我们只通用`ctrl+alt+t`打开`terminal`,输入使用`g++ -g -o 1 1.cpp`来执行命令
 
-设置
-
-怎么运行的时候自动读取目录的`in`数据文件
-
-左下角打开齿轮图标(⚙️图) --> 设置 --> 输入`run code config` -->
-
-
-1. `File Directory As Cwd` 选中,设cpp的路径为`g++`编译器运行的路径
-2. 点击`Executor Map`,点击`在setting中编辑`,找到`"cpp": "cd $dir && g++ $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt"`
-
-修改为
+第一次打开`vscode`,会自动下载一个`c/c++ language components`的东西
 
 ```
-"cpp": "cd $dir && g++ $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt < in",
+file -> new file -> select language ->选c++
 ```
-也就是在最后添加`<in`,这样可以保证运行的时候，直接读取in文件
 
+写入下面的代码
+
+```cpp
+#include <iostream>
+int main(){
+    std::cout << "hello";
+    return 0;
+}
+```
+
+- [[ctrl]] + [[s]] 保存代码
+- 保存时,创建一个`code`文件夹,并打开
+- 命名为`1.cpp`,点保存
+
+
+注意,如果你以后想要就在`code`目录下写代码,点击左侧边栏的`open folder`,选择刚才创建的
+`code`目录,那么左侧样就会变成code目录的内容,这样以后写代码比较方便
+
+## 3. 编译运行
+
+1. [[ctrl]] + [[alt]] + [[arrow down]] 打开一个新的桌面
+2. [[ctrl]] + [[alt]] + [[t]] 打开终端,输入编译命令
+
+输入如下命令
+
+```bash
+# 进入code目录
+cd code
+
+# 手动编译
+
+g++ -g -o 1 1.cpp
+
+#运行
+./1
+```
+## 快捷键
+
+[官方文档:快捷键](https://code.visualstudio.com/docs/getstarted/keybindings)
+
+
+注释
+
+- 单行注释 [[ctrl]]+[[/]],如果再按一次,取消注释
+- 多行注释 [[ctrl]]+[[/]]
+
+行操作
+
+- 向下/上移动当前行：[[alt]] + [[⬇] / [[⬆]
+- 选中当前行： [[ctrl]]+[[l]]
+- 删除当前行：[[shift ]]+ [[ctrl ]]+ [[k]]
+- 行增加缩进： [[ctrl ]]+ [[\[]]
+- 行减少缩进： [[ctrl ]]+ [[\]]]
+- 复制当前行到上一行：[[shift]]+ [[alt]] +[[up]]
+- 复制当前行到下一行：[[shift]]+ [[alt]] +[[down]]
+- 向下新起一行： [[ctrl]] + [[enter]]
+- 向上新起一行： [[ctrl]] + [[shift]] + [[enter]]
+
+常用
+
+- 撤销 : [[ctrl]] + [[z]]
+- 反撤销 : [[ctrl]] + [[shift]] + [[z]]
+- 向下/下卷屏: [[ctrl]]  + [[⬆]] / [[⬇]]
+- 向左/右跨越单词: [[ctrl]]  + [[⬅]] / [[➡]]
+- 向下/上同时编辑多行(多行光标) : [[ctrl]] + [[shift]] + [[⬆]] / [[⬇]]
+
+其它
+
+- 显示/隐藏左侧目录栏 [[ctrl]] + [[b]]
+- 控制台终端显示与隐藏：[[ctrl]]+ [[`]]
+- 切换全屏： F11
+- 格式化整个文件：[[ctrl]] + [[shift]] + [[i]]
 
 ## 调试单个文件
 
