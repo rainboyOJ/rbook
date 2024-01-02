@@ -4,26 +4,26 @@
 
 VERERSION="20240101"
 CXX="g++"
-FLAG=(-g)
+CXXFLAG=("-g")
 
 # 有哪些参数
 # -i,--input-file, 编译后,执行程序重定向的输入文件,可以为空,为空时,默认为 in
 # -o,--output-file, 编译后,执行程序重定向的输出文件,可以为空
 # -c,--choose-input,选择输入文件
 # -I,不需要输入文件
-# -d,使用 -DDEBUG 宏,默认添加
-# -D,不使用 -DDEBUG 宏
+# -d,不使用 -DDEBUG 宏,默认添加
 # -s,-std,编译的标准,可以为空,为空时,检查cxx支持的最高c++标准
 CHOOSE_INPUT=false
 NO_INPUT_FILE=false
 INPUT_FILE="in"
 OUTPUT_FILE=""
 SOURCE_FILE=""
-# TARGET_FILE="${SOURCE_FILE%.cpp}.out"
 TARGET_FILE=""
-STD_OPTION="c++11"
+# TARGET_FILE="${SOURCE_FILE%.cpp}.out"
+STD_OPTION="11"
+DEBUG_FLAG=true
 
-OPTSTRING="-o i:o:IdDsc -l std:"
+OPTSTRING="-o i:o:Idsc -l std:"
 
 options=$(getopt -u $OPTSTRING -- "$@")
 echo $options
@@ -47,13 +47,16 @@ while [ -n "$1" ]; do
       shift 1
       ;;
     -o)
-      TARGET_FILE="$2"
-      echo $TARGET_FILE
+      OUTPUT_FILE="$2"
       shift 2
+      ;;
+    -d)
+      DEBUG_FLAG=false
+      shift 1
       ;;
     --std)
       STD_OPTION="$2"
-      echo $STD_OPTION
+      # echo $STD_OPTION
       shift 2
       ;;
     --)
@@ -86,15 +89,15 @@ function check_file_exit {
 }
 
 function get_cxx_version {
-    local std="-std=c++11" 
+    local std="11" 
     if [ -n "$(g++ -std=c++20 -dM -E -x c++ - < /dev/null | grep -oP '__cplusplus\s+\K[0-9]+')" ]; then
-        std="-std=c++20"
+        std="20"
     elif [ -n "$(g++ -std=c++17 -dM -E -x c++ - < /dev/null | grep -oP '__cplusplus\s+\K[0-9]+')" ]; then
-        std="-std=c++17"
+        std="17"
     elif [ -n "$(g++ -std=c++14 -dM -E -x c++ - < /dev/null | grep -oP '__cplusplus\s+\K[0-9]+')" ]; then
-        std="-std=c++14"
+        std="14"
     elif [ -n "$(g++ -std=c++11 -dM -E -x c++ - < /dev/null | grep -oP '__cplusplus\s+\K[0-9]+')" ]; then
-        std="-std=c++11"
+        std="11"
     else
         std=""
     fi
@@ -106,9 +109,10 @@ function get_cxx_version {
 if [ -z "$SOURCE_FILE" ]; then
     SOURCE_FILE=$(find_file "*.cpp")
 fi
+check_file_exit "$SOURCE_FILE"
+TARGET_FILE="${SOURCE_FILE%.cpp}.out"
 
 ## 检查cxx支持的最高std
-check_file_exit "$SOURCE_FILE"
 STD_OPTION=$(get_cxx_version)
 
 
@@ -128,3 +132,36 @@ echo "SOURCE_FILE" "$SOURCE_FILE"
 echo "INPUT_FILE" "$INPUT_FILE"
 
 ## 编译阶段
+
+### TARGET_FILE 不存在,或没有SOURCE_FILE 新
+if [ ! -e $TARGET_FILE ] || [ $SOURCE_FILE -nt $TARGET_FILE ];then
+    compile_args_arr=("${CXXFLAG[@]}")
+    if [ -n "$STD_OPTION" ];then
+        compile_args_arr+=("-std=c++$STD_OPTION")
+    fi
+
+    if $DEBUG_FLAG;then
+      compile_args_arr+=("-DDEBUG")
+    fi
+
+    compile_args_arr+=("-o \"$TARGET_FILE\"")
+    compile_args_arr+=("$SOURCE_FILE")
+    original_IFS=$IFS
+
+    # 设置IFS为一个空格
+    IFS=" "
+
+    # 使用*将数组元素连接成一个空格分隔的字符串
+    compile_args_str="${compile_args_arr[*]}"
+    # 恢复IFS为原始值
+    IFS=$original_IFS
+    echo $CXX "$compile_args_str"
+    $CXX $compile_args_str
+
+    if [ $? -ne 0 ];then
+        echo "编译失败!"
+        exit 1
+    else
+        echo "编译成功 " $TARGET_FILE
+    fi
+fi
