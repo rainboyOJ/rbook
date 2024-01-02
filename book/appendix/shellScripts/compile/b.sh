@@ -9,19 +9,23 @@ FLAG=(-g)
 # 有哪些参数
 # -i,--input-file, 编译后,执行程序重定向的输入文件,可以为空,为空时,默认为 in
 # -o,--output-file, 编译后,执行程序重定向的输出文件,可以为空
+# -c,--choose-input,选择输入文件
 # -I,不需要输入文件
 # -d,使用 -DDEBUG 宏,默认添加
 # -D,不使用 -DDEBUG 宏
 # -s,-std,编译的标准,可以为空,为空时,检查cxx支持的最高c++标准
+CHOOSE_INPUT=false
 NO_INPUT_FILE=false
+INPUT_FILE="in"
+OUTPUT_FILE=""
 SOURCE_FILE=""
 # TARGET_FILE="${SOURCE_FILE%.cpp}.out"
 TARGET_FILE=""
 STD_OPTION="c++11"
 
-OPTSTRING="-o i:o:IdDs -l std:"
+OPTSTRING="-o i:o:IdDsc -l std:"
 
-options=$(getopt -u $OPTSTRING "$@")
+options=$(getopt -u $OPTSTRING -- "$@")
 echo $options
 set -- $options
 
@@ -36,8 +40,11 @@ while [ -n "$1" ]; do
   case "$1" in
     -i)
       SOURCE_FILE="$2"
-      echo $SOURCE_FILE
       shift 2
+      ;;
+    -c)
+      CHOOSE_INPUT=true
+      shift 1
       ;;
     -o)
       TARGET_FILE="$2"
@@ -79,11 +86,19 @@ function check_file_exit {
 }
 
 function get_cxx_version {
-   local std="-std=c++11" 
-   if [ -n "$(g++ -dM -E -x c++ - < /dev/null | grep -oP '__cplusplus\s+\K[0-9]+')" ]; then
-     echo "c++20"
-   fi
-   echo "$std"
+    local std="-std=c++11" 
+    if [ -n "$(g++ -std=c++20 -dM -E -x c++ - < /dev/null | grep -oP '__cplusplus\s+\K[0-9]+')" ]; then
+        std="-std=c++20"
+    elif [ -n "$(g++ -std=c++17 -dM -E -x c++ - < /dev/null | grep -oP '__cplusplus\s+\K[0-9]+')" ]; then
+        std="-std=c++17"
+    elif [ -n "$(g++ -std=c++14 -dM -E -x c++ - < /dev/null | grep -oP '__cplusplus\s+\K[0-9]+')" ]; then
+        std="-std=c++14"
+    elif [ -n "$(g++ -std=c++11 -dM -E -x c++ - < /dev/null | grep -oP '__cplusplus\s+\K[0-9]+')" ]; then
+        std="-std=c++11"
+    else
+        std=""
+    fi
+    echo "$std"
 }
 ## 函数 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -92,14 +107,24 @@ if [ -z "$SOURCE_FILE" ]; then
     SOURCE_FILE=$(find_file "*.cpp")
 fi
 
-check_file_exit "$SOURCE_FILE"
-
 ## 检查cxx支持的最高std
+check_file_exit "$SOURCE_FILE"
+STD_OPTION=$(get_cxx_version)
 
-## 
 
+## 默认的input文件 
+
+if $CHOOSE_INPUT;then
+    INPUT_FILE=$(find_file "*in*")
+fi
+
+if ! $NO_INPUT_FILE;then
+    check_file_exit "$INPUT_FILE"
+fi
 
 ### 调试,输出所有参数
+echo "STD_OPTION" $STD_OPTION
 echo "SOURCE_FILE" "$SOURCE_FILE"
+echo "INPUT_FILE" "$INPUT_FILE"
 
 ## 编译阶段
