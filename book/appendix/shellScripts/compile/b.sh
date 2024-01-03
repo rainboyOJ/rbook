@@ -21,7 +21,7 @@ OUTPUT_FILE=""
 SOURCE_FILE=""
 TARGET_FILE=""
 # TARGET_FILE="${SOURCE_FILE%.cpp}.out"
-STD_OPTION="11"
+STD_OPTION=""
 DEBUG_FLAG=true
 NO_RUN=false
 
@@ -82,10 +82,11 @@ done
 
 ## 函数 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-# 查找后缀相同的文件
+# 查找名字含有相同字符串的文件
+# 
 function find_file {
     local find_str=$1
-    local FZF_OPTIONS="--layout=reverse --height 40% --border --margin=0,1"
+    local FZF_OPTIONS="-1 --no-sort --layout=reverse --height 40% --border --margin=0,1"
     val=$(find . -type f -name "$find_str" -printf "%f\n" | sort -f -i -t "." -k 1 | fzf $FZF_OPTIONS)
     echo "$val"
 }
@@ -100,13 +101,13 @@ function check_file_exit {
 
 function get_cxx_version {
     local std="11" 
-    if [ -n "$(g++ -std=c++20 -dM -E -x c++ - < /dev/null | grep -oP '__cplusplus\s+\K[0-9]+')" ]; then
+    if g++ -std=c++20 -dM -E -x c++ - < /dev/null | grep -q -oP '__cplusplus\s+\K[0-9]+'; then
         std="20"
-    elif [ -n "$(g++ -std=c++17 -dM -E -x c++ - < /dev/null | grep -oP '__cplusplus\s+\K[0-9]+')" ]; then
+    elif g++ -std=c++17 -dM -E -x c++ - < /dev/null | grep -q -oP '__cplusplus\s+\K[0-9]+'; then
         std="17"
-    elif [ -n "$(g++ -std=c++14 -dM -E -x c++ - < /dev/null | grep -oP '__cplusplus\s+\K[0-9]+')" ]; then
+    elif g++ -std=c++14 -dM -E -x c++ - < /dev/null | grep -q -oP '__cplusplus\s+\K[0-9]+'; then
         std="14"
-    elif [ -n "$(g++ -std=c++11 -dM -E -x c++ - < /dev/null | grep -oP '__cplusplus\s+\K[0-9]+')" ]; then
+    elif g++ -std=c++11 -dM -E -x c++ - < /dev/null | grep -q -oP '__cplusplus\s+\K[0-9]+'; then
         std="11"
     else
         std=""
@@ -122,9 +123,6 @@ fi
 check_file_exit "$SOURCE_FILE"
 TARGET_FILE="${SOURCE_FILE%.cpp}.out"
 
-## 检查cxx支持的最高std
-STD_OPTION=$(get_cxx_version)
-
 
 ## 默认的input文件 
 
@@ -134,6 +132,11 @@ fi
 
 if ! $NO_INPUT_FILE;then
     check_file_exit "$INPUT_FILE"
+fi
+
+## 检查cxx支持的最高std
+if [ -n $"$STD_OPTION" ];then
+  STD_OPTION=$(get_cxx_version)
 fi
 
 ### 调试,输出所有参数
@@ -146,6 +149,7 @@ echo "INPUT_FILE" "$INPUT_FILE"
 ### TARGET_FILE 不存在,或没有SOURCE_FILE 新
 if [ ! -e $TARGET_FILE ] || [ $SOURCE_FILE -nt $TARGET_FILE ];then
     compile_args_arr=("${CXXFLAG[@]}")
+
     if [ -n "$STD_OPTION" ];then
         compile_args_arr+=("-std=c++$STD_OPTION")
     fi
