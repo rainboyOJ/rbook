@@ -25,17 +25,17 @@ STD_OPTION=""
 DEBUG_FLAG=true
 NO_RUN=false
 
-OPTSTRING="-o i:o:Idscn -l std:"
+OPTSTRING="-o i:o:Idscnv -l std:,version"
 
 options=$(getopt -u $OPTSTRING -- "$@")
-echo $options
-set -- $options
-
 # 检查是否 getopt 解析失败
 if [ $? -ne 0 ];then
-    echo "Usage: $(basename $0) [-s|--source SOURCE_FILE] [-t|--target TARGET_FILE] [--std STANDARD_VERSION]" >&2
+    echo "Usage: $(basename $0) 执行失败" >&2
     exit 1
 fi
+
+# echo $options
+set -- $options
 
 # # 处理参数
 while [ -n "$1" ]; do

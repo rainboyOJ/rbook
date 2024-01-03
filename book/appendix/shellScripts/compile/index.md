@@ -24,7 +24,7 @@ sudo apt install -y fzf
 
 ```bash
 mkdir ~/.bin
-curl -O ~/.bin/b <%= self_host _%>appendix/shellScripts/compile/b.sh
+curl -o ~/.bin/b <%= self_host _%>appendix/shellScripts/compile/b.sh
 chmod +x ~/.bin/b
 ```
 2. 配置`.zshrc`或配置`.bashrc`
@@ -58,7 +58,7 @@ export PATH=$PATH:$HOME/.bin
 - 缺点:污染`/usr/bin`目录
 
 ```
-sudo curl -O /usr/bin/b <%= self_host _%>appendix/shellScripts/compile/b.sh
+sudo curl -o /usr/bin/b <%= self_host _%>appendix/shellScripts/compile/b.sh
 sudo chmod +x /usr/bin/b
 ```
 
@@ -87,5 +87,5 @@ TODO
 ## 完整脚本
 
 ```bash
-<%- include("./b.sh") _%>
+<%- include("./b.sh") %>
 ```
