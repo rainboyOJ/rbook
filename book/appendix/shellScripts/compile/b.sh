@@ -86,8 +86,9 @@ done
 # 
 function find_file {
     local find_str=$1
-    local FZF_OPTIONS="-1 --no-sort --layout=reverse --height 40% --border --margin=0,1"
-    val=$(find . -type f -name "$find_str" -printf "%f\n" | sort -f -i -t "." -k 1 | fzf $FZF_OPTIONS)
+    shift 1
+    local FZF_OPTIONS="--no-sort --layout=reverse --height 40% --border --margin=0,1"
+    val=$(find . -type f -name "$find_str" -printf "%f\n" | sort -f -i -t "." -k 1 | fzf $* $FZF_OPTIONS)
     echo "$val"
 }
 
@@ -118,7 +119,7 @@ function get_cxx_version {
 
 ### 没有源文件的情况
 if [ -z "$SOURCE_FILE" ]; then
-    SOURCE_FILE=$(find_file "*.cpp")
+    SOURCE_FILE=$(find_file "*.cpp" "-1") # -1 自动选择一个元素,如果只有一个
 fi
 check_file_exit "$SOURCE_FILE"
 TARGET_FILE="${SOURCE_FILE%.cpp}.out"
@@ -130,7 +131,12 @@ if $CHOOSE_INPUT;then
     INPUT_FILE=$(find_file "*in*")
 fi
 
+# 需要输入文件
 if ! $NO_INPUT_FILE;then
+    # 输入文件不存在,选取文件
+    if [ ! -e "$INPUT_FILE" ];then
+        INPUT_FILE=$(find_file "*in*")
+    fi
     check_file_exit "$INPUT_FILE"
 fi
 
