@@ -25,6 +25,11 @@ STD_OPTION=""
 DEBUG_FLAG=true
 NO_RUN=false
 
+
+RED="\e[31m"
+GREEN="\e[32m"
+ENDCOLOR="\e[0m"
+
 OPTSTRING="-o i:o:Idscnv -l std:,version"
 
 options=$(getopt -u $OPTSTRING -- "$@")
@@ -105,9 +110,9 @@ function find_file {
 function check_file_exit {
     local file="$1"
     if [ ! -e "$file" ];then
-        echo "$file not exit"
-        exit 1
+      return 0 # 表示文件不存在
     fi
+    return 1 # 表示文件存在
 }
 
 function get_cxx_version {
@@ -131,7 +136,22 @@ function get_cxx_version {
 if [ -z "$SOURCE_FILE" ]; then
     SOURCE_FILE=$(find_file "*.cpp" "-1") # -1 自动选择一个元素,如果只有一个
 fi
-check_file_exit "$SOURCE_FILE"
+
+### 检查SOURCE_FILE的后缀是否为cpp
+
+if [[ "$SOURCE_FILE" == *"." ]];then
+    SOURCE_FILE="${SOURCE_FILE%.*}.cpp"
+fi
+
+if [[ "$SOURCE_FILE" != *".cpp" ]];then
+    SOURCE_FILE="$SOURCE_FILE.cpp"
+fi
+
+if check_file_exit "$SOURCE_FILE"; then
+    printf ">>> 源码: [${GREEN} %s ${ENDCOLOR}] ${RED}不存在!${ENDCOLOR}\n" "$SOURCE_FILE"
+    exit 1
+fi
+
 TARGET_FILE="${SOURCE_FILE%.cpp}.out"
 
 ## 默认的input文件 
@@ -154,9 +174,11 @@ if [ -n $"$STD_OPTION" ];then
 fi
 
 ### 调试,输出所有参数
-echo "STD_OPTION" $STD_OPTION
-echo "SOURCE_FILE" "$SOURCE_FILE"
-echo "INPUT_FILE" "$INPUT_FILE"
+if false;then
+  echo "STD_OPTION" $STD_OPTION
+  echo "SOURCE_FILE" "$SOURCE_FILE"
+  echo "INPUT_FILE" "$INPUT_FILE"
+fi
 
 ## 编译阶段
 
@@ -192,6 +214,8 @@ if [ ! -e $TARGET_FILE ] || [ $SOURCE_FILE -nt $TARGET_FILE ];then
     else
         echo "编译成功 " $TARGET_FILE
     fi
+else
+    echo ">>> 源码 $SOURCE_FILE 没有 $TARGET_FILE 新,不编译"
 fi
 
 
@@ -207,10 +231,10 @@ if ! $NO_INPUT_FILE;then
       run_args_arr+=("< $INPUT_FILE")
     else
       while true;do
-        read -r -p "输入文件为空,是否执行代码[Y/n]?" do_run
-        if [ -z "$do_run" ] || [ "$do_run" = "Y" ] || [ "$do_run" = "y" ];then
+        read -r -p "输入文件为[空] 或 [不存在],是否执行代码[${GREEN}Y/n${ENDCOLOR}]?" do_run
+        if [ "$do_run" = "Y" ] || [ "$do_run" = "y" ];then
           break
-        elif [ -z "$do_run" ] || [ "$do_run" = "N" ] || [ "$do_run" = "n" ];then
+        elif [ "$do_run" = "N" ] || [ "$do_run" = "n" ];then
           exit 0
         fi
       done
@@ -226,5 +250,11 @@ IFS=" "
 run_args_str="${run_args_arr[*]}"
 IFS=$original_IFS
 
-echo "执行代码:" "$run_args_str"
-$run_args_str
+printf "执行代码: [${GREEN} %s ${ENDCOLOR}]\n" "$run_args_str"
+
+
+if [ -n "$OUTPUT_FILE" ];then
+  ./"$TARGET_FILE" < "$INPUT_FILE" > "$OUTPUT_FILE"
+else
+  ./"$TARGET_FILE" < "$INPUT_FILE"
+fi
