@@ -2,7 +2,7 @@
 # g++ 编译脚本 author: rainboy
 # 2024-01-01
 
-VERERSION="20240101"
+VERSION="20240103"
 CXX="g++"
 CXXFLAG=("-g")
 
@@ -69,6 +69,10 @@ while [ -n "$1" ]; do
       # echo $STD_OPTION
       shift 2
       ;;
+    -v|--version)
+      echo "version: $VERSION"
+      exit 0
+      ;;
     --)
       SOURCE_FILE="$2"
       break
@@ -85,11 +89,17 @@ done
 # 查找名字含有相同字符串的文件
 # 
 function find_file {
-    local find_str=$1
+    local find_str
+    find_str=$1
     shift 1
     local FZF_OPTIONS="--no-sort --layout=reverse --height 40% --border --margin=0,1"
-    val=$(find . -type f -name "$find_str" -printf "%f\n" | sort -f -i -t "." -k 1 | fzf $* $FZF_OPTIONS)
-    echo "$val"
+    local files
+    files="$(find . -type f -name "$find_str" -printf "%f\n")"
+    if [ -z "$files" ];then
+      echo ""
+    else
+      echo "$files" | sort -f -i -t '.' -k 1 | fzf $* $FZF_OPTIONS
+    fi
 }
 
 function check_file_exit {
@@ -124,7 +134,6 @@ fi
 check_file_exit "$SOURCE_FILE"
 TARGET_FILE="${SOURCE_FILE%.cpp}.out"
 
-
 ## 默认的input文件 
 
 if $CHOOSE_INPUT;then
@@ -137,7 +146,6 @@ if ! $NO_INPUT_FILE;then
     if [ ! -e "$INPUT_FILE" ];then
         INPUT_FILE=$(find_file "*in*")
     fi
-    check_file_exit "$INPUT_FILE"
 fi
 
 ## 检查cxx支持的最高std
@@ -195,7 +203,18 @@ fi
 run_args_arr=("./$TARGET_FILE")
 
 if ! $NO_INPUT_FILE;then
-    run_args_arr+=("< $INPUT_FILE")
+    if [ -n "$INPUT_FILE" ] && [ -e "$INPUT_FILE" ];then # 输入文件不为空
+      run_args_arr+=("< $INPUT_FILE")
+    else
+      while true;do
+        read -r -p "输入文件为空,是否执行代码[Y/n]?" do_run
+        if [ -z "$do_run" ] || [ "$do_run" = "Y" ] || [ "$do_run" = "y" ];then
+          break
+        elif [ -z "$do_run" ] || [ "$do_run" = "N" ] || [ "$do_run" = "n" ];then
+          exit 0
+        fi
+      done
+    fi
 fi
 
 if [ -n "$OUTPUT_FILE" ];then
@@ -206,5 +225,6 @@ original_IFS=$IFS
 IFS=" "
 run_args_str="${run_args_arr[*]}"
 IFS=$original_IFS
-echo "运行代码" "$run_args_str"
+
+echo "执行代码:" "$run_args_str"
 $run_args_str
