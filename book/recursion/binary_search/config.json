@@ -3,5 +3,6 @@
     "file":"index.md",
     "copy" :[
         "./1.svg"
-    ]
+    ],
+    "history":"history.md"
 }

@@ -58,11 +58,85 @@ TODO asymptote ven 图
 
 集合元素数量,记为$|A|$
 
-并集$A \cup B = \{ x \mid x \in A \text \lor x \in B\}$
+## 集合的操作
 
-交集$A \cap B = \{x \mid x \in A \land x \in B\}$
+并集$A \cup B = \{ x \mid x \in A \text{ or } x \in B\}$
 
-补集
+交集$A \cap B = \{x \mid x \in A \text{ and } x \in B\}$
+
+
+相对补集
+
+绝对补集
+
+对称差集
+
 
 
 ## 集合恒等式
+
+
+幂等律
+
+- $A \cup A = A$
+ - $A \cap A = A$
+
+交换律
+
+- $A \cup B = B \cup A$
+- $A \cap B = B \cap A$
+
+结合律
+
+- $(A \cup B) \cup C = A \cup B( \cup C)$
+- $(A \cap B) \cap C = A \cap B( \cap C)$
+
+分配律
+
+- $A \cup (B \cap C) = (A \cup B) \cap (A \cup C)$
+- $A \cap (B \cup C) = (A \cap B) \cup (A \cap C)$
+
+
+德摩根律：
+
+- $\sim(B\cup C)=\sim B\ \cap\sim C$
+- $\sim(B\cap C)=\sim B\ \cup\sim C$
+- $A-(B\cup C)=(A-B)\cap(A-C)$
+- $A-(B\cap C)=(A-B)\cup(A-C)$ 
+  
+吸收律：
+
+- $A\cup(A\cap B)=A$
+- $A\cap(A\cup B)=A$ 
+  
+零律：
+
+- $A\cup E=E$ 
+- $A\cap\varnothing=\varnothing$ 
+  
+同一律： 
+
+- $A\cup\varnothing=A$ 
+- $A\cap E=A$ 
+  
+排中律： 
+
+- $A\cup{\sim}A=E$ 
+
+矛盾律： 
+
+- $A\ \cap \sim A=\varnothing$ 
+
+余补律： 
+
+- $\sim\varnothing=E$ 
+- $\sim E=\varnothing$
+
+双重否定律：
+
+- $\sim\begin{pmatrix}\sim A\end{pmatrix}=A$
+ 
+补交转换律：
+ 
+- $A-B=A\ \cap \sim B$
+
