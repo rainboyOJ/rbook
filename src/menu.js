@@ -10,6 +10,15 @@ const menu = [
         path:"introducation/",
     },
     {
+        title:"基础",
+        path:"base",
+        child : [
+            { title:"平数", path:"zero_number" },
+            {title:"双指针",path:"two-pointer"},
+            {title:"排序不等于式",path:"rearrangement_inequality"}
+        ]
+    },
+    {
         title:"递归",
         path:"recursion",
         child: [
@@ -52,16 +61,6 @@ const menu = [
         ]
     },
     {
-        title:"基础",
-        path:"base",
-        child : [
-            {
-                title:"平数",
-                path:"zero_number/index.md"
-            }
-        ]
-    },
-    {
         title: "搜索",
         path:"search",
         child:[
@@ -90,7 +89,18 @@ const menu = [
                         path:"exercises/整数划分/problem.md"
                     }
                 ]
+            },
+            {
+                title:"线性DP",
+                path:"",
+                child: [
+                    {
+                        title:"LIS",
+                        path:"lis"
+                    }
+                ]
             }
+
         ]
     },
     {
@@ -105,10 +115,15 @@ const menu = [
                 title:"对数",
                 path:"logarithm",
             },
-            // {
-            //     title:"组合",
-            //     path:"combinatorics"
-            // },
+            {
+                title:"组合",
+                path:"combinatorics",
+                child:[
+                    { title:"分类加法", path:"rule_of_sum" },
+                    { title:"分步乘法", path:"rule_of_product" },
+                    { title:"组合数学", path:"combinatorics" },
+                ]
+            },
             {
                 title:"数论",
                 path:"numberTheory",
