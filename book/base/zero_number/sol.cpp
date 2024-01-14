@@ -7,9 +7,9 @@ int n;
 int sp,sn; //正数与负数的和
 
 int main() {
-    
+
     cin >> n;
-    for(int i = 1;i <= n ;++i ) // i: 1->n
+    for(int i = 1;i <= n ;++i) // i: 1->n
     {
         int t;
         std::cin >> t;
