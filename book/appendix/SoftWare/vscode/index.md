@@ -20,16 +20,29 @@ update_time : 2023-04-27
 
 ### 常用的配置
 
-- 自动格式化 `设置 -> default Formatter :c/c++, Format on Paste ,Format on Save , Format on Type`
+**自动格式化**
+
+在`vscode`中我们可以通过设置来实现保存文件时自动格式化代码，具体步骤如下：
+
+首先按`Ctrl +,`或者点击`setting`(右下解齿轮图标），输入`format)
+
+设置  
+
+- default Formatter :c/c++
+- Format on Paste
+- Format on Save 
+- Format on Type
+
+这些项目
+
+![](./vscode-format.png)
+
 - 彩色括号 `设置-> bracket pair colorization`
 
 ### 常用的插件
 
 - c/c++ 一定要安装
-- chinese language 中文界面
-
-
-
+- chinese language 中文界面(最好不要安装，因为比赛的时候是英文界面)
 
 ## 运行
 
