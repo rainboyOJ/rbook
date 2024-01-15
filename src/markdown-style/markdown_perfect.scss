@@ -125,12 +125,15 @@ html.dark .markdown-body > h1:first-child {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    max-width: fit-content; // 这里应该读取 .markdown-body 的width
     img {
       // flex-grow: 0;
       margin: 0 auto;
       border: 1px solid rgba($color: #dbd7ca, $alpha: 0.45);
       border-radius: 0.4em;
       padding: 1rem;
+      max-width: 100%;
+      max-height: auto;
     }
     figcaption {
       font-family: var(--code-font), var(--ui-font), monospace;
