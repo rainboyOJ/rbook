@@ -92,8 +92,11 @@ g++ -g -o 1 1.cpp
 ```
 ## 快捷键
 
-[官方文档:快捷键](https://code.visualstudio.com/docs/getstarted/keybindings)
+- [官方文档:快捷键](https://code.visualstudio.com/docs/getstarted/keybindings)
+- [官方文档:快捷键](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-linux.pdf)
 
+
+<iframe src="/appendix/SoftWare/vscode/keyboard-shortcuts-linux.pdf" width="100%" height="600px"></iframe>
 
 注释
 
@@ -126,6 +129,14 @@ g++ -g -o 1 1.cpp
 - 控制台终端显示与隐藏：[[ctrl]]+ [[`]]
 - 切换全屏： F11
 - 格式化整个文件：[[ctrl]] + [[shift]] + [[i]]
+
+
+## 手动修改快捷键
+
+<video width="100%" height="360" controls>
+    <source src="https://d.roj.ac.cn/d/oneDrive/RainboyVideo/rbook/vscode-shortcut-change.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
 
 ## 调试单个文件
 

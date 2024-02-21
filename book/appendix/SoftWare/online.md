@@ -44,6 +44,7 @@ curl https://nopaste.net/hi-there
 - 另一个,可以使用curl,打开网站就是doc. https://paste.c-net.org/
 - 可以上传图片与文字,asciinema https://fars.ee/
 
+
 ## cppreference
 
 - https://en.cppreference.com/w/ 必备的网站,c++在线参考手册
@@ -57,3 +58,7 @@ curl https://nopaste.net/hi-there
 - https://cppinsights.io/ 一些新的c++ 语法,template 如何转成c++代码的
 - https://coliru.stacked-crooked.com/ 一个非常神奇的网站,研究这个网站的[源码](https://github.com/StackedCrooked/coliru/tree/master) 你就可以学会写 judger了
 
+
+## 在线gdb
+
+- [onlinegdb](https://www.onlinegdb.com/) 简单的,在线调试c++代码
