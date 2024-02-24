@@ -61,9 +61,16 @@ bool empty() {
 
 ## 练习题目
 
-- luogu P1241
-- luogu P1739 表达式括号匹配
-- luogu P1449 后缀表达式
-- luogu P4387
-- openjudge 3.4 2406
-- openjudge 3.3 6263
+- <%- pid_to_url('luogu', '1739','表达式括号匹配') %>
+- <%- pid_to_url('luogu', '1241','括号序列') %>
+- <%- pid_to_url('luogu', '1449','后缀表达式') %>
+- <%- pid_to_url('luogu', '4387','【深基15.习9】验证栈序列') %>
+- <%- pid_to_url('noiopenjudge', 'ch0303/1696','波兰表达式') %>
+- <%- pid_to_url('noiopenjudge', 'ch0303/6263','布尔表达式') %>
+
+
+考把中缀转后缀的题目
+
+- leetcode 224. 基本计算器 
+- leetcode 227. 基本计算器 II 
+- leetcode 772. 基本计算器 III

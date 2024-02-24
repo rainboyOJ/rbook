@@ -43,3 +43,11 @@ gif图
 
 
 DP之间的关系:如何从A集合得到B集合
+
+
+## 练习题目
+
+- <%- pid_to_url('luogu', '1216','数字三角形') %>
+- <%- pid_to_url('roj', '1262','挖地雷') %>
+- <%- pid_to_url('noiopenjudge', 'ch0206/2728','摘花生') %>
+- <%- pid_to_url('noiopenjudge', 'ch0206/4982','踩方格') %>

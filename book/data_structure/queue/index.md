@@ -72,7 +72,13 @@ int size() {
 
 ## 模板
 
+```cpp
+<%- include("/algo_template/data_structure/queue.cpp")%>
+```
+
 ## 练习
 
-- luogu P1540 机器翻译
-- luogu P1090 合并果子
+- <%- pid_to_url('luogu', '1540','机器翻译') %>
+- <%- pid_to_url('luogu', '1090','合并果子') %> 数学归纳法,数学直觉
+- <%- pid_to_url('noiopenjudge', 'ch0304/2406','Card Stacking') %> 环形队列,模拟,USACO December 2007 Bronze
+- <%- pid_to_url('noiopenjudge', 'ch0304/2729','Blah数集') %>  神奇证明,数学直觉,暴力验证

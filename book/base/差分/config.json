@@ -1,4 +1,7 @@
 {
     "title":"差分",
-    "file":"index.md"
+    "file":"index.md",
+    "copy" : [
+        "./matrix.svg"
+    ]
 }
