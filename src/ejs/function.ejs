@@ -1,0 +1,12 @@
+<%# 转化题目id到到对应的roj上的url %>
+<%
+function pid_to_url(id,oj_name,title)
+{
+    function to_markdown_url(title,url) {
+        return `[${title}](${url})`
+    }
+    const roj_base_url = "https://roj.ac.cn/"
+    title = title | oj_name + ' ' + id
+    return to_markdown_url(title,roj_base_url + oj_name + '/' + id)
+}
+%>

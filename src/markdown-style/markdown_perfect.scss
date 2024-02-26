@@ -60,7 +60,7 @@ code[v-pre] {
 
 //Katex 行内公式增加左右空格
 p  {
-    &>eq {
+    eq {
         margin: 0 0.2em;
     }
     // &>eq:first-child {

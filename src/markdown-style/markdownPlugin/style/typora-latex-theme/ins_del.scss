@@ -1,0 +1,10 @@
+// <ins> 与 <del> 的样式
+
+.markdown-body {
+    ins {
+        text-decoration: underline; /* 下划线样式 */
+        text-decoration-thickness: 2px; /* 下划线粗细 */
+        text-underline-offset: 4px; /* 下划线与文本的垂直间距 */
+        font-weight: bold; /* 文本加粗 */
+    }
+}
