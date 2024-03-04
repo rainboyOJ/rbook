@@ -11,20 +11,12 @@ Share your code with students and peers then educate them. Universities and coll
 
 - https://codeshare.io/
 
-## 分享文字
+## pcopy
 
+我很喜欢,也常用的一个分享代码(文字)的网站:
 
-有时间需要把代码或文件传给学生,或者学生在课下询问题目
-
-- 国内,轻松传:https://easychuan.cn/
-
-- 基于链接实时分享文字: https://qtext.io/
-- 应该在同一个局域网就可以实时分享文字: https://www.ssavr.com/
-
-
-2 pcopy
-
-https://github.com/binwiederhier/pcopy
+- https://nopaste.net
+- 项目的github地址 https://github.com/binwiederhier/pcopy
 
 很有用的网站,基于命令行来分享文字
 
@@ -40,9 +32,38 @@ curl -T germany.jpg https://nopaste.net/germany
 curl https://nopaste.net/hi-there
 ```
 
+最常用,上传代码到一个随机的地址
+
+```
+curl -T 1.cpp https://nopaste.net/random
+```
+
+写成一个shell函数使用,加入到`~/.bashrc`或`~/.zshrc`
+
+```sh
+nopaste() {
+    curl -T $1 https://nopaste.net/random
+}
+```
+
+
+## 分享文字
+
+
+有时间需要把代码或文件传给学生,或者学生在课下询问题目
+
+- 国内,轻松传:https://easychuan.cn/
+
+- 基于链接实时分享文字: https://qtext.io/
+- 应该在同一个局域网就可以实时分享文字: https://www.ssavr.com/
+
 - 老牌的在线分享文字代码的网站,好像不能在termial里使用 https://pastebin.com/
 - 另一个,可以使用curl,打开网站就是doc. https://paste.c-net.org/
 - 可以上传图片与文字,asciinema https://fars.ee/
+
+
+
+
 
 
 ## cppreference

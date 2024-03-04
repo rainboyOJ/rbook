@@ -61,12 +61,15 @@ bool empty() {
 
 ## 练习题目
 
+- <%- pid_to_url('leetcodecn', '1047','删除字符串中的所有相邻重复项') %> 
+- <%- pid_to_url('leetcodecn', '20','有效的括号') %> 
 - <%- pid_to_url('luogu', '1739','表达式括号匹配') %>
 - <%- pid_to_url('luogu', '1241','括号序列') %>
 - <%- pid_to_url('luogu', '1449','后缀表达式') %>
 - <%- pid_to_url('luogu', '4387','【深基15.习9】验证栈序列') %>
 - <%- pid_to_url('noiopenjudge', 'ch0303/1696','波兰表达式') %>
 - <%- pid_to_url('noiopenjudge', 'ch0303/6263','布尔表达式') %>
+- <%- pid_to_url('leetcodecn', '125','图书整理 II') %>
 
 
 考把中缀转后缀的题目

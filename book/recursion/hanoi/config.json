@@ -1,0 +1,8 @@
+{
+    "file":"index.md",
+    "title":"汉诺塔游戏",
+    "copy":[
+        "./hanoi.svg",
+        "./hanoi2.svg"
+    ]
+}

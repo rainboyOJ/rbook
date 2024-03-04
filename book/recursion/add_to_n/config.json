@@ -1,0 +1,9 @@
+{
+    "file":"index.md",
+    "title":"1加到n",
+    "teach_plan":"teach_plan.md",
+    "copy" :[
+        "dfs.svg",
+        "child.svg"
+    ]
+}
