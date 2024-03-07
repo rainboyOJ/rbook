@@ -3,7 +3,7 @@ document.querySelectorAll('.zeroclipboard-container').forEach( function(clipCont
     clipContainer.addEventListener('click', function(event) {
         if( clipContainer.classList.contains('copied')) return;
 
-        let text = clipContainer.parentNode.textContent
+        let text = clipContainer.parentNode.getElementsByTagName('code')[0].textContent
         clipContainer.classList.add('copied');
         navigator.clipboard.writeText(text).then( ()=>{
             setTimeout( ()=> clipContainer.classList.remove('copied'),1500)

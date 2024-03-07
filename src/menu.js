@@ -29,16 +29,32 @@ const menu = [
                 path: "preface.md"
             },
             {
-                title: "fibonacci sequence",
-                path: "fibonacci/index.md"
+                title: "1加到n",
+                path: "add_to_n"
             },
             {
-                title: "01_sequence",
-                path: "01_sequence/index.md"
+                title: "输出1到n",
+                path: "print_to_n"
+            },
+            {
+                title: "斐波那契数列",
+                path: "fibonacci"
+            },
+            {
+                "title": "汉诺塔",
+                path:"hanoi"
+            },
+            {
+                title: "整数划分",
+                path: "div_number"
             },
             {
                 title: "二分查找",
                 path: "binary_search/"
+            },
+            {
+                title:"题目",
+                path:"practice.md"
             }
         ]
     },
@@ -46,6 +62,18 @@ const menu = [
         title: "枚举与排列组合",
         path: "enumeration_permutaion_combination/",
         child: [
+            {
+                title: "01_sequence",
+                path: "01_sequence/index.md"
+            },
+            {
+                title: "球放盒子模型",
+                path:"box_and_ball"
+            },
+            {
+                title:"出栈序列",
+                path:"stack_seq"
+            },
             {
                 title: "排列",
                 path: "permutation",
@@ -90,10 +118,8 @@ const menu = [
                 title: "线性DP",
                 path: "",
                 child: [
-                    {
-                        title: "LIS",
-                        path: "lis"
-                    }
+                    { title: "LIS", path: "lis" },
+                    { title: "LCS", path: "lcs" }
                 ]
             },
             {
@@ -110,6 +136,15 @@ const menu = [
         ]
     },
     {
+        title:"图",
+        path:"graph",
+        child:[
+            { "title":"前言", path:"preface.md" },
+            { "title":"存储", path:"save" },
+            { "title":"遍历", path:"traversal" },
+        ]
+    },
+    {
         title: "数据结构",
         path: "data_structure",
         child: [
@@ -118,6 +153,13 @@ const menu = [
             { title: "单调队列", path: "monotonic_queue" },
         ]
 
+    },
+    {
+        title:"工具库",
+        path:"utils",
+        child:[
+            {title:"log",path:"log.md"}
+        ]
     },
     {
         title: "数学",
@@ -138,6 +180,7 @@ const menu = [
                     { title: "分类加法", path: "rule_of_sum" },
                     { title: "分步乘法", path: "rule_of_product" },
                     { title: "组合数学", path: "combinatorics" },
+                    { title: "catalan数", path: "catalan_number" },
                 ]
             },
             {
