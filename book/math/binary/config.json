@@ -1,5 +1,8 @@
 {
     "file":"index.md",
     "title":"进制",
-    "attachment":true
+    "attachment":true,
+    "copy":[
+        "./short_div.svg"
+    ]
 }
