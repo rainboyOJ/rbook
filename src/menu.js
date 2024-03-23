@@ -17,7 +17,8 @@ const menu = [
             { title: "前缀和", path: "presum" },
             { title: "差分", path: "差分" },
             { title: "双指针", path: "two-pointer" },
-            { title: "排序不等于式", path: "rearrangement_inequality" }
+            { title: "排序不等于式", path: "rearrangement_inequality" },
+            { title: "高精度", path: "bigNumber" }
         ]
     },
     {
@@ -197,6 +198,13 @@ const menu = [
 
     },
     {
+        title: "其它",
+        path:"other",
+        child: [
+            {title:"树布局算法",path:"treeLayout"}
+        ]
+    },
+    {
         title: "附录",
         path: "appendix",
         child: [
@@ -208,7 +216,8 @@ const menu = [
                     { title: 'cgdb', path: 'cgdb' },
                     { title: 'pure-ftpd', path: 'pure-ftpd' },
                     { title: '在线工具', path: 'online.md' },
-                    { title: 'neovim', path: 'neovim' }
+                    { title: 'neovim', path: 'neovim' },
+                    { title: '其它', path: 'other.md' }
                 ]
             },
             {

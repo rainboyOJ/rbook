@@ -10,17 +10,17 @@
   <body>
     <%- include("./component/git-corner.ejs") %>
 
-    <button class="button-menu" id="menu-toggle">
+    <button class="button-menu" id="menu-toggle" style="z-index: 9999999;">
         <img class="open" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIGZpbGw9J25vbmUnIHZpZXdCb3g9JzAgMCAyNCAyNCcgc3Ryb2tlLXdpZHRoPScxLjUnIHN0cm9rZT0nY3VycmVudENvbG9yJyBjbGFzcz0ndy02IGgtNic+PHBhdGggc3Ryb2tlLWxpbmVjYXA9J3JvdW5kJyBzdHJva2UtbGluZWpvaW49J3JvdW5kJyBkPSdNMy43NSA1LjI1aDE2LjVtLTE2LjUgNC41aDE2LjVtLTE2LjUgNC41aDE2LjVtLTE2LjUgNC41aDE2LjUnIC8+PC9zdmc+Cg==">
         <img class="close" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIGZpbGw9J25vbmUnIHZpZXdCb3g9JzAgMCAyNCAyNCcgc3Ryb2tlLXdpZHRoPScxLjUnIHN0cm9rZT0nY3VycmVudENvbG9yJyBjbGFzcz0ndy02IGgtNic+PHBhdGggc3Ryb2tlLWxpbmVjYXA9J3JvdW5kJyBzdHJva2UtbGluZWpvaW49J3JvdW5kJyBkPSdNMy43NSA2Ljc1aDE2LjVNMy43NSAxMkgxMm0tOC4yNSA1LjI1aDE2LjUnIC8+PC9zdmc+Cg==">
     </button>
     <div class="container">
-        <div class="header sticky-footer__header">
+        <div class="header sticky-footer__header" style="display: none;">
             <div style="max-width: 1298px;margin:0 auto;">
                 <%- include("component/header.html")%>
             </div>
         </div>
-        <div class="main sticky-footer__main" style="margin-top:4rem;margin-bottom:4rem;">
+        <div class="main sticky-footer__main" style="">
             <div class="sidebar box" id="sidebar">
                 <%- menu.html %>
             </div>
@@ -32,7 +32,7 @@
             </div>
         </div>
 
-        <footer class="sticky-footer__footer">
+        <footer class="sticky-footer__footer" style="display: none;">
             this is footer
         </footer>
     </div>
