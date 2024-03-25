@@ -9,7 +9,31 @@ const {flatten_menu} = require("../src/menu.js")
 const MDRender = require("markdown-r")
 const locals = require("./ejsrc.js").locals
 
+
 const article = get_ejs_template("article.html")
+
+const CWD = P.resolve(__dirname,"..")
+
+//对MDRender 进行配置
+//添加oneWordAlgo
+const mdItContainer = require("markdown-it-container")
+MDRender.md.use(mdItContainer,'oneWordAlgo',{
+    validate: function( params ){
+        return ( /^onewordalgo$/i.test(params.trim()))
+    },
+    render: function(tokens, idx, _options, env, self){
+
+        if (tokens[idx].nesting === 1) {
+            // opening tag
+            return `<div class="oneWordAlgo">\n<div class="title"><h3>一句话算法:</h3></div><div class="one-content">`;
+
+        } else {
+            // closing tag
+            return '</div></div>\n';
+        }
+    }
+})
+//对MDRender 进行配置 结束
 
 
 //为md文件创建一个类,来得到它的各种信息
@@ -34,7 +58,7 @@ class md_file{
     //对应的 href link
     get href() {
         let href = P.relative(cwd+'/book',this.file_path).replace(/md$/, 'html');
-        return href;
+        return '/'+href;
     }
 
     //输出的绝对路径
@@ -82,10 +106,13 @@ function deal_md_file_data(md_file_obj,data) {
     if( data.copy ) {
         // md_file_obj.mkdirp_output_path();
         for( let copy_file of data.copy) {
-            fs.copyFileSync(
-                P.resolve(md_file_obj.file_dir,copy_file),
-                P.resolve(md_file_obj.output_dir,copy_file)
-                )
+            let src = P.resolve(md_file_obj.file_dir,copy_file)
+            let to = P.resolve(md_file_obj.output_dir,copy_file)
+            if( !fs.existsSync( P.dirname(to)) ){
+                //mkdirp
+                mkdirp.sync( P.dirname(to) );
+            }
+            fs.copyFileSync( src,to )
         }
     }
 }
@@ -117,18 +144,54 @@ function render_md( path) {
         data : {
             ...locals,
             ...data,
+            //我内置的函数
+            pid_to_url: function (oj_name,id,title)
+            {
+                function to_markdown_url(title,url) {
+                    return `<a href="${url}" target="_blank">${title}</a>`
+                }
+                const roj_base_url = "https://roj.ac.cn/"
+                title = `${oj_name} ${id} : ${title}`
+                return to_markdown_url(title,roj_base_url + oj_name + '/' + id)
+            },
+            video: function (src) {
+                if( src.indexOf('.mp4') == -1) src+='.mp4'
+                return `<video width="800" loop controls autoplay src="/video/${src}" type="video/mp4">Your browser does not support the video tag. </video>`
+            }
         },
         options: {
-            filename:md_file_obj.file_path
+            filename:md_file_obj.file_path,
+            root:CWD
         }
     }
     // console.log(data)
     
-    let {header,content} = MDRender(raw,{ ejs })
+    let {header,content} = MDRender.render(raw,{ ejs })
 
     if (!data.title) {
         data.title =  header.title || '未知'
     }
+    
+    if(data['teach_plan']) {
+        let teach_plan_path = P.join(md_file_obj.file_dir,data['teach_plan']);
+        let teach_plan_obj = new md_file(teach_plan_path)
+        // console.log(data['teach_plan'])
+        data['teach_plan_href'] = teach_plan_obj.href
+        //render it
+        let teach_plan_data = {
+            title:'教学计划',// TODO,
+            teach_plan_href: null,
+            md_file: teach_plan_obj.to_object()
+        }
+        let raw = teach_plan_obj.raw
+        let {header,content} = MDRender.render(raw,{ ejs })
+        let html = article({header,content,...teach_plan_data})
+
+        teach_plan_obj.mkdirp_output_path();
+        fs.writeFileSync(teach_plan_obj.output_path,html,{encoding:'utf-8'})
+    }
+    else
+        data['teach_plan_href'] = null
 
     //渲染数据
     let html = article({header,content,...data})
@@ -136,6 +199,7 @@ function render_md( path) {
     
     md_file_obj.mkdirp_output_path();
     fs.writeFileSync(output_path,html,{encoding:'utf-8'})
+
 
     //处理相应md_file的数据,例如copy
     deal_md_file_data(md_file_obj,data)
