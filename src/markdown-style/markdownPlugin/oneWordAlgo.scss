@@ -1,0 +1,33 @@
+.markdown-body {
+    .oneWordAlgo {
+        $BorderStyle:1px solid rgba(0,0,0,0.175);
+        margin:1rem auto;
+        max-width:600px;
+        display:flex;
+        flex-direction:column;
+        border:$BorderStyle;
+        border-radius:0.375rem;
+        .title {
+            font-family: var(--heading-Latin-font), Baskerville, Georgia, "Liberation Serif", "Kaiti SC", STKaiti, "AR PL UKai CN", "AR PL UKai HK", "AR PL UKai TW", "AR PL UKai TW MBE", "AR PL KaitiM GB", KaiTi, KaiTi_GB2312, DFKai-SB, "TW-Kai", serif, serif;
+            padding:0.5rem 1rem;
+            margin:0;
+            // 这里使用sass的color函数不是更好吗
+            background-color: rgba(33,37,41,0.03);
+            border-bottom:$BorderStyle;
+            span {
+
+            }
+        }
+        .content {
+            p {
+                font-family: var(--heading-Latin-font), Baskerville, Georgia, "Liberation Serif", "Kaiti SC", STKaiti, "AR PL UKai CN", "AR PL UKai HK", "AR PL UKai TW", "AR PL UKai TW MBE", "AR PL KaitiM GB", KaiTi, KaiTi_GB2312, DFKai-SB, "TW-Kai", serif, serif;
+                column-span: all;
+                font-size: 1.5em;
+                font-weight:bold;
+            }
+            flex: 1 1 auto;
+            padding:1rem;
+            background-color:chartreuse;
+        }
+    }
+}

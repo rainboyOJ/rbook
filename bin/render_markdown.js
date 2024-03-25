@@ -25,7 +25,7 @@ MDRender.md.use(mdItContainer,'oneWordAlgo',{
 
         if (tokens[idx].nesting === 1) {
             // opening tag
-            return `<div class="oneWordAlgo">\n<div class="title"><h3>一句话算法:</h3></div><div class="one-content">`;
+            return `<div class="oneWordAlgo">\n<div class="title"><span>一句话算法</span></div><div class="content">`;
 
         } else {
             // closing tag
