@@ -131,3 +131,10 @@ dist
 *.out
 
 .stfolder/
+images/**/*.svg
+
+__pycache__/
+media/
+
+.parcel-cache
+.vscode

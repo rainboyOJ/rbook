@@ -5,6 +5,7 @@ const {get_ejs_template,cwd}  = require("../src/lib/utils.js")
 const {mkdirp} = require("mkdirp")
 const P = require("path")
 const fs = require("fs")
+const { parse:jsonc_parse } = require('jsonc-parser');
 const {flatten_menu} = require("../src/menu.js")
 const MDRender = require("markdown-r")
 const locals = require("./ejsrc.js").locals
@@ -119,7 +120,7 @@ function deal_md_file_data(md_file_obj,data) {
 
 function render_md( path) {
     let md_file_path = ''
-    let data = { ...locals }
+    let data = {}
     // 1. 是否以结尾
     if (P.basename(path).endsWith('.md'))
     {
@@ -127,7 +128,8 @@ function render_md( path) {
     }
     else if ( fs.statSync(path).isDirectory()) {
         let raw_json = fs.readFileSync( P.join(path,'config.json'),{encoding:'utf8'})
-        data = JSON.parse(raw_json)
+        // data = JSON.parse(raw_json)
+        data = jsonc_parse(raw_json)
         md_file_path =  P.join(path,data.file);
     }
     else {
@@ -157,6 +159,10 @@ function render_md( path) {
             video: function (src) {
                 if( src.indexOf('.mp4') == -1) src+='.mp4'
                 return `<video width="800" loop controls autoplay src="/video/${src}" type="video/mp4">Your browser does not support the video tag. </video>`
+            },
+            dvideo: function (src) {
+                if( src.indexOf('.mp4') == -1) src+='.mp4'
+                return `<video width="800" loop controls autoplay src="https://d.roj.ac.cn/d/RainboyVideo/${src}" type="video/mp4">Your browser does not support the video tag. </video>`
             }
         },
         options: {

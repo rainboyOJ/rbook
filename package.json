@@ -15,8 +15,11 @@
     },
     "devDependencies": {
         "@parcel/transformer-sass": "2.10.1",
+        "jsonc-parser": "^3.2.1",
+        "markdown-it-container": "^4.0.0",
         "parcel": "^2.10.1",
         "parcel-transformer-ejs": "^1.0.1",
+        "vis-network": "^9.1.9",
         "vite": "^5.0.10",
         "vite-plugin-ejs": "^1.7.0"
     }
