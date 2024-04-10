@@ -1,6 +1,7 @@
 const { join } = require("path")
 const ejs = require("ejs")
 const { get_ejs_template, srcp } = require("./lib/utils.js")
+const {md_file,flatten_menu_to_json_array} = require("./md_info.js")
 
 const li_item = get_ejs_template("li_item.html")
 //左侧的菜单
@@ -128,6 +129,10 @@ const menu = [
                 path: "knapsack",
                 child: [
                     {
+                        title: "01背包",
+                        path: "01knapsack"
+                    },
+                    {
                         title: "习题1: 整数划分",
                         path: "exercises/整数划分/problem.md"
                     }
@@ -159,7 +164,8 @@ const menu = [
         title:"工具库",
         path:"utils",
         child:[
-            {title:"log",path:"log.md"}
+            {title:"log",path:"log.md"},
+            {title:"random",path:"random.md"}
         ]
     },
     {
@@ -227,6 +233,7 @@ const menu = [
                     { title: "编译", path: "compile" },
                     { title: "对拍", path: "compare" },
                     { title: "有用命令", path: "usefull" },
+                    { title: "工具模块", path: "utils" },
                     { title: "有趣命令", path: "funny_command" }
                 ]
 
@@ -238,6 +245,10 @@ const menu = [
                     {title:"解题步骤",path:"stepofSolve"},
                     {title:"代码模板",path:"template"},
                 ]
+            },
+            {
+                title:"系统",
+                path:"noilinux2.0/",
             },
             {
                 title: "python",
@@ -296,5 +307,8 @@ function _flatten_menu(parent_path, resolve, data) {
 }
 
 // [ resolve-path1,...]
-exports.flatten_menu = _flatten_menu(srcp, '', menu)
+const flatten_menu = _flatten_menu(srcp, '', menu)
+exports.flatten_menu = flatten_menu
+exports.md_file = md_file
+exports.flatten_menu_json = flatten_menu_to_json_array(flatten_menu)
 
