@@ -74,7 +74,7 @@ module.exports = function nodejsPlugin() {
             // const data = fs.readFileSync('yourNodeJsFile.js', 'utf-8');
 
             let{Nodes,Edges} = load_data();
-            console.log(Nodes)
+            // console.log(Nodes)
             return {
                 define: {
                     // 将计算得到的数据传递给前端
