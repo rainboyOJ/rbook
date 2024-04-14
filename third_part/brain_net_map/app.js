@@ -7,13 +7,13 @@ const nodes = new DataSet(Nodes);
 
 // create an array with edges
 const edges = new DataSet(Edges);
-
-// create a network
-const container = document.getElementById("mynetwork");
 const data = {
   nodes: nodes,
   edges: edges
 };
+
+// create a network
+const container = document.getElementById("mynetwork");
 
 const options = {
     autoResize: true,
@@ -50,12 +50,12 @@ const options = {
     },
     layout: {
         randomSeed: 100,
-        improvedLayout: true,
+        improvedLayout: false,
         clusterThreshold: 150,
         hierarchical: {
-            enabled: true,
+            enabled: false,
             levelSeparation: 150,
-            nodeSpacing: 100,
+            nodeSpacing: 200,
             treeSpacing: 200,
             blockShifting: true,
             edgeMinimization: true,

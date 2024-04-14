@@ -25,9 +25,12 @@ var Edges = []
 var set = new Set()
 
 function add_node(node) {
-    if(!node.id) 
+    if(!node.id) {
+        console.error(`${node} does not have id attr!`)
         throw `${node} does not have id attr!`
+    }
     if(set.has(node.id)) return
+    set.add(node.id)
     Nodes.push({
         id: node.id,
         title: node.title,
@@ -36,9 +39,15 @@ function add_node(node) {
     })
 }
 
+function get_node_by_id(id) {
+    for(let d of flatten_menu_json) {
+        if( d.id == id)
+            return d;
+    }
+    throw `not find node by id : ${id}`
+}
+
 function load_data(){
-
-
 
     for( let d of flatten_menu_json)
     {
@@ -46,10 +55,12 @@ function load_data(){
         if( ! d.id) continue;
         if( d.pre) {
             for( let pre of d.pre) {
+                // console.log(pre, d.title)
                 Edges.push({
                     from: pre,
                     to:d.id
                 })
+                add_node(get_node_by_id(pre))
             }
         }
 
@@ -57,8 +68,9 @@ function load_data(){
 
         if (d.next) {
             for( let nxt of d.next) {
+                // TODO
+                // add_node(get_node_by_id(nxt))
                 add_node(nxt)
-
                 Edges.push({
                     from:d.id,
                     to:nxt.id
@@ -66,7 +78,7 @@ function load_data(){
             }
         }
     }
-    return {Nodes,Edges}
+    // return {Nodes,Edges}
 }
 
 // export const Ns = Nodes
@@ -82,6 +94,7 @@ module.exports = function nodejsPlugin() {
 
             load_data();
             // console.log(Nodes)
+            // console.log(Edges)
             return {
                 define: {
                     // 将计算得到的数据传递给前端
