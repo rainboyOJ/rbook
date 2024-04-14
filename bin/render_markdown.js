@@ -7,8 +7,11 @@ const P = require("path")
 const fs = require("fs")
 const { parse:jsonc_parse } = require('jsonc-parser');
 const {flatten_menu,flatten_menu_json,md_file} = require("../src/menu.js")
+const MK = require("./markdown-it-pseudocodejs/")
 const MDRender = require("markdown-r")
 const locals = require("./ejsrc.js").locals
+
+MDRender.md.use(MK)
 
 
 const article = get_ejs_template("article.html")

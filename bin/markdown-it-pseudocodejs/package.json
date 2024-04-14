@@ -1,0 +1,33 @@
+{
+  "name": "markdown-it-pseudocodejs",
+  "version": "2.0.3",
+  "description": "Pseudocode.js support for markdown-it",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:samuelhorwitz/markdown-it-pseudocodejs.git"
+  },
+  "keywords": [
+    "markdown",
+    "KaTeX",
+    "math",
+    "LaTeX",
+    "markdown-it-plugin",
+    "markdown-it",
+    "pseudocode.js"
+  ],
+  "author": "samuel.horwitz@gmail.com",
+  "license": "MIT",
+  "scripts": {
+    "watch": "watchify browser.js -o bundle.js -v"
+  },
+  "peerDependencies": {
+    "katex": "^0.10.0",
+    "markdown-it": "^6.0.0"
+  },
+  "devDependencies": {
+    "markdown-it": "^6.0.0",
+    "watchify": "^3.11.0",
+    "katex": "^0.10.0"
+  }
+}
