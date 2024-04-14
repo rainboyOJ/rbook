@@ -2,7 +2,7 @@
 using namespace std;
 
 const int maxn = 1e5+5;
-int f[max];
+int f[maxn];
 int fibonacci(int n) {
     if( n ==1 || n ==2 )
         return 1;

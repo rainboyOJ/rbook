@@ -35,6 +35,41 @@
   
 $ranf(f) = B$
 
+## 公式
+
+
+根据,P279页,得到,$catalan$公式如下
+
+
+根据凸三角形状
+$$
+\left\{
+\begin{aligned}
+    &h(n) = h(1)\cdot h(n-1) + h(2)\cdot h(n-2) + \cdots + h(n-1) \cdot h(1) = \sum_{i=1}^{n-1} h(i) \cdot h(n-i) \\
+    &h(1) = 1
+\end{aligned}
+\right. \tag 1
+$$
+
+
+
+$$
+h(n) = \frac{4n-2}{n+1} \cdot h(n-1) \tag 2
+$$
+
+$$
+h(n) = C(2n,n) - C(2n,n+1) \tag 3
+$$
+
+$$
+h(n) = \frac{1}{n+1} \cdot C(2n,n) \tag 4
+$$
+
+## 题目
+
+- P1044 栈
+- hdu1134 Game of Connections（此题用到高精度大数）
+
 
 ## 参考
 

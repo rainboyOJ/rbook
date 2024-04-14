@@ -1,0 +1,8 @@
+{
+    "id":"spfa",
+    "file":"index.md",
+    "title":"spfa",
+    "pre":[
+        "bellman-ford"
+    ]
+}

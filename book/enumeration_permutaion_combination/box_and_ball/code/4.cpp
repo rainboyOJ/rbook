@@ -16,12 +16,12 @@ void full_comb(int dep,int p){
     for(int i = p+1;i <=n;i++)
     {
         rcd[dep] = i;
-        comb(dep+1,i);
+        full_comb(dep+1,i);
     }
 }
 
 int main() {
     n = 3;
-    comb(1,0);
+    full_comb(1,0);
     return 0;
 }

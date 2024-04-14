@@ -1,0 +1,4 @@
+- [组合排序题目汇总(排列组合、卡特兰数和递归思想)_abcdefg七人站队,要求a必须在b-CSDN博客](https://blog.csdn.net/gaoyueace/article/details/90437368)
+- [【组合数学基础9】Catalan数（卡特兰数）竞赛组合模块 联赛  强基_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV14P411T7TZ/)
+- [Catalan数的递推公式求解_catalan数递推式解-CSDN博客](https://blog.csdn.net/pallypally/article/details/8102557)
+- [卡特兰数递推公式证明及应用_fi-xx=fi-2x-1+fi-3x-1+fi-4x-1+...+-CSDN博客](https://blog.csdn.net/weixin_44520881/article/details/105437210)

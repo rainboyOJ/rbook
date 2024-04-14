@@ -189,3 +189,5 @@ g++ -g -o 1 1.cpp
 ```json
 <%-include("./cpp.json") _%>
 ```
+
+<% -include("./plugin.md") _%>

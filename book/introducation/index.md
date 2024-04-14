@@ -4,5 +4,21 @@
 
 <%- include("./poem.html") _%>
 
+## 学习过程
+
+这里给出一个简单的学习过程的示意图。
+
+```mermaid
+<%- include("./mmd/2.mmd") %>
+```
+
+```mermaid
+<%- include("./mmd/1.mmd") %>
+```
+
+这里给出一个详细的学习内容的示意图。
+
+<a href="/brain_net_map" target="_blank">brain_net_map</a>
+
 
 作者: [rainboy](https://github.com/rainboylvx)

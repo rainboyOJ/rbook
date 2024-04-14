@@ -1,3 +1,5 @@
+[[TOC]]
+
 ## 进制
 
 二位的十进制数的变化如下
@@ -57,7 +59,7 @@ $$
 那么显然,随着,$B$给的苹果的数量的增多,那么这3个小朋友会形成如下的**状态**
 
 $$
-\begin{array}{cccc}
+\begin{array}{ccc|c}
 a_2 & a_1 & a_0 & \text{🍎数量}\\
 \hline
 0 & 0 & 0 & 0\\
@@ -81,7 +83,7 @@ $$
 
 
 $$
-\begin{array}{cccl}
+\begin{array}{ccc|l}
 a_2 & a_1 & a_0 & \text{数量} \\
 \hline
 0 & 0 & 0 & 0\\
@@ -125,41 +127,24 @@ print(a)
 二进制转十进制的公式很简单,写一个二进制字符串转十进制数的代码也不难.
 
 ```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-char num[] = "10101001";
-  
-//将二进制转换为十进制的功能
-int binaryToDecimal(string n)
-{
-    string num = n;
-    int dec_value = 0;
-  
-    // 将基础值初始化为1，即2^0
-    int base = 1;
-  
-    int len = num.length();
-    for (int i = len - 1; i >= 0; i--) 
-    {
-        if (num[i] == '1')
-            dec_value += base;
-        base = base * 2;
-    }
-  
-    return dec_value;
-}
-int main()
-{
-    cout << binaryToDecimal(num) << endl;
-    reutrn 0;
-}  
+<%- include("/algo_template/math/base_conversion/bin2dec.cpp") %>
 ```
 
 
 ## 十进制转二进制
 
-我们都会一个算法,拆数
+
+### 理解1
+
+按上面的小朋友放苹果来理解,$a_0$手上的苹果数量就是对应二进制的个位数,要么是$0$,要么是$1$,显然如果苹果的数量是偶数,那么$a_0 = 0$,是奇数,那么$a_0 = 1$,所以$a_0 = n \mod 2$.
+
+那怎么得到$a_1$对应的数字呢?可以想到每产生两个苹果,$a_1$就会得到一个苹果,所以这里有一种对应关系,只观察$a_1$,经过他手里的苹果的数量是$\lfloor n /2 \rfloor$,类似于$a_0$,最终$a_1 = (n / 2 ) \mod 2$.
+
+同理你可以求出每个$a_i$.
+
+### 理解2
+
+我们都会一个算法,拆数,下面的代码依次得到数字$123$的各个位置上的数.
 
 ```cpp
 int a = 123;
@@ -170,19 +155,21 @@ while( a ) {
 }
 ```
 
-与上面的方法一样,我们
+```cpp
+<%- include("/algo_template/math/base_conversion/dec2bin.cpp") %>
+```
+
+与上面的方法一样,我们可以:
 
 1. 先得到二进制的个位上的数
-2. 再删除二进制个位数
+2. 再删除二进制个位上的数
 
-如何删除二进制个位上的数
+如何删除二进制个位上的数呢?
 
-一个二进制数$1101$去除个位上的为后变为$101$,那两都有什么数学上的关系呢?例如进制$123$去除个位上的数只需要使用整除 $123 \div 10 = 12$,现在我们要找到一个类似的公式,直接代入公式,可以去除二进制的个位
+一个二进制数$1101$去除个位上的为后变为$101$,那两者有什么数学上的关系呢?例如进制$123$去除个位上的数只需要使用整除 $123 \div 10 = 12$,现在我们要找到一个类似的公式,直接代入公式,可以去除二进制的个位了.
 
-若一个数为$A = a_i \times 2^i + a_{i-1} \times 2^{i-1} + \cdots + a_0 \times 2^0$
-,去除二进制
-
-则它除二进制的个位后变成$B = a_i \times 2^{i-1} + a_{i-1} \times 2^{i-2} + \cdots + a_1 \times 2^0$
+若一个数为$A = a_i \cdot 2^i + a_{i-1} \cdot 2^{i-1} + \cdots + a_0 \cdot 2^0$
+,去除以二进制的基数$2$后变成$B = a_i \cdot 2^{i-1} + a_{i-1} \cdot 2^{i-2} + \cdots + a_1 \cdot 2^0$
 
 那么$B$与有$A$之间有什么关系呢?,
 
@@ -209,8 +196,10 @@ $$
 
 所有得到结论:
 
-1. 十进制$A$整除$2$得到的结果相当于对应二进制数删除个位(末尾)的数得到的十进制的数$B$
-2. 十进制数$B$乘以$2$相当对应的二进制数全体左移一位,末尾添加一个$0$得到的新的二进制数对应的十进制数
+1. $A$对应的二进制数的末尾数是$0$或者$1$就是$A$对$2$取余的结果
+2. $2$整除十进制$A$得到的结果相当于对应二进制数删除个位(末尾)的数对应的十进制的数$B$
+3. 得到$B$后,需要再对$B$进行相同的处理,于是变成了递归.
+4. 直到最后的数字变成$0$,算法结束.
 
 于是得到下面的手动计算十进制转二进制方法:**短除法**
 
@@ -221,12 +210,7 @@ $$
 
 于是可以写出如下的二进制转二进制代码如下
 
-`python`
-
-```python
-```
-
-## c++ 10进制数转成二进制字符串
+## c++ 十进制数转成二进制字符串
 
 方法二: 使用 `bitset`
 
@@ -246,26 +230,11 @@ int main()
 使用自己写的函数,实现短除法
 
 ```cpp
-#include <iostream>
-
-int decimalToBinary(int decimal)
-{
-    int binary = 0, base = 1;
-    while (decimal != 0)
-    {
-        int remainder = decimal % 2;
-        decimal /= 2;
-        binary += remainder * base;
-        base *= 10;
-    }
-    return binary;
-}
-
-int main()
-{
-    int decimal = 242;
-    int binary = decimalToBinary(decimal);
-    std::cout << binary << std::endl;
-    return 0;
-}
+<%- include("/algo_template/math/base_conversion/dec2bin.cpp") %>
 ```
+
+## 练习题目
+
+- <%- pid_to_url('roj', '8006','进制转换') %>
+- <%- pid_to_url('roj', '8007','数字转换错误') %>
+- <%- pid_to_url('roj', '8008','以基为本') %>

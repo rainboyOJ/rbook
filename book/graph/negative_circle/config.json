@@ -1,0 +1,10 @@
+{
+    "file":"index.md",
+    "title":"负环",
+    "id":"negative_circle",
+    "pre":[
+        "bellman-ford",
+        "spfa"
+    ]
+
+}

@@ -314,6 +314,7 @@ $$
 \frac{n!}{\textstyle\prod_{i=1}^{m}a_i!}
 $$
 
+- 乌龟棋 $30\%$的暴力解
 
 
 
@@ -324,45 +325,17 @@ $$
 
 ## 球不同,盒子相同,可以多放,不可以为空
 
-有$4$个不同的球,编号$1,2,3$,有$2$个相同的盒子,盒子可以放多个球,不可以为空,问有多少种放法.
-
-**盒子不同**,也就是需要考虑顺序.
-
-$$
-
-\def\arraystretch{1.5}
-\begin{array}{cc}
-\boxed{1 \; 2 \; 3 } & \boxed{4} \\
-\boxed{1 \; 2 \; 4 } & \boxed{3} \\
-\boxed{1 \; 3 \; 4} & \boxed{2} \\
-\boxed{2 \; 3 \; 4} & \boxed{1} \\
-\boxed{1 \; 2} & \boxed{3 \; 4} \\
-\boxed{1 \; 3} & \boxed{2 \; 4} \\
-\boxed{2 \; 3} & \boxed{1 \; 4} \\
-\end{array}
-$$
-
-暴力枚举法,考虑最后一个
-
-数学解法,这个类型的题目 叫做第二类$Stirling$数
-
-$$
-S(n,r) = \left\{
-\begin{array}{cc}
-r\times S(n-1,r) + S(n-1,r-1) \\
-0 & r = 0\\
-1 & r = 1 \lor n = r
-\end{array}
-\right.
-$$
+<%- include("./stirling_number.md")%>
 
 ## 球不同,盒子不同,可以多放,不可以为空
-
 
 与上一个题目,不同就在于,**盒子不同**,也就是需要考虑顺序.
 
 $$
-G(n,r) = P(n,r) \times S(n,r)
+\begin{aligned}
+G(n,r) &= P(m,m) \times S(n,m) \\
+       &= m! \times S(n,m)
+\end{aligned}
 $$
 
 ## 总结
