@@ -11,7 +11,9 @@ const MK = require("./markdown-it-pseudocodejs/")
 const MDRender = require("markdown-r")
 const locals = require("./ejsrc.js").locals
 
-MDRender.md.use(MK)
+MDRender.md.use(MK,{
+    lineNumber:true
+})
 
 
 const article = get_ejs_template("article.html")

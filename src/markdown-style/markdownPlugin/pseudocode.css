@@ -1,6 +1,6 @@
 .ps-root {
     font-family: KaTeX_Main, 'Times New Roman', Times, serif;
-    font-size: 1em;
+    font-size: 1.3em;
     font-weight: 100;
     -webkit-font-smoothing: antialiased !important;
     color:var(--default-fence-text-light-color);

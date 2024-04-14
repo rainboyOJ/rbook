@@ -89,7 +89,8 @@ const menu = [
                         path: "not_repeat_permutation/index.md"
                     }
                 ]
-            }
+            },
+            {title:"对数",path:"pair_num"}
         ]
     },
     {
@@ -148,6 +149,10 @@ const menu = [
             { "title":"前言", path:"preface.md" },
             { "title":"存储", path:"save" },
             { "title":"遍历", path:"traversal" },
+            { "title":"bellman-ford", path:"bellman-ford" },
+            { "title":"spfa", path:"spfa" },
+            { "title":"负圈", path:"negative_circle" },
+            { "title":"基环树", path:"spanning-tree" },
         ]
     },
     {
@@ -156,6 +161,7 @@ const menu = [
         child: [
             { title: "栈", path: "stack" },
             { title: "队列", path: "queue" },
+            { title: "单调栈", path: "monotonic_stack" },
             { title: "单调队列", path: "monotonic_queue" },
         ]
 
@@ -252,11 +258,11 @@ const menu = [
             },
             {
                 title: "python",
-                path: "python.md"
+                path: "python/"
             },
             {
                 title: "编程常用单词",
-                path: "编程常用单词.md"
+                path: "common_words/"
             },
         ]
     }
