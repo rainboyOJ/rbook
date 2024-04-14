@@ -153,7 +153,7 @@ $$
 
 
 $$
-\begin{array}{c}
+\begin{array}{ccccc}
    \color{Blue}{\boxdot} &  \color{Blue}{\boxdot} &\color{Blue}{\boxdot} &  \color{Green}\boxdot &  \boxdot  \\
    \color{Blue}{\boxdot} &  \color{Blue}{\boxdot} &\color{Blue}{\boxdot} &  \color{Green}\boxdot &  \boxdot  \\
    \color{Blue}{\boxdot} &  \color{Blue}{\boxdot} &\color{Blue}{\boxdot} &  \color{Green}\boxdot &  \boxdot  \\

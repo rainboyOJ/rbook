@@ -102,7 +102,7 @@ $$
 ```math
 g(x) = \left\{
     \begin{aligned}
-        &\vert x \vert & x 各个元素是符合Lis的\\
+        &\vert x \vert & x \text{各个元素是符合Lis的} \\
         &0 & \text{如果$x$是空集}\\
     \end{aligned}
 \right. 

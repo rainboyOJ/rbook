@@ -1,0 +1,6 @@
+{
+    "id":"monotonic_stack",
+    "title":"单调队列",
+    "file":"index.md",
+    "pre":["stack","pair_num"]
+}

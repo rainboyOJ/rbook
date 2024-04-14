@@ -114,6 +114,8 @@ function render_md( data ) {
     }
     // console.log(data)
     
+
+
     let {header,content} = MDRender.render(raw,{ ejs })
 
     if (!data.title) {
@@ -163,6 +165,16 @@ function render_md( data ) {
 // }
 for(let d of flatten_menu_json)
 {
-    render_md(d)
+    try {
+        console.log(d.md_file.relative_path,d.title)
+        render_md(d)
+        // console.log(d.md_file.file_path,d.title)
+    }
+    catch(e) {
+        console.log('--------ERROR-----------')
+        console.error(d.md_file)
+        console.error(e)
+        throw e;
+    }
 }
 

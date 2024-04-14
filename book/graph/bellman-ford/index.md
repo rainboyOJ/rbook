@@ -17,3 +17,28 @@ $a \to b \to c \to b \to d$
 推论1: 在一个无负环的图G上的任意两个点$u,v$之间的最短路所经过的边的的数量不超过$n-1$.
 
 起点u到终点v的路径上不含有圈,那就是一条链.且最多有n个点.显然最多有n-1条边.
+
+
+松弛操作的定义:两个点$u,v$的dis(u)被更新一次,称为一次松弛操作.
+
+::: pseudocode
+\begin{algorithm}
+\begin{algorithmic}
+\IF{$dis(u) < dis(v) + w(u,v)$ }
+\STATE $dis(u) = dis(v)+w(u,v)$
+\ENDIF
+\end{algorithmic}
+\end{algorithm}
+:::
+
+定理1: 每一次对于u点进行松弛操作发生,$dis_{cnt}(u)$就会加1,(不可能出现增加0,然后松弛的,ps:经过我的思考这条定理是对的)
+
+根据上面的算法描述.
+
+证明:  TODO
+
+定理2: 在无负圈的图G,松弛操作最多发生$n-1$次.
+
+根据定理 松弛操作与$dis_{cnt}(u)$的加1次数是一一映射的.所以松弛操作最多发生$n-1$次
+
+
