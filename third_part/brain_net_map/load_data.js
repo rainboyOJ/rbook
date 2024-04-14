@@ -20,10 +20,24 @@ const {flatten_menu_json} = require("../../src/menu.js")
 // ]
 // 还有edge数据
 // console.log(flatten_menu_json)
+var Nodes = []
+var Edges = []
+var set = new Set()
+
+function add_node(node) {
+    if(!node.id) 
+        throw `${node} does not have id attr!`
+    if(set.has(node.id)) return
+    Nodes.push({
+        id: node.id,
+        title: node.title,
+        label: node.label || node.title,
+        ...node
+    })
+}
+
 function load_data(){
 
-    let Nodes = []
-    let Edges = []
 
 
     for( let d of flatten_menu_json)
@@ -31,26 +45,19 @@ function load_data(){
         // 没有id,说明这个节点,没有加入
         if( ! d.id) continue;
         if( d.pre) {
-            Edges.push({
-                from: d.pre,
-                to:d.id
-            })
+            for( let pre of d.pre) {
+                Edges.push({
+                    from: pre,
+                    to:d.id
+                })
+            }
         }
 
-        Nodes.push({
-            id: d.id,
-            title: d.title,
-            label: d.label || d.title,
-            ...d
-        })
+        add_node(d)
 
         if (d.next) {
             for( let nxt of d.next) {
-                Nodes.push({
-                    title:nxt.title || nxt.id,
-                    label: nxt.label || nxt.title || nxt.id,
-                    ...nxt
-                })
+                add_node(nxt)
 
                 Edges.push({
                     from:d.id,
@@ -73,7 +80,7 @@ module.exports = function nodejsPlugin() {
             // 在 Vite 构建过程中执行 Node.js 代码
             // const data = fs.readFileSync('yourNodeJsFile.js', 'utf-8');
 
-            let{Nodes,Edges} = load_data();
+            load_data();
             // console.log(Nodes)
             return {
                 define: {
