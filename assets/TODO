@@ -1,0 +1,22 @@
+应该写一个vite.config.js 然后自动扫描的paper文件夹，然后自动生成对应的文件列表,
+
+
+https://codepen.io/l4ci/pen/PQwdMM
+
+https://github.com/mohamnag/nginx-file-browser/tree/master
+
+
+https://github.com/spring-raining/pretty-autoindex
+这个配置不应该像它的readme里写的那么麻烦,应该像nginx-file-browser那样配置就行了.使用aliast
+
+
+!!!!!!!我决定选这个了,因为它简单啊
+还有一个,这个的实现方式非常神奇,但我不知道,他是如何实现下载的?
+如果没有文件就auto_index,如果有文件,就下载?
+https://github.com/EthraZa/NGINdeX.io
+
+这个项目,还提供了一些我不知道的css框架,最重要的特点是小巧,很小.2kb.
+
+css 框架
+
+https://github.com/milligram/milligram
