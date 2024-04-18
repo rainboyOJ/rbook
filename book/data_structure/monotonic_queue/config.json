@@ -1,5 +1,24 @@
 {
-    "id":"..monotonic_queue",
+    "id":"monotonic_queue",
     "file":"index.md",
-    "title":"单调队列"
+    "title":"单调队列",
+    "pre":["queue"],
+    "next":[
+        {
+            "id":"luoguP1886",
+            "label":"luogu P1886 【模板】单调队列",
+            "href":"https://roj.ac.cn/roj/1886/index.html",
+            "group":"problem",
+            "pre":["pair_number"],
+            "next": [
+                {
+                    "id":"acw135",
+                    "pre":["presum"],
+                    "label":"acw 135 最大子序和",
+                    "href":"https://www.acwing.com/problem/content/137/",
+                    "group":"problem"
+                }
+            ]
+        }
+    ]
 }

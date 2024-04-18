@@ -1,4 +1,22 @@
 {
+    "id":"set",
     "title":"集合",
-    "file":"index.md"
+    "file":"index.md",
+    "shape":"circle",
+    //TODO
+    "icon":{
+        "face" :"FontAwesome",
+        "code":"\u7777"
+    },
+    "color":"#264653",
+    "font":{
+        "size":25,
+        "color":"#E9C46A"
+    },
+    "size":30
+    //"scaling":{
+     //   "min":1000,
+      //  "max":2000,
+      //  "label":true
+    //}
 }

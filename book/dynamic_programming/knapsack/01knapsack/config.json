@@ -1,4 +1,6 @@
 {
+    "id":"01knapsack",
     "title":"01背包",
-    "file":"index.md"
+    "file":"index.md",
+    "pre":["number_pyramid"]
 }

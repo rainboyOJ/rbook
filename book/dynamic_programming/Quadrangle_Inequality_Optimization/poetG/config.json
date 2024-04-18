@@ -1,0 +1,7 @@
+{
+    "title": "诗人小G",
+    "id": "poetG",
+    "file": "index.md",
+    "pre":["stone_merger_quadrangle"],
+    "group":"problem"
+}

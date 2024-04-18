@@ -1,4 +1,6 @@
 {
+    "id":"lcs",
     "file":"index.md",
-    "title":"最长公共子序列"
+    "title":"最长公共子序列",
+    "pre":["lis"]
 }

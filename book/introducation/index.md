@@ -4,6 +4,9 @@
 
 <%- include("./poem.html") _%>
 
+## 相关内容
+<%- include("./icon-list.html") %>
+
 ## 学习过程
 
 这里给出一个简单的学习过程的示意图。
@@ -18,7 +21,6 @@
 
 这里给出一个详细的学习内容的示意图。
 
-<a href="/brain_net_map" target="_blank">brain_net_map</a>
 
 
 作者: [rainboy](https://github.com/rainboylvx)

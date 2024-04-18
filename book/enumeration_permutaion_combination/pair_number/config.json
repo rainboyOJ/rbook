@@ -1,0 +1,8 @@
+{
+    "id":"pair_number",
+    "title": "对数",
+    "file":"index.md",
+    "teach_plain":"teach_plain.md",
+    "pre":["set"],
+
+}

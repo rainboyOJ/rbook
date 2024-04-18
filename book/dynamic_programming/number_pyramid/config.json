@@ -1,4 +1,6 @@
 {
+    "id":"number_pyramid",
     "file":"index.md",
-    "title":"数字金字塔"
+    "title":"数字金字塔",
+    "pre":["set"]
 }

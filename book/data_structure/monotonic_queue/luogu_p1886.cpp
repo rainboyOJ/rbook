@@ -1,86 +1,98 @@
-/* author: Rainboy email: rainboylvx@qq.com
- * time: 2023年 06月 12日 星期一 22:07:16 CST */
 #include <bits/stdc++.h>
 using namespace std;
-typedef long long ll;
-const int maxn = 1e6+5,maxe = 1e6+5; //点与边的数量
+const int maxn = 1e6+5;
+int n,k;
+int a[maxn];
 
-int n,m;
-/* 定义全局变量 */
-int __a[maxn];
+//队列的模板
+template<typename T = int,int siz = maxn>
+struct myqueue{
+    T a[siz+5];
+    //tail 指向最后一个元素后面一个位置
+    //head 指向第一个元素
+    int head = 0,tail=0; 
 
-void init()
-{
-    cin >> n >> m;
-}
+    void clear() { head =tail = 0;}
 
-struct _queue {
-    int head= 0,tail=0;
+    void push(T b) { a[tail++] = b;}
 
-    struct node {
-        int v,p;
-    };
-    node a[maxn];
-    int ans;
+    void pop(){head++;}
+    void pop_back(){tail--;}
 
-    bool empty() { return tail == head; }
+    T front() { return a[head];}
+    T back() { return a[tail-1];}
 
+    bool empty() { return head == tail;}
 
-    void _push(int v,int p) { a[tail++] = {v,p};}
     int size() { return tail-head;}
-    void pop_front() { ++head;}
-    void pop_back() { --tail;}
-    node & front() { return a[head];}
-    node & back() {return a[tail-1];}
 
-    template<typename F>
-    void push(int v,int pos, F && f) {
-        while( !empty() && f(back().v, v))
-            pop_back();
-        _push(v, pos);
-    }
-
-    //删除前面<p的部分
-    void del(int p) {
-        while( !empty() && front().p < p)
-            pop_front();
-    }
-} que1,que2;
-
-int main(int argc,char * argv[]){
-    cin.sync_with_stdio(false);
-    cin.tie(0); cout.tie(0);
-
-    init();
-
-    que1.ans = -2147483648; //求max
-    que2.ans = 0x7fffffff; // 求min
-
-    for(int i=1;i<=n;++i){
-        cin >> __a[i];
-    }
-
-    for(int i =1 ;i<= n;i++) {
-        int t = __a[i];
-        que1.push(t, i, std::greater<int> {});
-        if( i >=m) {
-            que1.del(i-m+1);
-            cout << que1.front().v << " ";
+    void debug() {
+        cout << "queue : ";
+        for(int i =  head ;i < tail;i++) {
+            cout << a[i] << " ";
         }
+        cout << endl;
     }
-    std::cout << "\n";
+};
 
-    for(int i =1 ;i<= n;i++) {
-        int t = __a[i];
-        que2.push(t, i, std::less<int> {});
-        if( i >=m) {
-            que2.del(i-m+1);
-            cout << que2.front().v << " ";
+myqueue<int> que;
+
+
+int main () {
+    //读取数据
+    std::cin >> n >> k;
+    for(int i = 1;i <= n ;++i ) // i: 1->n
+        cin >> a[i];
+    // 求最小值
+    // 1. 先放k个值
+    for(int i = 1;i<k;i++) {
+        int v = a[i];
+        //那些比v的大的都不可能是答案
+        while( !que.empty() && a[que.back()] >= v) {
+            que.pop_back();
         }
+        que.push(i);
     }
-    std::cout << "\n";
+    for(int i = k;i<=n;i++) {
+        int v = a[i];
+        //那些比v的大的都不可能是答案
+        while( !que.empty() && a[que.back()] >= v) {
+            que.pop_back();
+        }
+        // 加入 
+        que.push(i);
+        //删除越界的值
+        while( !que.empty() && que.front() < i-k+1)
+            que.pop();
+        cout << a[que.front()] <<" ";
+    }
+    cout << endl;
 
+    que.clear();
+    for(int i = 1;i<k;i++) {
+        int v = a[i];
+        //那些比v的小的都不可能是答案
+        while( !que.empty() && a[que.back()] <= v) {
+            que.pop_back();
+        }
+        que.push(i);
+    }
+
+    // 求最大值
+    for(int i = k;i<=n;i++) {
+        int v = a[i];
+        //那些比v的小的都不可能是答案
+        while( !que.empty() && a[que.back()] <= v) {
+            que.pop_back();
+        }
+        // 加入
+        que.push(i);
+        //删除越界的值
+        while( !que.empty() && que.front() < i-k+1)
+            que.pop();
+        cout << a[que.front()] <<" ";
+    }
+    cout << endl;
 
     return 0;
 }
-
