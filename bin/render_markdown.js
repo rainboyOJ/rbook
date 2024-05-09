@@ -9,6 +9,9 @@ const { parse:jsonc_parse } = require('jsonc-parser');
 const {flatten_menu,flatten_menu_json,md_file} = require("../src/menu.js")
 const locals = require("./ejsrc.js").locals
 
+const _problemDB = require("../problems/src/lib/database/index.js")
+const problemDB = new _problemDB()
+
 const MDRender = require("./markdown-it.js")
 
 
@@ -16,27 +19,6 @@ const MDRender = require("./markdown-it.js")
 const article = get_ejs_template("article.html")
 
 const CWD = P.resolve(__dirname,"..")
-
-//对MDRender 进行配置
-//添加oneWordAlgo
-const mdItContainer = require("markdown-it-container")
-MDRender.md.use(mdItContainer,'oneWordAlgo',{
-    validate: function( params ){
-        return ( /^onewordalgo$/i.test(params.trim()))
-    },
-    render: function(tokens, idx, _options, env, self){
-
-        if (tokens[idx].nesting === 1) {
-            // opening tag
-            return `<div class="oneWordAlgo">\n<div class="title"><span>一句话算法</span></div><div class="content">`;
-
-        } else {
-            // closing tag
-            return '</div></div>\n';
-        }
-    }
-})
-//对MDRender 进行配置 结束
 
 //处理md_file产生成data
 // data.copy
@@ -57,30 +39,6 @@ function deal_md_file_data(data) {
 }
 
 function render_md( data ) {
-    // let md_file_path = ''
-    // let data = {}
-    // // 1. 是否以结尾
-    // if (P.basename(path).endsWith('.md'))
-    // {
-    //     md_file_path = path
-    // }
-    // else if ( fs.statSync(path).isDirectory()) {
-    //     let raw_json = fs.readFileSync( P.join(path,'config.json'),{encoding:'utf8'})
-    //     // data = JSON.parse(raw_json)
-    //     data = jsonc_parse(raw_json)
-    //     md_file_path =  P.join(path,data.file);
-    // }
-    // else {
-    //     throw 'illegal path: ' + path
-    // }
-
-    // let md_file_obj = new md_file(md_file_path)
-    // let output_path = md_file_obj.output_path
-    // let raw = md_file_obj.raw
-
-    // // github上的地址
-    // data["md_file"] = md_file_obj.to_object()
-
     let output_path = data["md_file"].output_path
     let raw = fs.readFileSync(data["md_file"].file_path,{encoding:'utf-8'})
     let ejs = {
@@ -109,13 +67,19 @@ function render_md( data ) {
         options: {
             filename: data["md_file"].file_path,
             root:CWD
-        }
+        },
     }
     // console.log(data)
     
-
-
-    let {header,content} = MDRender.render(raw,{ ejs })
+    let {header,content} = MDRender.render(raw,
+    { ejs ,
+        //传递给env
+        mdit: {
+            ...locals,
+            ...data,
+            db: problemDB,
+        }
+    })
 
     if (!data.title) {
         data.title =  header.title || '未知'
@@ -162,18 +126,28 @@ function render_md( data ) {
 //     console.log('render -> ',real_path)
 //     render_md(real_path)
 // }
-for(let d of flatten_menu_json)
-{
-    try {
-        console.log(d.md_file.relative_path,d.title)
-        render_md(d)
-        // console.log(d.md_file.file_path,d.title)
-    }
-    catch(e) {
-        console.log('--------ERROR-----------')
-        console.error(d.md_file)
-        console.error(e)
-        throw e;
+
+async function main() {
+
+    await problemDB.loadDatabase();
+    console.log('problem数据库加载完毕')
+    for(let d of flatten_menu_json)
+    {
+        try {
+            // console.log(process.argv)
+            if( process.argv[2] && d.title != process.argv[2] && process.argv[2] != d.id)
+            continue;
+
+            console.log(d.md_file.relative_path,d.title)
+            render_md(d)
+            // console.log(d.md_file.file_path,d.title)
+        }
+        catch(e) {
+            console.log('--------ERROR-----------')
+            console.error(d.md_file)
+            console.error(e)
+            throw e;
+        }
     }
 }
-
+main()
