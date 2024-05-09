@@ -2,6 +2,7 @@ const { join } = require("path")
 const ejs = require("ejs")
 const { get_ejs_template, srcp } = require("./lib/utils.js")
 const {md_file,flatten_menu_to_json_array} = require("./md_info.js")
+const { title } = require("process")
 
 const li_item = get_ejs_template("li_item.html")
 //左侧的菜单
@@ -26,51 +27,28 @@ const menu = [
         title: "递归",
         path: "recursion",
         child: [
-            {
-                title: "前言",
-                path: "preface.md"
-            },
-            {
-                title: "1加到n",
-                path: "add_to_n"
-            },
-            {
-                title: "输出1到n",
-                path: "print_to_n"
-            },
-            {
-                title: "斐波那契数列",
-                path: "fibonacci"
-            },
-            {
-                "title": "汉诺塔",
-                path:"hanoi"
-            },
-            {
-                title: "整数划分",
-                path: "div_number"
-            },
-            {
-                title: "二分查找",
-                path: "binary_search/"
-            },
-            {
-                title:"题目",
-                path:"practice.md"
-            }
+            { title: "前言", path: "preface.md" },
+            { title: "1加到n", path: "add_to_n" },
+            { title: "输出1到n", path: "print_to_n" },
+            { title: "斐波那契数列", path: "fibonacci" },
+            { "title": "汉诺塔", path:"hanoi" },
+            { title: "整数划分", path: "div_number" },
+            { title: "二分查找", path: "binary_search/" },
+            { title:"题目", path:"practice.md" }
         ]
     },
     {
         title: "枚举与排列组合",
         path: "enumeration_permutaion_combination/",
         child: [
+            {title:"对数",path:"pair_number"},
             {
                 title: "01_sequence",
-                path: "01_sequence/index.md"
+                path: "01_sequence"
             },
             {
                 title: "球放盒子模型",
-                path:"box_and_ball"
+                path:"ball_and_box"
             },
             {
                 title:"出栈序列",
@@ -90,7 +68,10 @@ const menu = [
                     }
                 ]
             },
-            {title:"对数",path:"pair_num"}
+            {
+                title:"子集枚举",
+                path:"subset_enum"
+            },
         ]
     },
     {
@@ -139,6 +120,19 @@ const menu = [
                     }
                 ]
             },
+            {
+                title:"决策单调性",
+                path:"decision_mono"
+            },
+            {
+                "title":"四边形不等式优化",
+                "path":"Quadrangle_Inequality_Optimization/",
+                "child": [
+                    { title:"开始",path:"/" },
+                    { title:"石子合并-四边形不等式优化",path:"stone_merge" },
+                    { title:"诗人小G",path:"poetG" }
+                ]
+            }
 
         ]
     },
@@ -149,6 +143,7 @@ const menu = [
             { "title":"前言", path:"preface.md" },
             { "title":"存储", path:"save" },
             { "title":"遍历", path:"traversal" },
+            { "title":"拓扑排序", path:"topsort" },
             { "title":"bellman-ford", path:"bellman-ford" },
             { "title":"spfa", path:"spfa" },
             { "title":"负圈", path:"negative_circle" },
@@ -163,15 +158,16 @@ const menu = [
             { title: "队列", path: "queue" },
             { title: "单调栈", path: "monotonic_stack" },
             { title: "单调队列", path: "monotonic_queue" },
+            { title: "堆", path: "heap" },
         ]
-
     },
     {
         title:"工具库",
         path:"utils",
         child:[
+            {title:"template",path:"template"},
             {title:"log",path:"log.md"},
-            {title:"random",path:"random.md"}
+            {title:"random",path:"random"}
         ]
     },
     {
@@ -185,6 +181,10 @@ const menu = [
             {
                 title: "对数",
                 path: "logarithm",
+            },
+            {
+                title: "集合",
+                path: "set",
             },
             {
                 title: "组合",

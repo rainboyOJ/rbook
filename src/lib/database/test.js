@@ -4,6 +4,8 @@ const rbook_db = require("./index.js")
 // rbook_db.init();
 // rbook_db.insert_article({id:'hello',title:'work'})
 // rbook_db.save()
+//
+rbook_db.init_by_flatten_menu();
 
 //load_Data
 
@@ -14,4 +16,4 @@ async function main() {
     rbook_db.list_cols()
 }
 
-main()
+// main()

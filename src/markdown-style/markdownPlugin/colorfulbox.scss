@@ -1,0 +1,22 @@
+.colorfulbox {
+    background-color: rgba(22, 20, 20, 0.179);
+    color: rgb(32, 46, 26);
+    border: 1px solid black;
+    padding: 20px;
+    border-radius: 5px;
+    position: relative;
+    margin: 3.6rem 0;
+}
+
+.colorfulbox > p:first-child {
+    border: 1px solid black;
+    margin: 0;
+    display: inline-block;
+    padding: 0.5em;
+    border-radius: 5px;
+    position: absolute;
+    top:0px;
+    transform: translate(10px, -50%);
+    color: turquoise;
+    background-color: black;
+}
