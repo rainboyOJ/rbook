@@ -9,8 +9,6 @@ const { parse:jsonc_parse } = require('jsonc-parser');
 const {flatten_menu,flatten_menu_json,md_file} = require("../src/menu.js")
 const locals = require("./ejsrc.js").locals
 
-const _problemDB = require("../problems/src/lib/database/index.js")
-const problemDB = new _problemDB()
 
 const MDRender = require("./markdown-it.js")
 
@@ -76,8 +74,7 @@ function render_md( data ) {
         //传递给env
         mdit: {
             ...locals,
-            ...data,
-            db: problemDB,
+            ...data
         }
     })
 
@@ -98,16 +95,14 @@ function render_md( data ) {
         }
         let raw = teach_plan_obj.raw
         let {header,content} = MDRender.render(raw,{ ejs })
-        let html = article({header,content,...teach_plan_data})
+        let html = article({header,content,data:teach_plan_data})
 
         teach_plan_obj.mkdirp_output_path();
         fs.writeFileSync(teach_plan_obj.output_path,html,{encoding:'utf-8'})
     }
-    else
-        data['teach_plan_href'] = null
 
     //渲染数据
-    let html = article({header,content,...data})
+    let html = article({header,content,data})
     // console.log(html)
     
     // md_file_obj.mkdirp_output_path();
@@ -127,10 +122,11 @@ function render_md( data ) {
 //     render_md(real_path)
 // }
 
+/*
 async function main() {
 
-    await problemDB.loadDatabase();
-    console.log('problem数据库加载完毕')
+    //problemDB.loadDatabase();
+    //console.log('problem数据库加载完毕')
     for(let d of flatten_menu_json)
     {
         try {
@@ -151,3 +147,5 @@ async function main() {
     }
 }
 main()
+*/
+module.exports = render_md

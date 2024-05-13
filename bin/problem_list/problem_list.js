@@ -12,6 +12,9 @@ const {join} = require("path")
 const {readFileSync} = require("fs")
 const template = ejs.compile(readFileSync(join(__dirname,"./problem_list.html"),{encoding:"utf-8"}))
 
+// const _problemDB = require("../../problems/src/lib/database/index.js")
+// const problemDB = new _problemDB()
+
 const problem_list_parse = function(state, startLine, endLine, silent) {
     // debugger
     let token,content
@@ -77,7 +80,11 @@ const problem_list_item_render = function(tokens,idx,options,env,slf) {
     }
     if(!id) throw `${env.md_file.relative_path} has no id!`
 
-    let problems = env.db.solutions_bidir_find('rbook',id) 
+    let problems = env.problemDB.solutions_bidir_find('rbook',id)
+    if( env.debug) {
+        console.log('problem-list:',problems)
+    }
+    // let problems = problemDB.solutions_bidir_find('rbook',id) 
     let html = template({problems,id})
     // console.log(html)
     return html

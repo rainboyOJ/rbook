@@ -138,3 +138,5 @@ media/
 
 .parcel-cache
 .vscode
+venv/
+*.db

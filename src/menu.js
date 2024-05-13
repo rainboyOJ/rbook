@@ -120,10 +120,8 @@ const menu = [
                     }
                 ]
             },
-            {
-                title:"决策单调性",
-                path:"decision_mono"
-            },
+            { title:"决策单调性", path:"decision_mono" },
+            { title:"斜率优化", path:"slope" },
             {
                 "title":"四边形不等式优化",
                 "path":"Quadrangle_Inequality_Optimization/",

@@ -1,8 +1,11 @@
-const Problem = require("../../problems/src/lib/online_judge/index.js")
-const rbookDb = require("../../src/lib/database/index.js")
+// const Problem = require("../../problems/src/lib/online_judge/index.js")
+// const rbookDb = require("../../src/lib/database/index.js")
+
+// const _problemDB = require("../../problems/src/lib/database/index.js")
+// const problemDB = new _problemDB()
 
 //加载数据库,这个是同步的
-rbookDb.loadDatabase();
+// rbookDb.loadDatabase();
 
 // const Problem = require("/home/rainboy/mycode/RainboyOJ/problems/src/lib/online_judge/index.js")
 const double_square_bracket_parse = function(state,silent) {
@@ -45,7 +48,7 @@ const double_square_bracket_parse = function(state,silent) {
 
 }
 
-const double_square_bracket_render = function(tokens,idx) {
+const double_square_bracket_render = function(tokens,idx,options,env,slf) {
     let content = tokens[idx].meta
     // const problem_reg = /^[p|P]:\ ?(\S+)\ ?$/
     // const rbook_reg= /^[p|P]:\ ?(\S+)\ ?$/
@@ -59,9 +62,11 @@ const double_square_bracket_render = function(tokens,idx) {
         type = type.toLowerCase()
         if( type === 'rbook') 
         {
-            let info = rbookDb.find_by_id(id)
-            // console.log(info)
-            return `<a target="_blank" href="https://rbook.roj.ac.cn/${info.md_file.href}">[📖Rbook: ${info.title}]</a>`
+            let info = env.rbookDB.find_by_id(id)
+            if( env.debug ) {
+                console.log('triple-square-brackets',info)
+            }
+            return `<a class="extra-link" target="_blank" href="https://rbook.roj.ac.cn/${info.md_file.href}">[<img src="https://rbook.roj.ac.cn/rbookIcon/favicon-32x32.png"/> Rbook: ${info.title}]</a>`
         }
         else (type == 'p' || type === 'problem')
         {

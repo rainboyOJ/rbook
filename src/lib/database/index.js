@@ -14,6 +14,11 @@ function rbook_db () {
     // this.article = this.db.addCollection()
 }
 
+//查找所有的数据
+rbook_db.prototype.findAll = function() {
+    return this.db.getCollection(this.article_coll).find({})
+}
+
 rbook_db.prototype.find_by_id = function(id) {
     return this.db.getCollection(this.article_coll).findOne({id})
 }
@@ -29,24 +34,11 @@ rbook_db.prototype.list_cols =  function() {
     )
 }
 
-
-rbook_db.prototype.save = function() {
-    return new Promise( (res,rej)=> {
-        this.db.saveDatabase( (err)=>{
-            if(err) rej(err)
-            else res()
-        })
-    })
+rbook_db.prototype.init = function(){
+    if(! this.db.getCollection(this.article_coll)) {
+        this.db.addCollection(this.article_coll)
+    }
 }
-
-rbook_db.prototype.init = function() {
-    // this.db.saveDatabase()
-    let ret = this.db.addCollection(this.article_coll)
-    // console.log(ret)
-    // console.log(this.db.getCollection(this.article_coll))
-}
-
-
 
 rbook_db.prototype.insert_article  = function(article){
     // if(! this.db.getCollection()) {
@@ -71,12 +63,12 @@ rbook_db.prototype.loadDatabase = function () {
     this.db.loadDatabase()
 }
 
-rbook_db.prototype.init_by_flatten_menu = function() {
-    this.init();
-    // console.log(flatten_menu_to_json_array.length)
-    let {flatten_menu_json}= require("../../menu.js")
-    this.insert_article(flatten_menu_json)
-    this.save();
-}
+// rbook_db.prototype.init_by_flatten_menu = function() {
+//     this.init();
+//     // console.log(flatten_menu_to_json_array.length)
+//     let {flatten_menu_json}= require("../../menu.js")
+//     this.insert_article(flatten_menu_json)
+//     this.save();
+// }
 
 module.exports = new rbook_db()

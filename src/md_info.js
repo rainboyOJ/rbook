@@ -1,9 +1,10 @@
 
-const {get_ejs_template,cwd}  = require("./lib/utils.js")
+const {get_ejs_template,cwd,load_config}  = require("./lib/utils.js")
 const {mkdirp} = require("mkdirp")
 const P = require("path")
 const fs = require("fs")
 const { parse:jsonc_parse } = require('jsonc-parser');
+const jsyaml = require("js-yaml")
 
 //为md文件创建一个类,来得到它的各种信息
 class md_file {
@@ -76,9 +77,7 @@ function md_info(path) {
         md_file_path = path
     }
     else if ( fs.statSync(path).isDirectory()) {
-        let raw_json = fs.readFileSync( P.join(path,'config.json'),{encoding:'utf8'})
-        // data = JSON.parse(raw_json)
-        data = jsonc_parse(raw_json)
+        data = load_config(path)
         md_file_path =  P.join(path,data.file);
     }
     else {
