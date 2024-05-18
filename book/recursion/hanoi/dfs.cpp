@@ -5,7 +5,7 @@ using namespace std;
 //a,b,c 起始柱,中间柱,目标柱
 int hanoi(int n,char a,char b,char c) {
     if( n == 0 ) return 0;
-    int num = 0;
+    int num = 1; // 一定至少移动一次
     num += hanoi(n-1,a,c,b);
     cout << a << "->" << c << endl;
     num += hanoi(n-1,b,a,c);

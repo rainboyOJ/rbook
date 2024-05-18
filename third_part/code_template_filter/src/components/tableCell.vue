@@ -57,13 +57,21 @@ const view_code = () => {
 const download_code = () => {
     toast.info('download code TODO!')
 }
+
+const copy_shell= () => {
+    navigator.clipboard.writeText(props.cell.sh);
+    toast.success('成功,请复制到终端里执行!')
+}
 </script>
 
 <template>
-  <div class="card shadow-sm g-col-lg-4 g-col-md-6 g-col-sm-12">
+  <div class="card shadow-sm g-col-lg-4 g-col-md-6 g-col-12">
       <div class="card-header d-flex justify-content-between align-items-center">
           {{props.cell.title}}
           <div class="btn-group" role="group" aria-label="Basic example">
+            <a target="_blank" class="btn btn-sm btn-success" :href=" 'https://rbook.roj.ac.cn/' + props.cell.info.md_file.href">
+                <Icon icon="solar:link-square-linear" height="20" width="20"/>
+            </a>
             <button class="btn btn-sm btn-info" @click="view_code">
                 <Icon icon="solar:eye-linear" height="20" width="20"/>
             </button>
@@ -72,6 +80,9 @@ const download_code = () => {
             </button>
             <button class="btn btn-sm btn-warning" @click="template_code_copy">
                 <Icon icon="solar:copy-linear" height="20" width="20"/>
+            </button>
+            <button v-if="props.cell.sh" class="btn btn-sm btn-primary" @click="copy_shell">
+                <Icon icon="ion:terminal-outline" height="20" width="20"/>
             </button>
           </div>
       </div>
@@ -92,8 +103,8 @@ const download_code = () => {
 }
 .card .footer {
     display:flex;
+    justify-content:end;
     flex-wrap:nowrap;
-    flex-direction:row-reverse;
     gap:5px;
 }
 .card:hover {

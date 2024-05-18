@@ -1,0 +1,12 @@
+{
+    "id":"heap",
+    "title":"堆",
+    "file":"index.md",
+    "code_template" : [{
+        "title": "堆 heap",
+        "tags":[ "data_structure", "heap" ],
+        "desc":"二叉堆模板",
+        //代码所在的路径
+        "code":"./heap.cpp"
+    }]
+}

@@ -1,4 +1,11 @@
 {
     "file":"index.md",
-    "title":"存储"
+    "title":"存储",
+    "code_template" : [{
+        "title": "图的存储 linklist",
+        "tags":[ "graph" ],
+        "desc":"存图的基础数据结构",
+        //代码所在的路径
+        "code":"./linklist.cpp"
+    }]
 }

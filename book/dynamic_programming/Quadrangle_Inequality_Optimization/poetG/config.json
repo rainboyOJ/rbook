@@ -2,6 +2,6 @@
     "title": "诗人小G",
     "id": "poetG",
     "file": "index.md",
-    "pre":["stone_merger_quadrangle"],
+    "pre":["stone_merger_quadrangle","decision_mono"],
     "group":"problem"
 }

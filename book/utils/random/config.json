@@ -1,0 +1,11 @@
+{
+    "title":"随机数据生成"
+    "file":"index.md",
+    "code_template" : [{
+        "title": "随机数据生成 random",
+        "tags":[ "graph" ],
+        "desc":"数据生成模板",
+        //代码所在的路径
+        "code":"./random_int.cpp"
+    }]
+}

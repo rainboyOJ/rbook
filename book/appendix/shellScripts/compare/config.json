@@ -1,8 +1,25 @@
 {
+    "id":"compare_script",
+    "hiden_brain_map":true,
     "title":"对拍脚本",
     "file":"index.md",
     "copy" :[
         "./compare_complex.sh",
         "./compare.sh"
+    ],
+    "code_template" : [{
+        "title": "对拍脚本1 compare",
+        "tags":[ "template", "tool","shell" ],
+        "desc":"一个简单的对拍脚本",
+        "code":"./compare.sh",
+        "sh":"curl -o compare.sh https://rbook.roj.ac.cn/code_template/appendix/shellScripts/compare/compare.sh && chmod +x compare.sh"
+    },
+        {
+            "title": "对拍脚本2 compare",
+            "tags":[ "template", "tool","shell" ],
+            "desc":"一个复杂的对拍脚本",
+            "code":"./compare_complex.sh",
+            "sh":"curl -o compare.sh https://rbook.roj.ac.cn/code_template/appendix/shellScripts/compare/compare_complex.sh && chmod +x compare.sh"
+        },
     ]
 }

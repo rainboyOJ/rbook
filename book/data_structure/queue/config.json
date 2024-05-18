@@ -1,5 +1,12 @@
 {
     "id":"queue",
     "title":"队列",
-    "file":"index.md"
+    "file":"index.md",
+    "code_template" : [{
+        "title": "队列,queue",
+        "tags":[ "data_structure", "queue" ],
+        "desc":"普通队列模板",
+        //代码所在的路径
+        "code":"./queue.cpp"
+    }]
 }

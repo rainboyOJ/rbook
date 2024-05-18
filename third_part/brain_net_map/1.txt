@@ -1,0 +1,530 @@
+quick_pow [
+  {
+    _id: 'roj-3001',
+    sid: '3001',
+    oj: 'roj',
+    title: '64位整数乘法',
+    time: 1000,
+    pre_rbook: [ 'quick_pow' ],
+    memory: 128,
+    tags: [ '位运算' ],
+    level: 3,
+    file: 'roj/3001/content.md',
+    path: 'roj/3001',
+    data: [ [Array], [Array], [Array], [Array], [Array] ],
+    link: '/roj/3001/index.html',
+    data_link: '/roj/3001/data.html',
+    solution_list_link: '/roj/3001/solutions/index.html',
+    last_updte: 1715929705945,
+    solutions: [ [Object] ],
+    meta: { revision: 0, created: 1715993501182, version: 0 },
+    '$loki': 818
+  }
+]
+[
+  {
+    id: 'zero_number',
+    title: '平数',
+    file: 'index.md',
+    teach_plan: 'teach_plan.md',
+    group: 'article',
+    next: [ [Object] ],
+    md_file: {
+      file_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/base/zero_number/index.md',
+      file_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/base/zero_number',
+      relative_path: 'book/base/zero_number/index.md',
+      href: '/base/zero_number/index.html',
+      output_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/base/zero_number/index.html',
+      output_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/base/zero_number',
+      git_location: 'https://github.com/rainboyOJ/rbook/tree/master/book/base/zero_number/index.md'
+    },
+    meta: { revision: 0, created: 1715995410422, version: 0 },
+    '$loki': 2,
+    label: '平数'
+  },
+  {
+    id: 'presum',
+    title: '前缀和',
+    file: 'index.md',
+    md_file: {
+      file_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/base/presum/index.md',
+      file_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/base/presum',
+      relative_path: 'book/base/presum/index.md',
+      href: '/base/presum/index.html',
+      output_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/base/presum/index.html',
+      output_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/base/presum',
+      git_location: 'https://github.com/rainboyOJ/rbook/tree/master/book/base/presum/index.md'
+    },
+    meta: { revision: 0, created: 1715995410422, version: 0 },
+    '$loki': 3,
+    label: '前缀和'
+  },
+  {
+    id: 'pair_number',
+    title: '对数',
+    file: 'index.md',
+    teach_plain: 'teach_plain.md',
+    pre: [ 'set' ],
+    md_file: {
+      file_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/enumeration_permutaion_combination/pair_number/index.md',
+      file_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/enumeration_permutaion_combination/pair_number',
+      relative_path: 'book/enumeration_permutaion_combination/pair_number/index.md',
+      href: '/enumeration_permutaion_combination/pair_number/index.html',
+      output_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/enumeration_permutaion_combination/pair_number/index.html',
+      output_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/enumeration_permutaion_combination/pair_number',
+      git_location: 'https://github.com/rainboyOJ/rbook/tree/master/book/enumeration_permutaion_combination/pair_number/index.md'
+    },
+    meta: { revision: 0, created: 1715995410422, version: 0 },
+    '$loki': 16,
+    label: '对数'
+  },
+  {
+    id: 'set',
+    title: '集合',
+    file: 'index.md',
+    shape: 'circle',
+    icon: { face: 'FontAwesome', code: '睷' },
+    color: '#264653',
+    font: { size: 25, color: '#E9C46A' },
+    size: 30,
+    md_file: {
+      file_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/math/set/index.md',
+      file_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/math/set',
+      relative_path: 'book/math/set/index.md',
+      href: '/math/set/index.html',
+      output_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/math/set/index.html',
+      output_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/math/set',
+      git_location: 'https://github.com/rainboyOJ/rbook/tree/master/book/math/set/index.md'
+    },
+    meta: { revision: 0, created: 1715995410422, version: 0 },
+    '$loki': 51,
+    label: '集合'
+  },
+  {
+    file: 'index.md',
+    id: '01_seq',
+    title: '01序列',
+    code_template: [ [Object] ],
+    md_file: {
+      file_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/enumeration_permutaion_combination/01_sequence/index.md',
+      file_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/enumeration_permutaion_combination/01_sequence',
+      relative_path: 'book/enumeration_permutaion_combination/01_sequence/index.md',
+      href: '/enumeration_permutaion_combination/01_sequence/index.html',
+      output_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/enumeration_permutaion_combination/01_sequence/index.html',
+      output_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/enumeration_permutaion_combination/01_sequence',
+      git_location: 'https://github.com/rainboyOJ/rbook/tree/master/book/enumeration_permutaion_combination/01_sequence/index.md'
+    },
+    meta: { revision: 0, created: 1715995410422, version: 0 },
+    '$loki': 17,
+    label: '01序列'
+  },
+  {
+    id: 'ball_and_box',
+    file: 'index.md',
+    title: '球与盒子',
+    md_file: {
+      file_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/enumeration_permutaion_combination/ball_and_box/index.md',
+      file_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/enumeration_permutaion_combination/ball_and_box',
+      relative_path: 'book/enumeration_permutaion_combination/ball_and_box/index.md',
+      href: '/enumeration_permutaion_combination/ball_and_box/index.html',
+      output_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/enumeration_permutaion_combination/ball_and_box/index.html',
+      output_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/enumeration_permutaion_combination/ball_and_box',
+      git_location: 'https://github.com/rainboyOJ/rbook/tree/master/book/enumeration_permutaion_combination/ball_and_box/index.md'
+    },
+    meta: { revision: 0, created: 1715995410422, version: 0 },
+    '$loki': 18,
+    label: '球与盒子'
+  },
+  {
+    id: 'subset_enum',
+    file: 'index.md',
+    title: '子集枚举',
+    code_template: [ [Object] ],
+    md_file: {
+      file_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/enumeration_permutaion_combination/subset_enum/index.md',
+      file_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/enumeration_permutaion_combination/subset_enum',
+      relative_path: 'book/enumeration_permutaion_combination/subset_enum/index.md',
+      href: '/enumeration_permutaion_combination/subset_enum/index.html',
+      output_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/enumeration_permutaion_combination/subset_enum/index.html',
+      output_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/enumeration_permutaion_combination/subset_enum',
+      git_location: 'https://github.com/rainboyOJ/rbook/tree/master/book/enumeration_permutaion_combination/subset_enum/index.md'
+    },
+    meta: { revision: 0, created: 1715995410422, version: 0 },
+    '$loki': 22,
+    label: '子集枚举'
+  },
+  {
+    id: 'number_pyramid',
+    file: 'index.md',
+    title: '数字金字塔',
+    pre: [ 'set' ],
+    md_file: {
+      file_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/dynamic_programming/number_pyramid/index.md',
+      file_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/dynamic_programming/number_pyramid',
+      relative_path: 'book/dynamic_programming/number_pyramid/index.md',
+      href: '/dynamic_programming/number_pyramid/index.html',
+      output_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/dynamic_programming/number_pyramid/index.html',
+      output_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/dynamic_programming/number_pyramid',
+      git_location: 'https://github.com/rainboyOJ/rbook/tree/master/book/dynamic_programming/number_pyramid/index.md'
+    },
+    meta: { revision: 0, created: 1715995410422, version: 0 },
+    '$loki': 24,
+    label: '数字金字塔'
+  },
+  {
+    id: 'lis',
+    title: '最长上长子序列',
+    file: 'index.md',
+    pre: [ 'number_pyramid' ],
+    md_file: {
+      file_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/dynamic_programming/lis/index.md',
+      file_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/dynamic_programming/lis',
+      relative_path: 'book/dynamic_programming/lis/index.md',
+      href: '/dynamic_programming/lis/index.html',
+      output_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/dynamic_programming/lis/index.html',
+      output_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/dynamic_programming/lis',
+      git_location: 'https://github.com/rainboyOJ/rbook/tree/master/book/dynamic_programming/lis/index.md'
+    },
+    meta: { revision: 0, created: 1715995410422, version: 0 },
+    '$loki': 25,
+    label: '最长上长子序列'
+  },
+  {
+    id: 'lcs',
+    file: 'index.md',
+    title: '最长公共子序列',
+    pre: [ 'lis' ],
+    md_file: {
+      file_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/dynamic_programming/lcs/index.md',
+      file_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/dynamic_programming/lcs',
+      relative_path: 'book/dynamic_programming/lcs/index.md',
+      href: '/dynamic_programming/lcs/index.html',
+      output_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/dynamic_programming/lcs/index.html',
+      output_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/dynamic_programming/lcs',
+      git_location: 'https://github.com/rainboyOJ/rbook/tree/master/book/dynamic_programming/lcs/index.md'
+    },
+    meta: { revision: 0, created: 1715995410422, version: 0 },
+    '$loki': 26,
+    label: '最长公共子序列'
+  },
+  {
+    id: '01knapsack',
+    title: '01背包',
+    file: 'index.md',
+    pre: [ 'number_pyramid' ],
+    md_file: {
+      file_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/dynamic_programming/knapsack/01knapsack/index.md',
+      file_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/dynamic_programming/knapsack/01knapsack',
+      relative_path: 'book/dynamic_programming/knapsack/01knapsack/index.md',
+      href: '/dynamic_programming/knapsack/01knapsack/index.html',
+      output_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/dynamic_programming/knapsack/01knapsack/index.html',
+      output_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/dynamic_programming/knapsack/01knapsack',
+      git_location: 'https://github.com/rainboyOJ/rbook/tree/master/book/dynamic_programming/knapsack/01knapsack/index.md'
+    },
+    meta: { revision: 0, created: 1715995410422, version: 0 },
+    '$loki': 27,
+    label: '01背包'
+  },
+  {
+    id: 'decision_mono',
+    title: '决策单调性',
+    file: 'index.md',
+    TODO: ' template code',
+    next: [ [Object] ],
+    md_file: {
+      file_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/dynamic_programming/decision_mono/index.md',
+      file_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/dynamic_programming/decision_mono',
+      relative_path: 'book/dynamic_programming/decision_mono/index.md',
+      href: '/dynamic_programming/decision_mono/index.html',
+      output_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/dynamic_programming/decision_mono/index.html',
+      output_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/dynamic_programming/decision_mono',
+      git_location: 'https://github.com/rainboyOJ/rbook/tree/master/book/dynamic_programming/decision_mono/index.md'
+    },
+    meta: { revision: 0, created: 1715995410422, version: 0 },
+    '$loki': 29,
+    label: '决策单调性'
+  },
+  {
+    _id: 'luogu-3195',
+    sid: '3195',
+    oj: 'luogu',
+    title: '[HNOI2008] 玩具装箱',
+    tags: [ '动态规划优化', '决策单调性', '斜率优化' ],
+    memory: 128,
+    time: 1000,
+    pre_rbook: [ 'decision_mono' ],
+    source: 'https://www.luogu.com.cn/problem/P3195',
+    file: 'other_oj/luogu/3195/content.md',
+    path: 'other_oj/luogu/3195',
+    data: [],
+    link: '/luogu/3195/index.html',
+    data_link: '/luogu/3195/data.html',
+    solution_list_link: '/luogu/3195/solutions/index.html',
+    last_updte: 1715563479665,
+    solutions: [ [Object] ],
+    meta: { revision: 0, created: 1715993501197, version: 0 },
+    '$loki': 1297,
+    id: 'luogu-3195',
+    label: '[HNOI2008] 玩具装箱',
+    group: 'problem'
+  },
+  {
+    id: 'slope',
+    title: '斜率优化',
+    file: 'index.md',
+    md_file: {
+      file_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/dynamic_programming/slope/index.md',
+      file_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/dynamic_programming/slope',
+      relative_path: 'book/dynamic_programming/slope/index.md',
+      href: '/dynamic_programming/slope/index.html',
+      output_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/dynamic_programming/slope/index.html',
+      output_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/dynamic_programming/slope',
+      git_location: 'https://github.com/rainboyOJ/rbook/tree/master/book/dynamic_programming/slope/index.md'
+    },
+    meta: { revision: 0, created: 1715995410422, version: 0 },
+    '$loki': 30,
+    label: '斜率优化'
+  },
+  {
+    id: 'Quadrangle_Inequality_Optimization',
+    file: 'index.md',
+    title: '四边形不等式优化',
+    md_file: {
+      file_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/dynamic_programming/Quadrangle_Inequality_Optimization/index.md',
+      file_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/dynamic_programming/Quadrangle_Inequality_Optimization',
+      relative_path: 'book/dynamic_programming/Quadrangle_Inequality_Optimization/index.md',
+      href: '/dynamic_programming/Quadrangle_Inequality_Optimization/index.html',
+      output_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/dynamic_programming/Quadrangle_Inequality_Optimization/index.html',
+      output_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/dynamic_programming/Quadrangle_Inequality_Optimization',
+      git_location: 'https://github.com/rainboyOJ/rbook/tree/master/book/dynamic_programming/Quadrangle_Inequality_Optimization/index.md'
+    },
+    meta: { revision: 0, created: 1715995410422, version: 0 },
+    '$loki': 31,
+    label: '四边形不等式优化'
+  },
+  {
+    file: 'index.md',
+    title: '拓扑排序',
+    id: 'topsort',
+    code_template: [ [Object] ],
+    md_file: {
+      file_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/graph/topsort/index.md',
+      file_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/graph/topsort',
+      relative_path: 'book/graph/topsort/index.md',
+      href: '/graph/topsort/index.html',
+      output_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/graph/topsort/index.html',
+      output_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/graph/topsort',
+      git_location: 'https://github.com/rainboyOJ/rbook/tree/master/book/graph/topsort/index.md'
+    },
+    meta: { revision: 0, created: 1715995410422, version: 0 },
+    '$loki': 35,
+    label: '拓扑排序'
+  },
+  {
+    file: 'index.md',
+    title: 'bellman-ford',
+    id: 'bellman-ford',
+    md_file: {
+      file_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/graph/bellman-ford/index.md',
+      file_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/graph/bellman-ford',
+      relative_path: 'book/graph/bellman-ford/index.md',
+      href: '/graph/bellman-ford/index.html',
+      output_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/graph/bellman-ford/index.html',
+      output_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/graph/bellman-ford',
+      git_location: 'https://github.com/rainboyOJ/rbook/tree/master/book/graph/bellman-ford/index.md'
+    },
+    meta: { revision: 0, created: 1715995410422, version: 0 },
+    '$loki': 36,
+    label: 'bellman-ford'
+  },
+  {
+    id: 'spfa',
+    file: 'index.md',
+    title: 'spfa',
+    pre: [ 'bellman-ford' ],
+    md_file: {
+      file_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/graph/spfa/index.md',
+      file_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/graph/spfa',
+      relative_path: 'book/graph/spfa/index.md',
+      href: '/graph/spfa/index.html',
+      output_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/graph/spfa/index.html',
+      output_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/graph/spfa',
+      git_location: 'https://github.com/rainboyOJ/rbook/tree/master/book/graph/spfa/index.md'
+    },
+    meta: { revision: 0, created: 1715995410422, version: 0 },
+    '$loki': 37,
+    label: 'spfa'
+  },
+  {
+    file: 'index.md',
+    title: '负环',
+    id: 'negative_circle',
+    pre: [ 'bellman-ford', 'spfa' ],
+    code_template: [ [Object] ],
+    md_file: {
+      file_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/graph/negative_circle/index.md',
+      file_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/graph/negative_circle',
+      relative_path: 'book/graph/negative_circle/index.md',
+      href: '/graph/negative_circle/index.html',
+      output_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/graph/negative_circle/index.html',
+      output_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/graph/negative_circle',
+      git_location: 'https://github.com/rainboyOJ/rbook/tree/master/book/graph/negative_circle/index.md'
+    },
+    meta: { revision: 0, created: 1715995410422, version: 0 },
+    '$loki': 38,
+    label: '负环'
+  },
+  {
+    title: '基环树',
+    file: 'index.md',
+    id: 'spanning-tree',
+    md_file: {
+      file_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/graph/spanning-tree/index.md',
+      file_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/graph/spanning-tree',
+      relative_path: 'book/graph/spanning-tree/index.md',
+      href: '/graph/spanning-tree/index.html',
+      output_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/graph/spanning-tree/index.html',
+      output_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/graph/spanning-tree',
+      git_location: 'https://github.com/rainboyOJ/rbook/tree/master/book/graph/spanning-tree/index.md'
+    },
+    meta: { revision: 0, created: 1715995410422, version: 0 },
+    '$loki': 39,
+    label: '基环树'
+  },
+  {
+    id: 'stack',
+    title: '栈',
+    file: 'index.md',
+    code_template: [ [Object] ],
+    md_file: {
+      file_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/data_structure/stack/index.md',
+      file_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/data_structure/stack',
+      relative_path: 'book/data_structure/stack/index.md',
+      href: '/data_structure/stack/index.html',
+      output_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/data_structure/stack/index.html',
+      output_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/data_structure/stack',
+      git_location: 'https://github.com/rainboyOJ/rbook/tree/master/book/data_structure/stack/index.md'
+    },
+    meta: { revision: 0, created: 1715995410422, version: 0 },
+    '$loki': 40,
+    label: '栈'
+  },
+  {
+    id: 'queue',
+    title: '队列',
+    file: 'index.md',
+    code_template: [ [Object] ],
+    md_file: {
+      file_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/data_structure/queue/index.md',
+      file_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/data_structure/queue',
+      relative_path: 'book/data_structure/queue/index.md',
+      href: '/data_structure/queue/index.html',
+      output_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/data_structure/queue/index.html',
+      output_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/data_structure/queue',
+      git_location: 'https://github.com/rainboyOJ/rbook/tree/master/book/data_structure/queue/index.md'
+    },
+    meta: { revision: 0, created: 1715995410422, version: 0 },
+    '$loki': 41,
+    label: '队列'
+  },
+  {
+    id: 'monotonic_stack',
+    title: '单调栈',
+    file: 'index.md',
+    status: 'TODO',
+    comment: [ '2024-4-15 : 我不能很完美的证明 最大矩形这个题目.' ],
+    pre: [ 'stack' ],
+    next: [ [Object] ],
+    md_file: {
+      file_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/data_structure/monotonic_stack/index.md',
+      file_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/data_structure/monotonic_stack',
+      relative_path: 'book/data_structure/monotonic_stack/index.md',
+      href: '/data_structure/monotonic_stack/index.html',
+      output_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/data_structure/monotonic_stack/index.html',
+      output_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/data_structure/monotonic_stack',
+      git_location: 'https://github.com/rainboyOJ/rbook/tree/master/book/data_structure/monotonic_stack/index.md'
+    },
+    meta: { revision: 0, created: 1715995410422, version: 0 },
+    '$loki': 42,
+    label: '单调栈'
+  },
+  {
+    id: 'monotonic_queue',
+    file: 'index.md',
+    title: '单调队列',
+    pre: [ 'queue' ],
+    next: [ [Object] ],
+    md_file: {
+      file_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/data_structure/monotonic_queue/index.md',
+      file_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/data_structure/monotonic_queue',
+      relative_path: 'book/data_structure/monotonic_queue/index.md',
+      href: '/data_structure/monotonic_queue/index.html',
+      output_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/data_structure/monotonic_queue/index.html',
+      output_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/data_structure/monotonic_queue',
+      git_location: 'https://github.com/rainboyOJ/rbook/tree/master/book/data_structure/monotonic_queue/index.md'
+    },
+    meta: { revision: 0, created: 1715995410422, version: 0 },
+    '$loki': 43,
+    label: '单调队列'
+  },
+  {
+    id: 'heap',
+    title: '堆',
+    file: 'index.md',
+    code_template: [ [Object] ],
+    md_file: {
+      file_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/data_structure/heap/index.md',
+      file_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/data_structure/heap',
+      relative_path: 'book/data_structure/heap/index.md',
+      href: '/data_structure/heap/index.html',
+      output_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/data_structure/heap/index.html',
+      output_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/data_structure/heap',
+      git_location: 'https://github.com/rainboyOJ/rbook/tree/master/book/data_structure/heap/index.md'
+    },
+    meta: { revision: 0, created: 1715995410422, version: 0 },
+    '$loki': 44,
+    label: '堆'
+  },
+  {
+    id: 'quick_pow',
+    file: './index.md',
+    title: '快速幂',
+    code_template: [ [Object] ],
+    md_file: {
+      file_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/math/quick_pow/index.md',
+      file_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/book/math/quick_pow',
+      relative_path: 'book/math/quick_pow/index.md',
+      href: '/math/quick_pow/index.html',
+      output_path: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/math/quick_pow/index.html',
+      output_dir: '/home/rainboy/mycode/rbookr/newRbook_ejs/dist/math/quick_pow',
+      git_location: 'https://github.com/rainboyOJ/rbook/tree/master/book/math/quick_pow/index.md'
+    },
+    meta: { revision: 0, created: 1715995410422, version: 0 },
+    '$loki': 49,
+    label: '快速幂'
+  }
+]
+[
+  { from: 'set', to: 'pair_number' },
+  { from: 'set', to: 'number_pyramid' },
+  { from: 'number_pyramid', to: 'lis' },
+  { from: 'lis', to: 'lcs' },
+  { from: 'number_pyramid', to: '01knapsack' },
+  { from: 'decision_mono', to: 'luogu-3195' },
+  { from: 'Quadrangle_Inequality_Optimization', to: 'roj-3175' },
+  { from: 'bellman-ford', to: 'spfa' },
+  { from: 'bellman-ford', to: 'negative_circle' },
+  { from: 'spfa', to: 'negative_circle' },
+  { from: 'stack', to: 'monotonic_stack' },
+  { from: 'queue', to: 'monotonic_queue' },
+  { from: 'quick_pow', to: 'roj-3001' },
+  { from: 'roj-3001', to: 'vjudge-poj-1995' }
+]
+vite v5.0.10 building for production...
+transforming...
+✓ 7 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                  0.82 kB │ gzip:   0.43 kB
+dist/assets/index-131NSF_3.js  714.35 kB │ gzip: 173.51 kB
+✓ built in 1.35s

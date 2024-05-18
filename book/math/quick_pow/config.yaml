@@ -1,0 +1,7 @@
+id: quick_pow
+file: "./index.md"
+title: 快速幂
+code_template: 
+  - 
+    title: "快速幂 quick_pow"
+    code: "./template.cpp"

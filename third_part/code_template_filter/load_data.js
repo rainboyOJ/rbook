@@ -21,6 +21,7 @@ function load_data() {
         // console.log(d)
         // console.log(code_template)
         let file_dir = d.md_file.file_dir
+        // console.log(file_dir)
         let code_path =  Path.join(file_dir,code_template.code)
         let code_path_relative = Path.relative(project_dir,code_path)
         let target_path = Path.join(__dirname,'public',code_path_relative)
@@ -43,7 +44,8 @@ function load_data() {
     for (let d of flatten_menu_json) {
         if( !d.code_template) continue;
         for(let code of d.code_template) {
-            template_array.push(deal_code_template(d,code))
+            //info 表示原来的数据
+            template_array.push({...deal_code_template(d,code), info:d})
         }
     }
 }
@@ -98,7 +100,7 @@ module.exports = function nodejsPlugin() {
             // const data = fs.readFileSync('yourNodeJsFile.js', 'utf-8');
 
             load_data();
-            console.log(template_array)
+            // console.log(template_array)
             return {
                 define: {
                     // 将计算得到的数据传递给前端

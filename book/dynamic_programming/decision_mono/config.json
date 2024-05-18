@@ -1,0 +1,14 @@
+{
+    "id":"decision_mono",
+    "title":"决策单调性",
+    "file":"index.md",
+    "TODO" :" template code",
+    "next":[
+        {
+            "id":"luogoP3195",
+            "label":"[HNOI2008] 玩具装箱",
+            "href":"https://roj.ac.cn/luogu/3195/index.html",
+            "group":"problem"
+        }
+    ]
+}

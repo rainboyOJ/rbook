@@ -5,6 +5,13 @@
     "pre":[
         "bellman-ford",
         "spfa"
-    ]
+    ],
+    "code_template" : [{
+        "title": "负环 negative_circle",
+        "tags":[ "graph" ],
+        "desc":"spfa找负环",
+        //代码所在的路径
+        "code":"./spfa_1.cpp"
+    }]
 
 }

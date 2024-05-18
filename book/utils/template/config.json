@@ -1,0 +1,10 @@
+{
+    "title":"代码模板",
+    "file":"index.md",
+    "code_template" : [{
+        "title": "代码模板 template",
+        "tags":[ "template", "tool" ],
+        "desc":"代码模板,代码框架,写题目时先复制一遍",
+        "code":"./template.cpp"
+    }]
+}

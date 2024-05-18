@@ -73,7 +73,7 @@ int size() {
 ## 模板
 
 ```cpp
-<%- include("/algo_template/data_structure/queue.cpp")%>
+<%- include("./queue.cpp")%>
 ```
 
 ## 练习

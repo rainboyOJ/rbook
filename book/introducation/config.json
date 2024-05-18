@@ -1,4 +1,7 @@
 {
+    "id" :"introduce",
+    //不显示在brain_map
+    "hiden_brain_map":true,
     "title":"简介",
     "file":"index.md"
 }

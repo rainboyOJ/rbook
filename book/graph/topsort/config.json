@@ -1,0 +1,12 @@
+{
+    "file":"index.md",
+    "title":"拓扑排序",
+    "id":"topsort",
+    "code_template" : [{
+        "title": "拓扑排序 topsort",
+        "tags":[ "graph" ],
+        "desc":"拓扑排序的实现,需要队列,linklist",
+        //代码所在的路径
+        "code":"./topsort.cpp"
+    }]
+}

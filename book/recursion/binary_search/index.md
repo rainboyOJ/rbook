@@ -65,6 +65,11 @@ $$
 <%- include("./bs1.cpp") %>
 ```
 
+## 总结
+
+
+<%- include("./summary.md")%>
+
 ## 二分查找的正确性证明
 
 <%- include("./proof.md")%>
