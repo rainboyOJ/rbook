@@ -8,6 +8,12 @@
 // rbookDb.loadDatabase();
 
 // const Problem = require("/home/rainboy/mycode/RainboyOJ/problems/src/lib/online_judge/index.js")
+const ejs = require("ejs")
+const fs = require("fs")
+const path = require("path")
+
+const problem_link_if_solution = ejs.compile(fs.readFileSync(path.join(__dirname,"./problem_link_info_solution.html"),{encoding:'utf8'}))
+
 const double_square_bracket_parse = function(state,silent) {
   // debugger;
   var start, marker, matchStart, matchEnd, token,
@@ -57,8 +63,8 @@ const double_square_bracket_render = function(tokens,idx,options,env,slf) {
     //满足题目的要求
     if( colon_split_reg.test(content) ) {
         let [,type,id] =  colon_split_reg.exec(content)
-        console.log( colon_split_reg.exec(content))
-        console.log(type,id)
+        // console.log( colon_split_reg.exec(content))
+        // console.log(type,id)
         type = type.toLowerCase()
         if( type === 'rbook') 
         {
@@ -66,11 +72,29 @@ const double_square_bracket_render = function(tokens,idx,options,env,slf) {
             if( env.debug ) {
                 console.log('triple-square-brackets',info)
             }
-            return `<a class="extra-link" target="_blank" href="https://rbook.roj.ac.cn/${info.md_file.href}">[<img src="https://rbook.roj.ac.cn/rbookIcon/favicon-32x32.png"/> Rbook: ${info.title}]</a>`
+            return `<a class="extra-link" target="_blank" href="https://rbook.roj.ac.cn${info.md_file.href}">[<img src="https://rbook.roj.ac.cn/rbookIcon/favicon-32x32.png"/> Rbook: ${info.title}]</a>`
         }
-        else (type == 'p' || type === 'problem')
+        else if (type == 'p' || type === 'problem')
         {
-
+            let info = env.problemDB.getProblemById(id)
+            if( env.debug ) {
+                console.log('problem_id',id)
+                console.log('triple-square-brackets',info)
+            }
+            if( info ) //如果找到了
+                return `<a class="extra-link" target="_blank" href="https://roj.ac.cn${info.link}">[<img src="https://roj.ac.cn/fav/favicon-32x32.png"/> ${info.oj} ${info.sid}: ${info.title}]</a>`
+        }
+        //是否有rainboy写的题目解析
+        else if (type == 'pp' || type  == 'problem_info_solution')
+        {
+            let info = env.problemDB.getProblemById(id)
+            if( env.debug ) {
+                console.log('triple-square-brackets',info)
+            }
+            if( info ) //如果找到了
+            {
+                return problem_link_if_solution({info})
+            }
         }
         // let pid = reg.exec(content)[1]
         // // console.log(pid)

@@ -1,6 +1,6 @@
 #include <iostream>
 using namespace std;
-const int maxn=qe5+5;
+const int maxn=1e5+5;
 int a[maxn];
 int n,m;
 

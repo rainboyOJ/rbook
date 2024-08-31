@@ -1,0 +1,6 @@
+<a class="extra-link" target="_blank" href="https://roj.ac.cn<%-info.link%>">
+    <%if(info.solutions && info.solutions.length){%> &#x2713; <%}%>
+    [<%if(info.oj == 'roj'){%><img src="https://roj.ac.cn/fav/favicon-32x32.png"/> <%}%>
+    <%# TODO: 这里以后要改成检查 solutions.author 里是否有 rainboy%>
+    <%=info.oj%> <%=info.sid%>: <%=info.title%>]
+</a>

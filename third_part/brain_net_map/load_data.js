@@ -46,7 +46,7 @@ function gen_html_title(node) {
 }
 
 function add_node(node) {
-    // console.log(node)
+    // console.log('in funciton: add_node:',node)
     let id = node.id || node._id
     if(!id) {
         console.error(`${node} does not have id attr!`)
@@ -82,10 +82,25 @@ function add_edge(pre_id,to_id) {
 }
 
 function load_pre(node) {
-    for( let pre of node.pre) {
-        add_edge(pre,node.id);
-        add_node(get_node_by_id(pre))
+    // console.log(node.id,'pre-> ',node.pre)
+    if( typeof(node.pre) === 'string' )
+    {
+        // console.log('is string')
+        add_edge(node.pre,node.id);
+        add_node(get_node_by_id(node.pre))
     }
+    else if ( Array.isArray(node.pre))
+    {
+        // console.log('is array')
+        for( let pre of node.pre) {
+            // console.log('load_pre',node.id,pre)
+            add_edge(pre,node.id);
+            let pre_node = get_node_by_id(pre)
+            // console.log(pre_node)
+            add_node(pre_node)
+        }
+    }
+    else throw `unsupport ${node.id} pre type : ${node.pre}`;
 }
 
 function load_next(pre_node) {
@@ -131,7 +146,7 @@ function load_problem(d) {
 
 function load_data(){
     let all_docs = rbookDB.findAll()
-    // console.log("all_docs cnt",all_docs.length)
+    console.log("all_docs cnt",all_docs.length)
     for( let d of all_docs)
     {
         // 没有id,说明这个节点,没有加入

@@ -59,7 +59,43 @@ sudo apt update
 sudo apt install neovim
 ```
 
-## Neovim 配置
+## Neovim 简单配置
+
+我写的配置
+
+```vim
+<%- include("./vimrc.txt") _%>
+```
+
+安装方式
+
+如果你使用的是vim
+
+```sh
+mv ~/.vimrc ~/.vimrc_bak
+curl -o ~/.vimrc https://rbook.roj.ac.cn/appendix/SoftWare/neovim/vimrc.txt
+```
+
+```sh
+mv  ~/.config/nvim ~/.config/nvim_bak
+mkdir -p ~/.config/nvim
+curl -o ~/.config/init.vim https://rbook.roj.ac.cn/appendix/SoftWare/neovim/vimrc.txt
+```
+
+也可以使用这个项目的配置
+
+https://github.com/YanivZalach/Vim_Config_NO_PLUGINS
+
+
+```sh
+mv  ~/.config/nvim ~/.config/nvim_bak
+mkdir -p ~/.config/nvim
+curl -o ~/.config/init.vim https://mirror.ghproxy.com/https://github.com/YanivZalach/Vim_Config_NO_PLUGINS/blob/main/.vimrc
+```
+
+
+
+## 高级配置
 
 最简单的配置方式就是使用[lazyvim](https://www.lazyvim.org/)
 

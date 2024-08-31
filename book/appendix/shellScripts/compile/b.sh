@@ -1,8 +1,11 @@
 #!/bin/env bash
 # g++ 编译脚本 author: rainboy
+# upd: 2024-08-25
+#   - 增加了 --help
+#   - 修改了 -d 参数为添加-DDEBUG编译宏
 # 2024-01-01
 
-VERSION="20240103"
+VERSION="20240825"
 CXX="g++"
 CXXFLAG=("-g")
 
@@ -22,14 +25,14 @@ SOURCE_FILE=""
 TARGET_FILE=""
 # TARGET_FILE="${SOURCE_FILE%.cpp}.out"
 STD_OPTION=""
-DEBUG_FLAG=true
+DEBUG_FLAG=false
 NO_RUN=false
 
 RED="\e[31m"
 GREEN="\e[32m"
 ENDCOLOR="\e[0m"
 
-OPTSTRING="-o i:o:Idscnv -l std:,version"
+OPTSTRING="-o i:o:Idscnvh -l std:,version,help"
 
 options=$(getopt -u $OPTSTRING -- "$@")
 # 检查是否 getopt 解析失败
@@ -61,7 +64,7 @@ while [ -n "$1" ]; do
 		shift 2
 		;;
 	-d)
-		DEBUG_FLAG=false
+		DEBUG_FLAG=true
 		shift 1
 		;;
 	-n)
@@ -75,6 +78,17 @@ while [ -n "$1" ]; do
 		;;
 	-v | --version)
 		echo "version: $VERSION"
+		exit 0
+		;;
+	-h | --help)
+		echo "--help 输出帮助信息"
+		echo "-v | --version 输出版本"
+		echo "-d  添加编译宏 -DDEBUG"
+		echo "-I  直接运行，不要重定向输入"
+		echo "-o in 重定向输入到in"
+		echo "-o out 重定向输出到out"
+		echo "-n  norun,编译后不运行"
+		echo "-c  choose,选择输入文件"
 		exit 0
 		;;
 	--)
@@ -153,6 +167,10 @@ if check_file_exit "$SOURCE_FILE"; then
 fi
 
 TARGET_FILE="${SOURCE_FILE%.cpp}.out"
+
+if $DEBUG_FLAG; then
+	TARGET_FILE="${SOURCE_FILE%.cpp}_debug.out"
+fi
 
 ## 默认的input文件
 

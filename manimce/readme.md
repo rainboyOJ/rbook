@@ -1,5 +1,11 @@
 manimce 生成的动画的代码
 
+## 使用
+
+```bash
+source ./venv/bin/active
+```
+
 ## 说明
 
 Q: 为什么选择manimce,

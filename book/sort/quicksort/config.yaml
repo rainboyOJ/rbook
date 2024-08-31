@@ -1,0 +1,9 @@
+id: quick_sort
+title: "quickSort"
+file: "index.md"
+code_template:
+  - 
+    title: "快速排序 quicksort"
+    tags: ["sort"]
+    desc: "nlogn 的快速排序"
+    code: "./code/quick_sort.cpp"

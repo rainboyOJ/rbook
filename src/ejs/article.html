@@ -31,7 +31,11 @@
                 <%}%>
                 <% if( data.id) {%>
                     <a class="btn btn-outline-light">
-                    <img style="width:80px;" src="https://visits.dashroshan.com/rbook_<%=data.id%>?label=VISITS&shadow=1&shadowOpacity=30&swap=0&labelBGColor=484848&countBGColor=2574EA&labelTextColor=FFFFFF&countTextColor=FFFFFF">
+                        id: <%=data.id%>
+                    </a>
+                    <a class="btn btn-outline-light">
+                        <!-- <img style="width:80px;" src="https://visits.dashroshan.com/rbook_<%=data.id%>?label=VISITS&shadow=1&shadowOpacity=30&swap=0&labelBGColor=484848&countBGColor=2574EA&labelTextColor=FFFFFF&countTextColor=FFFFFF"> -->
+                        <img style="width:80px;" src="https://visitor-badge.laobi.icu/badge?page_id=rbook_<%=data.id%>">
                     </a>
                 <%}%>
             </div>

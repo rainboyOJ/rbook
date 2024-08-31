@@ -17,17 +17,18 @@ const menu = [
         child: [
             { title: "平数", path: "zero_number" },
             { title: "前缀和", path: "presum" },
-            { title: "差分", path: "差分" },
+            { title: "差分", path: "differential" },
             { title: "双指针", path: "two-pointer" },
             { title: "排序不等于式", path: "rearrangement_inequality" },
-            { title: "高精度", path: "bigNumber" }
+            { title: "高精度", path: "bigNumber" },
+            { title: "离散化", path: "discrete" }
         ]
     },
     {
         title: "递归",
         path: "recursion",
         child: [
-            { title: "前言", path: "preface.md" },
+            { title: "前言", path: "preface/" },
             { title: "1加到n", path: "add_to_n" },
             { title: "输出1到n", path: "print_to_n" },
             { title: "斐波那契数列", path: "fibonacci" },
@@ -42,17 +43,9 @@ const menu = [
         path: "enumeration_permutaion_combination/",
         child: [
             {title:"对数",path:"pair_number"},
-            {
-                title: "01_sequence",
-                path: "01_sequence"
-            },
-            {
-                title: "球放盒子模型",
-                path:"ball_and_box"
-            },
-            {
-                title:"出栈序列",
-                path:"stack_seq"
+            { title: "01序列", path: "01_sequence"},
+            { title: "球放盒子模型", path:"ball_and_box"},
+            { title:"出栈序列", path:"stack_seq"
             },
             {
                 title: "排列",
@@ -65,6 +58,10 @@ const menu = [
                     {
                         title: "不重复排列",
                         path: "not_repeat_permutation/index.md"
+                    },
+                    {
+                        title: "非递归排列",
+                        path: "non_recursive_permutation"
                     }
                 ]
             },
@@ -95,17 +92,15 @@ const menu = [
         path: "dynamic_programming",
         child: [
             {
+                title:"前言",
+                path:"intro"
+            },
+            {
                 title:"入门",
                 path:"number_pyramid"
             },
-            {
-                title: "线性DP",
-                path: "",
-                child: [
-                    { title: "LIS", path: "lis" },
-                    { title: "LCS", path: "lcs" }
-                ]
-            },
+            { title: "LIS", path: "lis" },
+            { title: "LCS", path: "lcs" },
             {
                 title: "背包",
                 path: "knapsack",
@@ -115,23 +110,39 @@ const menu = [
                         path: "01knapsack"
                     },
                     {
+                        title: "完全背包",
+                        path: "full_knapsack"
+                    },
+                    {
                         title: "习题1: 整数划分",
                         path: "exercises/整数划分/problem.md"
                     }
                 ]
             },
+            { title:"状态压缩", path:"binary_state" },
             { title:"决策单调性", path:"decision_mono" },
             { title:"斜率优化", path:"slope" },
-            {
-                "title":"四边形不等式优化",
-                "path":"Quadrangle_Inequality_Optimization/",
-                "child": [
-                    { title:"开始",path:"/" },
-                    { title:"石子合并-四边形不等式优化",path:"stone_merge" },
-                    { title:"诗人小G",path:"poetG" }
-                ]
+            {  title:"四边形不等式优化",
+               path:"Quadrangle_Inequality_Optimization/",
             }
+            // {
+            //     "path":"Quadrangle_Inequality_Optimization/",
+            //     "child": [
+            //         { title:"开始",path:"/" },
+            //         { title:"石子合并-四边形不等式优化",path:"stone_merge" },
+            //         { title:"诗人小G",path:"poetG" }
+            //     ]
+            // }
 
+        ]
+    },
+    {
+        title:"树",
+        path:"tree",
+        child: [
+            { "title":"树的直径",path:"diameter"},
+            { "title":"树上差分",path:"diff_on_tree"},
+            { "title":"基环树", path:"spanning-tree" },
         ]
     },
     {
@@ -145,7 +156,6 @@ const menu = [
             { "title":"bellman-ford", path:"bellman-ford" },
             { "title":"spfa", path:"spfa" },
             { "title":"负圈", path:"negative_circle" },
-            { "title":"基环树", path:"spanning-tree" },
         ]
     },
     {
@@ -157,6 +167,14 @@ const menu = [
             { title: "单调栈", path: "monotonic_stack" },
             { title: "单调队列", path: "monotonic_queue" },
             { title: "堆", path: "heap" },
+            { 
+                title: "块状数据",
+                path: "block_data",
+                child: [
+                    {title:"分块思想", path: "decompose"},
+                    {title:"块状链表", path: "blocklist"}
+                ]
+            },
         ]
     },
     {
@@ -172,9 +190,14 @@ const menu = [
         title: "数学",
         path: "math",
         child: [
+            { title: "进制", path: "number_base" },
             {
-                title: "进制",
+                title: "二进制",
                 path: "binary"
+            },
+            {
+                title: "快速幂",
+                path: "quick_pow"
             },
             {
                 title: "对数",
@@ -185,13 +208,16 @@ const menu = [
                 path: "set",
             },
             {
-                title: "组合",
+                title: "组合数学",
                 path: "combinatorics",
                 child: [
                     { title: "分类加法", path: "rule_of_sum" },
                     { title: "分步乘法", path: "rule_of_product" },
-                    { title: "组合数学", path: "combinatorics" },
                     { title: "catalan数", path: "catalan_number" },
+                    { title: "组合数学", path: "combinatorics" },
+                    { title: "技巧", path: "tricks" },
+                    { title: "生成函数", path: "generating_function" },
+                    { title: "Lucas定理", path: "lucas" },
                 ]
             },
             {
@@ -262,6 +288,15 @@ const menu = [
                 title: "编程常用单词",
                 path: "common_words/"
             },
+        ]
+    },
+    {
+        title:"题单",
+        path:"problem_list",
+        child: [
+            { title:"luogu新手村",path:"luogu_newbee"},
+            { title:"luogu普及组",path:"luogu_junior"},
+            { title:"算法竞赛进阶指南",path:"algo_advanced"},
         ]
     }
 ]

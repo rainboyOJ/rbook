@@ -1,0 +1,65 @@
+html, body {
+  margin: 1rem 0;
+  padding: 0;
+}
+
+.inputContainer {
+  display: flex;
+  margin: 0.5em 0;
+  /* justify-content: space-around; */
+  /* align-items: center; */
+  /* height: 100vh; */
+  /* width:800px; */
+}
+
+canvas {
+  display: block;
+}
+
+.center {
+  display:flex;
+  justify-content:center;
+}
+
+.choose {
+  background: rgb(28, 184, 65);
+}
+
+td.choose {
+  background: gray !important;
+}
+
+table tr td {
+    cursor:pointer;
+}
+
+// 鼠标现在移动到上面的td
+
+.pure-table td.active {
+  background: #8ba760 !important;
+}
+
+td.active {
+  background: #8ba760 !important;
+}
+
+table.pure-table {
+    align-self: start;
+}
+
+// 鼠标现在移动到上面的td,的前趋
+
+.pure-table td.pre_active_1 {
+  background: #ccc !important;
+}
+
+td.pre_active_1 {
+  background: #ccc !important;
+}
+
+td.pre_active_2 {
+  background: rgb(120, 184, 75) !important;
+}
+.pure-table tr{
+    max-height: 1.5rem !important;
+}

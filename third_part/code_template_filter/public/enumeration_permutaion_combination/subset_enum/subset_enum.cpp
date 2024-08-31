@@ -9,10 +9,9 @@ void print_bin(int t) {
 }
 
 int main (int argc, char *argv[]) {
-    int a = 0b1011;
-    int s = a;
-    for( ;s != 0;s = (s-1)&a) {
-        print_bin(s);
+    int a = 0b1111; //这个数就是十进制的15
+    for(int i =0 ;i<= a;i++) {
+        print_bin(i);
     }
 
     return 0;

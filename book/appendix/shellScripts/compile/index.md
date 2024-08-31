@@ -68,6 +68,7 @@ sudo chmod +x /usr/bin/b
 b --help
 ```
 
+
 ## 配置文件
 
 如果不想要每一次都使用重复的参数,可以创建配置文件`~/.config/roj/b.conf`

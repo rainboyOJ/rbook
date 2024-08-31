@@ -43,7 +43,7 @@ MDRender.md.use(mdItContainer,'colorfulbox',{
 
         if (tokens[idx].nesting === 1) {
             // opening tag
-            return `<div class="colorfulbox">\n`;
+            return `<div class="colorfulbox bg-light">\n`;
 
         } else {
             // closing tag

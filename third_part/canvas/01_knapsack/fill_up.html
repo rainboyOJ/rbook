@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>完全背包-集合</title>
+
+    <link rel="stylesheet" type="text/css" href="../libraries/pure-min.css">
+    <link rel="stylesheet" type="text/css" href="./style.css">
+
+    <!-- <script src="../libraries/p5.min.js"></script> -->
+    <!-- <script src="../libraries/p5.sound.min.js"></script> -->
+    <script src="../libraries/lodash.min.js"></script>
+    <script src="../libraries/vue.global.js"></script>
+  </head>
+
+  <body>
+    <div id="app">
+      <div style="display: flex;justify-content: center;">
+        <table class="pure-table pure-table-bordered">
+          <caption> 每个物品的信息 </caption>
+          <thead>
+            <tr>
+              <th>编号</th>
+              <th>重量</th>
+              <th>价值</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="item,index in items" :class="{'pure-button-primary': index < items_cnt}">
+              <td>{{index+1}}</td>
+              <td>{{item.weight}}</td>
+              <td>{{item.value}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="inputContainer center">
+        <div>
+          <label for="myRange">前 {{items_cnt}} 个物品</label>
+          <input type="range" min="1" :max="items.length" v-model.value="items_cnt" class="slider" id="items_cnt">
+        </div>
+        
+        <div style="margin-left: 1.5em;">
+          <label for="myRange">背包容量为: {{capacity_choose}}</label>
+          <input type="range" min="0" :max="capacity" v-model.value="capacity_choose" class="slider" id="capacity">
+        </div>
+      </div>
+      <div class="center">
+        <table class="pure-table pure-table-bordered">
+          <thead>
+            <th>序号</th>
+            <th>选择的物品</th>
+            <th>重量和</th>
+            <th>价值和</th>
+          </thead>
+          <tbody>
+            <tr v-for="item,idx in validSet" :class="{choose: item[item.length-1] == items_cnt-1}">
+              <td>{{idx+1}}</td>
+              <td>{{ item.length ?  _.map(item,idx=>idx+1) .join(',') : '空'}}</td>
+              <td>{{ _.sumBy(item, idx=> items[idx].weight) }}</td>
+              <td>{{ _.sumBy(item, idx=> items[idx].value) }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+
+      <div class="center" style="margin-top: 1.5rem;">
+        <table class="pure-table pure-table-bordered">
+          <caption>二维f数组</caption>
+          <tbody>
+            <tr>
+              <td></td>
+              <td v-for="i in fSet[0].length" style="background: gray;">{{i-1}}</td>
+            </tr>
+            <tr v-for="item,idxI in fSet">
+              <td class="index" style="background: gray">{{idxI}}</td>
+              <td v-for="f in item">{{f}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <script src="fill_up.js"></script>
+  </body>
+</html>

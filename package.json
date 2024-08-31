@@ -4,8 +4,8 @@
     "license": "MIT",
     "name": "Rbook-algorithms_book",
     "source": "src/index.ejs",
-    "bin" : {
-        "rbook":"./bin/rbook.js"
+    "bin": {
+        "rbook": "./bin/rbook.js"
     },
     "scripts": {
         "dev": "parcel --no-cache",
@@ -34,7 +34,7 @@
         "parcel-transformer-ejs": "^1.0.1",
         "sass": "^1.76.0",
         "vis-network": "^9.1.9",
-        "vite": "^5.0.10",
+        "vite": "^5.2.11",
         "vite-plugin-ejs": "^1.7.0",
         "vue": "^3.4.26",
         "vue-toastification": "^2.0.0-rc.5"

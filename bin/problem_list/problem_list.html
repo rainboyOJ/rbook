@@ -4,6 +4,7 @@
             <th>#</th>
             <th>OJ</th>
             <th>id</th>
+            <th>title</th>
             <th>解析</th>
         </tr>
     </thead>
@@ -17,6 +18,7 @@
                     <%= problems[i].sid%>
                 </a>
             </td>
+            <td><%= problems[i].title%></td>
             <td>
                 <% for(let j = 0;j < problems[i].solutions.length;j++) {
                     if( 

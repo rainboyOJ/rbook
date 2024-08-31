@@ -80,7 +80,9 @@ const problem_list_item_render = function(tokens,idx,options,env,slf) {
     }
     if(!id) throw `${env.md_file.relative_path} has no id!`
 
-    let problems = env.problemDB.solutions_bidir_find('rbook',id)
+    // let problems = env.problemDB.solutions_bidir_find('rbook',id)
+    let problems = env.problemDB.solutions_has_practice_rbook(id)
+    console.log('problems--->',problems)
     if( env.debug) {
         console.log('problem-list:',problems)
     }

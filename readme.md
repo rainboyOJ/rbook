@@ -34,6 +34,20 @@
 ```
 
 
+## markdown 语法
+
+
+```
++p THIS_ID
+```
+从roj里找所有`solutions/*md`文件里含有`practice_rbook: THIS_ID`的problems列表
+
+
 ## 参考
 
 - http://css.doyoe.com 参考样式
+
+## 感谢
+
+- [dashroshanvisits-counter 🔢 Customizable SVG visits counter badge](https://github.com/dashroshan/visits-counter)
+

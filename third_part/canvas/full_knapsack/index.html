@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>完全背包-集合</title>
+
+    <link rel="stylesheet" type="text/css" href="../libraries/normalize.css">
+    <link rel="stylesheet" type="text/css" href="../libraries/pure-min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css" />
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+    <!-- <script src="../libraries/p5.min.js"></script> -->
+    <!-- <script src="../libraries/p5.sound.min.js"></script> -->
+    <script src="../libraries/lodash.min.js"></script>
+    <script src="../libraries/vue.global.js"></script>
+  </head>
+
+  <body>
+    <div id="app">
+      <div style="display: flex;justify-content: center;">
+        <table class="pure-table pure-table-bordered">
+          <caption> 每个物品的信息 </caption>
+          <thead>
+            <tr>
+              <th>编号</th>
+              <th>重量</th>
+              <th>价值</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="item,index in items" :class="{'pure-button-primary': index < items_cnt}">
+              <td>{{index+1}}</td>
+              <td>{{item.weight}}</td>
+              <td>{{item.value}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="inputContainer center">
+        <div>
+          <label for="items_cnt">前 {{items_cnt}} 个物品</label>
+          <input type="range" min="1" :max="items.length" v-model.value="items_cnt" class="slider" id="items_cnt">
+        </div>
+        
+        <div style="margin-left: 1.5em;">
+          <label for="capacity">背包容量为: {{capacity_choose}}</label>
+          <input type="range" min="0" :max="capacity" v-model.value="capacity_choose" class="slider" id="capacity">
+        </div>
+      </div>
+            <div class="pure-g">
+                <div class="center pure-u-1 pure-u-lg-1-2">
+                    <table class="pure-table pure-table-bordered">
+                        <caption>f[i][j]前i个物品在容量为j时的答案</caption>
+                        <tbody>
+                            <tr>
+                                <td></td>
+                                <td class="choose" v-for="i,idx in fSet[0]">{{idx}}</td>
+                            </tr>
+                            <tr v-for="line,i in fSet">
+                                <td class="choose">{{i}}</td>
+                                <td v-for="val,j in line" 
+                                    @mouseenter="f_td_mouse_enter(i,j)"
+                                    @mouseleave="f_td_mouse_leave(i,j)"
+                                    :class="{active: is_active(i,j),'pre_active_1':is_f_pre(i,j) == 1 , 'pre_active_2':is_f_pre(i,j) ==2}"
+                                >
+                                    {{val}}
+                                    <!-- ,{{i}} -->
+                                    <!-- ,{{j}} -->
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="center pure-u-1 pure-u-lg-1-2" style="margin-top:2rem;">
+                    <table class="pure-table pure-table-bordered">
+                        <thead>
+                            <th>序号</th>
+                            <th>选择的物品</th>
+                            <th>重量和</th>
+                            <th>价值和</th>
+                        </thead>
+                        <tbody>
+                            <tr v-for="item,idx in validSet" :class="{choose: item[item.length-1] == items_cnt-1}">
+                                <td>{{idx+1}}</td>
+                                <td>{{ item.length ?  _.map(item,idx=>idx+1) .join(',') : '空'}}</td>
+                                <td>{{ _.sumBy(item, idx=> items[idx].weight) }}</td>
+                                <td>{{ _.sumBy(item, idx=> items[idx].value) }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div> <!-- end pure-g -->
+    </div>
+    <script src="index.js"></script>
+  </body>
+</html>

@@ -1,0 +1,129 @@
+[ ] 
+ tot_w: 0 ,tot_v: 0
+
+
+[ 5 ] 
+ tot_w: 4 ,tot_v: 6
+
+
+[ 4 ] 
+ tot_w: 5 ,tot_v: 4
+
+
+[ 4 5 ] 
+ tot_w: 9 ,tot_v: 10
+
+
+[ 3 ] 
+ tot_w: 6 ,tot_v: 5
+
+
+[ 3 5 ] 
+ tot_w: 10 ,tot_v: 11
+
+
+[ 3 4 ] 
+ tot_w: 11 ,tot_v: 9
+
+
+[ 3 4 5 ] 
+ tot_w: 15 ,tot_v: 15
+
+
+[ 2 ] 
+ tot_w: 2 ,tot_v: 3
+
+
+[ 2 5 ] 
+ tot_w: 6 ,tot_v: 9
+
+
+[ 2 4 ] 
+ tot_w: 7 ,tot_v: 7
+
+
+[ 2 4 5 ] 
+ tot_w: 11 ,tot_v: 13
+
+
+[ 2 3 ] 
+ tot_w: 8 ,tot_v: 8
+
+
+[ 2 3 5 ] 
+ tot_w: 12 ,tot_v: 14
+
+
+[ 2 3 4 ] 
+ tot_w: 13 ,tot_v: 12
+
+
+[ 2 3 4 5 ] 
+ tot_w: 17 ,tot_v: 18
+
+
+[ 1 ] 
+ tot_w: 2 ,tot_v: 6
+
+
+[ 1 5 ] 
+ tot_w: 6 ,tot_v: 12
+
+
+[ 1 4 ] 
+ tot_w: 7 ,tot_v: 10
+
+
+[ 1 4 5 ] 
+ tot_w: 11 ,tot_v: 16
+
+
+[ 1 3 ] 
+ tot_w: 8 ,tot_v: 11
+
+
+[ 1 3 5 ] 
+ tot_w: 12 ,tot_v: 17
+
+
+[ 1 3 4 ] 
+ tot_w: 13 ,tot_v: 15
+
+
+[ 1 3 4 5 ] 
+ tot_w: 17 ,tot_v: 21
+
+
+[ 1 2 ] 
+ tot_w: 4 ,tot_v: 9
+
+
+[ 1 2 5 ] 
+ tot_w: 8 ,tot_v: 15
+
+
+[ 1 2 4 ] 
+ tot_w: 9 ,tot_v: 13
+
+
+[ 1 2 4 5 ] 
+ tot_w: 13 ,tot_v: 19
+
+
+[ 1 2 3 ] 
+ tot_w: 10 ,tot_v: 14
+
+
+[ 1 2 3 5 ] 
+ tot_w: 14 ,tot_v: 20
+
+
+[ 1 2 3 4 ] 
+ tot_w: 15 ,tot_v: 18
+
+
+[ 1 2 3 4 5 ] 
+ tot_w: 19 ,tot_v: 24
+
+
+12

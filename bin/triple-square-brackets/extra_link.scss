@@ -1,0 +1,11 @@
+
+a.extra-link {
+    text-decoration:none;
+    display:inline-flex;
+    img {
+        align-self:center;
+        //TODO 这里应该有一个 :root { line-height}
+        //来设置markdown所有的line-height
+        height:22px;
+    }
+}

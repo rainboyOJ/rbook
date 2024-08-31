@@ -3,3 +3,33 @@
 - [x] 去除h1-6 前面的hash
 - [ ] 新的 TOC
 - [ ] 全局安装 slidev https://cn.sli.dev/guide/install.html#slidev-build-entry 每个文件创建ppt
+- 如何实现双链接??,估计实现时间,1到2天
+    - 改成 <%- jump_to()%> 语法
+    - 第一步 ,能解析`[[]]`
+      - 得到每个`[[]]`内容内的相对地址,转成绝对地址
+      - 绝对地址转成相对`book`路径的相对地址b
+      - 相对地址b转成对应的href链接地址
+    - 第二步 ,根据第一步得到的所有的链接,形成一个json,数据如下,这样就可以形成双链接笔记了
+        ```
+        {
+            title:"",
+            path:"相对book地址"
+            //链接到
+            linkTo:["book地址1",....],
+            //被链接到
+            belinkTo:["book地址1",....],
+        }
+        ```
+- [x] 思维导图 https://github.com/SSShooter/mind-elixir-core
+    - [ ] mindmap类的导航
+- [x] mermaid
+- [ ] plantUML
+- [ ] 像hexo中的动态展开的TOC,MD book 系统
+- [x] card code template 系统
+  - [ ] 使用https://www.fusejs.io/ 添加fuzzy 筛选系统
+- [x] 完成了+p功能,从problem里抽取抽取题目的信息. 形成一个表格
+- [ ] 从roj里抽取题目与rbook形成mindmap
+    - problem 里的 pre_rbook 的字段的值就是批向
+
+- [ ] 类似`vscode-markdown`里的tip信息, https://github.com/commenthol/markdown-it-admon,https://github.com/zlluGitHub/markdown-it-tips
+- [ ] footnote 我不知道实现了吗 https://www.npmjs.com/package/markdown-it-footnote

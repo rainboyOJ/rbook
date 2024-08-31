@@ -9,6 +9,7 @@ import {ViteEjsPlugin} from "vite-plugin-ejs";
 // let p = resolve(new URL('.', import.meta.url).pathname,'src')
 // console.log(p)
 export default defineConfig({
-    plugins: [ ViteEjsPlugin(), load_data()],
+    // plugins: [ ViteEjsPlugin(), load_data()],
+    plugins: [ ViteEjsPlugin(),load_data()],
     // root: resolve(new URL('.', import.meta.url).pathname,'src'),
 })

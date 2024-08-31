@@ -72,6 +72,10 @@ $mod$的值是告诉所有的孩子结点,需要移动的值,应该从上到下�
 
 3. A tree and its mirror image should produce drawings that are refiections of one another（不翻译了，意会一下，和我们常见的树形图差不多）
 
+## 算法实现
+
+<%- iframe("/canvas/jq_walker_tree_layout/index.html") %>
+
 ## 资料
 
 - [A Node-Positioning Algorithm for General Trees (1989, John Q. Walker II)][1]

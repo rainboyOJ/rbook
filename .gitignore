@@ -140,3 +140,6 @@ media/
 .vscode
 venv/
 *.db
+problems/
+problems_old/
+problems

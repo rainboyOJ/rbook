@@ -73,7 +73,7 @@ program.command('render')
         let doc = rbookDB.find_by_id(id)
         console.log('after search db by id: ',doc)
         if( !doc ) {
-            throw('没有找到对应id的文章,你可能需要行更新数据库: npx db update')
+            throw('没有找到对应id的文章,你可能需要行更新数据库: npx rbook db update')
             return
         }
         problemDB.loadDatabase();

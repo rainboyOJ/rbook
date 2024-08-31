@@ -2,6 +2,7 @@
     "file":"index.md",
     "id":"01_seq",
     "title":"01序列",
+    "pre":["recursion"],
     "code_template" : [{
         "tags":[ "枚举" ],
         "title": "01序列 01_seq",

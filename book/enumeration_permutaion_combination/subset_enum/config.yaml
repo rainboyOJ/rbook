@@ -1,6 +1,9 @@
 id: subset_enum
 file: index.md
 title: 子集枚举
+pre: 
+  - "ball_and_box"
+  - "01_seq"
 code_template:
   - 
     title: "子集枚举 subset_enum"

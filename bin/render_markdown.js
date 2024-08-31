@@ -60,6 +60,14 @@ function render_md( data ) {
             dvideo: function (src) {
                 if( src.indexOf('.mp4') == -1) src+='.mp4'
                 return `<video width="800" loop controls autoplay src="https://d.roj.ac.cn/d/RainboyVideo/${src}" type="video/mp4">Your browser does not support the video tag. </video>`
+            },
+            // iframe 自适应高度的多种实现方式 : https://blog.csdn.net/shipfei_csdn/article/details/103491443
+            iframe: function (src) {
+                return `<div class="iframe-container">
+<a href="${src}" target="_blank">新标签打开</a>
+<iframe height="800" frameborder="1" src="${src}"></iframe>
+</div>
+`
             }
         },
         options: {

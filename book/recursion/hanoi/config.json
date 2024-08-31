@@ -1,4 +1,5 @@
 {
+    "id":"hanoi",
     "file":"index.md",
     "title":"汉诺塔游戏",
     "copy":[
