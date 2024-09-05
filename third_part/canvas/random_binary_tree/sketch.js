@@ -9,14 +9,14 @@ function set_tree_raw_data(size,data) {
 
 var tree;
 function __create_random_tree() {
-    // treeNodeSize = 4
-    tree = new normal_tree(treeNodeSize); //生成了一个10个点的随机树
+    tree = new binary_tree(treeNodeSize); //生成了一个10个点的随机树
     // tree = new binary_tree(5); //生成了一个10个点的随机树
     // // tree._tree_size = 5
     // tree._raw_data = [
-    //   [1,2],
-    //   [2,3],
-    //   [2,4]
+    //   [1,2,0],
+    //   [2,3,1],
+    //   [1,4,1],
+    //   [4,5,0]
     // ]
     // tree.init_tree_nodes();
     set_tree_raw_data(treeNodeSize,tree.raw_data)
@@ -47,4 +47,8 @@ $('document').ready( function () {
         $('#tree_node_size').text(this.value)
         treeNodeSize = this.value;
     })
+    // document.getElementById("myRange").addEventListener() .oninput( function () {
+    // log('yes1')
+    //     document.getElementById("tree_node_size").innerText = this.value
+    // })
 })
