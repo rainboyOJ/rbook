@@ -3,12 +3,12 @@
     "author": "rainboy <rainboylvx@qq.com>",
     "license": "MIT",
     "name": "Rbook-algorithms_book",
-    "source": "src/index.ejs",
+    "source": "src/index.html",
     "bin": {
         "rbook": "./bin/rbook.js"
     },
     "scripts": {
-        "dev": "parcel --no-cache",
+        "dev": "vite dev --host",
         "build": "vite build",
         "start": "http-server dist"
     },
