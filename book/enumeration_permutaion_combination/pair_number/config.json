@@ -3,5 +3,5 @@
     "title": "对数",
     "file":"index.md",
     "teach_plain":"teach_plain.md",
-    "pre":["set","rule_of_sum"],
+    "pre":["set","rule_of_sum"]
 }

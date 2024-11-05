@@ -1,0 +1,6 @@
+id: binary_exponentiation
+title: "倍增思想"
+file: "index.md"
+pre: 
+  - number_base
+  - binary_search

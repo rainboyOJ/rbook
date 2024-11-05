@@ -58,6 +58,21 @@ bool empty() {
 <%- include("/algo_template/data_structure/stack.cpp") _%>
 ```
 
+## 总结
+
+
+::: colorfulbox
+
+栈能解决的问题
+
+
+1. 线性的一对元素匹配类(是否括号**匹配**)
+2. 后缀表达式:栈还可以用于计算后缀表达式(也称为逆波兰表达式)的值。
+3. 具有LIFO特性的操作
+4. 其它**匹配**类问题
+
+
+:::
 
 ## 练习题目
 
@@ -70,6 +85,7 @@ bool empty() {
 - <%- pid_to_url('noiopenjudge', 'ch0303/1696','波兰表达式') %>
 - <%- pid_to_url('noiopenjudge', 'ch0303/6263','布尔表达式') %>
 - <%- pid_to_url('leetcodecn', '125','图书整理 II') %>
+- luogu P9753 [CSP-S 2023] 消消乐 50分算法
 
 
 考把中缀转后缀的题目

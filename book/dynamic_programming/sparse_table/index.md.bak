@@ -1,0 +1,91 @@
+
+@[toc]
+
+## 学习目标
+
+- 理解 ST 表的原理
+- 倍增思想
+- ST 表的构建
+- ST 表的查询
+
+
+## 问题引用
+
+<%- include("./problem.md")%>
+
+## 暴力解法
+
+显然可以想到暴力解法，对于每个询问，枚举区间 $[l,r]$ 中的最大值，每一次查询的时间复杂度为 $O(n)$，总时间复杂度为 $O(n^2)$。
+
+```cpp
+<%- include("./baoli.cpp") _%>
+```
+
+显然这个代码只能拿到部分分。对于$10^5$的数据规模会$\mathcal{TLE}$。
+
+## 倍增思想
+  
+## 第一步: 创建ST表
+
+ST表,$spare\ table$一是 稀疏矩阵
+q 
+
+这是一个DP思想
+
+## 得到$\lfloor log_2^n \rfloor$
+
+这里给三种方案
+
+### 1. 使用换底公式
+
+```cpp
+int log2(int n) {
+    return log(n)/log(2);
+}
+```
+
+### 2. 使用dp思想
+
+这里使用数学思想,对于整数$n$来说,它的$\lfloor log_2^n \rfloor$等价于$b$对应的二进制$bin(n)$只保留最高位置的1,其余位置全部置为0后得到的数.
+
+可以想到这个数字$highbit(n)$对应的为: $bin(n) \gg 1$后再$highbit( n \gg 1) +1$.
+
+于是我们得到公式
+
+$$
+highbit(n) = highbit(n\gg 1) +1
+$$
+
+比公式(DP方程)的正确性,可以使用数学归纳法证明.
+
+```cpp
+// 存储每个数字对应的最高位是第几位
+int  highbit[maxn]; 
+void init_highbit() {
+    highbit[0] = -1;
+    for(int i = 1; i <= n; i++) {
+        highbit[i] = highbit[i>>1] + 1;
+    }
+}
+
+//得到对应的$\lfloor log_2^n \rfloor$
+int log2(int n) {
+    return 1 << highbit[n];
+}
+```
+
+### 3. 使用 `__builtin_clz`
+
+`__builtin_clz()`是gcc内置的函数,可以得到数字对应的二进制左边的0的数量.
+
+
+```cpp
+template<typename T
+T log2(T n) {
+    return 1<< ( sizeof(T) *8 - 1 - __builtin_clz(n) );
+}
+```
+
+## ST 表的时间复杂度分析
+
+## ST 表的应用

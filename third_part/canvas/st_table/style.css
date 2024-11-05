@@ -1,0 +1,36 @@
+#app {
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    /* //flex center align */
+    align-items: center;
+    justify-content: center;
+    margin: 1em auto;
+    padding: 1em;
+    border: 1px solid #ccc;
+
+}
+
+.choose {
+  background: rgb(28, 184, 65) !important;
+}
+
+table tr td.chooseable {
+    cursor:pointer;
+}
+
+//下标用的
+table tr
+td.index {
+    border:none !important;
+    font-size: 0.8rem;
+    color: gray;
+}
+
+.box {
+    margin: 1em;
+    background: #1f8dd6;
+    border-radius: 3px;
+    color: #fff;
+    padding: .3em 1em;
+}

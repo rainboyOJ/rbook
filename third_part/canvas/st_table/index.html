@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>st table 初始化</title>
+
+    <link rel="stylesheet" type="text/css" href="../libraries/pure-min.css">
+    <link rel="stylesheet" type="text/css" href="./style.css">
+
+    <!-- <script src="../libraries/p5.min.js"></script> -->
+    <!-- <script src="../libraries/p5.sound.min.js"></script> -->
+    <script src="../libraries/lodash.min.js"></script>
+    <script src="../libraries/vue.global.js"></script>
+  </head>
+
+  <body>
+    <div id="app">
+        <!-- 数据输入 -->
+        <div>
+            <h3>输入数据</h3>
+            <textarea style="width: 600px;" v-model="text_data"></textarea>
+            <br>
+            <button @click="random_data">随机数据</button>
+        </div>
+
+        <!-- 显示表格 -->
+        <div style="">
+            <table class="pure-table pure-table-bordered">
+                <caption> 数据 </caption>
+                <thead>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td v-for="item,index in data" 
+                            :class="{choose: is_choosed_in_data_array(index+1)}">{{item}}</td>
+                    </tr>
+                    <tr>
+                        <td v-for="item,index in data" style="border: none; color:gray; font-size: 0.8rem; text-align: center;">{{index+1}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="box">
+            <h3>Query 查询</h3>
+            <input type="text" v-model="query_txt">
+            <button @click="query">查询</button>
+        </div>
+        <!-- f表格 -->
+        <div style="">
+            <table class="pure-table pure-table-bordered">
+                <caption> <code>f(i,j)</code>的信息 </caption>
+                <thead>
+                    <tr class="pure-table-odd">
+                        <th>起点\长度</th>
+                        <th v-for="item,index in f[0]" class="">{{index}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="item,index in f.slice(1)">
+                        <td>{{index+1}}</td>
+                        <td v-for="j,index2 in item" :class="{choose: is_choosed_in_f_table(index+1,index2),chooseable:true}"
+                                    @mouseenter="f_td_mouse_enter(index+1,index2)"
+                                    @mouseleave="f_td_mouse_leave(index+1,index2)"
+                        >{{j ==undefined ? '-' : j}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>

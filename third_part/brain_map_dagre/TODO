@@ -1,0 +1,1 @@
+- [ ] brain-map 似乎显示的不是很好,这里可以使用[dagre-d3](https://github.com/dagrejs/dagre-d3),[dagre](https://github.com/dagrejs/dagre),似乎可以渲染比较好的效果

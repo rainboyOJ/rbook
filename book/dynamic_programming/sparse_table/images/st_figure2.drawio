@@ -1,0 +1,25 @@
+<mxfile host="Electron" modified="2024-11-05T02:54:10.845Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.1.11 Chrome/114.0.5735.289 Electron/25.9.8 Safari/537.36" etag="iUgn2dFn2xTiIgxbupAn" version="22.1.11" type="device">
+  <diagram name="第 1 页" id="ePULt-TgPxXHryS-ttX3">
+    <mxGraphModel dx="757" dy="571" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="1" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="cXcX6B19F3HmeP8e_kBi-12" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="109" y="390" width="610" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="cXcX6B19F3HmeP8e_kBi-13" value="" style="labelPosition=right;align=left;strokeWidth=2;shape=mxgraph.mockup.markup.curlyBrace;html=1;shadow=0;dashed=0;strokeColor=#330000;direction=east;" vertex="1" parent="1">
+          <mxGeometry x="109" y="350" width="391" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="cXcX6B19F3HmeP8e_kBi-15" value="" style="labelPosition=right;align=left;strokeWidth=2;shape=mxgraph.mockup.markup.curlyBrace;html=1;shadow=0;dashed=0;strokeColor=#330000;direction=east;flipV=1;" vertex="1" parent="1">
+          <mxGeometry x="350" y="420" width="369" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="cXcX6B19F3HmeP8e_kBi-16" value="$$\lfloor log_2^{len} \rfloor$$" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=21;" vertex="1" parent="1">
+          <mxGeometry x="159.5" y="300" width="290" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="cXcX6B19F3HmeP8e_kBi-17" value="$$\lfloor log_2^{len} \rfloor$$" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=21;" vertex="1" parent="1">
+          <mxGeometry x="389.5" y="450" width="290" height="40" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
