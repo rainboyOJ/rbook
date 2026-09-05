@@ -1,11 +1,20 @@
 const MK = require("./markdown-it-pseudocodejs/")
 const MDRender = require("markdown-r")
 
+const imageExtensionPluginForExcalidraw = require("./markdown-it-excalidraw-svg")
 
 const triple_square_bracket = require("./triple-square-brackets/index.js")
 const problem_list = require("./problem_list/problem_list.js")
 
 MDRender.md.use(triple_square_bracket)
+
+MDRender.md.env = {}
+MDRender.md.env.blog_url = "https://rbook.roj.ac.cn"
+MDRender.md.env.base_path = "/home/rainboy/mycode/rbookr/newRbook_ejs/book/"
+
+MDRender.md.use(imageExtensionPluginForExcalidraw,{
+    excalidraw_server_addrs: "https://excalidraw.roj.ac.cn"
+})
 
 MDRender.md.use(problem_list)
 

@@ -20,7 +20,9 @@ const menu = [
             { title: "差分", path: "differential" },
             { title: "双指针", path: "two-pointer" },
             { title: "排序不等于式", path: "rearrangement_inequality" },
+            { title: "二分分割", path: "binary_split" },
             { title: "高精度", path: "bigNumber" },
+            { title: "binary jump", path: "binary_jump" },
             { title: "离散化", path: "discrete" }
         ]
     },
@@ -119,6 +121,7 @@ const menu = [
                     }
                 ]
             },
+            { title:"sparse table", path:"sparse_table" },
             { title:"状态压缩", path:"binary_state" },
             { title:"决策单调性", path:"decision_mono" },
             { title:"斜率优化", path:"slope" },
@@ -143,6 +146,7 @@ const menu = [
             { "title":"树的直径",path:"diameter"},
             { "title":"树上差分",path:"diff_on_tree"},
             { "title":"基环树", path:"spanning-tree" },
+            { "title":"爬树LCA", path:"jump-lca" },
         ]
     },
     {
@@ -175,6 +179,21 @@ const menu = [
                     {title:"块状链表", path: "blocklist"}
                 ]
             },
+            {
+                title:"线段树",
+                path:"segment_tree",
+                child :[
+                    { title:"入门", path:"preface/" },
+                    { title:"单点更新", path:"update_one/" },
+                    { title:"区间更新", path:"update_range/" },
+                    { title:"扫描线", path:"scanline/" },
+                    { title:"左侧lower_bound", path:"sgt_first_lt/" },
+                    { title:"权值sgt", path:"sgt_weights/" },
+                    { title:"sgt合并", path:"sgt_merge/" },
+                    { title:"zkw", path:"sgt_zkw/" },
+                    { title:"持久化", path:"sgt_persistent/" },
+                ]
+            }
         ]
     },
     {
@@ -183,7 +202,8 @@ const menu = [
         child:[
             {title:"template",path:"template"},
             {title:"log",path:"log.md"},
-            {title:"random",path:"random"}
+            {title:"random",path:"random"},
+            {title:"图生成",path:"random_graph"}
         ]
     },
     {
@@ -227,7 +247,8 @@ const menu = [
                     { title: "整除", path: "divisible" },
                     { title: "余数", path: "remainder" },
                     { title: "素数", path: "prime" },
-                    { title: "gcd", path: "gcd" }
+                    { title: "gcd", path: "gcd" },
+                    {"title":"笔记",path:"book_note"}
                 ]
             }
         ]
@@ -253,7 +274,7 @@ const menu = [
                     { title: 'pure-ftpd', path: 'pure-ftpd' },
                     { title: '在线工具', path: 'online.md' },
                     { title: 'neovim', path: 'neovim' },
-                    { title: '其它', path: 'other.md' }
+                    { title: '其它工具', path: 'other' }
                 ]
             },
             {
@@ -277,8 +298,12 @@ const menu = [
                 ]
             },
             {
-                title:"系统",
-                path:"noilinux2.0/",
+                title:"编程环境",
+                path:'program_environment',
+                child:[
+                    {title: "noilinux2.0", path:"noilinux2.0/"},
+                    {title:"wsl",path:"wsl/"}
+                ]
             },
             {
                 title: "python",

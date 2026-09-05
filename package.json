@@ -22,6 +22,7 @@
         "@parcel/transformer-sass": "2.10.1",
         "@popperjs/core": "^2.11.8",
         "@vitejs/plugin-vue": "^5.0.4",
+        "archiver": "^7.0.1",
         "bootstrap": "^5.3.3",
         "commander": "^12.0.0",
         "fuse.js": "^7.0.0",
@@ -38,5 +39,6 @@
         "vite-plugin-ejs": "^1.7.0",
         "vue": "^3.4.26",
         "vue-toastification": "^2.0.0-rc.5"
-    }
+    },
+    "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }

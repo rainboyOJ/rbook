@@ -38,6 +38,10 @@ function deal_md_file_data(data) {
 
 function render_md( data ) {
     let output_path = data["md_file"].output_path
+    
+    //!! important for image path resolve
+    MDRender.md.env.current_md_file_path = data["md_file"].file_path
+
     let raw = fs.readFileSync(data["md_file"].file_path,{encoding:'utf-8'})
     let ejs = {
         data : {
@@ -62,10 +66,10 @@ function render_md( data ) {
                 return `<video width="800" loop controls autoplay src="https://d.roj.ac.cn/d/RainboyVideo/${src}" type="video/mp4">Your browser does not support the video tag. </video>`
             },
             // iframe 自适应高度的多种实现方式 : https://blog.csdn.net/shipfei_csdn/article/details/103491443
-            iframe: function (src) {
+            iframe: function (src,height=800) {
                 return `<div class="iframe-container">
 <a href="${src}" target="_blank">新标签打开</a>
-<iframe height="800" frameborder="1" src="${src}"></iframe>
+<iframe height="${height}" frameborder="1" src="${src}"></iframe>
 </div>
 `
             }

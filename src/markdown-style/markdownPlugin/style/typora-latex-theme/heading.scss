@@ -1,3 +1,11 @@
+// 上右下左
+$H1-MARGIN: 1rem 0 1rem -1rem;
+$H2-MARGIN: 1rem 0 1rem -1.5rem;
+$H3-MARGIN: 1rem 0 1rem -1.2rem;
+$H4-MARGIN: 1rem 0 1rem -1rem;
+$H5-MARGIN: 1rem 0 1rem -0.8rem;
+$H6-MARGIN: 1rem 0 1rem -0.8rem;
+
 .markdown-body {
   // 标题属性
   h1,
@@ -15,33 +23,37 @@
     text-align: center;
     column-span: all;
     font-size: var(--title-font-size);
+    margin: $H1-MARGIN;
   }
   h2 {
     font-family: var(--heading-Latin-font), $__font_fang_song, serif;
     font-size: var(--h2-font-size);
-    margin-top: 2.0rem;
-    margin-bottom: 1rem;
+    margin: $H2-MARGIN;
   }
   h3 {
     font-family: var(--heading-Latin-font),$__font_fang_song, var(--h3-Chinese-font), serif;
     font-size: var(--h3-font-size);
     line-height: var(--h3-font-size);
+    margin: $H3-MARGIN;
   }
   h4 {
     font-family: var(--heading-Latin-font),$__font_fang_song, var(--h4-Chinese-font), serif;
     font-size: var(--h4-font-size);
     line-height: var(--h4-font-size);
+    margin: $H4-MARGIN;
   }
   h5 {
     font-family: var(--heading-Latin-font), $__font_fang_song,var(--h5-Chinese-font), serif;
     font-size: var(--h5-font-size);
     line-height: var(--h5-font-size);
+    margin: $H5-MARGIN;
   }
   h6 {
     font-family: var(--heading-Latin-font), $__font_fang_song,var(--h6-Chinese-font), serif;
     font-size: var(--h6-font-size);
     /* 没有写错，为了避免行距太小才这么写 */
     line-height: var(--h5-font-size);
+    margin: $H6-MARGIN;
   }
 
   // 下面是标题自动编号，初始化计数器。使用多级编号，编号后加空格模仿LaTeX

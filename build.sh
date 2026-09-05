@@ -10,7 +10,9 @@ yarn build
 npx rbook db update
 npx rbook renderAll
 
-make
+# 编译所有的scss文件,似乎没有什么用,因为下面的一行代码就编译了
+# 如果发现问题,就把这个反注释
+# make
 
 npx sass ./src/markdown-style/markdown.scss ./dist/markdown.css
 
@@ -26,15 +28,10 @@ bash ./bin/copy_images.sh
 
 echo "compile third part"
 
-# brain_net_map
-cd ./third_part/brain_net_map/
-bash ./build.sh
-cd ../../
-
-# code_template
-cd ./third_part/code_template_filter/
-bash build.sh
-cd ../../
+# >> 编译 third_part 下的所有代码
+printf ">>>>>>>>>>>>>>>>>>>>>>> 编译 third_part 下的所有代码\n"
+bash ./third_part/build.sh >/dev/null
+printf "<<<<<<<<<<<<<<<<<<<<<<< 编译 third_part 下的所有代码 [OK]\n"
 
 # pwd
 
@@ -42,15 +39,13 @@ cd ../../
 rsync -avP --delete ./src/prism-theme/ ./dist/prism-theme/
 # 函数 rsync dir 下面的所有文件夹
 function rsync_dir {
-	for dir in $(find $1 -mindepth 1 -maxdepth 1 -type d); do
-		# echo "$dir"
-		rsync -av "$dir" ./dist/
-	done
+    for dir in $(find $1 -mindepth 1 -maxdepth 1 -type d); do
+        # echo "$dir"
+        rsync -av "$dir" ./dist/
+    done
 }
 
 # 复制论文
 rsync_dir "./assets/"
-# rsync canvas 动画
-rsync -avP ./third_part/canvas ./dist/
 
 bash ./copy_all_manim_mp4.sh
