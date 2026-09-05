@@ -143,3 +143,9 @@ venv/
 problems/
 problems_old/
 problems
+
+# temp/backup files
+*_old
+*.bak
+*.bak_v*
+tmp_to_do/

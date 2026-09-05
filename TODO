@@ -1,3 +1,7 @@
+- [ ] UI
+    - [ ] vue markdown preview
+    - [ ] 抄袭 typora 上的主题，改变我的文章样式
+    - [ ] 更好看的侧边栏,不要侧边栏目,一个单独目录页面,问AI
 全局(除了code)英文字体的修改
     - table 英文字体
 - [x] 去除h1-6 前面的hash
@@ -33,3 +37,9 @@
 
 - [ ] 类似`vscode-markdown`里的tip信息, https://github.com/commenthol/markdown-it-admon,https://github.com/zlluGitHub/markdown-it-tips
 - [ ] footnote 我不知道实现了吗 https://www.npmjs.com/package/markdown-it-footnote
+- [ ] brain-map 似乎显示的不是很好,这里可以使用[dagre-d3](https://github.com/dagrejs/dagre-d3),[dagre](https://github.com/dagrejs/dagre),似乎可以渲染比较好的效果
+- [ ] 研究一下 markdown 转成 vue的组件,然后使用vite 渲染这个markdown文件?
+    - https://github.com/antfu/vite-plugin-md
+    - https://github.com/hmsk/vite-plugin-markdown
+    - 问一下AI,如何使用使用vite渲染一下markdown文件为html,具体怎么实现
+- [ ] excalidraw.svg `![](images/* excalidraw.svg)`  添加 一个button 可以直接打开excalidraw 编辑这个svg文件
