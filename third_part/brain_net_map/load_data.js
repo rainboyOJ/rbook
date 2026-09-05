@@ -65,10 +65,12 @@ function add_node(node) {
     if( node.oj )
         data.group = 'problem'
 
+    // console.log(node)
     Nodes.push(data)
 }
 
 function get_node_by_id(id) {
+    // console.log('get-node-by-id',id)
     let d = rbookDB.find_by_id(id)
     if(!d) throw `not find node by id : ${id}`
     return d

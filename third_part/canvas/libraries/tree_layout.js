@@ -3,10 +3,10 @@ function random_int(l,r) {
 }
 class node_with_layout_info {
     constructor(idx) {
-        this.x = 0;
-        this.y = 0;
+        this.x = 0; // 最终的x坐标
+        this.y = 0; // 最终的y坐标
         this.dep = 0;
-        this.prelim = 0;
+        this.prelim = 0; // 临时x坐标
         this.mod = 0;
         this.fa
         this._idx = idx;
@@ -78,6 +78,8 @@ class normal_tree {
     constructor(tree_size) {
         this._tree_size = tree_size
         this.nodes = []
+        
+        // 上一次记录的深度为dep节点的编号
         this.pre_node_at_dep = Array.from({length: tree_size+1}, () => 0) // 初始化为0,表示没有
 
         this.Root = 1;
@@ -88,7 +90,15 @@ class normal_tree {
         this.SlibingSeparation = 2; //兄弟结点之间的间隔
         this.SubtreeSeparation = 2; //子树之间的间隔
 
+        /**
+         * 随机生成的树的数据
+         * 类似如下:
+         * 1 2
+         * 1 3
+         *  */
         this._raw_data = this.random_tree(); // 生成随机树数据
+
+
         this.init_tree_nodes(); //根据 _raw_data 生成树初始化树的结点
     }
 
@@ -109,12 +119,17 @@ class normal_tree {
         for(let i = 0;i<=this.size;i++) {
             this.nodes.push(new node_with_layout_info(i));
         }
+
+        // 父亲孩子表示法
         for(let [fa,ch] of this.raw_data) {
             this.nodes[fa].child.push(ch);
             this.nodes[ch].fa = fa;
         }
     }
 
+    //随机数生成,数据类似如下:
+    // 1 2
+    // 1 3
     random_tree() {
         let data = []
         for(let i =2;i<=this.size ;i++) {
@@ -149,7 +164,7 @@ class normal_tree {
     // 3. 使得当前子树与左边的相邻子树不重叠 apportion(u)
     first_walk(u) {
         debugger;
-        // console.log(u)
+        // 叶子节点,边界条件
         if( this.nodes[u].is_leaf) { //是叶子结点
             this.nodes[u].mod = 0;
             // this.nodes[u].prelim = 0;
@@ -161,7 +176,7 @@ class normal_tree {
             return
         }
 
-        //非叶子结点
+        //非叶子结点,后序遍历
         for(let i = 0 ;i < this.nodes[u].child.length ;i++ )
         {
             let v = this.nodes[u].child[i]
@@ -169,6 +184,7 @@ class normal_tree {
             this.first_walk(v);
         }
 
+        // 2. 根据子树的根与孩子的中间值,来调整孩子,使得单独的子树是美的
         let mid = this.calc_mid_with_child(u);
 
         //先向左靠拢
@@ -182,6 +198,8 @@ class normal_tree {
 
         //调整子树的位置,使得子树变成父亲的中间
         this.nodes[u].mod = this.nodes[u].prelim - mid;
+        
+        // 3. 使得当前子树与左边的相邻子树不重叠 apportion(u)
         this.apportion(u);
     }
 
@@ -205,6 +223,10 @@ class normal_tree {
 
     //得到从结点u开始向下走dep层后最左边的结点
     // 0 表示没有
+    //    root
+    //  /   |  \
+    // a    b   c 
+    //  核心思想: 定位首元(线性代数)
     get_left_most_node(u,dep) {
         if( dep == 0) return u;
         for( let i = 0 ;i< this.nodes[u].child.length ;i++)
@@ -358,6 +380,7 @@ class binary_tree extends normal_tree {
 
 //绘制一个树
 //tree_nodes_array:由 nodes_with_layout_info数组 绘制
+// 不要忘记使用完了 调用pg.remove()
 function draw_tree(tree_nodes_array) {
 
     let r = 50;

@@ -17,6 +17,7 @@ var slider_n,slider_start,slider_end
 
 function setup() {
   createCanvas(width, height);
+  // frameRate(3);
   slider_n = createSlider(1, MAX, 10); // 创建滑块，范围从0到100，初始值为50
   slider_n.position(20, 20);
 
@@ -26,9 +27,13 @@ function setup() {
   slider_end = createSlider(1, MAX, 8); // 创建滑块，范围从0到100，初始值为50
   slider_end.position(slider_start.position().x + slider_start.width + 20, 20);
 
+  slider_end.input(__draw);
+  slider_start.input(__draw);
+  slider_n.input(__draw);
+  __draw();
 }
 
-function draw() {
+function __draw() {
   background(255);
   n = slider_n.value();
   start = slider_start.value();
@@ -52,9 +57,10 @@ function draw() {
     // console.log(jump_idx)
     let pg = createGraphics(nodes[nodes.length-1].x+rw,pg_height);
     draw_rects(pg);
+    draw_bezier_with_arrow(pg);
     image(pg, 0, 0, width, height,0,0,pg.width,pg.height,CONTAIN);
+    pg.remove(); //删除, 不然会占用内存
   }
-
 }
 
 // 二进制跳跃算法,倍增思想
@@ -99,11 +105,13 @@ function draw_rects(pg) {
     let id = nodes[i].id;
     let jump_color = color(255, 0, 255);
     let jump_k = 0;
+    
+    //当前点是点在jump_idx 数组里
     for(let j = 0; j< jump_idx.length; j++)
     {
       if( jump_idx[j].id == id ){
         jump = true;
-        jump_k = jump_idx[j].k;
+        jump_k = jump_idx[j].k; // 当前 id 的跳跃长度 2^{jump_k}
         break;
       }
     }
@@ -111,7 +119,8 @@ function draw_rects(pg) {
     if( jump ) {
       pg.fill(jump_color);
       //添加文字
-      pg.text(`jump k=${jump_k}`, nodes[i].x + rw / 2, nodes[i].y - rw / 2);
+      // pg.text(`jump k=${jump_k}`, nodes[i].x + rw / 2, nodes[i].y - rw / 2);
+      pg.text(`jump k=${jump_k}`, nodes[i].x - rw / 2, nodes[i].y - rw / 2);
     }
 
     if( nodes[i].fill )
@@ -125,6 +134,47 @@ function draw_rects(pg) {
     pg.fill(0);
     // middle of the rect
     pg.text(nodes[i].id,nodes[i].x+rw/2,nodes[i].y+rw/2);
+  }
+
+}
+
+//绘制贝塞尔曲线
+function draw_bezier_with_arrow(pg){
+  let pre = start-1; //上一个点, id与真正的下标的关系是-1
+  let now = -1;
+
+  for(let i = 0; i < jump_idx.length; i++) {
+    now = jump_idx[i].id-1;
+    let x1 = nodes[pre].x+rw/2
+    let y1 = nodes[pre].y
+    // pg.circle(x1,y1,10);
+
+    let x2 = nodes[now].x + rw/2;
+    let y2 = nodes[now].y + rw/2;
+    let x3 = nodes[now].x + rw/2;
+    let y3 = nodes[now].y - rw/2;
+    let x4 = nodes[now].x + rw/2;
+    let y4 = nodes[now].y
+    pg.noFill();
+    // pg.circle(x2,y2,10);
+    // pg.circle(x3,y3,10);
+    // pg.circle(x4,y4,10);
+    // pg.bezier(x1,y1,x2,y2,x3,y3,x4,y4);
+    let expend = (now-pre);
+    let x0 = x1-expend*rw;
+    let y0 = y1+expend*rw;
+    let xe = x4+expend*rw;
+    let ye = y4+expend*rw;
+    // pg.circle(x0,y0,10);
+    pg.curve(x0,y0, x1,y1,x4,y4,xe,ye);
+    pre = now;
+    //arrow
+    // pg.stroke(0);
+    // pg.strokeWeight(2);
+    // pg.line(x3,y3,x4,y4);
+    // pg.line(x4,y4,x4+10,y4-5);
+    // pg.line(x4,y4,x4+10,y4+5);
+   // break;
   }
 }
 

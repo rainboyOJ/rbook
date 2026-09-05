@@ -73,6 +73,7 @@ function draw_exgcd() {
   for (let i = 0; i < exgcd_info.length; i++) {
     let pg = draw_one_info(exgcd_info[i], i > 0)
     image(pg, left_padding, pg.height * (i))
+    pg.remove(); //删除, 不然会占用内存
   }
   // draw_arrow
 
