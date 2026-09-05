@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Binary Search Tree Visualization</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script src="../libraries/p5.min.js"></script>
+  </head>
+  <body>
+    <div class="inputContainer">
+      <div>
+        <div class="slidecontainer">
+          <input type="range" min="2" max="50" value="10" class="slider" id="myRange" />
+        </div>
+        <div class="range_value">
+          <span>节点数量:</span>
+          <span id="tree_node_size">10</span>
+        </div>
+      </div>
+      <button id="create_tree" onclick="__create_random_tree()">创建随机BST</button>
+    </div>
+    <div>
+      <div style="margin:1rem 0;">
+        <canvas id="mycanvas"></canvas>
+      </div>
+      <div class="data-container">
+        <button id="copy_button">Copy</button>
+        <pre><code id="tree_data"></code></pre>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="../libraries/tree_layout_binary_tree.js"></script>
+  <script src="binary_search_tree.js"></script>
+  <script src="sketch.js"></script>
+  </body>
+</html>

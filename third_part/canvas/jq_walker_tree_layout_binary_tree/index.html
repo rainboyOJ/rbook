@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>jq_walker_tree_layout</title>
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="layout.css">
+
+    <script src="../libraries/p5.min.js"></script>
+  </head>
+
+  <body>
+    <div class="inputContainer">
+      <div>
+        <div class="slidecontainer">
+            <input type="range" min="2" max="20" value="10" class="slider" id="myRange">
+        </div>
+        <div class="range_value">
+            <span>结点数量:</span>
+            <span id="tree_node_size">10</span>
+        </div>
+      </div>
+
+      <!-- <div> -->
+      <!--   <label for="sb">string b:</label> -->
+      <!--   <input type="text" id="sb"></input> -->
+      <!-- </div> -->
+
+      <!-- <button id="calc" onclick="jq_walker()">calculate lcs</button> -->
+      <!-- <button id="draw_tree" onclick="draw_tree()">draw_tree</button> -->
+      <button id="create_tree" onclick="__create_random_tree()">创建随机树</button>
+      <p style="padding-left:1rem;">数据格式说明: <code>1 2 1</code> 表示2是1的右孩子</p>
+
+    </div>
+    <div class="content-wrapper">
+        <div style="margin:1rem 0;">
+            <canvas id="mycanvas"></canvas>
+        </div>
+        <div class="data-container">
+            <button id="copy-button">Copy</button>
+            <pre><code id="tree_data"></code></pre>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="../libraries/tree_layout.js"></script>
+    <script src="sketch.js"></script>
+    <script>
+        document.getElementById('copy-button').addEventListener('click', function() {
+            const code = document.getElementById('tree_data').innerText;
+            navigator.clipboard.writeText(code).then(function() {
+                alert('Copied to clipboard!');
+            }, function(err) {
+                console.error('Could not copy text: ', err);
+            });
+        });
+    </script>
+  </body>
+</html>

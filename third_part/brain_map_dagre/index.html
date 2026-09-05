@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rbook-brain_net_map</title>
+    <%- include("../../src/component/head.html")%>
+    <style>
+        #mynetwork {
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+    <link rel="stylesheet" href="./style.css"/>
+    <script src="https://d3js.org/d3.v5.min.js" charset="utf-8"></script>
+    <script src="./dagre-d3.js"></script>
+</head>
+
+<body>
+    <svg id="svg-canvas" width=960 height=600></svg>
+
+    <script type="module" src="./app.js"></script>
+</body>
+
+</html>

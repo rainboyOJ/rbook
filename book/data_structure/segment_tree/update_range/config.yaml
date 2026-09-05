@@ -1,0 +1,4 @@
+id: sgt_update_range
+title: "区间更新"
+file: "index.md"
+pre: "sgt_update_one"

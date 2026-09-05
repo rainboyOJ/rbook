@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生成随机图</title>
+    <link rel="stylesheet" href="../libraries/bootstrap/5.3.3/bootstrap.min.css">
+    <script src="../libraries/bootstrap/5.3.3/bootstrap.bundle.min.js"></script>
+    <script src="../libraries/cytoscape.min.js"></script>
+    <script src="../libraries/cytoscape/popperjs_core.js"></script>
+    <script src="../libraries/cytoscape/cytoscape-popper.js"></script>
+    <script src="../libraries/cytoscape/tippy.js"></script>
+    <script src="../libraries/cytoscape/dagre.js"></script>
+    <script src="../libraries/cytoscape/cytoscape-dagre.js"></script>
+    <script src="../libraries/vue.global.js"></script>
+    <script src="../libraries/lodash.js"></script>
+    <style>
+        #cy {
+            width: 600px;
+            height: 600px;
+            background-color: #f7f7f7;
+        }
+        .input, .textarea {
+            border: 1px solid #ccc;
+            font-family: inherit;
+            font-size: inherit;
+            padding: 1px 6px;
+        }
+    </style>
+    </head>
+    
+    <body>
+        <div class="container">
+            <div class="row">
+                <div id="app" class="col-md-6">
+                    <div class="card my-3">
+                        <div class="card-body">
+                            <h5 class="card-title">生成随机图</h5>
+                            <p class="card-text">生成一个随机图，节点数为 <span id="node-count">{{node_cnt}}</span>，边数为 <span
+                                    id="edge-count">{{edge_cnt}}</span>。
+                            </p>
+    
+                            <form action="" class="row g-3 my-3">
+    
+                                <div class="col-md-6">
+                                    <label for="edge-count" class="form-label">类型(TODO):</label>
+                                    <select name="graph-type" id="graph-type" class="form-select">
+                                        <option value="random">随机图</option>
+                                        <option value="complete">完全图</option>
+                                        <option value="cycle">环图</option>
+                                        <option value="star">星图</option>
+                                        <option value="path">路径图</option>
+                                    </select>
+                                </div>
+    
+                                <!-- <div class="col-md-6">
+                                    <label for="graph-layout" class="form-label">布局:</label>
+                                    <select name="graph-layout" id="graph-layout" class="form-select" v-model="layout">
+                                        <option value="random">随机</option>
+                                        <option value="grid">网格</option>
+                                        <option value="concentric">同心圆</option>
+                                        <option value="cose">力导向</option>
+                                        <option value="cola">cola</option>
+                                        <option value="breadthfirst">广度优先</option>
+                                    </select>
+                                </div> -->
+    
+                                <div class="col-md-6">
+                                    <label for="probability" class="form-label d-flex gap-3">边的概率:
+                                        <span id="probability-value">{{probability}}</span>
+                                        <div class="d-flex gap-1">
+                                            <input class="form-check-input" type="checkbox" id="directed"
+                                                v-model="useProbability">
+                                            <label for="directed" class="form-check-label">使用概率生成边</label>
+                                        </div>
+                                    </label>
+                                    <input type="range" class="form-range" id="probability" min="0" max="1" step="0.01"
+                                        v-model="probability" :disabled="!useProbability">
+                                </div>
+    
+                                <div class="col-md-6">
+                                    <label for="edge-count" class="form-label">边数:
+                                        <span id="edge-count-value">{{edge_count}}</span>
+                                    </label>
+                                    <input type="range" class="form-range" id="edge-count" min="1" max="30"
+                                        v-model="edge_count">
+                                    </label>
+                                </div>
+    
+                                <div class="col-md-6">
+                                    <label for="node-count" class="form-label">节点数:
+                                        <span id="node-count-value">{{node_count}}</span>
+                                    </label>
+                                    <input type="range" class="form-range" id="node-count" min="1" max="30"
+                                        v-model="node_count">
+                                </div>
+    
+    
+                            </form>
+                            <button id="generate-btn" class="btn btn-primary" @click="generateGraphButton">生成</button>
+                            <button id="dfs-btn" class="btn btn-primary" @click="dfs_next">dfs_next</button>
+                            <div class="row my-3">
+                                <!-- <textarea v-model="graph_text_data"></textarea> -->
+                                <span role="textbox" contenteditable class="textarea">
+                                    <pre>{{graph_text_data}}</pre>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- end app -->
+                <div id="cy" class="col-md-6"> </div>
+            </div>
+        </div>
+        <script type="module" src="app.js"></script>
+    </body>
+    
+    </html>

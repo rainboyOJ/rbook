@@ -1,0 +1,14 @@
+id: sgt_preface
+title: "前言"
+file: "index.md"
+code_template:
+  -
+    title: sgt单点更新
+    tags: ['sgt']
+    desc: sgt单点更新
+    code: ../template/sgt_point.cpp
+  -
+    title: sgt区间更新
+    tags: ['sgt']
+    desc: sgt区间更新
+    code: ../template/sgt_range.cpp

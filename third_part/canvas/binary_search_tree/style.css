@@ -1,0 +1,46 @@
+.inputContainer {
+    display: flex;
+}
+
+.inputContainer > div {
+    margin: 0 1rem;
+}
+
+.range_value {
+    display: flex;
+    align-items: center;
+}
+
+.range_value span:first-child {
+    margin-right: 0.5rem;
+}
+
+.data-container {
+    position: relative;
+    margin-top: 1rem;
+}
+
+#copy_button {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#copy_button:hover {
+    background-color: #0056b3;
+}
+
+pre {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 1rem;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}

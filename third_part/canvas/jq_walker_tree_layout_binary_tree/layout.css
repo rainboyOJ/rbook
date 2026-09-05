@@ -1,0 +1,44 @@
+.content-wrapper {
+  display: grid;
+  grid-template-columns: 3fr 1fr; /* mycanvas takes 3 parts, tree_data takes 1 part */
+  gap: 1rem;
+  justify-items: center;
+}
+
+.data-container {
+    position: relative;
+}
+
+#copy-button {
+    position: absolute;
+    top: -1.2rem;
+    right: 0rem;
+    padding: 0.5rem 0.8rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: sans-serif;
+    font-size: 14px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+#copy-button:hover {
+    background-color: #0056b3;
+}
+
+pre {
+  background-color: #2d2d2d;
+  color: #f1f1f1;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 1rem;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+code {
+  font-family: 'Courier New', Courier, monospace;
+}

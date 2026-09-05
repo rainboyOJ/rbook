@@ -1,0 +1,9 @@
+title: 爬树法求lca
+id: jump_lca
+file: index.md
+code_template:
+  - 
+    title: "爬树法求lca"
+    tags: ['lca','graph']
+    desc: 爬树法求
+    code: "./template.cpp"

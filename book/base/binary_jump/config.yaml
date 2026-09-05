@@ -1,0 +1,6 @@
+id: binary_jump
+title: "binary jump"
+file: "index.md"
+pre: 
+  - number_base
+  - binary_search

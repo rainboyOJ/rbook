@@ -1,0 +1,4 @@
+id: sgt_persistent
+title: "持久化sgt"
+file: "index.md"
+pre: sgt_update_range
