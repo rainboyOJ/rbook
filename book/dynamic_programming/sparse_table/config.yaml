@@ -2,6 +2,6 @@ id: sparse_table
 title: "st表"
 file: "index.md"
 pre: 
-  - binary_exponentiation
+  - binary_jump
   - number_pyramid
                     

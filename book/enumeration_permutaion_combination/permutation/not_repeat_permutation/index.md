@@ -79,9 +79,9 @@ f(1,s) = \sum_{1}^{m} x(i)
 
 ```math
 f(i,si) = \sum_{i}^{m}  f(i-1,s_{i-1}) | a[i] \geslant 1
+```
 
 有条件的sum的公式,怎么写
-```
 
 
 ## 数学公式

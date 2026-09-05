@@ -52,7 +52,7 @@ int fa(int t) { return t>>1;}
 - 在交换的过程,点$x$为根的子树tree(x)是满足性质的
 - 
 
-第一次,x没有孩子$fit(tree(x))成立$
+第一次,x没有孩子$fit(tree(x))$成立
 
 且交换后,x比father(x) better,那么x比father(x)另一个孩子也better,
 

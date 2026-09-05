@@ -27,7 +27,7 @@ $$
 
 ## 运算法则
 
-$$log_a^{M \cdot \N} = log_a^M + log_a^N \tag1$$
+$$log_a^{M \div N} = log_a^M - log_a^N \tag5$$
 
 **Proof:**
 
@@ -38,7 +38,7 @@ $Def$ $x=log_a^M,y = log_a^N,\alpha = log_a^{M \cdot N}$ $then$:
 - $a^{\alpha} = M \cdot N$
 
 $$
-M \div N = a^x \div a^y = a^{x-y} \\
+M \div N = a^x \div a^y = a^{x-y}
 $$
 
 两边同时取对数
@@ -51,7 +51,8 @@ $$
 
 -----------------
 
-$$log_a^{M \div N} = log_a^M - log_a^N \tag2$$
+
+$$log_a^{M \cdot N} = log_a^M + log_a^N \tag6$$
 
 $Def$ $x=log_a^M,y = log_a^N,\alpha = log_a^{M \cdot N}$ $then$:
 
@@ -60,7 +61,7 @@ $Def$ $x=log_a^M,y = log_a^N,\alpha = log_a^{M \cdot N}$ $then$:
 - $a^{\alpha} = M \cdot N$
 
 $$
-M \cdot N = a^x \cdot a^y = a^{x+y} \\
+M \cdot N = a^x \cdot a^y = a^{x+y}
 $$
 
 **Proof:**
@@ -77,7 +78,8 @@ $$
 
 --------
 
-$$log_a^{M^n} = n \cdot log_a^M \tag3 $$
+
+$$log_a^{M^n} = n \cdot log_a^M \tag7 $$
 
 **Proof:**
 

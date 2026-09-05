@@ -47,6 +47,12 @@ cgdb -q 1
 
 ## 怎么使用
 
+## 脚本
+
+```bash
+<%- include("./g.txt") _%>
+```
+
 ## 参考
 
 - [1] : https://blog.csdn.net/Leezed525/article/details/124728458

@@ -55,6 +55,45 @@ ST表,$spare\ table$本意稀疏矩阵
 TODO: 写一个vue的动画
 
 
+## binary jump解法
+
+我已经知道任意$f(i,j)$,也就是长度为$2^j$的区间的最大值信息了.那如何使用`binary jump`的方式来快速得到任意区间的区值.
+
+我们发现了区间信息与跳跃的不一致.比如我想知道区间$[1,4]$的最值,如果采用`binary jump`的方式是跳,如下:
+
+$$
+pos 1 \xrightarrow{2^1} pos 3 \xrightarrow{2^0} pos4
+$$
+
+![jump error](./images/jump_error.png "jump error")
+
+这样的话,我们不能利用$f(i,j)$来统计信息了.本质是$jump(i,1)$本质是指从位置$i$,走两了步,执行了两次$jump$函数映射,**相当于走了两条边**.且`binary jump`每条边只走一次，那么每次跳跃正好可以统计个边数为$2^k$条边的信息了!
+
+![jump right](./images/jump_right.png "jump right")
+
+
+于是我们按下面的操作把++点转换成边++
+
+::: colorfulbox
+
+点转成边:
+
+1. 原数据有$n$个点$1,2,\cdots,n$,新数据有$n+1$个点:$0,1,2,\cdots,n$
+1. 原点$i$的值$x$为新的数据上边$\langle i-1,i\rangle$的值.
+
+:::
+
+于是我们写出如下的`binary jump`代码
+
+::: fold
+```cpp
+<%- include("./code/binary_jump.cpp")%>
+```
+:::
+
+
+
+
 ## 得到$\lfloor log_2^n \rfloor$
 
 这里给三种方案
@@ -139,7 +178,7 @@ $$
 ## 动画
 
 
-<%- iframe("/canvas/st_table/index.html") %>
+<%- iframe("/canvas/st_table/index.html",850) %>
 
 ## ST 表的时间复杂度分析
 

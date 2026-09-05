@@ -434,3 +434,68 @@ for (s=A;s;s = (s-1)&A){
 `(s-1)&A`
 
 :::
+
+
+## 其它神奇操作
+
+### 最高位置1
+
+```c
+int high_bit_pos(int n) {
+    if( n == 0) return -1; // 0 没有有效位
+    return sizeof(n)*8 - 1 __builtin_ctz(n);
+}
+```
+
+todo 清除最高位置1
+
+### 只保留最高位置1
+
+```c
+int keep_high_bit(int n){
+    return n & ~(n-1); 
+}
+```
+
+### 清除最低位1
+
+```c
+int clear_low_bit(int n){
+    return n & (n-1);
+}
+```
+
+### 判断是否是2的幂
+
+```c
+int isPowerOf2(int n){
+    return (n & (n-1)) == 0; 
+}   
+```
+
+
+### 是否是偶数 
+
+```c
+bool isEven(int n){
+    return ~n & 1;
+}
+```
+
+### 是否是奇数
+
+```c
+bool isOdd(int n){
+    return n & 1;
+}
+```
+
+### 是否相邻且起点为偶数
+
+也就是证明$l = r-1 \land l \mod 2 = 0$
+
+```c
+bool isEven(int l,int r){
+    return l^r^1;
+}
+```

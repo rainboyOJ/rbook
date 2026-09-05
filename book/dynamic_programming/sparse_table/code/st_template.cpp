@@ -30,7 +30,7 @@ void init_st() {
 
 int query(int l,int r) {
     int k = log2(r-l+1);
-    return max(f[i][k],f[i+(1<<k)][k]);
+    return max(f[l][k],f[r-(1<<k)+1][k]);
 }
 
 

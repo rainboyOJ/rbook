@@ -1,5 +1,23 @@
 @[toc]
 
+## 学习点
+
+
+TODO: 完善
+
+1. 线段树
+2. 适用条件： 半群， 和 最值 
+
+
+3. 性质
+
+1. 孩子与父亲  left-child = 2*fat, right-child =2*fat+1
+2. 区间分割的数学原理 (l+r)/2
+3. 为什么要用线段树：
+	动态修改数据
+	满足 半群 区间可合并
+4. 4n
+
 ## 问题引入
 
 如果我们有一段区间[1,n],我们需要不停的操作某一段区间里的值,还要不停的查询?怎么做最快?
@@ -142,6 +160,22 @@ void update(int pos,int add,int l,int r,int rt){
 
 只要我们所在的区间a,被要找的区间b包含就可以直接返回值了
 
+
+
+
+query 正确性的证明
+
+3，8
+
+设查询区间为Q:[L,R]
+
+1. root 区间一定 包含 Q, Q \subseteq Range(root)
+2. 情况1 Range(root) = Q
+3. 情况2 Range(root) 相交
+
+4. 核心: 能去到的结点一定i,能到某个点i 则 $Q \cap Range(i) = \not \varnothing$
+
+
 ```c
 int query(int l1,int r1,int l,int r,int rt){
     if(l1 <= l && r <=r1){
@@ -157,11 +191,9 @@ int query(int l1,int r1,int l,int r,int rt){
 
 ## 代码模板
 
-<!-- template start -->
 ```c
-<%- include("template/sgt_point.cpp") %>
+<%- include("../template/sgt_point.cpp") %>
 ```
-<!-- template end -->
 
 ## 手动练习
 
