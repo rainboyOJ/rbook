@@ -1,0 +1,16 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "outDir": ".tsbuild",
+        "declaration": true,
+        "declarationMap": true,
+        "sourceMap": true,
+        "rootDir": "src"
+    },
+    "include": [
+        "src/publishing/**/*.ts",
+        "src/types/**/*.d.ts"
+    ]
+}

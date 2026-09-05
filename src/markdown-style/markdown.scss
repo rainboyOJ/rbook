@@ -9,7 +9,7 @@ html,body {
 }
 
 @import "./info.scss";
-@import "../../node_modules/markdown-r/assets/markdown-r.scss";
+@import "./vendor/markdown-r.scss";
 @import "./markdownPlugin/pseudocode";
 // @import "./markdownPlugin/markdown-it-code-copy.scss";
 @import "./markdownPlugin/markdown-it-container.scss";

@@ -1,0 +1,36 @@
+{
+    "compilerOptions": {
+        "target": "ES2022",
+        "module": "ES2022",
+        "moduleResolution": "bundler",
+        "types": ["node"],
+        "strict": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "resolveJsonModule": true,
+        "declaration": true,
+        "declarationMap": true,
+        "sourceMap": true,
+        "outDir": ".tsbuild",
+        "rootDir": ".",
+        "allowJs": true,
+        "checkJs": false
+    },
+    "include": [
+        "src/**/*.ts",
+        "src/**/*.js",
+        "bin/**/*.js"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist",
+        ".tsbuild",
+        "book",
+        "third_part",
+        "manimce",
+        "assets",
+        "images",
+        "problems_old"
+    ]
+}

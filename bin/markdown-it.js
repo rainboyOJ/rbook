@@ -1,67 +1,37 @@
-const MK = require("./markdown-it-pseudocodejs/")
-const MDRender = require("markdown-r")
+// markdown-it.js — 兼容导出
+// 新渲染管线位于 src/publishing/markdown/
+// 此文件保留为过渡 shim，全量切换后删除
+const P = require("path")
+const { createMarkdownRenderer, renderMarkdown } = require("../.tsbuild/publishing/markdown/create-markdown-renderer.js")
+const { loadCatalog } = require(P.join(__dirname, "..", ".tsbuild", "publishing", "content", "catalog-loader.js"))
+const { flattenCatalog } = require(P.join(__dirname, "..", ".tsbuild", "publishing", "domain", "catalog.js"))
+const { buildArticleIndex } = require(P.join(__dirname, "..", ".tsbuild", "publishing", "domain", "index.js"))
+const { resolveArticleSource } = require(P.join(__dirname, "..", ".tsbuild", "publishing", "content", "source-resolver.js"))
+const { PathPolicy } = require(P.join(__dirname, "..", ".tsbuild", "publishing", "content", "path-policy.js"))
 
-const imageExtensionPluginForExcalidraw = require("./markdown-it-excalidraw-svg")
-
-const triple_square_bracket = require("./triple-square-brackets/index.js")
-const problem_list = require("./problem_list/problem_list.js")
-
-MDRender.md.use(triple_square_bracket)
-
-MDRender.md.env = {}
-MDRender.md.env.blog_url = "https://rbook.roj.ac.cn"
-MDRender.md.env.base_path = "/home/rainboy/mycode/rbookr/newRbook_ejs/book/"
-
-MDRender.md.use(imageExtensionPluginForExcalidraw,{
-    excalidraw_server_addrs: "https://excalidraw.roj.ac.cn"
-})
-
-MDRender.md.use(problem_list)
-
-MDRender.md.use(MK,{
-    lineNumber:true
-})
-
-//对MDRender 进行配置
-//添加oneWordAlgo
-const mdItContainer = require("markdown-it-container")
-
-MDRender.md.use(mdItContainer,'oneWordAlgo',{
-    validate: function( params ){
-        return ( /^onewordalgo$/i.test(params.trim()))
-    },
-    render: function(tokens, idx, _options, env, self){
-
-        if (tokens[idx].nesting === 1) {
-            // opening tag
-            return `<div class="oneWordAlgo">\n<div class="title"><span>一句话算法</span></div><div class="content">`;
-
-        } else {
-            // closing tag
-            return '</div></div>\n';
-        }
+const policy = new PathPolicy(P.join(__dirname, ".."))
+const catalog = loadCatalog(P.join(policy.book, "catalog.yaml"))
+const leaves = flattenCatalog(catalog)
+const entries = leaves.map(leaf => {
+    const resolved = resolveArticleSource(leaf, policy.book, [])
+    return {
+        id: resolved.metadata.id,
+        title: resolved.metadata.title,
+        sourcePath: resolved.source.filePath,
+        publishHref: policy.publishHref(resolved.source.filePath),
+        metadata: resolved.metadata,
     }
 })
+const index = buildArticleIndex(catalog, entries)
 
-
-MDRender.md.use(mdItContainer,'colorfulbox',{
-    validate: function( params ){
-        return ( /^colorfulbox$/i.test(params.trim()))
-    },
-    render: function(tokens, idx, _options, env, self){
-
-        if (tokens[idx].nesting === 1) {
-            // opening tag
-            return `<div class="colorfulbox bg-light">\n`;
-
-        } else {
-            // closing tag
-            return '</div>\n';
-        }
-    }
+const md = createMarkdownRenderer({
+    index,
+    blogUrl: "https://rbook.roj.ac.cn",
+    rojBaseUrl: "https://roj.ac.cn",
 })
 
-//对MDRender 进行配置 结束
+md.env = {}
+md.env.blog_url = "https://rbook.roj.ac.cn"
+md.env.base_path = policy.book
 
-
-module.exports = MDRender
+module.exports = { md, render: (raw, config) => renderMarkdown(raw, md, config.mdit || {}) }

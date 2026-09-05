@@ -48,6 +48,9 @@ web_modules/
 # TypeScript cache
 *.tsbuildinfo
 
+# TypeScript 编译产物 (src/publishing -> .tsbuild)
+.tsbuild
+
 # Optional npm cache directory
 .npm
 
