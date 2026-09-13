@@ -73,8 +73,10 @@
 - title: "贪心"
   path: "greedy"
   children:
-    - title: "《算法竞赛进阶指南》0x07 贪心"
-      path: "chapter_7"
+    - title: "贪心说明"
+      path: "index.md"
+    - title: "均分纸牌"
+      path: "均分纸牌"
     - title: "防晒证明"
       path: "sunscreen"
     - title: "区间分组证明"
