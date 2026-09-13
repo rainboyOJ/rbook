@@ -90,6 +90,16 @@ const menu = [
         ]
     },
     {
+        title: "贪心",
+        path: "greedy",
+        child: [
+            { title: "《算法竞赛进阶指南》0x07 贪心", path: "chapter_7" },
+            { title: "防晒证明", path: "sunscreen" },
+            { title: "区间分组证明", path: "interval_grouping" },
+            { title: "区间选点证明", path: "interval_point" }
+        ]
+    },
+    {
         title: "动态规划",
         path: "dynamic_programming",
         child: [
