@@ -1,6 +1,8 @@
 import MarkdownIt from 'markdown-it'
 import type { RenderRule } from 'markdown-it/lib/renderer.mjs'
 
+import { renderPseudocodeBlock } from './pseudocode'
+
 export default function fencePlugin(md: MarkdownIt): void {
     const defaultFence = md.renderer.rules.fence || function(tokens, idx, options, env, self) {
         return self.renderToken(tokens, idx, options)
@@ -20,7 +22,7 @@ export default function fencePlugin(md: MarkdownIt): void {
             case 'dot':
                 return `<pre class="dot">${code}</pre>`
             case 'pseudocode':
-                return `<pre class="pseudocode">${code}</pre>`
+                return renderPseudocodeBlock(code)
             default:
                 break
         }
@@ -28,7 +30,7 @@ export default function fencePlugin(md: MarkdownIt): void {
         const rendered = defaultFence(tokens, idx, options, env, slf)
         const content = tokens[idx].content
             .replaceAll('"', '&quot;')
-            .replaceAll('\'', '&lt;')
+            .replaceAll('\'', '&#39;')
 
         if (content && content.length > 0) {
             return `

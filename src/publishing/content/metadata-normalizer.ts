@@ -17,7 +17,9 @@ interface RawConfig {
 }
 
 export function normalizeMetadata(raw: RawConfig, sourcePath: string, diagnostics: Diagnostic[] = []): ArticleMetadata {
+    const { copy: _c, teachPlan: _tp, teach_plan: _tp1, teach_plain: _tp2, ...rest } = raw
     const md: ArticleMetadata = {
+        ...rest,
         id: str(raw.id) || idFromPath(sourcePath),
         title: str(raw.title) || '',
         file: str(raw.file) || 'index.md',

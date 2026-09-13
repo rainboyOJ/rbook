@@ -228,6 +228,10 @@ const menu = [
                 path: "set",
             },
             {
+                title: "偏序与Dilworth定理",
+                path: "dilworth",
+            },
+            {
                 title: "组合数学",
                 path: "combinatorics",
                 child: [

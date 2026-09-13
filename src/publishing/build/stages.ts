@@ -1,4 +1,5 @@
 import { execSync } from 'child_process'
+import fs from 'fs'
 import path from 'path'
 import { Diagnostic } from '../domain/diagnostics'
 import { PathPolicy } from '../content/path-policy'
@@ -82,7 +83,7 @@ export const buildSiteShell: BuildStage = {
     description: '调用 Vite/EJS 生成首页和静态壳',
     run(ctx) {
         console.log('[build-site-shell] 开始 vite build')
-        execSync('bun run build', {
+        execSync('npm run build', {
             cwd: ctx.projectRoot,
             stdio: 'inherit',
         })
@@ -95,7 +96,6 @@ export const copyAssets: BuildStage = {
     description: '复制书内图片、样式、固定公共资源',
     run(ctx) {
         console.log('[copy-assets] 复制图片')
-        const { execSync } = require('child_process')
         execSync('bash ./bin/copy_images.sh', { cwd: ctx.projectRoot, stdio: 'inherit' })
         console.log('[copy-assets] 编译 markdown.css')
         execSync('npx sass ./src/markdown-style/markdown.scss ./dist/markdown.css', {
@@ -115,13 +115,57 @@ export const buildOptionalWidgets: BuildStage = {
     name: 'build-optional-widgets',
     description: '执行第三方页面、Asymptote、论文和动画等外部步骤',
     run(ctx) {
-        console.log('[build-optional-widgets] 编译 third_part')
-        execSync('bash ./third_part/build.sh', {
-            cwd: ctx.projectRoot,
-            stdio: 'inherit',
-        })
-        console.log('[build-optional-widgets] 复制 assets 目录')
-        execSync('rsync_dir_placeholder', { cwd: ctx.projectRoot, stdio: 'ignore' })
+        if (fs.existsSync(path.join(ctx.projectRoot, 'third_part', 'build.sh'))) {
+            console.log('[build-optional-widgets] 编译 third_part')
+            try {
+                execSync('bash ./third_part/build.sh', {
+                    cwd: ctx.projectRoot,
+                    stdio: 'inherit',
+                })
+            }
+            catch (err) {
+                ctx.diagnostics.push({
+                    phase: 'build-optional-widgets',
+                    level: 'warning',
+                    message: `third_part 编译失败: ${err instanceof Error ? err.message : String(err)}`,
+                })
+            }
+        }
+
+        if (fs.existsSync(path.join(ctx.projectRoot, 'assets'))) {
+            console.log('[build-optional-widgets] 复制 assets 目录')
+            try {
+                execSync('rsync -av ./assets/ ./dist/assets/', {
+                    cwd: ctx.projectRoot,
+                    stdio: 'inherit',
+                })
+            }
+            catch (err) {
+                ctx.diagnostics.push({
+                    phase: 'build-optional-widgets',
+                    level: 'warning',
+                    message: `assets 复制失败: ${err instanceof Error ? err.message : String(err)}`,
+                })
+            }
+        }
+
+        if (fs.existsSync(path.join(ctx.projectRoot, 'copy_all_manim_mp4.sh'))) {
+            console.log('[build-optional-widgets] 复制 manim 视频')
+            try {
+                execSync('bash ./copy_all_manim_mp4.sh', {
+                    cwd: ctx.projectRoot,
+                    stdio: 'inherit',
+                })
+            }
+            catch (err) {
+                ctx.diagnostics.push({
+                    phase: 'build-optional-widgets',
+                    level: 'warning',
+                    message: `manim 视频复制失败: ${err instanceof Error ? err.message : String(err)}`,
+                })
+            }
+        }
+
         console.log('[build-optional-widgets] 完成')
     },
 }

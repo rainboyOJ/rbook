@@ -152,3 +152,5 @@ problems
 *.bak
 *.bak_v*
 tmp_to_do/
+newRbook_ejs/
+*.zip

@@ -1,3 +1,5 @@
+import fs from 'fs'
+import path from 'path'
 import { resolveArticleSource } from '../content/source-resolver'
 import { PathPolicy } from '../content/path-policy'
 import { createMarkdownRenderer, renderMarkdown } from '../markdown/create-markdown-renderer'
@@ -7,7 +9,6 @@ import { ArtifactWriter } from './artifact-writer'
 import { Diagnostic } from '../domain/diagnostics'
 import { ArticleIndex } from '../domain/metadata'
 import { ProblemProvider } from '../integrations/problem-provider'
-import path from 'path'
 
 export interface RenderArticleOptions {
     entryPath: string
@@ -47,6 +48,8 @@ export function renderArticle(opts: RenderArticleOptions): RenderArticleResult {
     const { header, content } = renderMarkdown(resolved.source.raw, renderer, {
         id: resolved.metadata.id,
         currentMdFilePath: resolved.source.filePath,
+        root: policy.root,
+        basePath: policy.book,
     })
 
     const publishHref = policy.publishHref(resolved.source.filePath)
@@ -57,13 +60,35 @@ export function renderArticle(opts: RenderArticleOptions): RenderArticleResult {
     const relatedDocuments: Array<{ title: string; href: string }> = []
 
     if (resolved.metadata.teachPlan) {
-        const teachPlanPath = policy.resolveSource(
-            policy.relativeToBook(
-                resolved.source.filePath.replace(/[^/]+$/, resolved.metadata.teachPlan)
-            )
-        )
-        teachPlanHref = policy.publishHref(teachPlanPath)
-        relatedDocuments.push({ title: '教学计划', href: teachPlanHref })
+        const sourceDir = path.dirname(resolved.source.filePath)
+        let teachPlanFile = resolved.metadata.teachPlan
+        let candidatePath = path.join(sourceDir, teachPlanFile)
+
+        if (!fs.existsSync(candidatePath)) {
+            if (teachPlanFile === 'teach_plain.md' && fs.existsSync(path.join(sourceDir, 'teach_plan.md'))) {
+                teachPlanFile = 'teach_plan.md'
+                resolved.metadata.teachPlan = teachPlanFile
+                candidatePath = path.join(sourceDir, teachPlanFile)
+            }
+            else if (teachPlanFile === 'teach_plan.md' && fs.existsSync(path.join(sourceDir, 'teach_plain.md'))) {
+                teachPlanFile = 'teach_plain.md'
+                resolved.metadata.teachPlan = teachPlanFile
+                candidatePath = path.join(sourceDir, teachPlanFile)
+            }
+        }
+
+        if (fs.existsSync(candidatePath)) {
+            teachPlanHref = policy.publishHref(candidatePath)
+            relatedDocuments.push({ title: '教学计划', href: teachPlanHref })
+        }
+        else {
+            diag.push({
+                phase: 'render-article',
+                level: 'warning',
+                sourcePath: resolved.source.filePath,
+                message: `声明的教学计划文件不存在: ${teachPlanFile}`,
+            })
+        }
     }
 
     const view = buildArticleView({
@@ -88,12 +113,30 @@ export function renderRelatedDocuments(
 ): void {
     if (!parentResult.view.teachPlanHref || !parentResult.view.metadata.teachPlan) return
 
-    const sourceDir = parentResult.view.sourcePath.substring(0, parentResult.view.sourcePath.lastIndexOf('/'))
-    const teachPlanFullPath = opts.policy.resolveSource(
-        opts.policy.relativeToBook(
-            path.join(sourceDir, parentResult.view.metadata.teachPlan)
-        )
-    )
+    const sourceDir = path.dirname(parentResult.view.sourcePath)
+    let teachPlanFile = parentResult.view.metadata.teachPlan
+    let teachPlanFullPath = path.join(sourceDir, teachPlanFile)
+
+    if (!fs.existsSync(teachPlanFullPath)) {
+        if (teachPlanFile === 'teach_plain.md' && fs.existsSync(path.join(sourceDir, 'teach_plan.md'))) {
+            teachPlanFile = 'teach_plan.md'
+            teachPlanFullPath = path.join(sourceDir, teachPlanFile)
+        }
+        else if (teachPlanFile === 'teach_plan.md' && fs.existsSync(path.join(sourceDir, 'teach_plain.md'))) {
+            teachPlanFile = 'teach_plain.md'
+            teachPlanFullPath = path.join(sourceDir, teachPlanFile)
+        }
+    }
+
+    if (!fs.existsSync(teachPlanFullPath)) {
+        opts.diagnostics?.push({
+            phase: 'render-related',
+            level: 'warning',
+            sourcePath: parentResult.view.sourcePath,
+            message: `教学计划文件不存在: ${teachPlanFullPath}`,
+        })
+        return
+    }
 
     const resolved = resolveArticleSource(teachPlanFullPath, opts.policy.book, opts.diagnostics)
     const renderer = createMarkdownRenderer({
@@ -105,7 +148,13 @@ export function renderRelatedDocuments(
         debug: opts.debug,
     })
 
-    const { header, content } = renderMarkdown(resolved.source.raw, renderer)
+    const { header, content } = renderMarkdown(resolved.source.raw, renderer, {
+        id: resolved.metadata.id,
+        currentMdFilePath: resolved.source.filePath,
+        root: opts.policy.root,
+        basePath: opts.policy.book,
+    })
+
     const view = buildArticleView({
         article: resolved.source,
         metadata: resolved.metadata,

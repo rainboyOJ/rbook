@@ -126,4 +126,10 @@ describe('Phase 4: 文章渲染与模板写盘', () => {
         assert.equal(result.succeeded, 3)
         assert.equal(result.failed, 0)
     })
+
+    it('bin/render_markdown.js 兼容 shim 正常渲染', () => {
+        const render_md = require('../bin/render_markdown.js')
+        const out = render_md('base/presum')
+        assert.ok(out.html.includes('前缀和'))
+    })
 })

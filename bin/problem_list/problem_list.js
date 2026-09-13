@@ -12,9 +12,6 @@ const {join} = require("path")
 const {readFileSync} = require("fs")
 const template = ejs.compile(readFileSync(join(__dirname,"./problem_list.html"),{encoding:"utf-8"}))
 
-// const _problemDB = require("../../problems/src/lib/database/index.js")
-// const problemDB = new _problemDB()
-
 const problem_list_parse = function(state, startLine, endLine, silent) {
     // debugger
     let token,content

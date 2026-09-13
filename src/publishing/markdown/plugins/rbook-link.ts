@@ -25,7 +25,8 @@ function renderRbookLink(content: string, opts: RbookLinkOptions): string {
     if (type === 'rbook') {
         const info = opts.index.byId.get(id)
         if (info) {
-            return `<a class="extra-link" target="_blank" href="${base}${info.publishHref}">[<img src="${base}/rbookIcon/favicon-32x32.png"/> Rbook: ${info.metadata.title || id}]</a>`
+            const title = info.metadata ? info.metadata.title : ((info as unknown as Record<string, unknown>).title as string) || id
+            return `<a class="extra-link" target="_blank" href="${base}${info.publishHref}">[<img src="${base}/rbookIcon/favicon-32x32.png"/> Rbook: ${title}]</a>`
         }
         opts.diagnostics?.push({
             phase: 'rbook-link',
@@ -35,12 +36,12 @@ function renderRbookLink(content: string, opts: RbookLinkOptions): string {
         return `<span class="extra-link missing">[rbook: ${id}]</span>`
     }
 
-    if (type === 'p' || type === 'problem') {
+    if (type === 'p' || type === 'problem' || type === 'pp' || type === 'problem_info_solution') {
         if (!opts.problemProvider || !opts.problemProvider.getProblemById) {
             opts.diagnostics?.push({
                 phase: 'rbook-link',
                 level: 'error',
-                message: `题目 provider 未配置: [[[p: ${id}]]]`,
+                message: `题目 provider 未配置: [[[${rawType}: ${id}]]]`,
                 suggestion: '配置 ProblemProvider 后重新渲染',
             })
             return `<span class="extra-link missing">[problem: ${id}]</span>`
@@ -48,7 +49,8 @@ function renderRbookLink(content: string, opts: RbookLinkOptions): string {
         const info = opts.problemProvider.getProblemById(id)
         if (info) {
             const rojBase = opts.rojBaseUrl || 'https://roj.ac.cn'
-            return `<a class="extra-link" target="_blank" href="${rojBase}${info.link}">[<img src="${rojBase}/fav/favicon-32x32.png"/> ${info.oj} ${info.sid}: ${info.title}]</a>`
+            const checkmark = (type === 'pp' || type === 'problem_info_solution') && info.hasSolution ? '&#x2713; ' : ''
+            return `<a class="extra-link" target="_blank" href="${rojBase}${info.link}">${checkmark}[<img src="${rojBase}/fav/favicon-32x32.png"/> ${info.oj} ${info.sid}: ${info.title}]</a>`
         }
         return `<span class="extra-link missing">[problem: ${id}]</span>`
     }

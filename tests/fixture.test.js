@@ -6,24 +6,59 @@ const { runFixture, assertMarkers } = require('./helpers/fixture-runner.js')
 const FIXTURES = path.join(__dirname, 'fixtures', 'markdown')
 
 describe('发布契约 fixtures', () => {
-    it('basic-syntax.md 渲染出标题/列表/表格/代码', () => {
+    it('basic-syntax.md 渲染出标题/列表/表格/代码及KaTeX数学公式', () => {
         const { html } = runFixture(path.join(FIXTURES, 'basic-syntax.md'))
-        assertMarkers(html, ['<h2', '<ul>', '<table>', '<pre>'], assert)
+        assertMarkers(html, ['<h2', '<ul>', '<table>', '<pre>', 'class="katex"'], assert)
     })
 
     it('containers.md 渲染容器', () => {
         const { html } = runFixture(path.join(FIXTURES, 'containers.md'))
-        assertMarkers(html, ['oneWordAlgo', 'colorfulbox', 'warning', 'info', 'error', 'blackboard'], assert)
+        assertMarkers(html, [
+            'class="oneWordAlgo"',
+            'class="colorfulbox bg-light"',
+            'class="warning"',
+            'class="info"',
+            'class="error"',
+            'class="blackboard"',
+            '<details>',
+        ], assert)
     })
 
-    it('fences.md 渲染各种代码块', () => {
+    it('fences.md 渲染各种代码块及伪代码', () => {
         const { html } = runFixture(path.join(FIXTURES, 'fences.md'))
-        assertMarkers(html, ['<pre'], assert)
+        assertMarkers(html, [
+            'class="mermaid"',
+            'class="plantuml"',
+            'class="dot"',
+            'class="pseudocode"',
+            'markdown-it-code-copy',
+        ], assert)
     })
 
-    it('excalidraw.md 渲染相对路径图片', () => {
+    it('excalidraw.md 渲染相对路径图片及交互按钮', () => {
         const { html } = runFixture(path.join(FIXTURES, 'excalidraw.md'))
-        assertMarkers(html, ['<img'], assert)
+        assertMarkers(html, ['<img', 'class="image-wrapper"', 'image-extension-badge'], assert)
+    })
+
+    it('triple-brackets.md 渲染文章链接与题解链接', () => {
+        const { html } = runFixture(path.join(FIXTURES, 'triple-brackets.md'))
+        assertMarkers(html, ['class="extra-link"', '/base/presum/index.html'], assert)
+    })
+
+    it('problem-list.md 渲染题目列表容器', () => {
+        const { html } = runFixture(path.join(FIXTURES, 'problem-list.md'))
+        assertMarkers(html, ['class="problem_list_content"'], assert)
+    })
+
+    it('ejs-macros.md 渲染常用宏 (video, dvideo, iframe, pid_to_url)', () => {
+        const { html } = runFixture(path.join(FIXTURES, 'ejs-macros.md'))
+        assertMarkers(html, [
+            '<video',
+            '/video/test_video.mp4',
+            'https://d.roj.ac.cn/d/RainboyVideo/test_video.mp4',
+            '<iframe',
+            '<a href="https://roj.ac.cn/luogu/8218"',
+        ], assert)
     })
 
     it('snapshot normalizer 去除动态字段', () => {

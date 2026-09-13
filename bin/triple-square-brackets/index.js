@@ -1,13 +1,3 @@
-// const Problem = require("../../problems/src/lib/online_judge/index.js")
-// const rbookDb = require("../../src/lib/database/index.js")
-
-// const _problemDB = require("../../problems/src/lib/database/index.js")
-// const problemDB = new _problemDB()
-
-//加载数据库,这个是同步的
-// rbookDb.loadDatabase();
-
-// const Problem = require("/home/rainboy/mycode/RainboyOJ/problems/src/lib/online_judge/index.js")
 const ejs = require("ejs")
 const fs = require("fs")
 const path = require("path")
