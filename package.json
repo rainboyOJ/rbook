@@ -25,6 +25,7 @@
         "markdown-it": "^14.1.0",
         "markdown-it-texmath": "^1.0.0",
         "mkdirp": "^3.0.1",
+        "prismjs": "^1.30.0",
         "twemoji": "^14.0.2"
     },
     "devDependencies": {
@@ -36,6 +37,7 @@
         "@types/js-yaml": "^4.0.9",
         "@types/markdown-it": "^14.1.2",
         "@types/node": "^26.4.1",
+        "@types/prismjs": "^1.26.6",
         "@vitejs/plugin-vue": "^5.0.4",
         "archiver": "^7.0.1",
         "bootstrap": "^5.3.3",

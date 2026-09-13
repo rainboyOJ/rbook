@@ -1,20 +1,18 @@
 import MarkdownIt from 'markdown-it'
-import type { RenderRule } from 'markdown-it/lib/renderer.mjs'
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const katex = require('katex')
 
 import { renderPseudocodeBlock } from './pseudocode'
+import { highlightCode } from '../highlight'
 
 export default function fencePlugin(md: MarkdownIt): void {
-    const defaultFence = md.renderer.rules.fence || function(tokens, idx, options, env, self) {
-        return self.renderToken(tokens, idx, options)
-    }
-
     md.renderer.rules.fence = function(tokens, idx, options, env, slf) {
         const token = tokens[idx]
         const code = token.content.trim()
         const info = token.info ? md.utils.unescapeAll(token.info).trim() : ''
         const langName = info ? info.split(/\s+/g)[0] : ''
 
-        switch (langName) {
+        switch (langName.toLowerCase()) {
             case 'mermaid':
                 return `<pre class="mermaid">${code}</pre>`
             case 'plantuml':
@@ -23,11 +21,18 @@ export default function fencePlugin(md: MarkdownIt): void {
                 return `<pre class="dot">${code}</pre>`
             case 'pseudocode':
                 return renderPseudocodeBlock(code)
+            case 'math':
+                try {
+                    return `<p class="katex-block">${katex.renderToString(code, { displayMode: true, throwOnError: false })}</p>`
+                }
+                catch {
+                    break
+                }
             default:
                 break
         }
 
-        const rendered = defaultFence(tokens, idx, options, env, slf)
+        const rendered = highlightCode(token.content, langName)
         const content = tokens[idx].content
             .replaceAll('"', '&quot;')
             .replaceAll('\'', '&#39;')
@@ -36,9 +41,7 @@ export default function fencePlugin(md: MarkdownIt): void {
             return `
 <div style="position: relative" class="code-with-linenumber">
     ${rendered}
-    <button class="markdown-it-code-copy" data-clipboard-text="${content}" style="position: absolute; top: 17.5px; right: 10px; cursor: pointer; outline: none;" onclick="window.myclipboard(this)" title="Copy">
-        <span style="font-size: 21px; opacity: 0.4;" class="mdi mdi-content-copy"></span>
-    </button>
+    <button class="markdown-it-code-copy" data-clipboard-text="${content}" style="position: absolute; top: 10px; right: 10px; cursor: pointer; outline: none;" onclick="window.myclipboard(this)" title="复制">复制</button>
 </div>`
         }
 

@@ -8,7 +8,7 @@ const FIXTURES = path.join(__dirname, 'fixtures', 'markdown')
 describe('发布契约 fixtures', () => {
     it('basic-syntax.md 渲染出标题/列表/表格/代码及KaTeX数学公式', () => {
         const { html } = runFixture(path.join(FIXTURES, 'basic-syntax.md'))
-        assertMarkers(html, ['<h2', '<ul>', '<table>', '<pre>', 'class="katex"'], assert)
+        assertMarkers(html, ['<h2', '<ul>', '<table>', '<pre', 'class="katex"'], assert)
     })
 
     it('containers.md 渲染容器', () => {

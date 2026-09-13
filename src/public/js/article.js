@@ -1,28 +1,41 @@
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
-function init_copy(params) {
+window.myclipboard = function(btn) {
+    const text = btn.getAttribute('data-clipboard-text')
+    if (!text || btn.classList.contains('copied')) return
+    navigator.clipboard.writeText(text).then(() => {
+        btn.classList.add('copied')
+        btn.textContent = '已复制'
+        setTimeout(() => {
+            btn.textContent = '复制'
+            btn.classList.remove('copied')
+        }, 1500)
+    }).catch(err => {
+        console.error('Failed to copy', err)
+    })
+}
 
-    //copy to clipboard
-    document.querySelectorAll('.zeroclipboard-container').forEach( function(clipContainer){
+function init_copy(params) {
+    // legacy zeroclipboard-container support
+    document.querySelectorAll('.zeroclipboard-container').forEach(function(clipContainer) {
         clipContainer.addEventListener('click', function(event) {
-            console.log(clipContainer.parentNode.parentNode)
-            if( clipContainer.classList.contains('copied')) return;
+            if (clipContainer.classList.contains('copied')) return
 
             let text = clipContainer.parentNode.parentNode.querySelector('pre > code').textContent
-            clipContainer.classList.add('copied');
+            clipContainer.classList.add('copied')
             try {
-                navigator.clipboard.writeText(text).then( ()=>{
-                    setTimeout( ()=> clipContainer.classList.remove('copied'),1500)
+                navigator.clipboard.writeText(text).then(() => {
+                    setTimeout(() => clipContainer.classList.remove('copied'), 1500)
                 })
             }
-            catch(err) {
-                alert('failed to copy!',err)
+            catch (err) {
+                alert('failed to copy!', err)
             }
         })
     })
 }
 
-document.addEventListener("DOMContentLoaded", function() {
-    init_copy();
-});
+document.addEventListener('DOMContentLoaded', function() {
+    init_copy()
+})
