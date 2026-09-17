@@ -65,4 +65,7 @@ ans = max\{ |\sum_{a_i > 0} a_i|,|\sum_{a_j < 0} a_j| \}
 ```cpp
 <%- include("./sol.cpp") _%>
 ```
-```
+
+## 练习题目
+
+<%- include("./practice.md") _%>

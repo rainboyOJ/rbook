@@ -259,6 +259,8 @@
           path: "online.md"
         - title: "neovim"
           path: "neovim"
+        - title: "neovim 快捷键"
+          path: "neovim-shortcuts"
         - title: "其它工具"
           path: "other"
     - title: "脚本"

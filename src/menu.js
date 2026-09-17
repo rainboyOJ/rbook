@@ -289,6 +289,7 @@ const menu = [
                     { title: 'pure-ftpd', path: 'pure-ftpd' },
                     { title: '在线工具', path: 'online.md' },
                     { title: 'neovim', path: 'neovim' },
+                    { title: 'neovim 快捷键', path: 'neovim-shortcuts' },
                     { title: '其它工具', path: 'other' }
                 ]
             },
@@ -390,4 +391,3 @@ const flatten_menu = _flatten_menu(srcp, '', menu)
 exports.flatten_menu = flatten_menu
 exports.md_file = md_file
 exports.flatten_menu_json = flatten_menu_to_json_array(flatten_menu)
-
