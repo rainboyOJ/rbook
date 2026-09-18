@@ -8,10 +8,14 @@
 
 ## 安装
 
-先安装依赖
+需要安装 Python 3。`fzf` 为可选：安装后可用交互筛选文件；未安装时脚本会显示编号供选择。
 
 ```bash
-sudo apt install -y fzf
+# macOS
+brew install python fzf
+
+# Debian / Ubuntu（fzf 可选）
+sudo apt install -y python3 fzf
 ```
 
 ### 安装到HOME目录
@@ -24,7 +28,7 @@ sudo apt install -y fzf
 
 ```bash
 mkdir ~/.bin
-curl -o ~/.bin/b <%= self_host _%>appendix/shellScripts/compile/b.sh
+curl -o ~/.bin/b <%= self_host _%>appendix/shellScripts/compile/b.py
 chmod +x ~/.bin/b
 ```
 2. 配置`.zshrc`或配置`.bashrc`
@@ -58,7 +62,7 @@ export PATH=$PATH:$HOME/.bin
 - 缺点:污染`/usr/bin`目录
 
 ```
-sudo curl -o /usr/bin/b <%= self_host _%>appendix/shellScripts/compile/b.sh
+sudo curl -o /usr/bin/b <%= self_host _%>appendix/shellScripts/compile/b.py
 sudo chmod +x /usr/bin/b
 ```
 
@@ -81,12 +85,12 @@ TODO
 
 - 选择代码与默认输入文件`in`,直接`b`
 - 编译`foo.cpp`:  `b foo`,`b foo.`,`b foo.cpp`
-- 选择代码与输入文件,设定输出文件为`1.out`,直接`b -t 1.out`
+- 选择代码与输入文件,设定输出文件为`1.out`,直接`b -o 1.out`
 - 不重定向输入文件,编译后直接执行,直接`b -I`
 - 只编译,不执行,直接`b -n`
 
 ## 完整脚本
 
-```bash
-<%- include("./b.sh") %>
+```python
+<%- include("./b.py") %>
 ```
