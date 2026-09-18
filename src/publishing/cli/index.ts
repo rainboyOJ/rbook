@@ -4,6 +4,7 @@ import path from 'path'
 
 function main(): void {
     const projectRoot = path.resolve(process.cwd())
+    const legacyEjsLocals = require(path.join(projectRoot, 'bin', 'ejsrc.js')).locals || {}
     const problemProvider = createOptionalProblemProvider(
         () => {
             const { default: ProblemDB } = require(path.join(projectRoot, '..', 'problems', 'src', 'lib', 'database', 'index.js'))
@@ -27,6 +28,7 @@ function main(): void {
         problemProvider,
         blogUrl: 'https://rbook.roj.ac.cn',
         rojBaseUrl: 'https://roj.ac.cn',
+        contentMacros: { locals: legacyEjsLocals },
     })
 
     cli.parse(process.argv)

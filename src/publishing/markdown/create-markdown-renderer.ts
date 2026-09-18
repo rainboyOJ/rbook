@@ -5,6 +5,7 @@ import { ExcalidrawOptions } from './plugins/excalidraw'
 import { ArticleIndex } from '../domain/metadata'
 import { ProblemProvider } from '../integrations/problem-provider'
 import { Diagnostic } from '../domain/diagnostics'
+import { ContentMacrosOptions } from './plugins/content-macros'
 
 export interface RendererOptions {
     index: ArticleIndex
@@ -14,6 +15,7 @@ export interface RendererOptions {
     diagnostics?: Diagnostic[]
     debug?: boolean
     excalidraw?: ExcalidrawOptions
+    contentMacros?: ContentMacrosOptions
 }
 
 export interface RenderResult {
@@ -41,6 +43,7 @@ export function createMarkdownRenderer(opts: RendererOptions): MarkdownIt {
     registerPlugins(md, {
         rbookLink: linkOpts,
         excalidraw: opts.excalidraw,
+        contentMacros: opts.contentMacros,
     })
 
     return md

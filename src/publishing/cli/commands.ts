@@ -14,6 +14,7 @@ import { BuildStageContext } from '../build/stages'
 import { getProfile } from '../build/profiles'
 import { runStages } from '../build/stages'
 import { reportDiagnostics } from '../build/diagnostics-reporter'
+import { ContentMacrosOptions } from '../markdown/plugins/content-macros'
 
 export interface CliOptions {
     projectRoot: string
@@ -21,6 +22,7 @@ export interface CliOptions {
     blogUrl?: string
     rojBaseUrl?: string
     templateName?: string
+    contentMacros?: ContentMacrosOptions
 }
 
 export function createCli(opts: CliOptions): Command {
@@ -116,6 +118,7 @@ export function createCli(opts: CliOptions): Command {
                     rojBaseUrl: opts.rojBaseUrl,
                     diagnostics: diag,
                     debug: true,
+                    contentMacros: opts.contentMacros,
                 })
 
                 if (options.output) {
@@ -158,6 +161,7 @@ export function createCli(opts: CliOptions): Command {
                     diagnostics: diag,
                     withRelated: true,
                     debug: false,
+                    contentMacros: opts.contentMacros,
                 })
 
                 console.log(`总文章: ${result.total}`)
@@ -211,6 +215,7 @@ export function createCli(opts: CliOptions): Command {
                     problemProvider: opts.problemProvider,
                     blogUrl: opts.blogUrl,
                     rojBaseUrl: opts.rojBaseUrl,
+                    contentMacros: opts.contentMacros,
                     stageResults: {},
                 }
                 const ok = runStages(profile.stages, ctx)

@@ -10,6 +10,7 @@ import { resolveArticleSource } from '../content/source-resolver'
 import { PageTemplateRenderer } from '../templates/page-template-renderer'
 import { renderMany } from '../pipeline/render-many'
 import { ProblemProvider } from '../integrations/problem-provider'
+import { ContentMacrosOptions } from '../markdown/plugins/content-macros'
 
 export interface BuildStageContext {
     projectRoot: string
@@ -18,6 +19,7 @@ export interface BuildStageContext {
     problemProvider?: ProblemProvider
     blogUrl?: string
     rojBaseUrl?: string
+    contentMacros?: ContentMacrosOptions
     stageResults: Record<string, unknown>
 }
 
@@ -72,6 +74,7 @@ export const renderPages: BuildStage = {
             diagnostics: ctx.diagnostics,
             withRelated: true,
             debug: false,
+            contentMacros: ctx.contentMacros,
         })
         ctx.stageResults['renderResult'] = result
         console.log(`[render-pages] 成功: ${result.succeeded}, 失败: ${result.failed}`)

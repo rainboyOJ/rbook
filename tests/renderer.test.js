@@ -52,6 +52,28 @@ describe('Phase 3: 新 Markdown 渲染核心', () => {
         assert.ok(content.includes('正文'))
     })
 
+    it('渲染旧 EJS locals 和相对 include', () => {
+        const articlePath = path.join(PROJECT_ROOT, 'book', 'appendix', 'shellScripts', 'compile', 'index.md')
+        const raw = fs.readFileSync(articlePath, 'utf8')
+        const diagnostics = []
+        const md = createMarkdownRenderer({
+            index,
+            diagnostics,
+            contentMacros: {
+                locals: { self_host: 'https://rbook.roj.ac.cn/' },
+            },
+        })
+        const { content } = renderMarkdown(raw, md, {
+            currentMdFilePath: articlePath,
+            root: PROJECT_ROOT,
+        })
+
+        assert.ok(content.includes('https://rbook.roj.ac.cn/appendix/shellScripts/compile/b.py'))
+        assert.ok(content.includes('快速编译脚本'))
+        assert.ok(!content.includes('&lt;%'), '不应保留未渲染的 EJS 宏')
+        assert.ok(!diagnostics.some(d => d.message.includes('EJS 宏渲染失败')))
+    })
+
     it('渲染 oneWordAlgo 容器', () => {
         const md = createMarkdownRenderer({ index })
         const { content } = renderMarkdown('::: oneWordAlgo\n一句话内容\n:::', md)

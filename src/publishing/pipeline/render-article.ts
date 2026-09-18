@@ -9,6 +9,7 @@ import { ArtifactWriter } from './artifact-writer'
 import { Diagnostic } from '../domain/diagnostics'
 import { ArticleIndex } from '../domain/metadata'
 import { ProblemProvider } from '../integrations/problem-provider'
+import { ContentMacrosOptions } from '../markdown/plugins/content-macros'
 
 export interface RenderArticleOptions {
     entryPath: string
@@ -21,6 +22,7 @@ export interface RenderArticleOptions {
     rojBaseUrl?: string
     diagnostics?: Diagnostic[]
     debug?: boolean
+    contentMacros?: ContentMacrosOptions
 }
 
 export interface RenderArticleResult {
@@ -43,6 +45,7 @@ export function renderArticle(opts: RenderArticleOptions): RenderArticleResult {
         rojBaseUrl: opts.rojBaseUrl,
         diagnostics: diag,
         debug: opts.debug,
+        contentMacros: opts.contentMacros,
     })
 
     const { header, content } = renderMarkdown(resolved.source.raw, renderer, {
@@ -146,6 +149,7 @@ export function renderRelatedDocuments(
         rojBaseUrl: opts.rojBaseUrl,
         diagnostics: opts.diagnostics,
         debug: opts.debug,
+        contentMacros: opts.contentMacros,
     })
 
     const { header, content } = renderMarkdown(resolved.source.raw, renderer, {
