@@ -1,26 +1,15 @@
 import { createCli } from './commands'
 import { createOptionalProblemProvider } from '../integrations/optional-problem-provider'
+import { RojJsonProblemProvider, defaultRojJsonPath } from '../integrations/roj-json-problem-provider'
 import path from 'path'
 
 function main(): void {
     const projectRoot = path.resolve(process.cwd())
     const legacyEjsLocals = require(path.join(projectRoot, 'bin', 'ejsrc.js')).locals || {}
+    const rojJsonPath = defaultRojJsonPath(projectRoot)
     const problemProvider = createOptionalProblemProvider(
-        () => {
-            const { default: ProblemDB } = require(path.join(projectRoot, '..', 'problems', 'src', 'lib', 'database', 'index.js'))
-            const db = new ProblemDB()
-            db.loadDatabase?.()
-            return {
-                name: 'problems-db',
-                getProblemById(id: string) {
-                    try { return db.getProblemById(id) } catch { return null }
-                },
-                getProblemsForArticle(rbookId: string) {
-                    try { return db.solutions_has_practice_rbook(rbookId) || [] } catch { return [] }
-                },
-            }
-        },
-        '外部题库目录 ../problems 不存在或不可用',
+        () => new RojJsonProblemProvider({ jsonPath: rojJsonPath }),
+        `题库数据不存在或不可用: ${rojJsonPath}`,
     )
 
     const cli = createCli({

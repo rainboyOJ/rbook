@@ -190,4 +190,4 @@ g++ -g -o 1 1.cpp
 <%-include("./cpp.json") _%>
 ```
 
-<% -include("./plugin.md") _%>
+<%- include("./plugin.md") _%>
