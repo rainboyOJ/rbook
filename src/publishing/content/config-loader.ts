@@ -1,6 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import { parse as jsoncParse, ParseError } from 'jsonc-parser'
+import { parse as jsoncParse, ParseError, printParseErrorCode } from 'jsonc-parser'
 import yaml from 'js-yaml'
 import { Diagnostic } from '../domain/diagnostics'
 
@@ -52,7 +52,7 @@ export function loadConfig(dir: string, diagnostics: Diagnostic[] = []): LoadedC
             diagnostics.push({
                 phase: 'config-loader',
                 level: 'warning',
-                message: `JSONC 解析错误 ${configFile}: ${errors.map(e => `${e.error}@${e.offset}`).join(', ')}`,
+                message: `JSONC 解析错误 ${configFile}: ${errors.map(e => formatParseError(raw, e)).join(', ')}`,
             })
         }
     }
@@ -67,4 +67,23 @@ export function loadConfig(dir: string, diagnostics: Diagnostic[] = []): LoadedC
     }
 
     return { dir, format: (ext === '.yaml' || ext === '.yml') ? 'yaml' : 'jsonc', data: data as Record<string, unknown> }
+}
+
+/** 把 jsonc-parser 的 offset 转成便于定位的 `行:列 描述` 文本（行列从 1 开始）。 */
+function formatParseError(raw: string, error: ParseError): string {
+    const { line, column } = offsetToLineColumn(raw, error.offset)
+    return `${line}:${column} ${printParseErrorCode(error.error)}`
+}
+
+function offsetToLineColumn(raw: string, offset: number): { line: number, column: number } {
+    const clamped = Math.max(0, Math.min(offset, raw.length))
+    let line = 1
+    let lineStart = 0
+    for (let i = 0; i < clamped; i++) {
+        if (raw.charCodeAt(i) === 10) {
+            line++
+            lineStart = i + 1
+        }
+    }
+    return { line, column: clamped - lineStart + 1 }
 }

@@ -1,7 +1,7 @@
 {
     "file":"index.md",
     "title":"1到n输出",
-    "teach_plain":"teach_plain.md",
+    "teach_plan":"teach_plan.md",
     "copy":[
         "./child2.svg"
     ]
