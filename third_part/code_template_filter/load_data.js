@@ -7,10 +7,37 @@ const archiver = require("archiver")
 //const Tooltip = ejs.compile(raw_html_template)
 
 const project_dir = Path.join(__dirname,'../../book')
+const project_root = Path.join(__dirname,'../..')
 
+//1. 加载目录清单 book/catalog.yaml，并解析为文章对象（替代旧的 src/menu.js）
+//   .tsbuild 由 `npm run prepare` / push.sh 中的 tsc 生成
+const {loadCatalog} = require("../../.tsbuild/publishing/content/catalog-loader.js")
+const {flattenCatalog} = require("../../.tsbuild/publishing/domain/catalog.js")
+const {resolveArticleSource} = require("../../.tsbuild/publishing/content/source-resolver.js")
+const {PathPolicy} = require("../../.tsbuild/publishing/content/path-policy.js")
 
-//1. 加载数据menu
-const {flatten_menu_json} = require("../../src/menu.js")
+const policy = new PathPolicy(project_root)
+
+// 保持与旧 flatten_menu_json 相同的数据形状：文章元数据 + md_file 信息
+function load_articles() {
+    const catalog = loadCatalog(Path.join(project_dir,'catalog.yaml'))
+    return flattenCatalog(catalog).map(leaf => {
+        const resolved = resolveArticleSource(leaf, policy.book, [])
+        const file_path = resolved.source.filePath
+        return {
+            ...resolved.metadata,
+            md_file: {
+                file_path,
+                file_dir: Path.dirname(file_path),
+                relative_path: Path.relative(project_root, file_path),
+                href: policy.publishHref(file_path),
+                git_location: policy.gitLocation(file_path),
+            },
+        }
+    })
+}
+
+const flatten_menu_json = load_articles()
 
 var template_array = []
 //2. 加载所有的 template 描述的array

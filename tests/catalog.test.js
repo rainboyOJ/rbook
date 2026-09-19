@@ -58,6 +58,34 @@ describe('Phase 2: Catalog 与元数据模型', () => {
         assert.ok(!/href="#\/[^"]*\/\//.test(html), '侧边栏链接不应出现双斜杠')
     })
 
+    it('每篇文章的 id 唯一（id 是跨文章链接与题库的契约）', () => {
+        const policy = new PathPolicy(PROJECT_ROOT)
+        const catalog = loadCatalog(catalogPath)
+        const byId = new Map()
+
+        for (const leaf of flattenCatalog(catalog)) {
+            const id = resolveArticleSource(leaf, policy.book).metadata.id
+            assert.ok(id, `文章缺少 id: ${leaf}`)
+            if (!byId.has(id)) byId.set(id, [])
+            byId.get(id).push(leaf)
+        }
+
+        const dups = [...byId.entries()].filter(([, leaves]) => leaves.length > 1)
+        assert.equal(
+            dups.length,
+            0,
+            `id 重复: ${dups.map(([id, l]) => `"${id}" -> ${l.join(', ')}`).join('; ')}`,
+        )
+    })
+
+    it('idFromPath 对 index.md 使用目录名', () => {
+        const md = normalizeMetadata({}, path.join(PROJECT_ROOT, 'book', 'base', 'two-pointer', 'index.md'))
+        assert.equal(md.id, 'two-pointer')
+        // 非 index.md 仍用文件名
+        const md2 = normalizeMetadata({}, path.join(PROJECT_ROOT, 'book', 'utils', 'log.md'))
+        assert.equal(md2.id, 'log')
+    })
+
     it('PathPolicy 正确计算 href', () => {
         const policy = new PathPolicy(PROJECT_ROOT)
         const href = policy.publishHref(path.join(PROJECT_ROOT, 'book', 'base', 'presum', 'index.md'))

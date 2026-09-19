@@ -81,7 +81,13 @@ function str(v: unknown): string {
 }
 
 function idFromPath(sourcePath: string): string {
-    const dir = sourcePath.replace(/\.md$/i, '')
-    const parts = dir.split(/[\\/]/).filter(Boolean)
-    return parts[parts.length - 1] || 'untitled'
+    const noExt = sourcePath.replace(/\.md$/i, '')
+    const parts = noExt.split(/[\\/]/).filter(Boolean)
+    const base = parts[parts.length - 1] || 'untitled'
+    // 目录文章入口通常叫 index.md，此时用目录名作为 id；
+    // 否则（如 practice.md / preface.md）用文件名。
+    if (base === 'index' && parts.length >= 2) {
+        return parts[parts.length - 2]
+    }
+    return base
 }
