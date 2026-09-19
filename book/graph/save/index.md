@@ -2,6 +2,5 @@
 
 ## 代码模板
 
-```cpp
-<%- include("/algo_template/graph/linklist.cpp") %>
+```cpp file=/algo_template/graph/linklist.cpp
 ```

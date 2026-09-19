@@ -9,7 +9,7 @@
 
 ## 问题
 
-<%- include("./problem.md") %>
+[[[include: ./problem.md]]]
 
 ## 解析
 
@@ -51,8 +51,7 @@
 
 ## 代码实现
 
-```cpp
-<%- include("./dfs.cpp") %>
+```cpp file=./dfs.cpp
 ```
 
 ## 代码的理解

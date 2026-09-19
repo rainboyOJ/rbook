@@ -2,12 +2,16 @@
 
 ## 问题引入
 
-<%- include("./problem.md") %>
+[[[include: ./problem.md]]]
 
 ## 解法1,$O(n^3)$
 
 
-<%- iframe("/canvas/full_knapsack")%>
+<div class="iframe-container">
+<a href="/canvas/full_knapsack" target="_blank">新标签打开</a>
+<iframe height="800" frameborder="1" src="/canvas/full_knapsack"></iframe>
+</div>
+
 
 设$Q(i,j)$表示前$i$物品**在每个物品可以选多次的情况下所有合法(所选的物品的重量和小于等于$j$)选法**组成的集合,这一个有重集(每个元素可以重复出现多次),显然$\max \{sum(x) | x \in Q(i,j) \} = f(i,j)$,其中$sum(x)$表示选法$x$所选对应物品的重量和,符合**每一个问题对应一个集合**的规律
 
@@ -52,9 +56,7 @@ f(i,j)=
 
 ::: fold
 
-```cpp
-<%- include("./code/n3.cpp") _%>
-
+```cpp file=./code/n3.cpp
 ```
 :::
 
@@ -73,9 +75,7 @@ f(i,j)=
 
 ::: fold
 
-```cpp
-<%- include("./code/n3_01.cpp") _%>
-
+```cpp file=./code/n3_01.cpp
 ```
 :::
 
@@ -122,21 +122,19 @@ f(i,j)=
 ```
 
 
-<%- video("fullbackpack_2d.mp4") _%>
+<video width="800" loop controls autoplay src="/video/fullbackpack_2d.mp4" type="video/mp4">Your browser does not support the video tag. </video>
 
-```cpp
-<%- include("./code/n2.cpp") %>
+```cpp file=./code/n2.cpp
 ```
 
 ## 优化2,降维
 
-<%- video("fullbackpack_1d.mp4") _%>
+<video width="800" loop controls autoplay src="/video/fullbackpack_1d.mp4" type="video/mp4">Your browser does not support the video tag. </video>
 
 仔细观察动画,类比[[[rbook: 01knapsack]]]的思想,根据每个点需要的转移点的位置,可以把$f[i][j]$降成$f[j]$
 
 
-```cpp
-<%- include("./code/one_dimensional.cpp") %>
+```cpp file=./code/one_dimensional.cpp
 ```
 
 ## 练习题目

@@ -16,8 +16,7 @@ import gallery from '~/bookComponents/gallery.vue'
 
 不同于01背包,只有**n个**物品,现在我们有**n组**物品,且**每组物品最多选一个**,问最大价值是什么?
 
-```plaintext
-<%- include("in.txt") %>
+```plaintext file=in.txt
 ```
 
 
@@ -164,8 +163,7 @@ figure_4.svg 轮播图
 
 这三行代码与`01背包`的是一样
 
-```cpp {34-36}
-<%- include("template.cpp") %>
+```cpp {34-36} file=template.cpp
 ```
 
 ## 练习题目
@@ -180,18 +178,15 @@ figure_4.svg 轮播图
 
 数据
 
-```
-<%- include("in2.txt") %>
+```file=in2.txt
 ```
 
 答案
 
-```
-<%- include("in2.ans") %>
+```file=in2.ans
 ```
 
 完整代码 
 
-```cpp
-<%- include("example1.cpp") %>
+```cpp file=example1.cpp
 ```

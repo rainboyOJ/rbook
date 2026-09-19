@@ -26,8 +26,7 @@
 ```
 代码
 
-```cpp
-<%- include("./bloon.cpp") %>
+```cpp file=./bloon.cpp
 ```
 
 ## 解释

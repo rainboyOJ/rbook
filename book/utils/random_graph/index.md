@@ -4,15 +4,13 @@
 
 ::: fold
 
-```cpp
-<%- include("./src/random_graph.cpp") %>
+```cpp file=./src/random_graph.cpp
 ```
 :::
 
 ::: fold
 
-```cpp
-<%- include("./src/random2.cpp") %>
+```cpp file=./src/random2.cpp
 ```
 :::
 
@@ -20,14 +18,12 @@
 
 ::: fold
 
-```cpp
-<%- include("./src/random_dag.cpp") %>
+```cpp file=./src/random_dag.cpp
 ```
 :::
 
 ::: fold
 
-```cpp
-<%- include("./src/random_dag_old.cpp") %>
+```cpp file=./src/random_dag_old.cpp
 ```
 :::

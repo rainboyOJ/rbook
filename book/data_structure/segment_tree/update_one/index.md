@@ -191,8 +191,7 @@ int query(int l1,int r1,int l,int r,int rt){
 
 ## 代码模板
 
-```c
-<%- include("../template/sgt_point.cpp") %>
+```c file=../template/sgt_point.cpp
 ```
 
 ## 手动练习

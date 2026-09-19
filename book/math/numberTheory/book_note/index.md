@@ -388,8 +388,7 @@ ac \equiv bc \pmod{n} &\Leftrightarrow n \mid c(b-a)  \\
 
 写一下代码求一下
 
-```python
-<%-include("./feima_baoli.py")%>
+```python file=./feima_baoli.py
 ```
 
 

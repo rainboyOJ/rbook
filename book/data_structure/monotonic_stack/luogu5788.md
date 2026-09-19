@@ -88,6 +88,5 @@ https://www.luogu.com.cn/problem/P5788
 
 ### 代码
 
-```c
-<%- include("5788.cpp") %>
+```c file=5788.cpp
 ```

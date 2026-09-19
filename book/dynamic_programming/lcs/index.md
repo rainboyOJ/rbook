@@ -5,7 +5,11 @@ https://roj.ac.cn/roj/1265/index.html
 ## 动画
 
 
-<%- iframe("/canvas/lcs")%>
+<div class="iframe-container">
+<a href="/canvas/lcs" target="_blank">新标签打开</a>
+<iframe height="800" frameborder="1" src="/canvas/lcs"></iframe>
+</div>
+
 
 ## 解析
 
@@ -101,8 +105,7 @@ $$
 
 写出一个$O(n^3)$代码为
 
-```cpp
-<%- include("./lcs1.cpp")%>
+```cpp file=./lcs1.cpp
 ```
 
 
@@ -152,8 +155,7 @@ $$
 
 得到$O(n^2)$代码
 
-```cpp
-<%- include("./lcs3.cpp") %>
+```cpp file=./lcs3.cpp
 ```
 
 ## 进一步证明
@@ -203,8 +205,7 @@ $$
 
 此代码可以输出$lcs$答案对应的最长公共子序列
 
-```cpp
-<%- include("./lcs4.cpp")%>
+```cpp file=./lcs4.cpp
 ```
 
 
@@ -220,7 +221,7 @@ $$
 
 ## 题目练习
 
-<%- include("./practice.md")%>
+[[[include: ./practice.md]]]
 
 ## 补充
 

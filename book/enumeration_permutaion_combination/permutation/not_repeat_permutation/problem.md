@@ -7,12 +7,10 @@
 
 ### 样例输入
 
-```plaintext
-<%- include("./in.txt") _%>
+```plaintext file=./in.txt
 ```
 
 ### 样例输出
 
-```plaintext
-<%- include("./out.txt") _%>
+```plaintext file=./out.txt
 ```

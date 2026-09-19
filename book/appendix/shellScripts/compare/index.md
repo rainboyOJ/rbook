@@ -4,8 +4,7 @@
 
 ## 简单对拍模板
 
-```bash
-<%- include("./compare.sh") _%>
+```bash file=./compare.sh
 ```
 
 ## 复杂对拍模板
@@ -15,8 +14,7 @@
 - 自动编译相应文件
 
 
-```bash
-<%- include("./compare_complex.sh") _%>
+```bash file=./compare_complex.sh
 ```
 
 
@@ -55,6 +53,5 @@
 
 TODO : 添加timeout.
 
-```bash
-<%- include("./check.sh") _%>
+```bash file=./check.sh
 ```

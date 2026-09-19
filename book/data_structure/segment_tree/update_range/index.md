@@ -2,6 +2,5 @@ TODO
 
 ## template
 
-```cpp
-<%- include("../template/sgt_range.cpp") _%>
+```cpp file=../template/sgt_range.cpp
 ```

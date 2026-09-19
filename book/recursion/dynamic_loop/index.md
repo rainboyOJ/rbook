@@ -5,6 +5,5 @@
 
 
 
-```cpp
-<%- include("/algo_template/enumerate/递归实现多重循环.cpp") %>
+```cpp file=/algo_template/enumerate/递归实现多重循环.cpp
 ```

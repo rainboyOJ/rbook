@@ -28,7 +28,7 @@ sudo apt install -y python3 fzf
 
 ```bash
 mkdir ~/.bin
-curl -o ~/.bin/b <%= self_host _%>appendix/shellScripts/compile/b.py
+curl -o ~/.bin/b https://rbook.roj.ac.cn/appendix/shellScripts/compile/b.py
 chmod +x ~/.bin/b
 ```
 2. 配置`.zshrc`或配置`.bashrc`
@@ -62,7 +62,7 @@ export PATH=$PATH:$HOME/.bin
 - 缺点:污染`/usr/bin`目录
 
 ```
-sudo curl -o /usr/bin/b <%= self_host _%>appendix/shellScripts/compile/b.py
+sudo curl -o /usr/bin/b https://rbook.roj.ac.cn/appendix/shellScripts/compile/b.py
 sudo chmod +x /usr/bin/b
 ```
 
@@ -91,6 +91,5 @@ TODO
 
 ## 完整脚本
 
-```python
-<%- include("./b.py") %>
+```python file=./b.py
 ```

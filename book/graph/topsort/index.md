@@ -17,6 +17,5 @@
 
 ## 模板
 
-```cpp
-<%- include("./topsort.cpp") %>
+```cpp file=./topsort.cpp
 ```

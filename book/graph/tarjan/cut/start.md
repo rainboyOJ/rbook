@@ -21,6 +21,5 @@ status: TODO
 
 - `dfn` 是 `Depth First Number` 的缩写，意为深度优先搜索序列编号。
 
-```cpp
-<%- include("template.cpp") _%>
+```cpp file=template.cpp
 ```

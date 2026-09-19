@@ -30,8 +30,7 @@ $$
 
 综上,可以写下面的代码.
 
-```cpp
-<%- include("./template.cpp") _%>
+```cpp file=./template.cpp
 ```
 
 

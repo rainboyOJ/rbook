@@ -27,7 +27,7 @@ $$
 - 回溯到第$i$个小朋友的时候,++恢复现场++:把编号$i$盒子里的球的取回来后,再从剩余的球里取出一个编号比较上次取的球大的球,放到编号为$i$个的盒子里
   
 
-<%- video("full_permutation.mp4")%>
+<video width="800" loop controls autoplay src="/video/full_permutation.mp4" type="video/mp4">Your browser does not support the video tag. </video>
 
 学会了一个新的名词: 恢复现场
 
@@ -35,8 +35,7 @@ $$
 TODO: 重点讲解这个词语
 
 
-```cpp
-<%- include("./code/1.cpp")%>
+```cpp file=./code/1.cpp
 ```
 
 这个代码的时间复杂度为$P(n,n)$
@@ -70,8 +69,7 @@ $$
 与上一个题目不同,这里的盒子的数量是少于球的数量的,那我们只要减少小朋友的数量到盒子的数量不就可以了吗.
 
 
-```cpp
-<%- include("./code/2.cpp")%>
+```cpp file=./code/2.cpp
 ```
 
 这种,记为从$n$个不同的数里选$m$个数进行排列,记为$P(n,m)$
@@ -129,8 +127,7 @@ $$
 
 注意:这里不需要标记球是否已经被拿了,因为选的球的编号一定比前面的大.所以也不需要恢复现场,也不需要放回球.
 
-```cpp
-<%- include("./code/3.cpp")%>
+```cpp file=./code/3.cpp
 ```
 
 时间复杂度的计算:从$n$中选取$m$个数,有多秒种可能性,我们把这称为++组合++,记为$C(n,m)$,或$C_n^m$
@@ -139,7 +136,7 @@ $$
 C(n,m) = \frac{ P(n,m)}{m!} = \frac{n!}{m! \cdot (n-m)!}
 $$
 
-- <%- pid_to_url('luogu','1157','组合的输出') %>
+- [[[p: luogu-1157 | 组合的输出]]]
 
 ## 4 组合2: 全组合
 
@@ -161,8 +158,7 @@ for(int i =1;i<=n;i++)
 - 每个小朋友开始选球的时候,把前面的小朋友选的球输出
 
 
-```cpp
-<%- include("./code/4.cpp")%>
+```cpp file=./code/4.cpp
 ```
 
 时间: $O(2^n)$
@@ -201,8 +197,7 @@ for(int i =1 ;i<=5;i++)
 
 这个题目本质上是求把$5$分成两份,不可以为$0$,有多少种分法. 也是排列组合的经典问题,隔板法.
 
-```cpp
-<%- include("./code/5.cpp")%>
+```cpp file=./code/5.cpp
 ```
 
 
@@ -212,7 +207,7 @@ for(int i =1 ;i<=5;i++)
 
 与上面的解法一样,把代码里改成从$0$开始就可以了.这里也是隔板法.
 
-- <%- pid_to_url('noiopenjudge', 'ch0202/666/','放苹果') %>
+- [[[p: noiopenjudge-ch0202/666/ | 放苹果]]]
 
 
 ## 球相同,盒子相同,允许为空
@@ -300,8 +295,7 @@ $$
 重要的思想是**分类**:相同的球算一类,对每个人来来说,**他选球的可能性就是球分类数$m$**
 
 
-```cpp
-<%- include("./code/6.cpp")%>
+```cpp file=./code/6.cpp
 ```
 
 数学解:
@@ -325,7 +319,7 @@ $$
 
 ## 球不同,盒子相同,可以多放,不可以为空
 
-<%- include("./stirling_number.md")%>
+[[[include: ./stirling_number.md]]]
 
 ## 球不同,盒子不同,可以多放,不可以为空
 
@@ -342,7 +336,7 @@ $$
 
 ## 练习题目
 
-<%- include("./practice.md")%>
+[[[include: ./practice.md]]]
 
 ## 参考 
 

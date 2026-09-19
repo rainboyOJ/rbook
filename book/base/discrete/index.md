@@ -5,8 +5,7 @@ TODO
 
 ## 模板 1
 
-```cpp
-<%- include("./discrete_simple.cpp")%>
+```cpp file=./discrete_simple.cpp
 ```
 
 ## 模板 2 
@@ -18,8 +17,7 @@ TODO
 
 ## 模板 3
 
-```cpp
-<%- include("./discrete.cpp")%>
+```cpp file=./discrete.cpp
 ```
 
 ## 练习题目

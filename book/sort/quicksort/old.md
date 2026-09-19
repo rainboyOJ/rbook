@@ -107,8 +107,7 @@ OK，现在3已经归位。接下来需要处理3左边的序列“2 1”和右�
 
 ### 代码
 
-```c
-<%-include("qs_normal.cpp")%>
+```c file=qs_normal.cpp
 ```
 
 核心代码

@@ -49,8 +49,7 @@ cgdb -q 1
 
 ## 脚本
 
-```bash
-<%- include("./g.txt") _%>
+```bash file=./g.txt
 ```
 
 ## 参考

@@ -186,8 +186,7 @@ g++ -g -o 1 1.cpp
 
 下面是一个例子
 
-```json
-<%-include("./cpp.json") _%>
+```json file=./cpp.json
 ```
 
-<%- include("./plugin.md") _%>
+[[[include: ./plugin.md]]]

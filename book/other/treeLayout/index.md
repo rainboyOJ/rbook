@@ -138,7 +138,11 @@ $mod$的值是告诉所有的孩子结点,需要移动的值,应该从上到下�
 
 ## 算法实现
 
-<%- iframe("/canvas/jq_walker_tree_layout/index.html") %>
+<div class="iframe-container">
+<a href="/canvas/jq_walker_tree_layout/index.html" target="_blank">新标签打开</a>
+<iframe height="800" frameborder="1" src="/canvas/jq_walker_tree_layout/index.html"></iframe>
+</div>
+
 
 
 ```js

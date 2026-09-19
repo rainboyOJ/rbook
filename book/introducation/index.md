@@ -2,21 +2,19 @@
 - 為學者日益 聞道者日損 損之又損 以至於無為 無為而無不為
 
 
-<%- include("./poem.html") _%>
+[[[include: ./poem.html]]]
 
 ## 相关内容
-<%- include("./icon-list.html") %>
+[[[include: ./icon-list.html]]]
 
 ## 学习过程
 
 这里给出一个简单的学习过程的示意图。
 
-```mermaid
-<%- include("./mmd/2.mmd") %>
+```mermaid file=./mmd/2.mmd
 ```
 
-```mermaid
-<%- include("./mmd/1.mmd") %>
+```mermaid file=./mmd/1.mmd
 ```
 
 这里给出一个详细的学习内容的示意图。

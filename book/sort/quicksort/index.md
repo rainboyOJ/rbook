@@ -3,8 +3,7 @@
 
 一定非常简单的递归思想: TODO
 
-```
-<%- include("./code/plain_quick_sort.cpp")%>
+```file=./code/plain_quick_sort.cpp
 ```
 
 ## 标准代码
@@ -55,6 +54,5 @@ j到多变成l!!!!
 看i再走,
 可能走过了L,TODO ,后面就简单了
 
-```cpp
-<%- include("./code/quick_sort.cpp")%>
+```cpp file=./code/quick_sort.cpp
 ```

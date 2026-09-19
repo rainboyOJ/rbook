@@ -1,7 +1,7 @@
 
 ## 题目
 
-<%- include("./problem.md") _%>
+[[[include: ./problem.md]]]
 
 ## 解析
 
@@ -62,10 +62,9 @@ ans = max\{ |\sum_{a_i > 0} a_i|,|\sum_{a_j < 0} a_j| \}
 
 ## 代码
 
-```cpp
-<%- include("./sol.cpp") _%>
+```cpp file=./sol.cpp
 ```
 
 ## 练习题目
 
-<%- include("./practice.md") _%>
+[[[include: ./practice.md]]]

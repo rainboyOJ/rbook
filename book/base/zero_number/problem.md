@@ -15,14 +15,12 @@
 ## 输入样例
 
 
-```
-<%- include("./in.txt") _%>
+```file=./in.txt
 ```
 
 ## 输出样例
 
-```
-<%- include("./out.txt") _%>
+```file=./out.txt
 ```
 
 ## 数据范围

@@ -3,7 +3,7 @@
 
 ## 题目引入
 
-<%- include("./problem.md") %>
+[[[include: ./problem.md]]]
 
 ## 问题分析
 
@@ -14,16 +14,14 @@
 
 
 ::: fold
-```cpp
-<%- include("./code/01seq.cpp")%>
+```cpp file=./code/01seq.cpp
 ```
 :::
 
 输出的结果
 
 ::: fold
-```
-<%- include("./code/01seq_out.txt")%>
+```file=./code/01seq_out.txt
 ```
 :::
 
@@ -60,8 +58,7 @@ $$
 ![](./01backpack.drawio.png)
 
 ::: fold
-```cpp
-<%- include("./code/recur.cpp")%>
+```cpp file=./code/recur.cpp
 ```
 :::
 
@@ -69,7 +66,7 @@ $$
 
 按照填表法,我们可以轻易的把解析二的递归法写成`for`循环法.
 
-<%- video("knapsack01.mp4") _%>
+<video width="800" loop controls autoplay src="/video/knapsack01.mp4" type="video/mp4">Your browser does not support the video tag. </video>
 
 
 但是这里,我还是给出利用集合得到DP方程的方法.
@@ -123,8 +120,7 @@ $f(5,7)$就是我们最后要求的答案.
 
 注意我们这里的边界是f[0][j].
 
-```cpp
-<%- include("./code/1.cpp") %>
+```cpp file=./code/1.cpp
 ```
 
 ## 滚动数组
@@ -145,8 +141,7 @@ cur与1异或,可以不停的变成0,1,0,1,0,1...,达到了一种切换(toggle)�
 
 代码如下:
 
-```cpp
-<%- include("./code/roll_array.cpp") %>
+```cpp file=./code/roll_array.cpp
 ```
 
 
@@ -167,7 +162,7 @@ cur与1异或,可以不停的变成0,1,0,1,0,1...,达到了一种切换(toggle)�
 
 ![一维](./images/一维.png)
 
-<%- video("knapsack01_1d.mp4") _%>
+<video width="800" loop controls autoplay src="/video/knapsack01_1d.mp4" type="video/mp4">Your browser does not support the video tag. </video>
 
 
 ### 伪代码
@@ -206,12 +201,10 @@ int main(){
 }
 ```
 
-```py [g1:python3]
-<%- include("./code/01knapsack_1dimensional.py")%>
+```py [g1:python3] file=./code/01knapsack_1dimensional.py
 ```
 
-```haskell [g1:haskell]
-<%- include("./code/01_knsapsack.hs")%>
+```haskell [g1:haskell] file=./code/01_knsapsack.hs
 ```
 
 代码演示: http://dsa.rainboy.cc/#/01Knapsack1
@@ -244,7 +237,11 @@ int main(){
 
 
 
-<%- iframe("/canvas/01_knapsack/fill_up.html")%>
+<div class="iframe-container">
+<a href="/canvas/01_knapsack/fill_up.html" target="_blank">新标签打开</a>
+<iframe height="800" frameborder="1" src="/canvas/01_knapsack/fill_up.html"></iframe>
+</div>
+
 
 
 得到状态转移方程为,其中$f(i,j) = -1$ 表示无解：
@@ -263,8 +260,7 @@ f(i-1,j-w[i]) + v[i] & f(i-1,j-w[i]) \ne -1 \land j \geqslant w[i]
 二维写法的代码如下：
 
 ::: fold
-```cpp
-<%- include("./code/just_fill_up_2d.cpp") %>
+```cpp file=./code/just_fill_up_2d.cpp
 ```
 ::: 
 
@@ -276,8 +272,7 @@ f(j) = max \{ f(j),f(j-w[i]) +v[i] \}
 
 只要倒过来枚举容量进行计算
 
-```cpp
-<%- include("./code/just_fill_up.cpp") %>
+```cpp file=./code/just_fill_up.cpp
 ```
 
 
@@ -588,5 +583,5 @@ $$
 - 一维序列的上的问题
 - 和组合的公式的求解方法一样
 
-<%- include("./practice.md")%>
+[[[include: ./practice.md]]]
 

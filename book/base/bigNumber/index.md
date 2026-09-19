@@ -5,4 +5,4 @@
 
 ## 加法
 
-<%- include("./add.md") %>
+[[[include: ./add.md]]]

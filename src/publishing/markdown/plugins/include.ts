@@ -127,7 +127,11 @@ export class IncludeResolver {
     read(target: string, fromFile?: string, depth = 0): ResolvedInclude | null {
         const abs = this.resolve(target, fromFile, depth)
         if (!abs) return null
-        return { absPath: abs, content: fs.readFileSync(abs, 'utf8') }
+        // 统一换行符为 LF，与 markdown-it 的 normalize 规则保持一致
+        // （CommonMark 规定 \r\n 与 \r 都等同 \n）。
+        // 否则 file= 注入的内容会绕过 normalize，在产物里留下 CR，
+        // 与旧 EJS 路径的行为不一致。
+        return { absPath: abs, content: normalizeNewlines(fs.readFileSync(abs, 'utf8')) }
     }
 
     /**
@@ -198,6 +202,11 @@ export class IncludeResolver {
 
 function unquote(s: string): string {
     return s.replace(/^["']|["']$/g, '')
+}
+
+/** 按 CommonMark 的换行规范把 \r\n 与 \r 统一为 \n。 */
+function normalizeNewlines(s: string): string {
+    return s.replace(/\r\n?/g, '\n')
 }
 
 /** 取一组路径的公共父目录（用于推导绝对路径基准）。 */

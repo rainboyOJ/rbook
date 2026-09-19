@@ -30,8 +30,7 @@ Q: 为什么是`s[i-j+1]`呢?
 
 ## 解决问题的代码
 
-```cpp
-<%-include("./code_solve.cpp")%>
+```cpp file=./code_solve.cpp
 ```
 ## 时间复杂度
 
@@ -39,16 +38,14 @@ Q: 为什么是`s[i-j+1]`呢?
 
 ## 代码模板
 
-```cpp
-<%-include("./template.cpp")%>
+```cpp file=./template.cpp
 ```
 
 ## 更容易的写法
 
 BF算法其时很简单,是一个暴力算法,如果用二重循环来写的话,可以这样写
 
-```cpp
-<%-include("./2d-for.cpp")%>
+```cpp file=./2d-for.cpp
 ```
 
 时间复杂度是一样的,且更容易理解

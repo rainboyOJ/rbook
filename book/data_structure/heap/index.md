@@ -80,8 +80,7 @@ int fa(int t) { return t>>1;}
 ## 模板代码
 
 
-```cpp
-<%- include("./heap.cpp")%>
+```cpp file=./heap.cpp
 ```
 
 

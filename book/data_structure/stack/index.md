@@ -54,8 +54,7 @@ bool empty() {
 
 ## 模板
 
-```cpp
-<%- include("/algo_template/data_structure/stack.cpp") _%>
+```cpp file=/algo_template/data_structure/stack.cpp
 ```
 
 ## 总结
@@ -76,15 +75,15 @@ bool empty() {
 
 ## 练习题目
 
-- <%- pid_to_url('leetcodecn', '1047','删除字符串中的所有相邻重复项') %> 
-- <%- pid_to_url('leetcodecn', '20','有效的括号') %> 
-- <%- pid_to_url('luogu', '1739','表达式括号匹配') %>
-- <%- pid_to_url('luogu', '1241','括号序列') %>
-- <%- pid_to_url('luogu', '1449','后缀表达式') %>
-- <%- pid_to_url('luogu', '4387','【深基15.习9】验证栈序列') %>
-- <%- pid_to_url('noiopenjudge', 'ch0303/1696','波兰表达式') %>
-- <%- pid_to_url('noiopenjudge', 'ch0303/6263','布尔表达式') %>
-- <%- pid_to_url('leetcodecn', '125','图书整理 II') %>
+- [[[p: leetcodecn-1047 | 删除字符串中的所有相邻重复项]]] 
+- [[[p: leetcodecn-20 | 有效的括号]]] 
+- [[[p: luogu-1739 | 表达式括号匹配]]]
+- [[[p: luogu-1241 | 括号序列]]]
+- [[[p: luogu-1449 | 后缀表达式]]]
+- [[[p: luogu-4387 | 【深基15.习9】验证栈序列]]]
+- [[[p: noiopenjudge-ch0303/1696 | 波兰表达式]]]
+- [[[p: noiopenjudge-ch0303/6263 | 布尔表达式]]]
+- [[[p: leetcodecn-125 | 图书整理 II]]]
 - luogu P9753 [CSP-S 2023] 消消乐 50分算法
 
 

@@ -126,8 +126,7 @@ print(a)
 
 二进制转十进制的公式很简单,写一个二进制字符串转十进制数的代码也不难.
 
-```cpp
-<%- include("/algo_template/math/base_conversion/bin2dec.cpp") %>
+```cpp file=/algo_template/math/base_conversion/bin2dec.cpp
 ```
 
 
@@ -155,8 +154,7 @@ while( a ) {
 }
 ```
 
-```cpp
-<%- include("/algo_template/math/base_conversion/dec2bin.cpp") %>
+```cpp file=/algo_template/math/base_conversion/dec2bin.cpp
 ```
 
 与上面的方法一样,我们可以:
@@ -229,12 +227,11 @@ int main()
 
 使用自己写的函数,实现短除法
 
-```cpp
-<%- include("/algo_template/math/base_conversion/dec2bin.cpp") %>
+```cpp file=/algo_template/math/base_conversion/dec2bin.cpp
 ```
 
 ## 练习题目
 
-- <%- pid_to_url('roj', '8006','进制转换') %>
-- <%- pid_to_url('roj', '8007','数字转换错误') %>
-- <%- pid_to_url('roj', '8008','以基为本') %>
+- [[[p: roj-8006 | 进制转换]]]
+- [[[p: roj-8007 | 数字转换错误]]]
+- [[[p: roj-8008 | 以基为本]]]

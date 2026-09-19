@@ -99,6 +99,5 @@ gcd & \text{带余除法} \\
 
 ## 模板
 
-```cpp
-<%- include("/algo_template/math/numberTheory/gcd.cpp")%>
+```cpp file=/algo_template/math/numberTheory/gcd.cpp
 ```

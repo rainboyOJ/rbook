@@ -8,6 +8,5 @@
 :::
 
 
-```cpp
-<%- include("./1.cpp") %>
+```cpp file=./1.cpp
 ```

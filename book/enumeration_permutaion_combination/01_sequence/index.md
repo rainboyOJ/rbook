@@ -8,7 +8,7 @@
 
 ## 题目
 
-<%- include("./problem.md") _%>
+[[[include: ./problem.md]]]
 
 ## 小朋友法
 
@@ -27,8 +27,7 @@
 针对样例,我们可以使用3层`for`来解,
 
 
-```cpp
-<%- include("./01_seq.cpp")%>
+```cpp file=./01_seq.cpp
 ```
 
 但是针对题目的n是变化的,所以不能使用for
@@ -75,4 +74,4 @@
 
 ## 练习题目
 
-<%- include("./practice.md")%>
+[[[include: ./practice.md]]]

@@ -10,15 +10,14 @@
 
 ## 问题引用
 
-<%- include("./problem.md")%>
+[[[include: ./problem.md]]]
 
 ## 暴力解法
 
 显然可以想到暴力解法，对于每个询问，枚举区间 $[l,r]$ 中的最大值，每一次查询的时间复杂度为 $O(n)$，总时间复杂度为 $O(n^2)$。
 
 ::: fold
-```cpp
-<%- include("./baoli.cpp") %>
+```cpp file=./baoli.cpp
 ```
 :::
 
@@ -48,8 +47,7 @@ ST表,$spare\ table$本意稀疏矩阵
 
 代码如下:
 
-```cpp
-<%- include("./code/snippet_st_init.cpp") %>
+```cpp file=./code/snippet_st_init.cpp
 ```
 
 TODO: 写一个vue的动画
@@ -86,8 +84,7 @@ $$
 于是我们写出如下的`binary jump`代码
 
 ::: fold
-```cpp
-<%- include("./code/binary_jump.cpp")%>
+```cpp file=./code/binary_jump.cpp
 ```
 :::
 
@@ -178,7 +175,11 @@ $$
 ## 动画
 
 
-<%- iframe("/canvas/st_table/index.html",850) %>
+<div class="iframe-container">
+<a href="/canvas/st_table/index.html" target="_blank">新标签打开</a>
+<iframe height="850" frameborder="1" src="/canvas/st_table/index.html"></iframe>
+</div>
+
 
 ## ST 表的时间复杂度分析
 
@@ -208,8 +209,7 @@ int query(int l,int r) {
 
 综合上面的代码
 
-```cpp
-<%- include("code/st_template.cpp")%>
+```cpp file=code/st_template.cpp
 ```
 
 TODO 统一所有的函数的名字

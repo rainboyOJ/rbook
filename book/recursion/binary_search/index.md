@@ -1,6 +1,6 @@
 ## 问题
 
-<%- include("./problem.md")%>
+[[[include: ./problem.md]]]
 
 ## 解析1: 暴力
 
@@ -8,8 +8,7 @@
 
 显示对于每个询问,最简单的方法就是使用暴力查询,代码如下
 
-```cpp
-<%- include("./force.cpp")%>
+```cpp file=./force.cpp
 ```
 
 上面的代码的时间复杂度为$O(n^2)$,显然会超时.
@@ -61,18 +60,17 @@ $$
 
 于是我们写出如下代码:
 
-```cpp
-<%- include("./bs1.cpp") %>
+```cpp file=./bs1.cpp
 ```
 
 ## 总结
 
 
-<%- include("./summary.md")%>
+[[[include: ./summary.md]]]
 
 ## 二分查找的正确性证明
 
-<%- include("./proof.md")%>
+[[[include: ./proof.md]]]
 
 ## 一般化
 
@@ -120,7 +118,7 @@ $$
 1. 求解数字$x$的数量
 1. 求解满足数字$val \in [l,r]$的数量
 
-<%- include("./model.md") %>
+[[[include: ./model.md]]]
 
 ## 练习题目
 

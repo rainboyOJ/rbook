@@ -17,8 +17,7 @@ status: "TODO"
 
 ## 模板
 
-```cpp
-<%- include("code/fraction_class_template.cpp") _%>
+```cpp file=code/fraction_class_template.cpp
 ```
 
 想一想

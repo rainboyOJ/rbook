@@ -15,8 +15,7 @@ $$
 
 ::: fold
 
-```cpp
-<%- include("./code/loj6280.cpp") _%>
+```cpp file=./code/loj6280.cpp
 ```
 :::
 

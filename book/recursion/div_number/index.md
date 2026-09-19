@@ -167,11 +167,11 @@ TODO: 验证
 根据$(a)$式得到的代码
 
 ```cpp
-<%- include("./code1.cpp")%>
+[[[include: ./code1.cpp]]]
 ```
 
 根据$(b)$式得到的代码
 
 ```cpp
-<%- include("./code2.cpp")%>
+[[[include: ./code2.cpp]]]
 ```

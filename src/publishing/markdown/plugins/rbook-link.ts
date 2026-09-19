@@ -155,11 +155,11 @@ export default function rbookLinkPlugin(md: MarkdownIt, opts: RbookLinkOptions):
         if (pos >= max) return false
         const matchStart = pos
 
-        while (pos < max && state.src.charCodeAt(pos) !== 0x5D) pos++
-        if (pos + 1 >= max || state.src.charCodeAt(pos + 1) !== 0x5D) return false
-        if (pos + 2 >= max || state.src.charCodeAt(pos + 2) !== 0x5D) return false
+        // 终止符是连续的 `]]]`。不能只找第一个 `]`，
+        // 因为标题里可能含方括号（如 "[USACO16JAN] Subsequences..."）。
+        const matchEnd = state.src.indexOf(']]]', matchStart)
+        if (matchEnd < 0) return false
 
-        const matchEnd = pos
         if (!silent) {
             const content = state.src.slice(matchStart, matchEnd)
             const token = state.push('rbook_link', 'span', 0)

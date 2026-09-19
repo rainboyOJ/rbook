@@ -8,8 +8,7 @@ TODO 我以前写的文章
 正好就是[[[rbook: 01_seq]]]的另一种实现
 
 
-```cpp
-<%- include("./for_subset_enum.cpp")%>
+```cpp file=./for_subset_enum.cpp
 ```
 
 ## 全组合
@@ -18,6 +17,5 @@ TODO 我以前写的文章
 
 ## 二进制
 
-```cpp
-<%- include("./subset_enum.cpp")%>
+```cpp file=./subset_enum.cpp
 ```

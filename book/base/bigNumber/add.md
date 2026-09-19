@@ -3,14 +3,12 @@
 
 ### 版本1
 
-```cpp
-<%- include("./code/add_ver1.cpp")%>
+```cpp file=./code/add_ver1.cpp
 ```
 
 ### 版本2
 
-```cpp
-<%- include("./code/add_ver2.cpp")%>
+```cpp file=./code/add_ver2.cpp
 ```
 
 

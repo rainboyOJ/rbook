@@ -7,6 +7,5 @@ https://en.cppreference.com/w/cpp/numeric/random/mersenne_twister_engine
 
 ## 随机数
 
-```cpp
-<%- include("./random_int.cpp") _%>
+```cpp file=./random_int.cpp
 ```

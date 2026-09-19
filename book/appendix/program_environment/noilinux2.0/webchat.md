@@ -3,7 +3,7 @@
 
 方法1 : 安装
 
-<%- video("rbook/webchat.mp4") %>
+<video width="800" loop controls autoplay src="/video/rbook/webchat.mp4" type="video/mp4">Your browser does not support the video tag. </video>
 
 打开优麒麟应用商店官网，然后下载应用，就看到微信了 https://www.ubuntukylin.com/applications/106-cn.html 下载deb包，用命令`sudo dpkg -i` ，就能安装上了，而且可以用。 这是linux原生的，功能少点，但比wine的要轻巧不少。
 

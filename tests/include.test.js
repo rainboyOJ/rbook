@@ -55,22 +55,26 @@ describe('Phase 2: include 插件', () => {
         assert.equal(diag.length, 0, `不应有诊断: ${JSON.stringify(diag)}`)
     })
 
-    it('fence 内 file= 与旧 EJS 写法渲染一致（slurp 形式）', () => {
-        const a = renderEjs('```cpp\n<%- include("./sol.cpp") _%>\n```\n')
-        const b = renderNew('```cpp file=./sol.cpp\n```\n').html
-        assert.equal(b, a, '新语法应与 <%- include(...) _%> 逐字节一致')
+    it('fence 内 file= 读取文件并高亮（不再依赖 EJS）', () => {
+        const { html, diag } = renderNew('```cpp file=./sol.cpp\n```\n')
+        assert.ok(html.includes('#include'), '应包含文件内容')
+        assert.ok(html.includes('language-cpp'), '应按 cpp 高亮')
+        assert.ok(!html.includes('file='), 'file= 不应泄漏到 class')
+        assert.equal(diag.filter(d => d.level === 'error').length, 0)
     })
 
-    it('fence 外 [[[include: ...]]] 与旧 EJS 写法渲染一致', () => {
-        const a = renderEjs('<%- include("./problem.md") %>\n')
-        const b = renderNew('[[[include: ./problem.md]]]\n').html
-        assert.equal(b, a, '新语法应与 <%- include(...) %> 逐字节一致')
+    it('fence 外 [[[include: ...]]] 内联片段并参与 markdown 解析', () => {
+        const { html, diag } = renderNew('[[[include: ./problem.md]]]\n')
+        // 片段里的 markdown 标题应被解析成 HTML
+        assert.ok(html.includes('<h3>'), '片段内容应作为 markdown 解析')
+        assert.ok(!html.includes('include-missing'), '不应有失败标记')
+        assert.equal(diag.filter(d => d.level === 'error').length, 0)
     })
 
-    it('绝对路径从项目根解析（与 EJS root 语义一致）', () => {
-        const a = renderEjs('<%- include("/algo_template/base/presum.cpp") %>\n')
-        const b = renderNew('[[[include: /algo_template/base/presum.cpp]]]\n').html
-        assert.equal(b, a, '绝对路径语义应与旧实现一致')
+    it('绝对路径从项目根解析', () => {
+        const { html, diag } = renderNew('[[[include: /algo_template/base/presum.cpp]]]\n')
+        assert.ok(html.includes('int') || html.includes('include'), '应读到共享模板内容')
+        assert.equal(diag.filter(d => d.level === 'error').length, 0)
     })
 
     it('支持嵌套 include（片段内含 include）', () => {
@@ -161,5 +165,28 @@ describe('Phase 2: include 插件', () => {
         const resolver = new IncludeResolver({ roots: [zeroNumberDir], projectRoot: PROJECT_ROOT })
         assert.ok(resolver.resolve('./sol.cpp', path.join(zeroNumberDir, 'index.md')), '同目录文件应可解析')
         assert.equal(resolver.resolve('/algo_template/base/presum.cpp'), null, 'root 外的绝对路径应被拒绝')
+    })
+
+    it('CRLF 源文件被规范化为 LF（与 CommonMark 一致）', () => {
+        // 回归：file= 注入的内容会绕过 markdown-it 的 normalize 规则，
+        // 若不显式规范化，产物里会残留 \r，与旧 EJS 路径行为不一致。
+        const fs2 = require('fs')
+        const os2 = require('os')
+        const dir = fs2.mkdtempSync(path.join(os2.tmpdir(), 'crlf-'))
+        fs2.writeFileSync(path.join(dir, 'crlf.cpp'), 'int a;\r\nint b;\r\n')
+
+        const diag = []
+        const md = createMarkdownRenderer({
+            index,
+            diagnostics: diag,
+            include: { roots: [dir], projectRoot: dir, diagnostics: diag },
+        })
+        const html = renderMarkdown('```cpp file=./crlf.cpp\n```\n', md, {
+            currentMdFilePath: path.join(dir, 'index.md'),
+        }).content
+
+        assert.ok(!html.includes('\r'), '不应残留 CR 字符')
+        assert.ok(html.includes('int a;'), '应包含文件内容')
+        fs2.rmSync(dir, { recursive: true, force: true })
     })
 })

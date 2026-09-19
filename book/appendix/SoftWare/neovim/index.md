@@ -63,8 +63,7 @@ sudo apt install neovim
 
 我写的配置
 
-```vim
-<%- include("./vimrc.txt") _%>
+```vim file=./vimrc.txt
 ```
 
 安装方式

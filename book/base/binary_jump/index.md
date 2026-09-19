@@ -78,7 +78,11 @@ print(n,x,y)
 其中$max$要足够大,那么选多大合适呢?$max = \lceil \log_2(y-x) \rceil$,当然为了简化计算,这样取也可以$max = \lceil log_2^n \rceil$
 
 
-<%- iframe("/canvas/binary_jump",400)%>
+<div class="iframe-container">
+<a href="/canvas/binary_jump" target="_blank">新标签打开</a>
+<iframe height="400" frameborder="1" src="/canvas/binary_jump"></iframe>
+</div>
+
 
 
 ## 一步一步的启发式思考(证明)
@@ -187,8 +191,7 @@ TODO
 ## 代码模板
 
 
-```cpp
-<%-include("./template.cpp")%>
+```cpp file=./template.cpp
 ```
 
 ## 总结

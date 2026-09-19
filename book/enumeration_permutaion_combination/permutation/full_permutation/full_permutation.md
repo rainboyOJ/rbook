@@ -3,7 +3,6 @@
 
 时间复杂度:$n!$
 
-```cpp
-<%- include("./full_permutation.cpp") _%>
+```cpp file=./full_permutation.cpp
 ```
 

@@ -4,7 +4,7 @@
 ## 题目
 
 
-<%- include("./problem.md") %>
+[[[include: ./problem.md]]]
 
 ## 一句话算法
 
@@ -84,8 +84,7 @@ $$
 说了那么多,其实使用的算法很简单,就是[[[rbook: 01_seq]]]
 
 ::: fold
-```cpp
-<%- include("./force.cpp")%>
+```cpp file=./force.cpp
 ```
 :::
 
@@ -112,8 +111,7 @@ $$
 
 ## 代码
 
-```cpp
-<%- include("./std.cpp")%>
+```cpp file=./std.cpp
 ```
 
 时间复杂度为:$O(n^2)$
@@ -233,4 +231,4 @@ $$
 
 ## 练习题目
 
-<%- include("practice.md") %>
+[[[include: practice.md]]]

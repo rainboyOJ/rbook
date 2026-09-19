@@ -20,7 +20,8 @@
         "build:full": "tsc -p tsconfig.publishing.json && node .tsbuild/publishing/cli/index.js build --profile full",
         "dist:manifest": "node scripts/dist-manifest.cjs dist .tsbuild/before.json",
         "dist:diff": "node scripts/dist-diff.cjs .tsbuild/before.json .tsbuild/after.json",
-        "gen:leetcodecn-slugs": "node scripts/gen-leetcodecn-slugs.cjs"
+        "gen:leetcodecn-slugs": "node scripts/gen-leetcodecn-slugs.cjs",
+        "migrate:macros": "node scripts/migrate-ejs-macros.cjs"
     },
     "dependencies": {
         "ejs": "^3.1.9",

@@ -8,14 +8,12 @@
 ## 输入样例
 
 
-```plaintext
-<%- include("./in.txt") _%>
+```plaintext file=./in.txt
 ```
 
 ## 输出样例
 
-```plaintext
-<%- include("./out.txt") _%>
+```plaintext file=./out.txt
 ```
 
 ## 数据范围

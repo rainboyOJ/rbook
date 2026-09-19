@@ -115,8 +115,7 @@ int stirling(n,m) {
   
 对于球i来说,记录他在哪个盒子里
 
-```cpp
-<%- include("./code/stirling2.cpp")%>
+```cpp file=./code/stirling2.cpp
 ```
 
 

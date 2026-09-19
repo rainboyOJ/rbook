@@ -107,15 +107,13 @@ TODO 使用数学证明的方式，证明 1. 不需要pushdown, 2 只查询叶�
 下面是一个无离散化的代码，用于学习入门
 
 ::: fold
-```cpp
-<%- include("./code/5490_no_discrete.cpp") _%>
+```cpp file=./code/5490_no_discrete.cpp
 ```
 :::
 
 
 下面是一个有离散化的代码
-```cpp
-<%- include("./code/5490_with_discrete.cpp") _%>
+```cpp file=./code/5490_with_discrete.cpp
 ```
 ## 参考
 

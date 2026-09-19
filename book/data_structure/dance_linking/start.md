@@ -17,8 +17,7 @@ status: TODO
 ![](./2.svg "figure-2")
 
 
-```cpp
-<%- include("dlx_template.cpp") _%>
+```cpp file=dlx_template.cpp
 ```
 
 ## 参考

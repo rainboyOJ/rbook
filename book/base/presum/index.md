@@ -34,15 +34,14 @@ $$
 
 代码模板如下
 
-```cpp
-<%- include("/algo_template/base/presum.cpp")%>
+```cpp file=/algo_template/base/presum.cpp
 ```
 
 ## 题目列表
 
 
-- <%- pid_to_url('luogu', '8218','【深进1.例1】求区间和') %>
-- <%- pid_to_url('luogu', '3131','[USACO16JAN] Subsequences Summing to Sevens S') %> 与数论结合
-- <%- pid_to_url('leetcodecn', '724','寻找数组的中心索引') %>
-- <%- pid_to_url('leetcodecn', '523','连续的子数组和') %>
+- [[[p: luogu-8218 | 【深进1.例1】求区间和]]]
+- [[[p: luogu-3131 | [USACO16JAN] Subsequences Summing to Sevens S]]] 与数论结合
+- [[[p: leetcodecn-724 | 寻找数组的中心索引]]]
+- [[[p: leetcodecn-523 | 连续的子数组和]]]
 - luogu P1719 二维前缀和

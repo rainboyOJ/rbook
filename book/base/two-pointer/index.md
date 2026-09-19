@@ -2,7 +2,7 @@
 
 ## 经典题目
 
-<%-include("./p1_sum_eq_pair.md") %>
+[[[include: ./p1_sum_eq_pair.md]]]
 
 
 ## 练习

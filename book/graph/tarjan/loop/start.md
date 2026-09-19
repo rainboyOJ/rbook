@@ -19,8 +19,7 @@ status: TODO
 
 ### 代码
 
-```cpp
-<%- include("1.cpp") _%>
+```cpp file=1.cpp
 ```
 
 ## 普通图上的环

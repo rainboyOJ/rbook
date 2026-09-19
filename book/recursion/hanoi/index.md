@@ -40,6 +40,5 @@
 
 ## 代码
 
-```cpp
-<%- include("./dfs.cpp") %>
+```cpp file=./dfs.cpp
 ```

@@ -32,8 +32,7 @@ status: TODO
 
 代码为
 
-```cpp
-<%-include("./template.cpp")%>
+```cpp file=./template.cpp
 ```
 
 ## 总结

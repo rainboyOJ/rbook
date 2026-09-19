@@ -1,6 +1,5 @@
 
 TODO
 
-```
-<%- include("./in.txt")%>
+```file=./in.txt
 ```

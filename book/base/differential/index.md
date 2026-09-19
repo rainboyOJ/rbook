@@ -184,16 +184,16 @@ $$
 ![martix](./matrix.svg)
 
 
-题目: <%- pid_to_url('luogu', '3397','地毯') %>
+题目: [[[p: luogu-3397 | 地毯]]]
 
 ## 练习题目
 
 
-- <%- pid_to_url('luogu', '2367','语文成绩') %>
-- <%- pid_to_url('vjudge', 'HDU-1556','Color the ball') %>
-- <%- pid_to_url('vjudge', 'POJ-3263','Tallest Cow ') %>
-- <%- pid_to_url('luogu', '3406','海底高铁') %>
-- <%- pid_to_url('luogu', '4552','[Poetize6] IncDec Sequence') %>
+- [[[p: luogu-2367 | 语文成绩]]]
+- [[[p: vjudge-HDU-1556 | Color the ball]]]
+- [[[p: vjudge-POJ-3263 | Tallest Cow ]]]
+- [[[p: luogu-3406 | 海底高铁]]]
+- [[[p: luogu-4552 | [Poetize6] IncDec Sequence]]]
 - HDU 1121
 - luogu 3948 
 - luogu P1969 积木大赛

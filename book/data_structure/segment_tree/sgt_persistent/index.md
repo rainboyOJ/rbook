@@ -16,8 +16,7 @@
 
 核心(增量记忆): 比普通的线段树多了一个`udpate_history`操作
 
-```cpp
-<%-include("./p3919.cpp") _%>
+```cpp file=./p3919.cpp
 ```
 
 题目:

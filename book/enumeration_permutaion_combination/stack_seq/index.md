@@ -1,6 +1,6 @@
 ## 题目
 
-<%- include("./problem.md") %>
+[[[include: ./problem.md]]]
 
 ## 解析
 
@@ -58,8 +58,7 @@
 每个位置有两种可能性,共有$2^{2n}$种可能性, 因为$n \leqslant 18$,最大为$2^{36} > 10^8$,所以会超时,但是可以过部分分数,代码如下
 
 
-```cpp
-<%- include("./baoli.cpp") _%>
+```cpp file=./baoli.cpp
 ```
 ## 解析1.2, 打表
 
@@ -79,8 +78,7 @@
 重新写代码如下,此代码会超时一个点: https://www.luogu.com.cn/record/149547178
 
 
-```cpp
-<%- include("./baoli2.cpp") _%>
+```cpp file=./baoli2.cpp
 ```
 
 ## 解析3
@@ -95,8 +93,7 @@
 
 于是我们写出如下的代码
 
-```cpp
-<%- include("./dfs_1.cpp")%>
+```cpp file=./dfs_1.cpp
 ```
 
 ## 解析4,记忆化,DP,数字描述状态 
@@ -180,8 +177,7 @@ f(i,j) = \left\{
 \right.
 $$
 
-```cpp
-<%- include("./code/solve_3.cpp") %>
+```cpp file=./code/solve_3.cpp
 ```
 
 

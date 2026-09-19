@@ -52,26 +52,30 @@ describe('Phase 3: 新 Markdown 渲染核心', () => {
         assert.ok(content.includes('正文'))
     })
 
-    it('渲染旧 EJS locals 和相对 include', () => {
+    it('渲染迁移后的 file= 与 [[[include:]]]（原 EJS 场景）', () => {
+        // Phase 3 已把该文的 EJS 宏迁移为 file= 与内联 HTML，
+        // 这里验证迁移后的写法能正常渲染（不再是 EJS 路径）。
         const articlePath = path.join(PROJECT_ROOT, 'book', 'appendix', 'shellScripts', 'compile', 'index.md')
         const raw = fs.readFileSync(articlePath, 'utf8')
         const diagnostics = []
         const md = createMarkdownRenderer({
             index,
             diagnostics,
-            contentMacros: {
-                locals: { self_host: 'https://rbook.roj.ac.cn/' },
-            },
+            projectRoot: PROJECT_ROOT,
         })
         const { content } = renderMarkdown(raw, md, {
             currentMdFilePath: articlePath,
             root: PROJECT_ROOT,
         })
 
-        assert.ok(content.includes('https://rbook.roj.ac.cn/appendix/shellScripts/compile/b.py'))
+        assert.ok(
+            content.includes('https://rbook.roj.ac.cn/appendix/shellScripts/compile/b.py'),
+            'self_host 应已被迁移为站点绝对地址',
+        )
         assert.ok(content.includes('快速编译脚本'))
-        assert.ok(!content.includes('&lt;%'), '不应保留未渲染的 EJS 宏')
-        assert.ok(!diagnostics.some(d => d.message.includes('EJS 宏渲染失败')))
+        assert.ok(!content.includes('&lt;%'), '不应残留未渲染的 EJS 宏')
+        assert.ok(!content.includes('include-missing'), 'include 不应失败')
+        assert.ok(!diagnostics.some(d => d.level === 'error'))
     })
 
     it('渲染 oneWordAlgo 容器', () => {
@@ -122,6 +126,19 @@ describe('Phase 3: 新 Markdown 渲染核心', () => {
         const { content } = renderMarkdown('[[[rbook: presum]]]', md)
         assert.ok(content.includes('extra-link'))
         assert.ok(content.includes('sum'))
+    })
+
+    it('题目标题含方括号时仍能正确解析（不再泄漏原文）', () => {
+        // 回归：旧 tokenizer 只找第一个 ']' 并要求其后紧跟 ']]'，
+        // 遇到 "[USACO16JAN] Subsequences..." 这类标题会解析失败并泄漏原文。
+        const md = createMarkdownRenderer({ index, projectRoot: PROJECT_ROOT, diagnostics: [] })
+        const { content } = renderMarkdown(
+            '[[[p: luogu-3131 | [USACO16JAN] Subsequences Summing to Sevens S]]]',
+            md,
+        )
+        assert.ok(!content.includes('[[[p:'), '不应泄漏未解析的宏原文')
+        assert.ok(content.includes('extra-link'), '应渲染为链接')
+        assert.ok(content.includes('pcs2.roj.ac.cn') || content.includes('luogu.com.cn'), '应指向真实题目')
     })
 
     it('[[[rbook:notfound]]] 生成警告标记', () => {
