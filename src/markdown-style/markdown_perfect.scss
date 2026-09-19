@@ -120,12 +120,16 @@ html.dark .markdown-body > h1:first-child {
 
 // figure
 .markdown-body {
+  img {
+    max-width: 100%;
+    box-sizing: border-box;
+  }
   figure {
     margin:2rem auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    max-width: fit-content; // 这里应该读取 .markdown-body 的width
+    max-width: 100%;
     img {
       // flex-grow: 0;
       margin: 0 auto;
