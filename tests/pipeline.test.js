@@ -128,7 +128,9 @@ describe('Phase 4: 文章渲染与模板写盘', () => {
     })
 
     it('renderMany 把渲染期诊断回灌给调用方（不能静默丢弃）', () => {
-        // 用一篇引用了不存在 include 的临时文章，触发 content-macros 警告
+        // 用一篇引用了不存在 include 的临时文章，触发渲染期诊断。
+        // 注：include 现由 include 插件处理（比旧的 content-macros 更早、
+        // 且是 error 级），所以这里只断言“诊断被回灌”，不绑定具体 phase。
         const tmpDir = path.join(PROJECT_ROOT, '.tsbuild', 'test-output', 'diag-article')
         fs.mkdirSync(tmpDir, { recursive: true })
         const mdPath = path.join(tmpDir, 'index.md')
@@ -149,8 +151,8 @@ describe('Phase 4: 文章渲染与模板写盘', () => {
             '渲染期诊断应回灌到调用方传入的 diagnostics 数组',
         )
         assert.ok(
-            callerDiag.some(d => d.phase === 'content-macros'),
-            `应包含 content-macros 诊断，实际: ${callerDiag.map(d => d.phase).join(', ')}`,
+            callerDiag.some(d => /include|content-macros/.test(d.phase)),
+            `应包含 include/content-macros 诊断，实际: ${callerDiag.map(d => d.phase).join(', ')}`,
         )
         assert.deepEqual(result.diagnostics, callerDiag, 'result.diagnostics 应与调用方数组一致')
     })

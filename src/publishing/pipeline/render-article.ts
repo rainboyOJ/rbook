@@ -46,6 +46,7 @@ export function renderArticle(opts: RenderArticleOptions): RenderArticleResult {
         diagnostics: diag,
         debug: opts.debug,
         contentMacros: opts.contentMacros,
+        projectRoot: policy.root,
     })
 
     const { header, content } = renderMarkdown(resolved.source.raw, renderer, {
@@ -150,6 +151,7 @@ export function renderRelatedDocuments(
         diagnostics: opts.diagnostics,
         debug: opts.debug,
         contentMacros: opts.contentMacros,
+        projectRoot: opts.policy.root,
     })
 
     const { header, content } = renderMarkdown(resolved.source.raw, renderer, {
