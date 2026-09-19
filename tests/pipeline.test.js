@@ -127,6 +127,54 @@ describe('Phase 4: 文章渲染与模板写盘', () => {
         assert.equal(result.failed, 0)
     })
 
+    it('renderMany 把渲染期诊断回灌给调用方（不能静默丢弃）', () => {
+        // 用一篇引用了不存在 include 的临时文章，触发 content-macros 警告
+        const tmpDir = path.join(PROJECT_ROOT, '.tsbuild', 'test-output', 'diag-article')
+        fs.mkdirSync(tmpDir, { recursive: true })
+        const mdPath = path.join(tmpDir, 'index.md')
+        fs.writeFileSync(mdPath, '# 诊断测试\n\n<%- include("./definitely_missing.md") %>\n')
+
+        const callerDiag = []
+        const result = renderMany([mdPath], {
+            index,
+            policy,
+            templateRenderer,
+            diagnostics: callerDiag,
+            withRelated: false,
+        })
+
+        // 关键：诊断必须出现在调用方数组里，否则 reportDiagnostics 看不到
+        assert.ok(
+            callerDiag.length > 0,
+            '渲染期诊断应回灌到调用方传入的 diagnostics 数组',
+        )
+        assert.ok(
+            callerDiag.some(d => d.phase === 'content-macros'),
+            `应包含 content-macros 诊断，实际: ${callerDiag.map(d => d.phase).join(', ')}`,
+        )
+        assert.deepEqual(result.diagnostics, callerDiag, 'result.diagnostics 应与调用方数组一致')
+    })
+
+    it('renderPages 在有文章渲染失败时让构建失败', () => {
+        const { renderPages } = require(path.join(PROJECT_ROOT, '.tsbuild/publishing/build/stages.js'))
+        const ctx = {
+            projectRoot: PROJECT_ROOT,
+            policy,
+            diagnostics: [],
+            stageResults: {
+                index,
+                // 混入一篇不存在的文章，必然渲染失败
+                leaves: [...leaves.slice(0, 2), 'definitely/not/a/real/article'],
+            },
+        }
+
+        assert.throws(
+            () => renderPages.run(ctx),
+            /渲染失败/,
+            '存在渲染失败的文章时 renderPages 必须抛错，否则 push.sh 会把残缺 dist 推上生产',
+        )
+    })
+
     it('bin/render_markdown.js 兼容 shim 正常渲染', () => {
         const render_md = require('../bin/render_markdown.js')
         const out = render_md('base/presum')

@@ -78,6 +78,17 @@ export const renderPages: BuildStage = {
         })
         ctx.stageResults['renderResult'] = result
         console.log(`[render-pages] 成功: ${result.succeeded}, 失败: ${result.failed}`)
+
+        // 有文章渲染失败时必须让构建失败：否则 push.sh 会带着
+        // 残缺的 dist/ 返回 0，并把空站/坏页同步到生产。
+        if (result.failed > 0) {
+            const detail = result.errors
+                .slice(0, 5)
+                .map(e => `${e.entryPath}: ${e.error}`)
+                .join('; ')
+            const more = result.errors.length > 5 ? ` …另有 ${result.errors.length - 5} 篇` : ''
+            throw new Error(`${result.failed} 篇文章渲染失败 (共 ${result.total} 篇): ${detail}${more}`)
+        }
     },
 }
 

@@ -27,6 +27,10 @@ export function renderMany(entries: string[], opts: RenderManyOptions): RenderMa
 
     const writer = new ArtifactWriter({ diagnostics: result.diagnostics })
 
+    // 本次批量渲染产生的诊断，最后要回灌到调用方的数组，
+    // 否则 reportDiagnostics 看不到渲染期警告/错误（会被静默丢弃）。
+    const callerDiagnostics = opts.diagnostics
+
     for (const entryPath of entries) {
         try {
             const articleResult = renderArticle({ ...opts, entryPath, diagnostics: result.diagnostics })
@@ -71,6 +75,12 @@ export function renderMany(entries: string[], opts: RenderManyOptions): RenderMa
                 message: `渲染失败: ${e instanceof Error ? e.message : String(e)}`,
             })
         }
+    }
+
+    // 把本次渲染的诊断回灌给调用方，使 build 的诊断报告能看到它们。
+    // 注意：必须在循环结束后合并，避免与 renderArticle 内部的数组别名重复。
+    if (callerDiagnostics && callerDiagnostics !== result.diagnostics) {
+        callerDiagnostics.push(...result.diagnostics)
     }
 
     return result
