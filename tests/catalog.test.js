@@ -8,10 +8,10 @@ describe('Phase 2: Catalog 与元数据模型', () => {
     const { normalizeMetadata } = require(path.join(PROJECT_ROOT, '.tsbuild/publishing/content/metadata-normalizer.js'))
     const { PathPolicy } = require(path.join(PROJECT_ROOT, '.tsbuild/publishing/content/path-policy.js'))
     const { resolveArticleSource } = require(path.join(PROJECT_ROOT, '.tsbuild/publishing/content/source-resolver.js'))
-    const { flattenCatalog } = require(path.join(PROJECT_ROOT, '.tsbuild/publishing/domain/catalog.js'))
+    const { flattenCatalog, joinCatalogPath } = require(path.join(PROJECT_ROOT, '.tsbuild/publishing/domain/catalog.js'))
+    const { MenuRenderer } = require(path.join(PROJECT_ROOT, '.tsbuild/publishing/domain/menu-renderer.js'))
 
     const catalogPath = path.join(PROJECT_ROOT, 'book', 'catalog.yaml')
-    const oldMenu = require(path.join(PROJECT_ROOT, 'src', 'menu.js'))
 
     it('catalog 加载无错误', () => {
         const diag = []
@@ -21,11 +21,41 @@ describe('Phase 2: Catalog 与元数据模型', () => {
         assert.equal(errors.length, 0, `catalog 校验错误: ${JSON.stringify(errors)}`)
     })
 
-    it('catalog 叶子文章数与旧 flatten_menu 一致', () => {
+    it('catalog 叶子路径已规范化（无空段/双斜杠）', () => {
         const catalog = loadCatalog(catalogPath)
-        const newLeaves = flattenCatalog(catalog)
-        assert.equal(newLeaves.length, oldMenu.flatten_menu.length,
-            `叶子数不匹配: 新=${newLeaves.length} 旧=${oldMenu.flatten_menu.length}`)
+        const leaves = flattenCatalog(catalog)
+        assert.ok(leaves.length > 0, 'catalog 应有叶子文章')
+        for (const leaf of leaves) {
+            assert.ok(!leaf.startsWith('/'), `路径不应以斜杠开头: ${leaf}`)
+            // 允许末尾单个斜杠（旧行为，例如 introducation/），但不得出现空段
+            const segments = leaf.replace(/\/$/, '').split('/')
+            assert.ok(!segments.includes(''), `路径出现空段: ${leaf}`)
+        }
+    })
+
+    it('joinCatalogPath 规范化重复斜杠', () => {
+        assert.equal(joinCatalogPath('', 'a'), 'a')
+        assert.equal(joinCatalogPath('a/', 'b'), 'a/b')
+        assert.equal(joinCatalogPath('a//', 'b'), 'a/b')
+        assert.equal(joinCatalogPath('/a', 'b'), '/a/b')
+        assert.equal(joinCatalogPath('a', ''), 'a')
+        // 旧行为：末尾斜杠保留（对应 introducation/ 这类链接）
+        assert.equal(joinCatalogPath('a', 'b/'), 'a/b/')
+    })
+
+    it('侧边栏由 catalog 派生，且每个叶子都有链接', () => {
+        const catalog = loadCatalog(catalogPath)
+        const html = new MenuRenderer({
+            templateDir: path.join(PROJECT_ROOT, 'src', 'ejs'),
+            root: path.join(PROJECT_ROOT, 'src'),
+        }).render(catalog)
+
+        for (const leaf of flattenCatalog(catalog)) {
+            const href = `href="#/${leaf}"`
+            assert.ok(html.includes(href), `侧边栏缺少叶子链接: ${href}`)
+        }
+        // 只检查链接，SVG 的 xmlns="http://..." 也含双斜杠
+        assert.ok(!/href="#\/[^"]*\/\//.test(html), '侧边栏链接不应出现双斜杠')
     })
 
     it('PathPolicy 正确计算 href', () => {
