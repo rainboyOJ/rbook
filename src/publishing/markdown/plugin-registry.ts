@@ -43,6 +43,7 @@ export function registerPlugins(md: MarkdownIt, opts: PluginRegistryOptions): vo
     md.use(contentMacrosPlugin, {
         ...opts.contentMacros,
         rojBaseUrl: opts.rbookLink.rojBaseUrl,
+        problemUrl: opts.rbookLink.problemUrl,
         diagnostics: opts.rbookLink.diagnostics,
     })
     md.use(containersPlugin)

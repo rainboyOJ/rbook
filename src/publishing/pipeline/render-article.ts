@@ -47,6 +47,7 @@ export function renderArticle(opts: RenderArticleOptions): RenderArticleResult {
         debug: opts.debug,
         contentMacros: opts.contentMacros,
         projectRoot: policy.root,
+        currentSourcePath: resolved.source.filePath,
     })
 
     const { header, content } = renderMarkdown(resolved.source.raw, renderer, {
@@ -152,6 +153,7 @@ export function renderRelatedDocuments(
         debug: opts.debug,
         contentMacros: opts.contentMacros,
         projectRoot: opts.policy.root,
+        currentSourcePath: resolved.source.filePath,
     })
 
     const { header, content } = renderMarkdown(resolved.source.raw, renderer, {

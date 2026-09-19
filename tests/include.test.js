@@ -98,9 +98,10 @@ describe('Phase 2: include 插件', () => {
     })
 
     it('被包含片段里的遗留 EJS 宏仍会被渲染（include 需先于 contentMacros）', () => {
-        // zero_number/practice.md 里是 pid_to_url 宏，通过 include 引入
+        // zero_number/practice.md 里是 pid_to_url 宏，通过 include 引入。
+        // pid_to_url 现走统一路由：luogu -> pcs2（不再是旧的 roj.ac.cn/{oj}/{id}）。
         const { html, diag } = renderNew('[[[include: ./practice.md]]]\n', { contentMacros: {} })
-        assert.ok(html.includes('roj.ac.cn/luogu/4552'), '片段里的 pid_to_url 应被渲染')
+        assert.ok(html.includes('pcs2.roj.ac.cn/problems/luogu/P4552'), '片段里的 pid_to_url 应被渲染为 pcs2 链接')
         assert.ok(!html.includes('pid_to_url'), '不应泄漏宏原文')
         assert.ok(!html.includes('&lt;%'), '不应泄漏未渲染的 EJS 标记')
         assert.equal(diag.filter(d => d.level === 'error').length, 0)

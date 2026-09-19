@@ -1,6 +1,7 @@
 import MarkdownIt from 'markdown-it'
 import ejs from 'ejs'
 import type { Diagnostic } from '../../domain/diagnostics'
+import type { ProblemUrlResolver } from '../../integrations/problem-url'
 
 export interface ContentMacrosOptions {
     locals?: Record<string, unknown>
@@ -9,12 +10,24 @@ export interface ContentMacrosOptions {
     diagnostics?: Diagnostic[]
     helpers?: Record<string, (...args: unknown[]) => string>
     rojBaseUrl?: string
+    /** 题目 URL/标题解析器；提供后 pid_to_url 会产出正确链接 */
+    problemUrl?: ProblemUrlResolver
 }
 
-export function createDefaultHelpers(rojBaseUrl = 'https://roj.ac.cn') {
+export function createDefaultHelpers(rojBaseUrl = 'https://roj.ac.cn', problemUrl?: ProblemUrlResolver) {
     const base = rojBaseUrl.endsWith('/') ? rojBaseUrl : `${rojBaseUrl}/`
     return {
+        /**
+         * 旧内容宏：pid_to_url(oj, id, title)
+         * 有解析器时走统一路由（roj -> roj.ac.cn，其余 -> pcs2，缺失回退官方站），
+         * 否则退回旧行为（拼接 {base}{oj}/{id}，该形式已全面 404）。
+         */
         pid_to_url(oj_name: string, id: string | number, title: string) {
+            if (problemUrl) {
+                const r = problemUrl.resolve(String(oj_name), String(id), String(title))
+                const text = r.title || String(title) || `${r.normalizedOj} ${r.normalizedPid}`
+                return `<a href="${r.url}" target="_blank">${r.normalizedOj} ${r.normalizedPid} : ${text}</a>`
+            }
             const url = `${base}${oj_name}/${id}`
             const text = `${oj_name} ${id} : ${title}`
             return `<a href="${url}" target="_blank">${text}</a>`
@@ -42,7 +55,7 @@ export default function contentMacrosPlugin(md: MarkdownIt, opts: ContentMacrosO
         const root = (env.root as string) || opts.root
         const envData = (env.data || {}) as Record<string, unknown>
 
-        const defaultHelpers = createDefaultHelpers(opts.rojBaseUrl)
+        const defaultHelpers = createDefaultHelpers(opts.rojBaseUrl, opts.problemUrl)
         const allLocals = {
             ...defaultHelpers,
             ...(opts.locals || {}),

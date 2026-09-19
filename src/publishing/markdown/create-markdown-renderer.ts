@@ -9,6 +9,7 @@ import { ProblemProvider } from '../integrations/problem-provider'
 import { Diagnostic } from '../domain/diagnostics'
 import { ContentMacrosOptions } from './plugins/content-macros'
 import { IncludeOptions } from './plugins/include'
+import { ProblemUrlResolver } from '../integrations/problem-url'
 
 export interface RendererOptions {
     index: ArticleIndex
@@ -23,6 +24,10 @@ export interface RendererOptions {
     projectRoot?: string
     /** 覆盖 include 配置（测试用） */
     include?: IncludeOptions
+    /** 覆盖题目链接解析器（测试用） */
+    problemUrl?: ProblemUrlResolver
+    /** 当前文章源路径（用于诊断定位与去重） */
+    currentSourcePath?: string
 }
 
 export interface RenderResult {
@@ -38,13 +43,20 @@ export function createMarkdownRenderer(opts: RendererOptions): MarkdownIt {
         typographer: true,
     })
 
+    // 题目链接解析器：统一 oj-pid -> URL/标题 的路由（见 problem-url.ts）
+    const problemUrl = opts.problemUrl || (opts.projectRoot
+        ? new ProblemUrlResolver({ projectRoot: opts.projectRoot, diagnostics: opts.diagnostics })
+        : undefined)
+
     const linkOpts: RbookLinkOptions = {
         index: opts.index,
         problemProvider: opts.problemProvider,
+        problemUrl,
         blogUrl: opts.blogUrl,
         rojBaseUrl: opts.rojBaseUrl,
         diagnostics: opts.diagnostics,
         debug: opts.debug,
+        currentSourcePath: opts.currentSourcePath,
     }
 
     registerPlugins(md, {
