@@ -116,6 +116,8 @@
 - title: "树"
   path: "tree"
   children:
+    - title: "树的入门"
+      path: "base"
     - title: "树的直径"
       path: "diameter"
     - title: "树上差分"
