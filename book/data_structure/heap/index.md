@@ -56,7 +56,7 @@ int fa(int t) { return t>>1;}
 
 且交换后,x比father(x) better,那么x比father(x)另一个孩子也better,
 
-所以交换后$fit(tree(x))$成立,且$ exclude_tree(x)$在整个树上也满足heap的性质,这就保证后面x再进行交换,x的位置变成为新的更高的节点,也是满足的
+所以交换后$fit(tree(x))$成立,且$exclude_tree(x)$在整个树上也满足heap的性质,这就保证后面x再进行交换,x的位置变成为新的更高的节点,也是满足的
 
 
 ```

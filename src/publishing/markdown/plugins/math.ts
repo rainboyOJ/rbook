@@ -128,6 +128,60 @@ function detectLeakedDisplayMath(
     }
 }
 
+/** 把行内代码 span（`x` / ``x``）替换成占位符，避免把代码里的 $ 当真公式。 */
+function maskInlineCode(line: string): string {
+    return line.replace(/(`+)([^`]*?)\1/g, m => '\u0001'.repeat(m.length))
+}
+
+/**
+ * 检测 texmath 行内规则认不出的 `$...$`。
+ *
+ * 行内正则 `\$((?:[^\s\\])|(?:\S.*?[^\s\\]))\$` 要求：
+ *   ① 紧跟在开 `$` 后的字符不能是空白；
+ *   ② 紧邻闭 `$` 前的字符不能是空白，也不能是反斜杠。
+ * 不满足时 texmath 不报错也不抛异常，只是不生成公式 token —— 于是 `$ x $`
+ * 会原样变成页面上的字面 `$ x $`。同样属于“静默丢内容”。
+ */
+function detectBrokenInlineMath(src: string, sourcePath: string | undefined, diagnostics: Diagnostic[]): void {
+    const lines = src.split('\n')
+    let inFence = false
+    let inPseudocode = false
+    const reported = new Set<string>()
+
+    lines.forEach((line, i) => {
+        if (/^\s*```/.test(line)) { inFence = !inFence; return }
+        if (inFence) return
+        // ::: pseudocode ... ::: 里是伪代码，$ 是作者自己的记号，不是 markdown 数学。
+        if (/^\s*:::\s*pseudocode\b/.test(line)) { inPseudocode = true; return }
+        if (inPseudocode) {
+            if (/^\s*:::\s*$/.test(line)) inPseudocode = false
+            return
+        }
+
+        // 先把 $$ 显示定界符与行内代码屏蔽，避免误判。
+        const masked = maskInlineCode(line).replace(/\$\$/g, '\u0000\u0000')
+        const re = /\$([^$\u0000\u0001]*)\$/g
+        let m: RegExpExecArray | null
+        while ((m = re.exec(masked))) {
+            const inner = m[1]
+            if (inner.length === 0) continue
+            if (!/^\s/.test(inner) && !/\s$/.test(inner) && !/\\$/.test(inner)) continue
+            const snippet = line.slice(m.index, m.index + m[0].length).slice(0, 60)
+            const key = `${i}:${snippet}`
+            if (reported.has(key)) continue
+            reported.add(key)
+            diagnostics.push({
+                phase: 'latex',
+                level: 'warning',
+                sourcePath,
+                line: i + 1,
+                message: '行内公式 $...$ 未被解析，已按字面文字输出',
+                suggestion: `texmath 要求 $ 内侧不能紧贴空白或反斜杠，改成 $${inner.trim()}$。片段: ${snippet}`,
+            })
+        }
+    })
+}
+
 export default function mathPlugin(md: MarkdownIt, opts: MathPluginOptions = {}): void {
     const diagnostics = opts.diagnostics || []
     if (opts.currentFile) activeFile = opts.currentFile
@@ -141,9 +195,10 @@ export default function mathPlugin(md: MarkdownIt, opts: MathPluginOptions = {})
         return true
     })
 
-    // 在 inline 解析之后检查有没有 $$ 漏成正文。
+    // 在 inline 解析之后检查有没有 $$ 漏成正文、$...$ 没被认出来。
     md.core.ruler.after('inline', 'rbook_math_leak_check', function mathLeakCheck(state) {
         detectLeakedDisplayMath(state.tokens, activeFile, diagnostics)
+        detectBrokenInlineMath(state.src, activeFile, diagnostics)
         return true
     })
 

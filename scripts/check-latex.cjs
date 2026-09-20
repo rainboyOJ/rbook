@@ -52,6 +52,10 @@ function extractFormulas(src) {
     const lines = src.split('\n')
     let inFence = false
     let fenceStart = 0
+    let inPseudocode = false
+
+    /** 屏蔽行内代码 span（`x` / ``x``），避免把代码里的 $ 当真公式。 */
+    const maskInlineCode = line => line.replace(/(`+)([^`]*?)\1/g, m => '\u0001'.repeat(m.length))
 
     for (let i = 0; i < lines.length; i++) {
         const line = lines[i]
@@ -61,6 +65,12 @@ function extractFormulas(src) {
             continue
         }
         if (inFence) continue
+        // ::: pseudocode ... ::: 里是伪代码，$ 是作者自己的记号，不是 markdown 数学。
+        if (/^\s*:::\s*pseudocode\b/.test(line)) { inPseudocode = true; continue }
+        if (inPseudocode) {
+            if (/^\s*:::\s*$/.test(line)) inPseudocode = false
+            continue
+        }
 
         // $$ ... $$ （可跨行）
         if (line.trim() === '$$') {
@@ -107,10 +117,29 @@ function extractFormulas(src) {
             continue
         }
 
+        // texmath 的行内规则要求 $ 内侧不能紧贴空白或反斜杠；
+        // 先把 $$ 定界符与行内代码 span 屏蔽掉，避免误判。
+        const masked = maskInlineCode(line).replace(/\$\$/g, '\u0000\u0000')
+
         // $ ... $ 行内（跳过 \$ 转义与 $$ 已处理的情况）
         const inline = /(?<!\$)\$(?!\$)([^$\n]+?)\$(?!\$)/g
-        while ((m = inline.exec(line))) {
+        while ((m = inline.exec(masked))) {
             formulas.push({ tex: m[1], line: i + 1, kind: '$', display: false })
+        }
+
+        // 不满足 texmath 行内规则时它不报错、不抛异常，只把 $...$ 原样当文字输出（静默丢内容）。
+        const strictInline = /\$([^$\u0000\u0001]*)\$/g
+        let s
+        while ((s = strictInline.exec(masked))) {
+            const inner = s[1]
+            if (inner.length === 0) continue
+            if (!/^\s/.test(inner) && !/\s$/.test(inner) && !/\\$/.test(inner)) continue
+            structureIssues.push({
+                line: i + 1,
+                message: '行内公式 $...$ 未被 texmath 解析，会在页面上原样显示',
+                suggestion: `改成 $${inner.trim()}$（$ 内侧不能紧贴空白或反斜杠）`,
+                snippet: s[0].slice(0, 60),
+            })
         }
     }
 
