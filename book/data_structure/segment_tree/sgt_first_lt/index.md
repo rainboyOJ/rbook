@@ -31,7 +31,7 @@
 
 $$
 \begin{aligned}
-\text{找查找第一个<a的位置} & \Leftrightarrow \text{查找序列$pos(1),pos(2),\cdots,pos(a-1)$中最小值 \\
+\text{找查找第一个<a的位置} & \Leftrightarrow \text{查找序列}pos(1),pos(2),\cdots,pos(a-1)\text{中最小值} \\
 \end{aligned}
 $$
 

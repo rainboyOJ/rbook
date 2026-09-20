@@ -153,7 +153,7 @@ $$
 
 $$
 \def\arraystretch{1.5}
-\begin{array}{c}
+\begin{array}{cccc}
 \mathfrak{1} &\boxed 1  & \boxed 2 & \boxed 3 \\
 \mathfrak{2} &\boxed 1  & \boxed 3 & \boxed 2 \\
 \mathfrak{3} &\boxed 2  & \boxed 1 & \boxed 3 \\
@@ -169,7 +169,7 @@ $$
 
 $$
 \def\arraystretch{1.5}
-\begin{array}{ccc}
+\begin{array}{cccc}
 \mathfrak{1} &\boxed 1& \boxed 2 & \boxed 3 \\
 \mathfrak{2} &\boxed 1& \boxed 2 & \boxed 4 \\
 \mathfrak{3} &\boxed 1& \boxed 2 & \boxed 5 \\
@@ -432,7 +432,7 @@ $$
 
 $$
 \def\arraystretch{1.5}
-\begin{array}{ccc}
+\begin{array}{cccc}
 & b_1 & b_2 & b_3\\
 \hline
 \mathfrak{1} &\boxed 1& \boxed 1 & \boxed{2}  \\
@@ -549,7 +549,7 @@ $$
 
 $$
 \def\arraystretch{1.5}
-\begin{array}{ccc}
+\begin{array}{cccc}
 \mathfrak{1} &\boxed 1& \boxed 1 & \boxed{2}  \\
 \end{array}
 $$

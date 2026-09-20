@@ -108,8 +108,10 @@ $$
 显然$f$与$f^{-1}$互为逆运算,也就是
 
 $$
+\begin{gather}
 f^{-1}(f(a)) = a \\
 f(f^{-1}(a)) = a
+\end{gather}
 $$
 
 同样可以想到$f$与$f^{-1}$是++双射函数++,也就是$f(a) = b$ 也就是说$ranf$与$domf$++一一映射++ 
@@ -153,7 +155,7 @@ $$
 
 
 $$
-\begin{array}{ccccc}
+\begin{array}{cccccc}
    \color{Blue}{\boxdot} &  \color{Blue}{\boxdot} &\color{Blue}{\boxdot} &  \color{Green}\boxdot &  \boxdot  \\
    \color{Blue}{\boxdot} &  \color{Blue}{\boxdot} &\color{Blue}{\boxdot} &  \color{Green}\boxdot &  \boxdot  \\
    \color{Blue}{\boxdot} &  \color{Blue}{\boxdot} &\color{Blue}{\boxdot} &  \color{Green}\boxdot &  \boxdot  \\

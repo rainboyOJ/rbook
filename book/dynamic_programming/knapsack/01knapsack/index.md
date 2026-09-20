@@ -530,8 +530,8 @@ $$
 f(C,A) = \max 
 \left\{
 \begin{array}{ll}
-f(C,A-\{a_n\})  & \text{没有选$a_n$} \\
-f(C-W(a_n),A-\{a_n\}) + V(a_n) & \text{选$a_n$}
+f(C,A-\{a_n\})  & \text{没有选}a_n \\
+f(C-W(a_n),A-\{a_n\}) + V(a_n) & \text{选}a_n
 \end{array}
 \right.
 $$
@@ -543,8 +543,8 @@ $$
 f(C,n) = \max 
 \left\{
 \begin{array}{ll}
-f(C,n-1)  & \text{没有选$a_n$} \\
-f(C-W(a_n),n-1) +V(a_n) & \text{选$a_n$}
+f(C,n-1)  & \text{没有选}a_n \\
+f(C-W(a_n),n-1) +V(a_n) & \text{选}a_n
 \end{array}
 \right.
 $$

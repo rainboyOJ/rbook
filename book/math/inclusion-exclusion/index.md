@@ -8,7 +8,7 @@
 显然 
 
 $$
-\vert S \vert - \vert \text{具有至少一个$P_i$性质的集合}\vert
+\vert S \vert - \vert \text{具有至少一个}P_i\text{性质的集合}\vert
 $$
 
 怎么求集合$S_2$:具有至少一个$P_i$性质的集合?

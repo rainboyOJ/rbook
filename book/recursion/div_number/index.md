@@ -74,7 +74,8 @@
 
 对于6
 
-``#include <cstdio>
+```
+#include <cstdio>
 
 int n;
 int dfs(int n,int m){
@@ -94,7 +95,10 @@ int main(){
     int ans = dfs(n,n);
     cout << ans;
     return 0;
-}`
+}
+```
+
+```
 6
 5+1
 4+2     4+1+1
@@ -131,7 +135,7 @@ $$
 f(n,m) =
 \left\{
 \begin{gather}
-f(n,n) & m>n & \\
+f(n,n) & m>n \\
 1+\displaystyle \sum_{i=1}^{n-1} f(n-i,i) & m = n \\
 \displaystyle \sum_{i=1}^{m} f(n-i,i) & m < n \\
 1 & m=1 
@@ -144,7 +148,7 @@ $$
 $$
 f(n,m) =
 \left\{
-\begin{array}{c}
+\begin{array}{ll}
 f(n,n) & m>n \\
 \displaystyle \sum_{i=1}^{m} f(n-i,i) & m \leqslant n \\
 1 & m=1 \lor n =0
