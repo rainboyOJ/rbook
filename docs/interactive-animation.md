@@ -152,6 +152,18 @@ book/**/**.animation.ts
 Markdown 引用
 ```
 
+根项目通过 npm workspace 管理公共包。修改公共动画代码后，使用以下命令分别验证包、文章动画和全部项目：
+
+```bash
+npm run typecheck:packages
+npm run test:packages
+npm run typecheck:animations
+npm run typecheck
+npm test
+```
+
+`packages/animation/tsconfig.json` 让公共包可以脱离文章代码单独检查。包内测试覆盖播放器的初始状态、前进和后退、步骤替换以及销毁清理，同时检查包源码没有反向依赖 `book/` 或 `src/publishing/`。新增公共能力时，应先放入 `packages/animation/src/` 并从 `src/index.ts` 导出；文章专属的算法步骤和绘图仍留在对应的 `.animation.ts` 文件中。
+
 ## 动画模块接口
 
 公共接口在 `packages/animation/src/types.ts`，文章通过 `@rbook/animation` 使用它：
