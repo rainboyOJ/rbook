@@ -38,6 +38,8 @@ export interface IncludeOptions {
     diagnostics?: Diagnostic[]
     /** 最大包含深度，防御自包含/环 */
     maxDepth?: number
+    /** 在来源信息丢失前处理片段内的资源引用。 */
+    transformSource?: (source: string, sourcePath: string | undefined) => string
 }
 
 export interface ResolvedInclude {
@@ -70,6 +72,7 @@ export class IncludeResolver {
     private readonly diagnostics: Diagnostic[]
     private readonly maxDepth: number
     private readonly defaultFile?: string
+    private readonly transformSource?: IncludeOptions['transformSource']
     /** 已经报过“遗留写法”警告的文件，避免同一文件刷屏 */
     private readonly legacyWarned = new Set<string>()
 
@@ -79,6 +82,7 @@ export class IncludeResolver {
         this.diagnostics = opts.diagnostics || []
         this.maxDepth = opts.maxDepth ?? 5
         this.defaultFile = opts.currentFile
+        this.transformSource = opts.transformSource
     }
 
     /**
@@ -141,7 +145,7 @@ export class IncludeResolver {
     expandInline(text: string, fromFile?: string, depth = 0): string {
         const hasNew = text.includes('[[[include')
         const hasLegacy = text.includes('include(') && text.includes('<%')
-        if (!hasNew && !hasLegacy) return text
+        if (!hasNew && !hasLegacy) return this.transform(text, fromFile)
 
         if (depth > this.maxDepth) {
             this.error('include', `include 嵌套超过 ${this.maxDepth} 层`, fromFile)
@@ -169,7 +173,11 @@ export class IncludeResolver {
             const isSlurp = slurp === '_' || slurp === '-'
             return expanded + (isSlurp ? '' : (newline || ''))
         })
-        return out
+        return this.transform(out, fromFile)
+    }
+
+    private transform(source: string, sourcePath?: string): string {
+        return this.transformSource ? this.transformSource(source, sourcePath) : source
     }
 
     private isInsideRoots(abs: string): boolean {

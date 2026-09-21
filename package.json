@@ -8,11 +8,13 @@
         "rbook": "./bin/rbook.js"
     },
     "scripts": {
+        "predev": "npm run prepare",
         "dev": "vite dev --host",
-        "build": "vite build",
+        "build": "npm run typecheck:animations && vite build",
         "start": "http-server dist",
         "prepare": "tsc -p tsconfig.publishing.json",
-        "typecheck": "tsc --noEmit",
+        "typecheck": "tsc --noEmit && npm run typecheck:animations",
+        "typecheck:animations": "tsc -p tsconfig.animations.json",
         "test": "node --test tests/",
         "render:fixture": "node tests/run-fixture.js",
         "check:catalog": "node tests/check-catalog.js",
@@ -62,5 +64,8 @@
         "vue": "^3.4.26",
         "vue-toastification": "^2.0.0-rc.5"
     },
-    "packageManager": "npm@11.19.0"
+    "packageManager": "npm@11.19.0",
+    "workspaces": [
+        "packages/*"
+    ]
 }

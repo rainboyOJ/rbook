@@ -89,6 +89,11 @@ export const renderPages: BuildStage = {
             const more = result.errors.length > 5 ? ` …另有 ${result.errors.length - 5} 篇` : ''
             throw new Error(`${result.failed} 篇文章渲染失败 (共 ${result.total} 篇): ${detail}${more}`)
         }
+
+        const animationErrors = ctx.diagnostics.filter(d => d.phase === 'animate' && d.level === 'error')
+        if (animationErrors.length > 0) {
+            throw new Error(`${animationErrors.length} 个交互动画引用无效，请修复后重新构建`)
+        }
     },
 }
 

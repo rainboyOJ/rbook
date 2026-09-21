@@ -118,6 +118,27 @@ html.dark .markdown-body > h1:first-child {
     width:  100%;
 }
 
+.markdown-body .rbook-animation {
+    display: block;
+    margin: 1.5rem 0;
+    min-height: 160px;
+}
+
+.markdown-body .rbook-animation__loading,
+.markdown-body .rbook-animation--error {
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    color: #475569;
+    margin: 0;
+    padding: 1rem;
+}
+
+.markdown-body .rbook-animation--error {
+    background: #fef2f2;
+    border-color: #fca5a5;
+    color: #991b1b;
+}
+
 // figure
 .markdown-body {
   img {

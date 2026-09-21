@@ -8,6 +8,7 @@ import rbookLinkPlugin, { RbookLinkOptions } from './plugins/rbook-link'
 import problemListPlugin from './plugins/problem-list'
 import fencePlugin from './plugins/fence'
 import excalidrawPlugin, { ExcalidrawOptions } from './plugins/excalidraw'
+import animatePlugin, { AnimateOptions } from './plugins/animate'
 
 export interface PluginRegistryOptions {
     rbookLink: RbookLinkOptions
@@ -15,6 +16,7 @@ export interface PluginRegistryOptions {
     contentMacros?: ContentMacrosOptions
     include?: IncludeOptions
     pseudocode?: PseudocodePluginOptions
+    animate?: AnimateOptions
 }
 
 /**
@@ -40,6 +42,7 @@ export function registerPlugins(md: MarkdownIt, opts: PluginRegistryOptions): vo
             diagnostics: opts.include.diagnostics || opts.rbookLink.diagnostics,
         })
     }
+    if (opts.animate) md.use(animatePlugin, opts.animate)
     md.use(contentMacrosPlugin, {
         ...opts.contentMacros,
         rojBaseUrl: opts.rbookLink.rojBaseUrl,

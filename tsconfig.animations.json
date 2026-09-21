@@ -1,0 +1,17 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "declaration": false,
+        "declarationMap": false,
+        "noEmit": true
+    },
+    "include": [
+        "packages/animation/src/**/*.ts",
+        "book/**/*.animation.ts"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist",
+        ".tsbuild"
+    ]
+}

@@ -10,6 +10,7 @@ import { Diagnostic } from '../domain/diagnostics'
 import { ContentMacrosOptions } from './plugins/content-macros'
 import { IncludeOptions } from './plugins/include'
 import { ProblemUrlResolver } from '../integrations/problem-url'
+import { AnimateOptions, renderAnimateDirectives } from './plugins/animate'
 
 export interface RendererOptions {
     index: ArticleIndex
@@ -28,6 +29,8 @@ export interface RendererOptions {
     problemUrl?: ProblemUrlResolver
     /** 当前文章源路径（用于诊断定位与去重） */
     currentSourcePath?: string
+    /** 覆盖交互动画引用配置（测试用）。 */
+    animate?: AnimateOptions
 }
 
 export interface RenderResult {
@@ -59,6 +62,12 @@ export function createMarkdownRenderer(opts: RendererOptions): MarkdownIt {
         currentSourcePath: opts.currentSourcePath,
     }
 
+    const animate = animateOpts(opts)
+    const include = includeOpts(opts)
+    if (include && animate) {
+        include.transformSource = (source, sourcePath) => renderAnimateDirectives(source, sourcePath, animate)
+    }
+
     registerPlugins(md, {
         rbookLink: linkOpts,
         excalidraw: opts.excalidraw,
@@ -67,10 +76,19 @@ export function createMarkdownRenderer(opts: RendererOptions): MarkdownIt {
         // 若 roots 为空（未传 projectRoot），保持旧行为：不拦截任何
         // include，完全交给 contentMacros/EJS 处理，避免把原本可用的
         // EJS include 变成“路径越界”失败。
-        include: includeOpts(opts),
+        include,
+        animate,
     })
 
     return md
+}
+
+function animateOpts(opts: RendererOptions): AnimateOptions | undefined {
+    if (opts.animate) return opts.animate
+    if (!opts.projectRoot) return undefined
+    const root = path.join(opts.projectRoot, 'book')
+    if (!fs.existsSync(root)) return undefined
+    return { root, projectRoot: opts.projectRoot, diagnostics: opts.diagnostics }
 }
 
 function includeOpts(opts: RendererOptions): IncludeOptions | undefined {
