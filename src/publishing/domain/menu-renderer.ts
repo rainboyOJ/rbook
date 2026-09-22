@@ -9,6 +9,8 @@ export interface MenuRendererOptions {
     templateDir: string
     /** EJS include 的 root，通常是 <projectRoot>/src */
     root?: string
+    /** 叶子 catalog 路径对应的发布 URL。 */
+    leafHref?: (catalogPath: string) => string
 }
 
 /**
@@ -21,9 +23,11 @@ export interface MenuRendererOptions {
 export class MenuRenderer {
     private readonly templatePath: string
     private readonly compiled: ejs.TemplateFunction
+    private readonly leafHref?: (catalogPath: string) => string
 
     constructor(opts: MenuRendererOptions) {
         this.templatePath = path.join(opts.templateDir, 'li_item.html')
+        this.leafHref = opts.leafHref
         if (!fs.existsSync(this.templatePath)) {
             throw new Error(`侧边栏模板不存在: ${this.templatePath}`)
         }
@@ -53,8 +57,18 @@ export class MenuRenderer {
         if (entry.children && entry.children.length > 0) {
             ul = this.renderEntries(childPath, entry.children)
         }
-        return this.compiled({ ...entry, ul, link: childPath })
+        const link = ul.length === 0
+            ? (this.leafHref?.(childPath.slice(1)) ?? defaultLeafHref(childPath))
+            : ''
+        return this.compiled({ ...entry, ul, link, directoryPath: childPath })
     }
+}
+
+function defaultLeafHref(catalogPath: string): string {
+    const normalized = catalogPath.replace(/^\//, '').replace(/\/$/, '')
+    return normalized.endsWith('.md')
+        ? `/${normalized.replace(/\.md$/i, '.html')}`
+        : `/${normalized}/index.html`
 }
 
 /** 便捷函数：读取清单文件并渲染侧边栏 HTML。 */

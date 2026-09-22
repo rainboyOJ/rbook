@@ -51,7 +51,9 @@ describe('Phase 2: Catalog 与元数据模型', () => {
         }).render(catalog)
 
         for (const leaf of flattenCatalog(catalog)) {
-            const href = `href="#/${leaf}"`
+            const href = leaf.endsWith('.md')
+                ? `href="/${leaf.replace(/\.md$/, '.html')}"`
+                : `href="/${leaf.replace(/\/$/, '')}/index.html"`
             assert.ok(html.includes(href), `侧边栏缺少叶子链接: ${href}`)
         }
         // 只检查链接，SVG 的 xmlns="http://..." 也含双斜杠

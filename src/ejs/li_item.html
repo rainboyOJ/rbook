@@ -1,5 +1,9 @@
 <li>
-    <a class="item <%= ul.length == 0 ? 'document' : ''%>" href="#<%=link || ''%>">
+    <% if (ul.length === 0) { %>
+    <a class="item document" href="<%= link %>">
+    <% } else { %>
+    <button class="item directory" type="button" aria-expanded="false" data-directory="<%= directoryPath %>">
+    <% } %>
         <span class="icon">
             <% if (ul.length == 0 ) {%>
                 <%- include("icon/document.svg") %>
@@ -13,6 +17,10 @@
             <% }%>
         </span>
         <%= title%>
+    <% if (ul.length === 0) { %>
     </a>
+    <% } else { %>
+    </button>
+    <% } %>
     <%- ul%>
 </li>

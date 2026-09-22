@@ -20,15 +20,15 @@
                 <%- include("component/header.html")%>
             </div>
         </div>
-        <div class="main sticky-footer__main" style="">
-            <div class="sidebar box" id="sidebar">
+        <div class="main sticky-footer__main rbook-layout" style="">
+            <div class="sidebar rbook-sidebar box" id="sidebar">
                 <%- menu.html %>
             </div>
-            <div class="article box">
-                <div id="article-container" class="article-container">
-                    <button type="button" id="full-button">full</button>
-                    <iframe id="article" frameborder="0"></iframe>
-                </div>
+            <div class="article rbook-main box">
+                <article class="rbook-article">
+                    <h1>Rbook 算法书</h1>
+                    <p>从左侧目录选择一篇文章开始阅读。</p>
+                </article>
             </div>
         </div>
 
@@ -36,6 +36,6 @@
             this is footer
         </footer>
     </div>
-    <script type="module" src="app.js"></script>
+    <script type="module" src="/js/site-shell.js"></script>
   </body>
 </html>

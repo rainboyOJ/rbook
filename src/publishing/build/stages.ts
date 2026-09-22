@@ -11,6 +11,7 @@ import { PageTemplateRenderer } from '../templates/page-template-renderer'
 import { renderMany } from '../pipeline/render-many'
 import { ProblemProvider } from '../integrations/problem-provider'
 import { ContentMacrosOptions } from '../markdown/plugins/content-macros'
+import { MenuRenderer } from '../domain/menu-renderer'
 
 export interface BuildStageContext {
     projectRoot: string
@@ -49,6 +50,12 @@ export const prepareCatalog: BuildStage = {
         ctx.stageResults['index'] = index
         ctx.stageResults['leaves'] = leaves
         ctx.stageResults['catalog'] = catalog
+        const hrefByCatalogPath = new Map(leaves.map((leaf, i) => [leaf, entries[i].publishHref]))
+        ctx.stageResults['menuHtml'] = new MenuRenderer({
+            templateDir: path.join(ctx.projectRoot, 'src', 'ejs'),
+            root: ctx.projectRoot,
+            leafHref: leaf => hrefByCatalogPath.get(leaf) || `/${leaf}`,
+        }).render(catalog)
         console.log(`[prepare-catalog] 叶子文章: ${leaves.length}`)
     },
 }
@@ -62,6 +69,7 @@ export const renderPages: BuildStage = {
         const templateRenderer = new PageTemplateRenderer({
             templateDir: path.join(ctx.projectRoot, 'src', 'ejs'),
             root: ctx.projectRoot,
+            menuHtml: ctx.stageResults['menuHtml'] as string,
         })
         const result = renderMany(leaves, {
             entryPath: '',

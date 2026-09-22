@@ -7,15 +7,18 @@ export interface PageTemplateRendererOptions {
     templateDir: string
     /** 限制 EJS 的 root 路径 */
     root?: string
+    menuHtml?: string
 }
 
 export class PageTemplateRenderer {
     private readonly templateDir: string
     private readonly root: string
+    private readonly menuHtml: string
 
     constructor(opts: PageTemplateRendererOptions) {
         this.templateDir = opts.templateDir
         this.root = opts.root || path.resolve(opts.templateDir, '..')
+        this.menuHtml = opts.menuHtml || ''
     }
 
     render(templateName: string, view: ArticleView): string {
@@ -47,6 +50,7 @@ export class PageTemplateRenderer {
             },
             header: view.header,
             content: view.content,
+            menu: { html: this.menuHtml },
         })
     }
 }

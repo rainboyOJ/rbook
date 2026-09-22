@@ -15,6 +15,7 @@ import { getProfile } from '../build/profiles'
 import { runStages } from '../build/stages'
 import { reportDiagnostics } from '../build/diagnostics-reporter'
 import { ContentMacrosOptions } from '../markdown/plugins/content-macros'
+import { MenuRenderer } from '../domain/menu-renderer'
 
 export interface CliOptions {
     projectRoot: string
@@ -34,9 +35,15 @@ export function createCli(opts: CliOptions): Command {
 
     const policy = new PathPolicy(opts.projectRoot)
     const catalogPath = path.join(policy.book, 'catalog.yaml')
+    const initialCatalog = loadCatalog(catalogPath)
     const templateRenderer = new PageTemplateRenderer({
         templateDir: path.join(opts.projectRoot, 'src', 'ejs'),
         root: opts.projectRoot,
+        menuHtml: new MenuRenderer({
+            templateDir: path.join(opts.projectRoot, 'src', 'ejs'),
+            root: opts.projectRoot,
+            leafHref: leaf => policy.publishHref(resolveArticleSource(leaf, policy.book).source.filePath),
+        }).render(initialCatalog),
     })
 
     function buildSharedContext(diag: Diagnostic[]) {

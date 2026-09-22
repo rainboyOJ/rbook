@@ -156,6 +156,9 @@ function contentType(filePath) {
 function loadMenuHtml() {
     const rendererEntry = resolve(__dirname, '.tsbuild/publishing/domain/menu-renderer.js')
     const catalogEntry = resolve(__dirname, '.tsbuild/publishing/content/catalog-loader.js')
+    const catalogDomainEntry = resolve(__dirname, '.tsbuild/publishing/domain/catalog.js')
+    const sourceEntry = resolve(__dirname, '.tsbuild/publishing/content/source-resolver.js')
+    const policyEntry = resolve(__dirname, '.tsbuild/publishing/content/path-policy.js')
 
     if (!fs.existsSync(rendererEntry) || !fs.existsSync(catalogEntry)) {
         throw new Error(
@@ -166,11 +169,20 @@ function loadMenuHtml() {
 
     const { MenuRenderer } = require(rendererEntry)
     const { loadCatalog } = require(catalogEntry)
+    const { flattenCatalog } = require(catalogDomainEntry)
+    const { resolveArticleSource } = require(sourceEntry)
+    const { PathPolicy } = require(policyEntry)
     const catalog = loadCatalog(resolve(__dirname, 'book/catalog.yaml'))
+    const policy = new PathPolicy(__dirname)
+    const hrefByCatalogPath = new Map(flattenCatalog(catalog).map(leaf => {
+        const source = resolveArticleSource(leaf, policy.book).source.filePath
+        return [leaf, policy.publishHref(source)]
+    }))
 
     return new MenuRenderer({
         templateDir: resolve(__dirname, 'src', 'ejs'),
         root: resolve(__dirname, 'src'),
+        leafHref: leaf => hrefByCatalogPath.get(leaf) || `/${leaf}`,
     }).render(catalog)
 }
 
