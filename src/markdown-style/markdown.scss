@@ -15,7 +15,9 @@ html,body {
 @import "./markdownPlugin/markdown-it-container.scss";
 @import "./markdownPlugin/style/typora-latex-theme/include.scss";
 // @import "./markdownPlugin/clipcopy-container.scss";
-@import "./markdownPlugin/pseudocode.css";
+// Omit the .css extension so Sass inlines this local stylesheet. Keeping the
+// extension makes Sass emit a browser-side import to a source-only path.
+@import "./markdownPlugin/pseudocode";
 @import "./markdown_perfect.scss";
 @import "../style/scrobar.scss";
 @import "./markdownPlugin/oneWordAlgo.scss";

@@ -74,6 +74,7 @@ function articleDevPlugin(animationEntries, runtimeEntry) {
             const templateRenderer = new PageTemplateRenderer({
                 templateDir: resolve(__dirname, 'src/ejs'),
                 root: __dirname,
+                menuHtml: loadMenuHtml(),
             })
 
             server.watcher.add(resolve(__dirname, 'book'))

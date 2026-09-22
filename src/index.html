@@ -10,10 +10,7 @@
   <body>
     <%- include("./component/git-corner.ejs") %>
 
-    <button class="button-menu" id="menu-toggle" style="z-index: 9999999;">
-        <img class="open" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIGZpbGw9J25vbmUnIHZpZXdCb3g9JzAgMCAyNCAyNCcgc3Ryb2tlLXdpZHRoPScxLjUnIHN0cm9rZT0nY3VycmVudENvbG9yJyBjbGFzcz0ndy02IGgtNic+PHBhdGggc3Ryb2tlLWxpbmVjYXA9J3JvdW5kJyBzdHJva2UtbGluZWpvaW49J3JvdW5kJyBkPSdNMy43NSA1LjI1aDE2LjVtLTE2LjUgNC41aDE2LjVtLTE2LjUgNC41aDE2LjVtLTE2LjUgNC41aDE2LjUnIC8+PC9zdmc+Cg==">
-        <img class="close" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIGZpbGw9J25vbmUnIHZpZXdCb3g9JzAgMCAyNCAyNCcgc3Ryb2tlLXdpZHRoPScxLjUnIHN0cm9rZT0nY3VycmVudENvbG9yJyBjbGFzcz0ndy02IGgtNic+PHBhdGggc3Ryb2tlLWxpbmVjYXA9J3JvdW5kJyBzdHJva2UtbGluZWpvaW49J3JvdW5kJyBkPSdNMy43NSA2Ljc1aDE2LjVNMy43NSAxMkgxMm0tOC4yNSA1LjI1aDE2LjUnIC8+PC9zdmc+Cg==">
-    </button>
+    <button class="button-menu" id="menu-toggle" type="button" aria-label="打开目录" aria-controls="sidebar" aria-expanded="false">☰</button>
     <div class="container">
         <div class="header sticky-footer__header" style="display: none;">
             <div style="max-width: 1298px;margin:0 auto;">
@@ -21,8 +18,8 @@
             </div>
         </div>
         <div class="main sticky-footer__main rbook-layout" style="">
-            <div class="sidebar rbook-sidebar box" id="sidebar">
-                <%- menu.html %>
+            <div class="rbook-sidebar box" id="sidebar">
+                <nav aria-label="文章目录"><%- menu.html %></nav>
             </div>
             <div class="article rbook-main box">
                 <article class="rbook-article">

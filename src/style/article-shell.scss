@@ -1,8 +1,27 @@
 .rbook-layout { min-height: 100vh; display: grid; grid-template-columns: 300px minmax(0, 1fr); background: #f8fafc; }
-.rbook-sidebar { position: sticky; top: 0; height: 100vh; overflow: auto; padding: 1rem; background: #fff; border-right: 1px solid #e2e8f0; }
+.rbook-sidebar {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: auto;
+    padding: 10px;
+    background: #fff;
+    border-right: 1px solid #e2e8f0;
+    // The home and article pages have different root font sizes.
+    // Keep navigation typography and geometry independent of article themes.
+    font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+.rbook-sidebar, .rbook-sidebar * { box-sizing: border-box; }
+.rbook-sidebar nav { display: block; }
 .rbook-sidebar ul { list-style: none; margin: 0; padding: 0; }
-.rbook-sidebar li { margin: .2rem 0; padding-left: 1rem; }
-.rbook-sidebar .item { width: 100%; display: flex; align-items: center; gap: .4rem; padding: .5rem; border: 0; background: transparent; color: #172033; font: inherit; font-size: 1.6rem; text-align: left; text-decoration: none; cursor: pointer; }
+.rbook-sidebar li { margin: 2px 0; padding-left: 10px; }
+.rbook-sidebar .item { width: 100%; display: flex; align-items: center; gap: 4px; padding: 5px; border: 0; background: transparent; color: #172033; font: inherit; text-align: left; text-decoration: none; cursor: pointer; }
+.rbook-sidebar .icon { display: block; flex: 0 0 20px; width: 20px; height: 20px; }
+.rbook-sidebar .icon svg { display: block; width: 20px; height: 20px; }
+.rbook-sidebar .icon .open { display: none; }
+.rbook-sidebar .icon .close { display: block; }
+.rbook-sidebar .directory[aria-expanded="true"] .open { display: block; }
+.rbook-sidebar .directory[aria-expanded="true"] .close { display: none; }
 .rbook-sidebar .item:hover, .rbook-sidebar .item.active { background: #e0f2fe; color: #0369a1; }
 .rbook-sidebar li > ul { display: none; }
 .rbook-sidebar li.active > ul { display: block; }
@@ -11,11 +30,11 @@
 .rbook-article .markdown-body { max-width: 900px; }
 .rbook-main.full-article { position: fixed; inset: 0; z-index: 1000; overflow: auto; background: #fff; }
 #full-button { position: fixed; right: 1rem; bottom: 2rem; z-index: 1001; }
-.button-menu { display: none; }
+.button-menu { display: none; width: 34px; height: 34px; padding: 0; border: 1px solid #cbd5e1; border-radius: 5px; background: #fff; color: #172033; font: 24px/32px system-ui, sans-serif; cursor: pointer; }
 @media (max-width: 1023px) {
     .rbook-layout { display: block; }
-    .rbook-sidebar { position: fixed; left: -310px; z-index: 1002; width: 300px; transition: left .2s ease; }
+    .rbook-sidebar { position: fixed; left: -310px; z-index: 1002; width: 300px; padding-top: 52px; transition: left .2s ease; }
     .rbook-sidebar.active { left: 0; }
-    .button-menu { display: block; position: fixed; top: 1rem; left: 1rem; z-index: 1003; }
+    .button-menu { display: block; position: fixed; top: 10px; left: 10px; z-index: 1003; }
     .rbook-article { padding-top: 5rem; }
 }
