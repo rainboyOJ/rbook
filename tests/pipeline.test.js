@@ -173,7 +173,7 @@ describe('Phase 4: 文章渲染与模板写盘', () => {
         assert.throws(
             () => renderPages.run(ctx),
             /渲染失败/,
-            '存在渲染失败的文章时 renderPages 必须抛错，否则 push.sh 会把残缺 dist 推上生产',
+            '存在渲染失败的文章时 renderPages 必须抛错，否则 deploy.sh 会把残缺 dist 推上生产',
         )
     })
 

@@ -43,19 +43,19 @@ announce() {
   say_ip="${PUSH_SAY_IP:-$(say_webhook_host)}"
 
   if ! command -v ping >/dev/null 2>&1; then
-    echo "[push] 未找到 ping，跳过语音通知" >&2
+    echo "[deploy] 未找到 ping，跳过语音通知" >&2
     return 0
   fi
   if ! ping -c 1 -W 1 "$say_ip" >/dev/null 2>&1; then
-    echo "[push] 局域网 IP ${say_ip} 在 1s 内不可达，跳过语音通知" >&2
+    echo "[deploy] 局域网 IP ${say_ip} 在 1s 内不可达，跳过语音通知" >&2
     return 0
   fi
   if ! command -v python3 >/dev/null 2>&1 || ! say_script="$(resolve_say_script)"; then
-    echo "[push] 找不到 say.py（\$PUSH_SAY_SCRIPT / ~/mybin/say.py / family-info-platform），跳过语音通知" >&2
+    echo "[deploy] 找不到 say.py（\$PUSH_SAY_SCRIPT / ~/mybin/say.py / family-info-platform），跳过语音通知" >&2
     return 0
   fi
   if ! python3 "$say_script" "$message"; then
-    echo "[push] 语音通知失败，但不影响发布结果" >&2
+    echo "[deploy] 语音通知失败，但不影响发布结果" >&2
   fi
 }
 

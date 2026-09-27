@@ -10,7 +10,7 @@ const project_dir = Path.join(__dirname,'../../book')
 const project_root = Path.join(__dirname,'../..')
 
 //1. 加载目录清单 book/catalog.yaml，并解析为文章对象（替代旧的 src/menu.js）
-//   .tsbuild 由 `npm run prepare` / push.sh 中的 tsc 生成
+//   .tsbuild 由 `npm run prepare` / deploy.sh 中的 tsc 生成
 const {loadCatalog} = require("../../.tsbuild/publishing/content/catalog-loader.js")
 const {flattenCatalog} = require("../../.tsbuild/publishing/domain/catalog.js")
 const {resolveArticleSource} = require("../../.tsbuild/publishing/content/source-resolver.js")
