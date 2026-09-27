@@ -19,7 +19,10 @@
         <nav aria-label="文章目录"><%- menu.html %></nav>
       </aside>
       <main class="rbook-main">
-        <button type="button" id="full-button">全屏</button>
+        <div class="rbook-page-tools" aria-label="页面工具">
+          <%- include("../component/theme-toggle.ejs") %>
+          <button class="rbook-tool-button" type="button" id="full-button">全屏</button>
+        </div>
         <article class="rbook-article">
     <div class="info-header">
         <%- include("./component/title.html")%>
@@ -59,9 +62,6 @@
     <script src="/js/article.js"></script>
     <script type="module" src="/js/site-shell.js"></script>
     <script type="module" src="/js/animation-runtime.js"></script>
-    <script type="module">
-        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-        mermaid.initialize({ startOnLoad: true });
-    </script>
+    <script type="module" src="/js/mermaid-theme.js"></script>
   </body>
 </html>

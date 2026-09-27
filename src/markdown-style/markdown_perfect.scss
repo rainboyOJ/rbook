@@ -15,7 +15,7 @@ $code-line-height : 20px;
         height: $code-line-height;
 }
 
-html.dark code[v-pre] {
+html[data-theme="dark"] code[v-pre] {
     > span::before {
         color: #999999d6;
     }
@@ -83,7 +83,7 @@ section:has( > eqn) {
     padding: 1rem 0;
 }
 
-html.dark .markdown-body > h1:first-child {
+html[data-theme="dark"] .markdown-body > h1:first-child {
     //TODO 这个颜色不对,应该有透
     border-color: rgba($color: #dbd7ca, $alpha: 0.15);
 }
@@ -166,7 +166,7 @@ html.dark .markdown-body > h1:first-child {
     }
   }
 }
-html.dark {
+html[data-theme="dark"] {
   .markdown-body {
     figure {
       img {

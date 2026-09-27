@@ -12,7 +12,7 @@ blockquote {
   margin-left: 0;
 }
 
-html.dark {
+html[data-theme="dark"] {
   blockquote {
     background-color: var(--dark-background);
     border-color: #333;

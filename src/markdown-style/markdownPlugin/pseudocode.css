@@ -6,7 +6,7 @@
     color:var(--default-fence-text-light-color);
 }
 
-html.dark .ps-root {
+html[data-theme="dark"] .ps-root {
     color:var(--default-fence-text-dark-color);
 }
 
@@ -22,8 +22,8 @@ html.dark .ps-root {
     border-bottom: 2px solid black;
 }
 
-html.dark .ps-root .ps-algorithm,
-html.dark .ps-root .ps-algorithm.with-caption > .ps-line:first-child {
+html[data-theme="dark"] .ps-root .ps-algorithm,
+html[data-theme="dark"] .ps-root .ps-algorithm.with-caption > .ps-line:first-child {
     border-color: var(--default-fence-text-dark-color);
 }
 
