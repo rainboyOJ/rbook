@@ -183,3 +183,77 @@ describe('Phase 4: 文章渲染与模板写盘', () => {
         assert.ok(out.html.includes('前缀和'))
     })
 })
+
+describe('站点首页别名 (alias-home)', () => {
+    const os = require('os')
+    const { aliasHome } = require(path.join(PROJECT_ROOT, '.tsbuild/publishing/build/stages.js'))
+    const bookDir = path.join(PROJECT_ROOT, 'book')
+    const catalogPath = path.join(bookDir, 'catalog.yaml')
+
+    function stubPolicy(distDir) {
+        return {
+            root: PROJECT_ROOT,
+            book: bookDir,
+            dist: distDir,
+            publishHref(sourcePath) {
+                return '/' + path.relative(bookDir, sourcePath).replace(/\.md$/i, '.html').replace(/\\/g, '/')
+            },
+            outputPath(sourcePath) {
+                return path.join(distDir, path.relative(bookDir, sourcePath).replace(/\.md$/i, '.html'))
+            },
+        }
+    }
+
+    function stubContext({ distDir, catalog, diagnostics = [] }) {
+        return {
+            projectRoot: PROJECT_ROOT,
+            policy: stubPolicy(distDir),
+            diagnostics,
+            stageResults: { catalog },
+        }
+    }
+
+    function tempDist(name) {
+        const dir = fs.mkdtempSync(path.join(os.tmpdir(), `rbook-${name}-`))
+        fs.mkdirSync(path.join(dir, 'introducation'), { recursive: true })
+        fs.writeFileSync(path.join(dir, 'introducation', 'index.html'), '<html>前言首页</html>', 'utf8')
+        return dir
+    }
+
+    it('把 home 文章的产物复制为 dist/index.html', () => {
+        const distDir = tempDist('alias')
+        const ctx = stubContext({ distDir, catalog: loadCatalog(catalogPath) })
+
+        aliasHome.run(ctx)
+
+        const indexHtml = path.join(distDir, 'index.html')
+        assert.ok(fs.existsSync(indexHtml), 'dist/index.html 应被生成')
+        assert.equal(fs.readFileSync(indexHtml, 'utf8'), '<html>前言首页</html>')
+    })
+
+    it('home 文章未渲染时让构建失败', () => {
+        const distDir = fs.mkdtempSync(path.join(os.tmpdir(), 'rbook-alias-empty-'))
+        const ctx = stubContext({ distDir, catalog: loadCatalog(catalogPath) })
+
+        assert.throws(() => aliasHome.run(ctx), /首页文章未渲染/)
+    })
+
+    it('catalog 缺少 home 标记时让构建失败', () => {
+        const distDir = tempDist('alias-nohome')
+        const catalog = loadCatalog(path.join(PROJECT_ROOT, 'book', 'catalog.yaml'))
+        // 模拟未标记任何首页的 catalog
+        const noHome = { ...catalog, entries: catalog.entries.map(e => ({ ...e, home: false })) }
+        const ctx = stubContext({ distDir, catalog: noHome })
+
+        assert.throws(() => aliasHome.run(ctx), /没有 home: true/)
+    })
+
+    it('产出的是文章正文而不是占位首页', () => {
+        const distDir = tempDist('alias-content')
+        const ctx = stubContext({ distDir, catalog: loadCatalog(catalogPath) })
+        aliasHome.run(ctx)
+
+        const html = fs.readFileSync(path.join(distDir, 'index.html'), 'utf8')
+        assert.ok(!html.includes('从左侧目录选择一篇文章开始阅读'), '不应是占位首页')
+    })
+})

@@ -1,4 +1,4 @@
-import { BuildStage, prepareCatalog, renderPages, buildSiteShell, copyAssets, buildOptionalWidgets } from './stages'
+import { BuildStage, prepareCatalog, renderPages, buildSiteShell, aliasHome, copyAssets, buildOptionalWidgets } from './stages'
 
 export interface PublishProfile {
     name: string
@@ -11,6 +11,7 @@ export const CORE_PROFILE: PublishProfile = {
         prepareCatalog,
         renderPages,
         buildSiteShell,
+        aliasHome,
         copyAssets,
     ],
 }

@@ -3,7 +3,7 @@
     "author": "rainboy <rainboylvx@qq.com>",
     "license": "MIT",
     "name": "Rbook-algorithms_book",
-    "source": "src/index.html",
+    "source": "src/home.html",
     "bin": {
         "rbook": "./bin/rbook.js"
     },

@@ -4,7 +4,7 @@ import yaml from 'js-yaml'
 import { Catalog, CatalogEntry } from '../domain/catalog'
 import { Diagnostic } from '../domain/diagnostics'
 
-const KNOWN_KEYS = new Set(['title', 'path', 'children'])
+const KNOWN_KEYS = new Set(['title', 'path', 'children', 'home'])
 
 export function loadCatalog(catalogPath: string, diagnostics: Diagnostic[] = []): Catalog {
     if (!fs.existsSync(catalogPath)) {
@@ -33,11 +33,19 @@ export function loadCatalog(catalogPath: string, diagnostics: Diagnostic[] = [])
         throw new Error('catalog.yaml 顶层必须是条目数组')
     }
 
-    validateEntries(raw as unknown as CatalogEntry[], '', diagnostics)
+    const homes: string[] = []
+    validateEntries(raw as unknown as CatalogEntry[], '', diagnostics, homes)
+    if (homes.length > 1) {
+        diagnostics.push({
+            phase: 'prepare-catalog',
+            level: 'error',
+            message: `catalog 只能有一个 home: true，实际有 ${homes.length} 个: ${homes.join(', ')}`,
+        })
+    }
     return { entries: raw as unknown as CatalogEntry[], source: catalogPath }
 }
 
-function validateEntries(entries: CatalogEntry[], parentPath: string, diagnostics: Diagnostic[]): void {
+function validateEntries(entries: CatalogEntry[], parentPath: string, diagnostics: Diagnostic[], homes: string[] = []): void {
     const seen = new Map<string, string>()
     for (const entry of entries) {
         if (typeof entry !== 'object' || entry === null) {
@@ -75,8 +83,27 @@ function validateEntries(entries: CatalogEntry[], parentPath: string, diagnostic
             })
         }
         if (entry.path) seen.set(entry.path, entry.title)
+
+        if (entry.home !== undefined && typeof entry.home !== 'boolean') {
+            diagnostics.push({
+                phase: 'prepare-catalog',
+                level: 'error',
+                message: `home 必须是布尔值 (path=${entry.path ?? '<none>'})`,
+            })
+        }
+        if (entry.home === true) {
+            if (entry.children) {
+                diagnostics.push({
+                    phase: 'prepare-catalog',
+                    level: 'error',
+                    message: `home 只能标在叶子条目上 (path=${entry.path ?? '<none>'})`,
+                })
+            }
+            homes.push(fullPath || entry.title)
+        }
+
         if (entry.children) {
-            validateEntries(entry.children, fullPath, diagnostics)
+            validateEntries(entry.children, fullPath, diagnostics, homes)
         }
     }
 }

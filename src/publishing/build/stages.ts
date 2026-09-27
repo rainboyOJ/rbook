@@ -5,7 +5,7 @@ import { Diagnostic } from '../domain/diagnostics'
 import { PathPolicy } from '../content/path-policy'
 import { buildArticleIndex } from '../domain/index'
 import { loadCatalog } from '../content/catalog-loader'
-import { flattenCatalog } from '../domain/catalog'
+import { flattenCatalog, findHomeLeaf } from '../domain/catalog'
 import { resolveArticleSource } from '../content/source-resolver'
 import { PageTemplateRenderer } from '../templates/page-template-renderer'
 import { renderMany } from '../pipeline/render-many'
@@ -105,6 +105,36 @@ export const renderPages: BuildStage = {
     },
 }
 
+/**
+ * 站点根路径 `/` 直出 catalog 标记为 `home: true` 的文章，
+ * 而不是单独维护一个占位首页。必须在 build-site-shell 之后运行：
+ * vite 产出的是 dist/home.html，本阶段用首页文章覆盖 dist/index.html。
+ */
+export const aliasHome: BuildStage = {
+    name: 'alias-home',
+    description: '把 catalog 的 home 文章产物复制为 dist/index.html',
+    run(ctx) {
+        const catalog = ctx.stageResults['catalog'] as ReturnType<typeof loadCatalog> | undefined
+        if (!catalog) {
+            throw new Error('缺少 catalog，prepare-catalog 阶段未执行')
+        }
+
+        const homeLeaf = findHomeLeaf(catalog)
+        if (!homeLeaf) {
+            throw new Error('catalog.yaml 没有 home: true 条目，站点根路径 (/) 无内容可发布')
+        }
+
+        const resolved = resolveArticleSource(homeLeaf, ctx.policy.book, ctx.diagnostics)
+        const sourceHtml = ctx.policy.outputPath(resolved.source.filePath)
+        if (!fs.existsSync(sourceHtml)) {
+            throw new Error(`首页文章未渲染: ${path.relative(ctx.policy.root, sourceHtml)}`)
+        }
+
+        fs.copyFileSync(sourceHtml, path.join(ctx.policy.dist, 'index.html'))
+        console.log(`[alias-home] ${homeLeaf} -> dist/index.html`)
+    },
+}
+
 export const buildSiteShell: BuildStage = {
     name: 'build-site-shell',
     description: '调用 Vite/EJS 生成首页和静态壳',
@@ -201,6 +231,7 @@ export const ALL_STAGES: BuildStage[] = [
     prepareCatalog,
     renderPages,
     buildSiteShell,
+    aliasHome,
     copyAssets,
     buildOptionalWidgets,
 ]

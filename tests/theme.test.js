@@ -118,12 +118,12 @@ describe('站点主题控制', () => {
 
     it('首页和文章页共享早期初始化与主题按钮', () => {
         const head = fs.readFileSync(path.join(PROJECT_ROOT, 'src/component/head.html'), 'utf8')
-        const index = fs.readFileSync(path.join(PROJECT_ROOT, 'src/index.html'), 'utf8')
+        const home = fs.readFileSync(path.join(PROJECT_ROOT, 'src/home.html'), 'utf8')
         const article = fs.readFileSync(path.join(PROJECT_ROOT, 'src/ejs/article.html'), 'utf8')
         const toggle = fs.readFileSync(path.join(PROJECT_ROOT, 'src/component/theme-toggle.ejs'), 'utf8')
 
         assert.match(head, /\/js\/theme-controller\.js/)
-        assert.match(index, /theme-toggle\.ejs/)
+        assert.match(home, /theme-toggle\.ejs/)
         assert.match(article, /theme-toggle\.ejs/)
         assert.match(toggle, /data-theme-toggle/)
         assert.match(toggle, /aria-pressed/)

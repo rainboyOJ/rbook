@@ -51,7 +51,7 @@ function articleDevPlugin(animationEntries, runtimeEntry) {
             const renderEntry = resolve(__dirname, '.tsbuild/publishing/pipeline/render-article.js')
             const { PathPolicy } = require(policyEntry)
             const { loadCatalog } = require(catalogEntry)
-            const { flattenCatalog } = require(domainCatalogEntry)
+            const { flattenCatalog, findHomeLeaf } = require(domainCatalogEntry)
             const { resolveArticleSource } = require(sourceEntry)
             const { buildArticleIndex } = require(indexEntry)
             const { PageTemplateRenderer } = require(templateEntry)
@@ -60,6 +60,8 @@ function articleDevPlugin(animationEntries, runtimeEntry) {
             const policy = new PathPolicy(__dirname)
             const catalog = loadCatalog(resolve(__dirname, 'book/catalog.yaml'))
             const leaves = flattenCatalog(catalog)
+            // 站点根路径直出 catalog 的 home 文章，与构建产物保持一致
+            const homeLeaf = findHomeLeaf(catalog)
             const entries = leaves.map(leaf => {
                 const resolved = resolveArticleSource(leaf, policy.book, [])
                 return {
@@ -101,8 +103,14 @@ function articleDevPlugin(animationEntries, runtimeEntry) {
                     return
                 }
 
-                if (pathname.endsWith('.html') && pathname !== '/index.html') {
-                    const relative = pathname.replace(/^\//, '').replace(/\.html$/, '.md')
+                // 站点根路径（/ 与 /index.html）渲染 catalog 的 home 文章，
+                // 与构建产物 dist/index.html（alias-home 阶段）保持一致。
+                const isHomeRequest = pathname === '/' || pathname === '/index.html'
+                if (isHomeRequest || pathname.endsWith('.html')) {
+                    const relative = isHomeRequest
+                        ? homeLeaf
+                        : pathname.replace(/^\//, '').replace(/\.html$/, '.md')
+                    if (!relative) return next()
                     const sourcePath = resolve(policy.book, relative)
                     if (!inside(policy.book, sourcePath) || !fs.existsSync(sourcePath)) return next()
                     try {
@@ -207,7 +215,7 @@ export default defineConfig({
         rollupOptions: {
             preserveEntrySignatures: 'strict',
             input: {
-                index: resolve(__dirname, 'src/index.html'),
+                index: resolve(__dirname, 'src/home.html'),
                 'js/animation-runtime': runtimeEntry,
                 ...animationEntries,
             },

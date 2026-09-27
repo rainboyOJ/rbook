@@ -1,5 +1,6 @@
 - title: "前言"
   path: "introducation/"
+  home: true
 - title: "思维方式"
   path: "mind_theory"
 - title: "基础"

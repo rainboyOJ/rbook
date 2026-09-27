@@ -139,3 +139,67 @@ describe('Phase 2: Catalog 与元数据模型', () => {
         }
     })
 })
+
+describe('站点首页标记 (catalog home)', () => {
+    const PROJECT_ROOT = path.resolve(__dirname, '..')
+    const os = require('os')
+    const fs = require('fs')
+    const { loadCatalog } = require(path.join(PROJECT_ROOT, '.tsbuild/publishing/content/catalog-loader.js'))
+    const { findHomeLeaf, findHomeEntry } = require(path.join(PROJECT_ROOT, '.tsbuild/publishing/domain/catalog.js'))
+
+    function loadFromYaml(yaml) {
+        const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'rbook-catalog-'))
+        const file = path.join(dir, 'catalog.yaml')
+        fs.writeFileSync(file, yaml, 'utf8')
+        const diag = []
+        return { catalog: loadCatalog(file, diag), diag }
+    }
+
+    function messages(diag, level) {
+        return diag.filter(d => d.level === level).map(d => d.message).join(' | ')
+    }
+
+    it('真实 catalog 把引言标记为首页', () => {
+        const catalog = loadCatalog(path.join(PROJECT_ROOT, 'book', 'catalog.yaml'))
+        assert.equal(findHomeLeaf(catalog), 'introducation/')
+        assert.equal(findHomeEntry(catalog)?.title, '前言')
+    })
+
+    it('没有标记时返回 null', () => {
+        const { catalog } = loadFromYaml('- title: A\n  path: a\n')
+        assert.equal(findHomeLeaf(catalog), null)
+        assert.equal(findHomeEntry(catalog), null)
+    })
+
+    it('home 可以标在嵌套叶子上，返回完整路径', () => {
+        const { catalog } = loadFromYaml(
+            '- title: A\n  path: a\n  children:\n    - title: B\n      path: b\n      home: true\n',
+        )
+        assert.equal(findHomeLeaf(catalog), 'a/b')
+    })
+
+    it('home 不再被当作未知字段', () => {
+        const { diag } = loadFromYaml('- title: A\n  path: a\n  home: true\n')
+        assert.ok(!diag.some(d => d.message === '未知字段: home'), messages(diag, 'warning'))
+        assert.equal(diag.filter(d => d.level === 'error').length, 0, messages(diag, 'error'))
+    })
+
+    it('home 标在非叶子条目上报 error', () => {
+        const { diag } = loadFromYaml(
+            '- title: A\n  path: a\n  home: true\n  children:\n    - title: B\n      path: b\n',
+        )
+        assert.match(messages(diag, 'error'), /home 只能标在叶子条目上/)
+    })
+
+    it('多个 home 报 error', () => {
+        const { diag } = loadFromYaml(
+            '- title: A\n  path: a\n  home: true\n- title: B\n  path: b\n  home: true\n',
+        )
+        assert.match(messages(diag, 'error'), /只能有一个 home: true/)
+    })
+
+    it('home 非布尔值报 error', () => {
+        const { diag } = loadFromYaml('- title: A\n  path: a\n  home: yes please\n')
+        assert.match(messages(diag, 'error'), /home 必须是布尔值/)
+    })
+})
