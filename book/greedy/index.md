@@ -616,3 +616,9 @@ int main()
     return 0;
 }
 ```
+
+## 练习题目
+
+- [[[p: luogu-P2887]]]
+- [[[p: luogu-P2859]]]
+- [[[p: luogu-P1080]]]
