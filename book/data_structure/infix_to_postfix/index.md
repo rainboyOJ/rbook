@@ -87,95 +87,9 @@ A + B * C  ->  A B C * +
 
 ## C++ 实现
 
-下面的实现接收已经切分好的 token，因此可以正确处理多位整数和变量名。token 之间用空格分隔，输出也用空格分隔。
+下面的代码从标准输入读取一行中缀表达式，先做词法分析切成 token，再用调度场算法转成后缀表达式。支持多位整数、小数、变量名、运算符 `+ - * / ^` 和括号。
 
-```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-const int maxn = 1e5 + 5;
-
-string op_sta[maxn];   // 运算符栈（手写数组栈）
-int sta_top = 0;       // 栈顶指针，指向栈顶元素的下一个位置
-
-// 判断 token 是否是运算符
-bool isOperator(const string& token) {
-    return token == "+" || token == "-" || token == "*" ||
-           token == "/" || token == "^";
-}
-
-// 运算符优先级，数字越大优先级越高
-int precedence(const string& op) {
-    if (op == "+" || op == "-") return 1;
-    if (op == "*" || op == "/") return 2;
-    if (op == "^") return 3;
-    return -1;  // 非运算符
-}
-
-// 是否为右结合运算符（只有 ^ 是右结合）
-bool isRightAssociative(const string& op) {
-    return op == "^";
-}
-
-// 栈顶运算符是否应该弹出
-// 左结合：栈顶优先级 >= 当前优先级时弹栈
-// 右结合：栈顶优先级 >  当前优先级时弹栈（严格大于）
-bool shouldPop(const string& top_op, const string& cur_op) {
-    if (top_op == "(") return false;      // 左括号是边界，永不参与比较
-    int top_p = precedence(top_op);
-    int cur_p = precedence(cur_op);
-    if (isRightAssociative(cur_op)) {
-        return top_p > cur_p;             // 右结合：严格大于才弹
-    }
-    return top_p >= cur_p;                // 左结合：大于等于就弹
-}
-
-// 调度场算法：中缀转后缀，返回后缀表达式的 token 序列
-vector<string> infixToPostfix(const vector<string>& tokens) {
-    vector<string> postfix;   // 输出序列
-
-    for (const string& token : tokens) {
-        if (!isOperator(token) && token != "(" && token != ")") {
-            // 操作数：直接输出
-            postfix.push_back(token);
-        } else if (token == "(") {
-            // 左括号：直接入栈
-            op_sta[sta_top++] = token;
-        } else if (token == ")") {
-            // 右括号：弹栈直到遇到左括号
-            while (sta_top > 0 && op_sta[sta_top - 1] != "(") {
-                postfix.push_back(op_sta[--sta_top]);
-            }
-            if (sta_top == 0) throw invalid_argument("右括号没有匹配的左括号");
-            sta_top--;  // 丢弃左括号
-        } else {
-            // 运算符：按结合性弹出栈顶优先级更高的运算符
-            while (sta_top > 0 && shouldPop(op_sta[sta_top - 1], token)) {
-                postfix.push_back(op_sta[--sta_top]);
-            }
-            op_sta[sta_top++] = token;  // 当前运算符入栈
-        }
-    }
-
-    // 扫描结束，弹出栈中剩余运算符
-    while (sta_top > 0) {
-        if (op_sta[sta_top - 1] == "(") {
-            throw invalid_argument("左括号没有匹配的右括号");
-        }
-        postfix.push_back(op_sta[--sta_top]);
-    }
-    return postfix;
-}
-
-int main() {
-    vector<string> tokens = {"(", "2", "+", "3", "*", "(",
-                             "8", "-", "4", ")", ")", "/", "5"};
-    vector<string> postfix = infixToPostfix(tokens);
-    for (const string& token : postfix) {
-        cout << token << ' ';
-    }
-    cout << '\n';
-}
+```cpp file=./infix_to_postfix.cpp
 ```
 
 代码中的 `shouldPop` 是整个算法的关键。它把“左结合时大于等于、右结合时严格大于”集中在一个地方处理，避免把 `^` 错误地当成左结合运算符。
@@ -225,84 +139,7 @@ int main() {
 
 下面在上一节基础上补充 `buildExprTree`：输入后缀表达式，返回表达式树的根节点编号。树用数组存储（节点池），`l`/`r` 存左右孩子编号，`0` 表示空孩子。
 
-```cpp
-#include <bits/stdc++.h>
-using namespace std;
-
-const int maxn = 1e5 + 5;
-
-// 表达式树节点：val 存操作数或运算符，l/r 存左右孩子编号，0 表示空
-struct Node {
-    string val;
-    int l = 0, r = 0;
-};
-
-Node tree[maxn];    // 节点池（数组存树）
-int node_cnt = 0;   // 已使用节点数
-
-// （此处省略 infixToPostfix、isOperator、precedence 等上一节的函数）
-
-// 新建节点，返回编号
-int newNode(const string& v) {
-    tree[++node_cnt].val = v;
-    tree[node_cnt].l = tree[node_cnt].r = 0;
-    return node_cnt;
-}
-
-// 后缀表达式 -> 表达式树，返回根节点编号
-int buildExprTree(const vector<string>& postfix) {
-    int node_sta[maxn];  // 节点栈，存节点编号
-    int top = 0;
-
-    for (const string& token : postfix) {
-        if (!isOperator(token)) {
-            // 操作数 -> 新建叶子结点入栈
-            node_sta[top++] = newNode(token);
-        } else {
-            int r = node_sta[--top];  // 先弹出的是右操作数
-            int l = node_sta[--top];  // 再弹出的是左操作数
-            int root = newNode(token);
-            tree[root].l = l;
-            tree[root].r = r;
-            node_sta[top++] = root;   // 新子树入栈
-        }
-    }
-    return node_sta[--top];  // 栈中最后一个节点就是根
-}
-
-// 后序遍历：左-右-根，恰好还原出后缀表达式
-void postOrder(int u) {
-    if (u == 0) return;
-    postOrder(tree[u].l);
-    postOrder(tree[u].r);
-    cout << tree[u].val << ' ';
-}
-
-// 中序遍历：左-根-右，还原出中缀表达式（未处理括号，仅作示意）
-void inOrder(int u) {
-    if (u == 0) return;
-    inOrder(tree[u].l);
-    cout << tree[u].val << ' ';
-    inOrder(tree[u].r);
-}
-
-int main() {
-    vector<string> tokens = {"(", "2", "+", "3", "*", "(",
-                             "8", "-", "4", ")", ")", "/", "5"};
-    vector<string> postfix = infixToPostfix(tokens);
-
-    cout << "后缀: ";
-    for (const string& token : postfix) cout << token << ' ';
-    cout << '\n';
-
-    int root = buildExprTree(postfix);
-    cout << "后序遍历: ";
-    postOrder(root);
-    cout << '\n';
-    cout << "中序遍历: ";
-    inOrder(root);
-    cout << '\n';
-}
+```cpp file=./infix_to_expr_tree.cpp
 ```
 
 运行结果：
@@ -340,3 +177,11 @@ int main() {
 调度场算法的本质，是把“运算符应该等待多久”交给栈管理：优先级较低的运算符留在栈中等待，已经确定应该先计算的运算符立即弹出。括号把表达式切成局部范围，结合性则决定同优先级运算符是否应该弹栈。
 
 完成转换后，后缀表达式可以直接交给另一个栈求值算法处理，这也是表达式解析中“转换”和“计算”可以分开的原因。
+
+## 练习题目
+
+- [[[p: luogu-1739 | 表达式括号匹配]]] 前置：括号匹配
+- [[[p: luogu-1981 | [NOIP 2013 普及组] 表达式求值]]] 前置：只含加法和乘法的表达式求值
+- [[[p: luogu-7073 | [CSP-J 2020] 表达式]]] 进阶：后缀表达式建树与翻转查询
+- [[[p: luogu-8815 | [CSP-J 2022] 逻辑表达式]]] 进阶：逻辑表达式建树与短路求值
+
