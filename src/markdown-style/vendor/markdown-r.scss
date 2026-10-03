@@ -14,9 +14,45 @@ html {
                 border-right: 1px solid rgba($color: #000000, $alpha: 0.3);
                 color: #818181;
                 text-align: right;
+                // 行号列不可选中，不影响复制正文代码
+                user-select: none;
+                white-space: pre;
             }
             .line-numbers-wrapper,code {
                 font-size: 16px;
+            }
+        }
+
+        // 行号列是独立的 <pre class="line-numbers-pre">，与代码块并排：
+        // 同 line-height/字号/padding，保证行号与代码行严格对齐
+        pre.line-numbers-pre {
+            display: flex;
+            align-items: flex-start;
+            margin: 0;
+            padding: 1em 0;
+            border: none;
+            background: transparent;
+            color: #818181;
+            opacity: 0.75;
+            user-select: none;
+            font-size: 16px;
+            line-height: 1.5;
+            .line-numbers-wrapper {
+                display: block;
+                padding-right: 6px;
+                margin-right: 6px;
+                border-right: 1px solid rgba($color: #000000, $alpha: 0.3);
+                text-align: right;
+                white-space: pre;
+            }
+        }
+
+        // 暗色主题下降低分隔线与行号对比度
+        html[data-theme="dark"] & pre.line-numbers-pre {
+            color: #9ca3af;
+            border-right-color: rgba($color: #ffffff, $alpha: 0.25);
+            .line-numbers-wrapper {
+                border-right-color: rgba($color: #ffffff, $alpha: 0.25);
             }
         }
     }

@@ -38,8 +38,14 @@ export default function fencePlugin(md: MarkdownIt): void {
             .replaceAll('\'', '&#39;')
 
         if (content && content.length > 0) {
+            // 构建期生成行号列：与代码同 lineHeight、右对齐、borderRight 分隔，
+            // 样式见 markdown-r.scss 的 .line-numbers-mode（VuePress 风格）。
+            // aria-hidden + user-select:none，不影响复制与无障碍。
+            const lineCount = token.content.replace(/\n$/, '').split('\n').length
+            const numbers = Array.from({ length: lineCount }, (_, i) => i + 1).join('\n')
             return `
-<div style="position: relative" class="code-with-linenumber">
+<div style="position: relative" class="code-with-linenumber line-numbers-mode">
+    <pre class="line-numbers-pre"><span class="line-numbers-wrapper" aria-hidden="true">${numbers}</span></pre>
     ${rendered}
     <button class="markdown-it-code-copy" data-clipboard-text="${content}" style="position: absolute; top: 10px; right: 10px; cursor: pointer; outline: none;" onclick="window.myclipboard(this)" title="复制">复制</button>
 </div>`
