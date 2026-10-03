@@ -6,29 +6,31 @@ html {
 
 .markdown-body {
     .line-numbers-mode {
-        pre {
-            display: flex;
-            .line-numbers-wrapper {
-                padding-right: 6px;
-                margin-right: 6px;
-                border-right: 1px solid rgba($color: #000000, $alpha: 0.3);
-                color: #818181;
-                text-align: right;
-                // 行号列不可选中，不影响复制正文代码
-                user-select: none;
-                white-space: pre;
-            }
-            .line-numbers-wrapper,code {
-                font-size: 16px;
-            }
+        // 行号列和代码列必须是同一行的两个 flex 子项；否则两个 pre
+        // 会各自占满一行，行号自然无法与代码逐行对齐。
+        display: flex;
+        align-items: stretch;
+
+        > pre {
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        > pre:not(.line-numbers-pre) {
+            flex: 1 1 auto;
+            min-width: 0;
+        }
+
+        .line-numbers-wrapper, code {
+            font-size: 16px;
         }
 
         // 行号列是独立的 <pre class="line-numbers-pre">，与代码块并排：
         // 同 line-height/字号/padding，保证行号与代码行严格对齐
         pre.line-numbers-pre {
-            display: flex;
+            flex: 0 0 auto;
+            display: block;
             align-items: flex-start;
-            margin: 0;
             padding: 1em 0;
             border: none;
             background: transparent;
