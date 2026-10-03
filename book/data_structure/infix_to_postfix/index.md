@@ -43,32 +43,18 @@ A + B * C  ->  A B C * +
 
 从左到右扫描表达式，并维护两个序列：输出序列和运算符栈。
 
-### 遇到操作数
+- **遇到操作数**：数字、变量名等操作数直接追加到输出序列。若操作数可能有多位，应该先把表达式切分成 token，不能按单个字符处理。
+- **遇到左括号**：左括号直接入栈，它表示一个新的局部表达式范围。
+- **遇到右括号**：不断弹出并输出栈顶运算符，直到遇到左括号。弹出左括号后丢弃它，不把括号写入后缀表达式。
+- **遇到运算符**：根据当前运算符的结合性比较优先级，并重复弹出栈顶运算符：
 
-数字、变量名等操作数直接追加到输出序列。若操作数可能有多位，应该先把表达式切分成 token，不能按单个字符处理。
+  ```text
+  左结合：栈顶优先级 >= 当前优先级
+  右结合：栈顶优先级 >  当前优先级
+  ```
 
-### 遇到左括号
-
-左括号直接入栈。它表示一个新的局部表达式范围。
-
-### 遇到右括号
-
-不断弹出并输出栈顶运算符，直到遇到左括号。弹出左括号后丢弃它，不把括号写入后缀表达式。
-
-### 遇到运算符
-
-根据当前运算符的结合性比较优先级，并重复弹出栈顶运算符：
-
-```text
-左结合：栈顶优先级 >= 当前优先级
-右结合：栈顶优先级 >  当前优先级
-```
-
-遇到左括号时停止弹栈，然后把当前运算符压入栈。
-
-### 扫描结束
-
-表达式扫描完后，依次弹出栈中剩余的运算符并追加到输出序列。若此时仍遇到左括号，说明原表达式的括号不匹配。
+  遇到左括号时停止弹栈，然后把当前运算符压入栈。
+- **扫描结束**：表达式扫描完后，依次弹出栈中剩余的运算符并追加到输出序列。若此时仍遇到左括号，说明原表达式的括号不匹配。
 
 ## 例子：`A + B * C`
 
@@ -104,74 +90,79 @@ A + B * C  ->  A B C * +
 下面的实现接收已经切分好的 token，因此可以正确处理多位整数和变量名。token 之间用空格分隔，输出也用空格分隔。
 
 ```cpp
-#include <cctype>
-#include <iostream>
-#include <stdexcept>
-#include <string>
-#include <vector>
-
+#include <bits/stdc++.h>
 using namespace std;
 
+const int maxn = 1e5 + 5;
+
+string op_sta[maxn];   // 运算符栈（手写数组栈）
+int sta_top = 0;       // 栈顶指针，指向栈顶元素的下一个位置
+
+// 判断 token 是否是运算符
 bool isOperator(const string& token) {
     return token == "+" || token == "-" || token == "*" ||
            token == "/" || token == "^";
 }
 
+// 运算符优先级，数字越大优先级越高
 int precedence(const string& op) {
     if (op == "+" || op == "-") return 1;
     if (op == "*" || op == "/") return 2;
     if (op == "^") return 3;
-    return -1;
+    return -1;  // 非运算符
 }
 
+// 是否为右结合运算符（只有 ^ 是右结合）
 bool isRightAssociative(const string& op) {
     return op == "^";
 }
 
-bool shouldPop(const string& top, const string& current) {
-    if (top == "(") return false;
-    int topPriority = precedence(top);
-    int currentPriority = precedence(current);
-    if (isRightAssociative(current)) {
-        return topPriority > currentPriority;
+// 栈顶运算符是否应该弹出
+// 左结合：栈顶优先级 >= 当前优先级时弹栈
+// 右结合：栈顶优先级 >  当前优先级时弹栈（严格大于）
+bool shouldPop(const string& top_op, const string& cur_op) {
+    if (top_op == "(") return false;      // 左括号是边界，永不参与比较
+    int top_p = precedence(top_op);
+    int cur_p = precedence(cur_op);
+    if (isRightAssociative(cur_op)) {
+        return top_p > cur_p;             // 右结合：严格大于才弹
     }
-    return topPriority >= currentPriority;
+    return top_p >= cur_p;                // 左结合：大于等于就弹
 }
 
+// 调度场算法：中缀转后缀，返回后缀表达式的 token 序列
 vector<string> infixToPostfix(const vector<string>& tokens) {
-    vector<string> operators;
-    vector<string> postfix;
+    vector<string> postfix;   // 输出序列
 
     for (const string& token : tokens) {
         if (!isOperator(token) && token != "(" && token != ")") {
+            // 操作数：直接输出
             postfix.push_back(token);
         } else if (token == "(") {
-            operators.push_back(token);
+            // 左括号：直接入栈
+            op_sta[sta_top++] = token;
         } else if (token == ")") {
-            while (!operators.empty() && operators.back() != "(") {
-                postfix.push_back(operators.back());
-                operators.pop_back();
+            // 右括号：弹栈直到遇到左括号
+            while (sta_top > 0 && op_sta[sta_top - 1] != "(") {
+                postfix.push_back(op_sta[--sta_top]);
             }
-            if (operators.empty()) {
-                throw invalid_argument("右括号没有匹配的左括号");
-            }
-            operators.pop_back(); // 丢弃左括号
+            if (sta_top == 0) throw invalid_argument("右括号没有匹配的左括号");
+            sta_top--;  // 丢弃左括号
         } else {
-            while (!operators.empty() &&
-                   shouldPop(operators.back(), token)) {
-                postfix.push_back(operators.back());
-                operators.pop_back();
+            // 运算符：按结合性弹出栈顶优先级更高的运算符
+            while (sta_top > 0 && shouldPop(op_sta[sta_top - 1], token)) {
+                postfix.push_back(op_sta[--sta_top]);
             }
-            operators.push_back(token);
+            op_sta[sta_top++] = token;  // 当前运算符入栈
         }
     }
 
-    while (!operators.empty()) {
-        if (operators.back() == "(") {
+    // 扫描结束，弹出栈中剩余运算符
+    while (sta_top > 0) {
+        if (op_sta[sta_top - 1] == "(") {
             throw invalid_argument("左括号没有匹配的右括号");
         }
-        postfix.push_back(operators.back());
-        operators.pop_back();
+        postfix.push_back(op_sta[--sta_top]);
     }
     return postfix;
 }
@@ -179,7 +170,8 @@ vector<string> infixToPostfix(const vector<string>& tokens) {
 int main() {
     vector<string> tokens = {"(", "2", "+", "3", "*", "(",
                              "8", "-", "4", ")", ")", "/", "5"};
-    for (const string& token : infixToPostfix(tokens)) {
+    vector<string> postfix = infixToPostfix(tokens);
+    for (const string& token : postfix) {
         cout << token << ' ';
     }
     cout << '\n';
