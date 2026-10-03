@@ -180,6 +180,141 @@ int main() {
 
 代码中的 `shouldPop` 是整个算法的关键。它把“左结合时大于等于、右结合时严格大于”集中在一个地方处理，避免把 `^` 错误地当成左结合运算符。
 
+## 中缀表达式转表达式树
+
+表达式树是一棵二叉树：
+
+- **叶子结点**存操作数（数字、变量名）；
+- **内部结点**存运算符，它的左、右子树分别是该运算符的左右操作数。
+
+例如 `(2 + 3 * (8 - 4)) / 5` 对应的表达式树是：
+
+```text
+             /
+          /     \
+         +       5
+       /   \
+      2     *
+          /   \
+         3     -
+             /   \
+            8     4
+```
+
+有了表达式树，后序遍历就能还原出后缀表达式，中序遍历能还原出中缀表达式，表达式求值、求导、化简等操作也都可以在树上完成。
+
+### 为什么要先转后缀
+
+直接从中缀构造表达式树，需要像调度场算法一样同时处理优先级和括号，容易写错。更简单的做法是**分两步**：
+
+1. 先用上一节的调度场算法把中缀转成后缀表达式；
+2. 再从后缀表达式构造表达式树。
+
+后缀表达式不含括号，运算符出现的顺序就是它真正参与运算的顺序，所以第二步只需一遍扫描、用一个栈就能完成。
+
+### 后缀表达式建树的规则
+
+从左到右扫描后缀表达式：
+
+- **遇到操作数**：为它新建一个叶子结点，结点编号压入节点栈；
+- **遇到运算符**：从节点栈弹出两个结点，**先弹出的是右操作数，后弹出的是左操作数**；用它们作为左右子树新建一个结点，再把新结点压回节点栈。
+
+扫描结束后，栈中剩下的唯一结点就是根。为什么“先弹右、后弹左”？因为后缀表达式的操作数顺序是「左操作数、右操作数、运算符」，入栈顺序也是先左后右，所以弹栈时先弹出的一定是右操作数。
+
+### 代码
+
+下面在上一节基础上补充 `buildExprTree`：输入后缀表达式，返回表达式树的根节点编号。树用数组存储（节点池），`l`/`r` 存左右孩子编号，`0` 表示空孩子。
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+const int maxn = 1e5 + 5;
+
+// 表达式树节点：val 存操作数或运算符，l/r 存左右孩子编号，0 表示空
+struct Node {
+    string val;
+    int l = 0, r = 0;
+};
+
+Node tree[maxn];    // 节点池（数组存树）
+int node_cnt = 0;   // 已使用节点数
+
+// （此处省略 infixToPostfix、isOperator、precedence 等上一节的函数）
+
+// 新建节点，返回编号
+int newNode(const string& v) {
+    tree[++node_cnt].val = v;
+    tree[node_cnt].l = tree[node_cnt].r = 0;
+    return node_cnt;
+}
+
+// 后缀表达式 -> 表达式树，返回根节点编号
+int buildExprTree(const vector<string>& postfix) {
+    int node_sta[maxn];  // 节点栈，存节点编号
+    int top = 0;
+
+    for (const string& token : postfix) {
+        if (!isOperator(token)) {
+            // 操作数 -> 新建叶子结点入栈
+            node_sta[top++] = newNode(token);
+        } else {
+            int r = node_sta[--top];  // 先弹出的是右操作数
+            int l = node_sta[--top];  // 再弹出的是左操作数
+            int root = newNode(token);
+            tree[root].l = l;
+            tree[root].r = r;
+            node_sta[top++] = root;   // 新子树入栈
+        }
+    }
+    return node_sta[--top];  // 栈中最后一个节点就是根
+}
+
+// 后序遍历：左-右-根，恰好还原出后缀表达式
+void postOrder(int u) {
+    if (u == 0) return;
+    postOrder(tree[u].l);
+    postOrder(tree[u].r);
+    cout << tree[u].val << ' ';
+}
+
+// 中序遍历：左-根-右，还原出中缀表达式（未处理括号，仅作示意）
+void inOrder(int u) {
+    if (u == 0) return;
+    inOrder(tree[u].l);
+    cout << tree[u].val << ' ';
+    inOrder(tree[u].r);
+}
+
+int main() {
+    vector<string> tokens = {"(", "2", "+", "3", "*", "(",
+                             "8", "-", "4", ")", ")", "/", "5"};
+    vector<string> postfix = infixToPostfix(tokens);
+
+    cout << "后缀: ";
+    for (const string& token : postfix) cout << token << ' ';
+    cout << '\n';
+
+    int root = buildExprTree(postfix);
+    cout << "后序遍历: ";
+    postOrder(root);
+    cout << '\n';
+    cout << "中序遍历: ";
+    inOrder(root);
+    cout << '\n';
+}
+```
+
+运行结果：
+
+```text
+后缀: 2 3 8 4 - * + 5 / 
+后序遍历: 2 3 8 4 - * + 5 / 
+中序遍历: 2 + 3 * 8 - 4 / 5 
+```
+
+后序遍历的结果与后缀表达式完全一致，这说明「中缀 → 后缀 → 表达式树」整条链路是正确的。中序遍历得到的是去掉括号的中缀表达式——要恢复括号，需要在遍历时根据运算符优先级补上括号，这里不展开。
+
 ## 两个容易忽略的问题
 
 ### 多位数字必须先分词
