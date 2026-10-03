@@ -159,6 +159,8 @@
   children:
     - title: "栈"
       path: "stack"
+    - title: "中缀表达式转后缀表达式"
+      path: "infix_to_postfix"
     - title: "队列"
       path: "queue"
     - title: "单调栈"
