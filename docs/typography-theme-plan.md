@@ -214,6 +214,7 @@ typography 用例与 [tests/markdown-style.test.js](../tests/markdown-style.test
 - [markdown_perfect.scss](../src/markdown-style/markdown_perfect.scss) 中旧的行内代码配色、`code[v-pre]` 计数行号、标题与引用样式已收拢删除，正文/代码统一走 typography.scss。
 - [markdown-r.scss](../src/markdown-style/vendor/markdown-r.scss) 的行号列与代码列改为共享 `--rbook-code-*` 变量；[fence.ts](../src/publishing/markdown/plugins/fence.ts) 不再输出内联定位样式，复制按钮样式收括到 markdown-it-code-copy.scss。
 - 浏览器人工检查后的视觉修正：所有代码块（含带行号容器与独立 `<pre>`）去掉 border 与圆角，靠 `--rbook-code-bg` 背景色与页面分层；行号列与代码列之间的分隔线保留；行号列左侧增加 14px 留白，与代码列 padding 呼应；行内代码保留 border 以形成层级对比。
+- 滚动条改为细胶囊风格（统一 8px，透明轨道，thumb 圆角）：颜色复用 `--rbook-border` / `--rbook-muted`，代码块内部 thumb 用 color-mix 加深一档；删除 scrobar.scss 的硬编码颜色（含绿色 corner）并从两处导入中移除，修复了硬编码规则覆盖主题变量导致暗色主题滚动条显示为浅色的 bug；同时提供 Firefox 标准属性（scrollbar-width/scrollbar-color）兑底，用 `-moz-appearance` 特性查询与 webkit 伪元素隔离，废弃 `--rbook-scroll-*` 变量。
 - 旧 typora-latex-theme 的字体、标题 em 缩放、表格衬线字体改为引用 `--rbook-*` 变量，保留标题自动编号与三线表线宽。
 - 排版 fixture 与验收清单见上文；第 5 项主题/宽度人工检查待浏览器验证。
 

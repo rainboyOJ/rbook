@@ -350,6 +350,30 @@ html:not([data-theme="dark"]) .rbook-article .markdown-body {
 }
 
 // ----------------------------------------------------------------------------
+// 滚动条（代码块内部）
+// 页面滚动条在 article-shell.scss 统一定义；代码块是横向滚动高频区，
+// thumb 加深一档（color-mix 向正文色混合）保证滚动状态可发现。
+// ----------------------------------------------------------------------------
+.rbook-article .markdown-body {
+    pre::-webkit-scrollbar-thumb,
+    pre *::-webkit-scrollbar-thumb {
+        background: color-mix(in srgb, var(--rbook-border) 60%, var(--rbook-text));
+    }
+
+    pre::-webkit-scrollbar-thumb:hover,
+    pre *::-webkit-scrollbar-thumb:hover {
+        background: var(--rbook-muted);
+    }
+
+    // Firefox 兑底（与 article-shell.scss 同样的特性查询隔离）。
+    @supports (-moz-appearance: none) {
+        pre {
+            scrollbar-color: color-mix(in srgb, var(--rbook-border) 60%, var(--rbook-text)) transparent;
+        }
+    }
+}
+
+// ----------------------------------------------------------------------------
 // 移动端（Phase 6）
 // 正文保持 16px，不通过缩小字号解决宽度；代码块、表格与块公式
 // 已各自横向滚动。

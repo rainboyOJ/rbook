@@ -32,8 +32,6 @@
     --rbook-danger-border: #fca5a5;
     --rbook-danger-text: #991b1b;
     --rbook-shadow: rgba(15, 23, 42, 0.14);
-    --rbook-scroll-track: #eef2f7;
-    --rbook-scroll-thumb: #a8b3c2;
 
     // Compatibility variables used by the existing Markdown theme.
     --text-color: var(--rbook-text);
@@ -62,8 +60,6 @@ html[data-theme="dark"] {
     --rbook-danger-border: #7f1d1d;
     --rbook-danger-text: #fecaca;
     --rbook-shadow: rgba(0, 0, 0, 0.42);
-    --rbook-scroll-track: #111827;
-    --rbook-scroll-thumb: #475569;
 }
 
 html, body {
@@ -225,10 +221,38 @@ html[data-theme="dark"] .theme-toggle__sun { display: block; }
 .ps-root .ps-algorithm,
 .ps-root .ps-algorithm.with-caption > .ps-line:first-child { border-color: var(--rbook-text); }
 
-*::-webkit-scrollbar-track { background: var(--rbook-scroll-track); }
-*::-webkit-scrollbar-thumb { background: var(--rbook-scroll-thumb); }
-*::-webkit-scrollbar-thumb:hover { background: var(--rbook-muted); }
-*::-webkit-scrollbar-corner { background: var(--rbook-bg); }
+// ---------------------------------------------------------------------------
+// 滚动条：细胶囊 + 透明轨道（统一 8px，颜色跟随主题）。
+// thumb 用 --rbook-border（中性、比背景深一档），hover 加深为 --rbook-muted；
+// 代码块内部滚动条在 typography.scss 中加深一档，保证横向滚动可发现。
+// ---------------------------------------------------------------------------
+*::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+*::-webkit-scrollbar-track {
+    background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+    background: var(--rbook-border);
+    border-radius: 8px;
+}
+*::-webkit-scrollbar-thumb:hover {
+    background: var(--rbook-muted);
+}
+*::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
+// Firefox 兑底：标准属性。Chromium（Chrome 121+）一旦设置 scrollbar-color
+// 会忽略 ::-webkit-scrollbar 自定义样式，因此用 -moz-appearance 特性查询
+// 限定只在 Firefox 生效，避免两种实现互相覆盖。
+@supports (-moz-appearance: none) {
+    * {
+        scrollbar-width: thin;
+        scrollbar-color: var(--rbook-border) transparent;
+    }
+}
 
 @media (max-width: 1023px) {
     .rbook-layout { display: block; }
