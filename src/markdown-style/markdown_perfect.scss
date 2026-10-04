@@ -1,118 +1,37 @@
-//完善 markdown中的样式
-
-
-//去除 `abc` 行内code两边的`
-.prose :where(pre, code):not(:where(.not-prose, .not-prose *)) {
-    &::after,&::before {
-        content: none;
-    }
-}
+// 完善 markdown 中的样式
+//
+// 历史说明：本文件曾包含行内代码配色、code[v-pre] 行号（由
+// typography.scss 的 :not(pre) > code 与 markdown-r.scss 的
+// .line-numbers-mode 取代）、正文标题与引用样式（由 typography.scss
+// 统一管理）。这些旧规则已收拢，不再在此重复。
 
 // >>> fence code_block,空行不显示的问题
-$code-line-height : 20px;
+$code-line-height : 32px;
 @mixin codeLineHeight () {
         line-height: $code-line-height;
         height: $code-line-height;
 }
 
-html[data-theme="dark"] code[v-pre] {
-    > span::before {
-        color: #999999d6;
-    }
-}
-
-code[v-pre] {
-    counter-reset: list-counter;
-    > span {
-        @include codeLineHeight();
-        &::before {
-            counter-increment: list-counter;
-            content: counter(list-counter);
-            border-right: 1px solid;
-            color: #2c2c2c6f;
-            display: inline-block;
-            text-align: right;
-            width: 30px;
-            padding: 0 5px;
-            user-select: none;
-            margin-right: 10px;
-        }
-    }
-
-    //最后一行空行不显示
-    span.line:last-child:has(span:first-child:empty){
-        display: none;
-        &::before {
-            display: none;
-        }
-    }
-
-    span.line:last-child:empty {
-        display: none;
-    }
-
-    //没有向前的兄弟选择器
-    //删除倒数第二行的空行
-    span.line:nth-last-child(2):empty:has( + span.line:last-child:empty ) {
-        display: none;
-    }
-}
+// 旧 code[v-pre] 行号实现（自增 counter 方案）已废弃：当前 fence 插件
+// 在构建期生成独立的行号列（见 src/publishing/markdown/plugins/fence.ts
+// 与 markdown-r.scss 的 .line-numbers-mode），不再依赖 span::before 计数。
 
 //Katex 行内公式增加左右空格
 p  {
     eq {
         margin: 0 0.2em;
     }
-    // &>eq:first-child {
-    //     margin-left: 0;
-    // }
-    // &>eq:last-child{
-    //     margin-right: 0;
-    // }
 }
 
 // Katex 渲染的block 公式
 section:has( > eqn) {
-    margin: 3.5rem 0;
-}
-
-//标题 居中
-.prose > h1:first-child {
-    text-align: center;
-    border-bottom: 1px solid #80808030;
-    padding: 1rem 0;
-}
-
-html[data-theme="dark"] .markdown-body > h1:first-child {
-    //TODO 这个颜色不对,应该有透
-    border-color: rgba($color: #dbd7ca, $alpha: 0.15);
+    margin: 28px 0;
 }
 
 // line-number
-// .code-with-linenumber {
-//     display: flex;
-//     .line-numbers {
-//         display: flex;
-//         flex-direction: column;
-//         > span {
-//             @include codeLineHeight();
-//         }
-//         margin: 16px 0;
-//     }
-// }
+// .code-with-linenumber 旧规则已由 markdown-r.scss 的 .line-numbers-mode 取代。
 
-//高亮的行会出格,改成不出格
-.markdown-body .shiki .highlighted {
-    margin: 0;
-    padding: 0;
-}
-
-//fenc,代码区域,添加上下padding
-.markdown-body pre.shiki {
-  code[v-pre] {
-    padding: 1em 0;
-  }
-}
+//fenc,代码区域,上下padding 由 typography.scss 统一提供。
 
 .markdown-body iframe {
     width:  100%;
@@ -120,23 +39,23 @@ html[data-theme="dark"] .markdown-body > h1:first-child {
 
 .markdown-body .rbook-animation {
     display: block;
-    margin: 1.5rem 0;
+    margin: 24px 0;
     min-height: 160px;
 }
 
 .markdown-body .rbook-animation__loading,
 .markdown-body .rbook-animation--error {
-    border: 1px solid #cbd5e1;
+    border: 1px solid var(--rbook-border);
     border-radius: 8px;
-    color: #475569;
+    color: var(--rbook-text);
     margin: 0;
-    padding: 1rem;
+    padding: 16px;
 }
 
 .markdown-body .rbook-animation--error {
-    background: #fef2f2;
-    border-color: #fca5a5;
-    color: #991b1b;
+    background: var(--rbook-danger-bg);
+    border-color: var(--rbook-danger-border);
+    color: var(--rbook-danger-text);
 }
 
 // figure
@@ -146,22 +65,21 @@ html[data-theme="dark"] .markdown-body > h1:first-child {
     box-sizing: border-box;
   }
   figure {
-    margin:2rem auto;
+    margin:32px auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
     max-width: 100%;
     img {
-      // flex-grow: 0;
       margin: 0 auto;
-      border: 1px solid rgba($color: #dbd7ca, $alpha: 0.45);
+      border: 1px solid var(--rbook-border);
       border-radius: 0.4em;
-      padding: 1rem;
+      padding: 16px;
       max-width: 100%;
       max-height: auto;
     }
     figcaption {
-      font-family: var(--code-font), var(--ui-font), monospace;
+      font-family: var(--rbook-font-mono);
       text-align: center;
     }
   }
@@ -170,7 +88,7 @@ html[data-theme="dark"] {
   .markdown-body {
     figure {
       img {
-        border: 1px solid rgba($color: #333, $alpha: 0.75);
+        border: 1px solid var(--rbook-code-border);
         background-color: #ccc;
       }
     }
@@ -180,7 +98,7 @@ html[data-theme="dark"] {
 
 //mermaid
 .mermaid {
-    margin: 1.5rem auto;
+    margin: 24px auto;
     display: flex;
     justify-content: center;
 }

@@ -5,56 +5,91 @@ html {
 }
 
 .markdown-body {
+    // 带行号的代码块容器：背景、边框、圆角与滚动由容器负责；
+    // 字号/行高/垂直内边距统一走 --rbook-code-* 变量，
+    // 行号列与代码列共用同一组度量才能逐行对齐。
     .line-numbers-mode {
         // 行号列和代码列必须是同一行的两个 flex 子项；否则两个 pre
         // 会各自占满一行，行号自然无法与代码逐行对齐。
         display: flex;
         align-items: stretch;
 
+        margin-block: 12px 24px;
+        border: 1px solid var(--rbook-code-border);
+        border-radius: 8px;
+        background: var(--rbook-code-bg);
+        overflow: hidden;
+
+        // 代码列自身负责横向滚动；容器不设 overflow-x，
+        // 避免复制按钮随内容滚走。
         > pre {
             margin: 0;
             box-sizing: border-box;
+            font-family: var(--rbook-font-mono);
+            font-size: var(--rbook-code-size);
+            line-height: var(--rbook-code-lh);
+            border: 0;
+            border-radius: 0;
+            background: transparent;
+            color: var(--rbook-text);
+            white-space: pre;
+            overflow-x: auto;
         }
 
         > pre:not(.line-numbers-pre) {
             flex: 1 1 auto;
             min-width: 0;
+            // 与行号列共享的上下内边距，保证首尾行对齐。
+            padding-block: 12px;
         }
 
         .line-numbers-wrapper, code {
-            font-size: 16px;
+            font-size: inherit;
+        }
+
+        // Prism 会直接给 code 设置字体、行高和颜色；必须在这里覆盖，
+        // 才能与行号共享度量，并让未高亮文本跟随当前主题。
+        > pre > code {
+            display: block;
+            font-family: inherit;
+            line-height: inherit;
+            color: inherit;
+            background: transparent;
+            border: 0;
+            padding: 0;
+            box-shadow: none;
+            text-shadow: none;
         }
 
         // 行号列是独立的 <pre class="line-numbers-pre">，与代码块并排：
-        // 同 line-height/字号/padding，保证行号与代码行严格对齐
+        // 同 line-height/字号/padding，保证行号与代码行严格对齐。
         pre.line-numbers-pre {
             flex: 0 0 auto;
             display: block;
             align-items: flex-start;
-            padding: 1em 0;
+            padding-block: 12px;
             border: none;
             background: transparent;
-            color: #818181;
-            opacity: 0.75;
+            color: var(--rbook-muted);
             user-select: none;
-            font-size: 16px;
-            line-height: 1.5;
+            font-size: var(--rbook-code-size);
+            line-height: var(--rbook-code-lh);
+            overflow: hidden;
             .line-numbers-wrapper {
                 display: block;
                 padding-right: 6px;
                 margin-right: 6px;
-                border-right: 1px solid rgba($color: #000000, $alpha: 0.3);
+                border-right: 1px solid var(--rbook-code-border);
                 text-align: right;
                 white-space: pre;
             }
         }
 
-        // 暗色主题下降低分隔线与行号对比度
+        // 暗色主题下降低行号对比度，但保持可读。
         html[data-theme="dark"] & pre.line-numbers-pre {
-            color: #9ca3af;
-            border-right-color: rgba($color: #ffffff, $alpha: 0.25);
+            color: var(--rbook-muted);
             .line-numbers-wrapper {
-                border-right-color: rgba($color: #ffffff, $alpha: 0.25);
+                border-right-color: var(--rbook-code-border);
             }
         }
     }
@@ -99,7 +134,7 @@ html {
         }
         article {
             border: solid 1px lighten(midnightblue,40%);
-            border-top-color: hsl(0,0,90%);
+            border-top-color: hsl(0, 0%, 90%);
         }
 
         &[open] {

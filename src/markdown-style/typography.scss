@@ -1,0 +1,359 @@
+// ============================================================================
+// Rbook 正文排版基础（计划：docs/typography-theme-plan.md / ADR 0009）
+//
+// 排版与颜色变量统一定义在 src/style/article-shell.scss（--rbook-*），
+// 本文件只消费变量，不再出现硬编码的字号、行高与主题颜色。
+//
+// 所有规则限定在 .rbook-article .markdown-body 内，不影响侧边栏和工具按钮。
+// ============================================================================
+
+// ----------------------------------------------------------------------------
+// 正文节奏（Phase 1+2）
+// ----------------------------------------------------------------------------
+.rbook-article .markdown-body {
+    // 正文：系统无衬线，16px/24px，宽度 42em（48em 仅作后续复评候选）。
+    font-family: var(--rbook-font-body);
+    font-size: var(--rbook-body-size);
+    line-height: var(--rbook-body-lh);
+    max-width: var(--rbook-article-width);
+    margin-inline: auto;
+
+    // 中文正文换行：允许在任意字符间断行，但不拆开英文单词。
+    overflow-wrap: break-word;
+    word-break: normal;
+
+    // 中文标题适度字间距（H1～H3），黑体标题更透气。
+    h1, h2, h3 {
+        letter-spacing: 0.05em;
+    }
+
+    // 标题层级：600 字重 + 稳定垂直节奏（计划参数表）。
+    // 间距使用逻辑属性，方便移动端布局。
+    h1 {
+        font-family: var(--rbook-font-heading);
+        font-size: 32px;
+        line-height: 48px;
+        font-weight: 600;
+        margin-block: 24px 16px;
+    }
+
+    h2 {
+        font-family: var(--rbook-font-heading);
+        font-size: 24px;
+        line-height: 36px;
+        font-weight: 600;
+        margin-block: 32px 16px;
+    }
+
+    h3 {
+        font-family: var(--rbook-font-heading);
+        font-size: 20px;
+        line-height: 36px;
+        font-weight: 600;
+        margin-block: 24px 12px;
+    }
+
+    h4 {
+        font-family: var(--rbook-font-heading);
+        font-size: 18px;
+        line-height: 24px;
+        font-weight: 600;
+        margin-block: 24px 8px;
+    }
+
+    h5 {
+        font-family: var(--rbook-font-heading);
+        font-size: 16px;
+        line-height: 24px;
+        font-weight: 600;
+        margin-block: 24px 8px;
+    }
+
+    h6 {
+        font-family: var(--rbook-font-heading);
+        font-size: 14px;
+        line-height: 24px;
+        font-weight: 600;
+        color: var(--rbook-muted);
+        margin-block: 24px 8px;
+    }
+
+    // 相邻标题不叠加间距。
+    h1 + h2, h2 + h3, h3 + h4, h4 + h5, h5 + h6 {
+        margin-block-start: 0;
+    }
+
+    // 段落间距：上 12px，下 24px。
+    p {
+        margin-block: 12px 24px;
+    }
+
+    ul, ol {
+        margin-block: 12px 24px;
+        padding-inline-start: 2em;
+
+        li {
+            margin-block: 4px;
+        }
+
+        li > p {
+            margin-block: 4px;
+        }
+
+        // 嵌套列表不额外撑开段距。
+        ul, ol {
+            margin-block: 4px;
+        }
+    }
+
+    // 引用：主题边框变量，弱文字层级。
+    blockquote {
+        margin-block: 12px 24px;
+        padding: 4px 1em;
+        border-inline-start: 4px solid var(--rbook-border);
+        background: var(--rbook-surface-muted);
+        color: var(--rbook-muted);
+        // 收拢旧主题（typora-latex-theme）给引用单独设置的衬线字体与放大字号。
+        font-family: inherit;
+        font-size: 1em;
+
+        p {
+            margin-block: 8px;
+        }
+    }
+
+    // 表格：主题边框变量；窄屏时整块横向滚动，不撑破正文。
+    table {
+        display: block;
+        width: max-content;
+        max-width: 100%;
+        // 收拢旧主题的 min-width: 500px，避免移动端正文横向溢出。
+        min-width: 0;
+        overflow-x: auto;
+        margin-block: 12px 24px;
+        border-collapse: collapse;
+
+        th, td {
+            padding: 6px 12px;
+            border: 1px solid var(--rbook-border);
+        }
+
+        th {
+            background: var(--rbook-surface-muted);
+            font-weight: 600;
+        }
+    }
+
+    // 旧主题对 thead 使用了衬线字体（!important），这里恢复正文字体。
+    thead {
+        font-family: var(--rbook-font-body) !important;
+    }
+
+    // 分隔线使用主题边框变量。
+    hr {
+        margin-block: 24px;
+        border: 0;
+        border-block-start: 1px solid var(--rbook-border);
+    }
+
+    // 链接：主题强调色。
+    a {
+        color: var(--rbook-accent);
+        text-underline-offset: 3px;
+    }
+
+    a:hover {
+        color: var(--rbook-accent-hover);
+    }
+
+    // 强调与删除线。
+    strong {
+        font-weight: 600;
+    }
+
+    del {
+        color: var(--rbook-muted);
+    }
+
+    // 图片与说明。
+    img {
+        max-width: 100%;
+    }
+
+    figure {
+        margin-block: 24px;
+        margin-inline: auto;
+    }
+
+    figcaption {
+        margin-block-start: 8px;
+        color: var(--rbook-muted);
+        font-size: 14px;
+        text-align: center;
+    }
+
+    // 脚注区块：弱层级。
+    .footnotes {
+        margin-block-start: 32px;
+        padding-block-start: 16px;
+        border-block-start: 1px solid var(--rbook-border);
+        color: var(--rbook-muted);
+        font-size: 14px;
+    }
+
+    // 块公式：窄屏可横向滚动，不撑破正文。
+    .katex-display {
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding-block: 2px;
+    }
+}
+
+// ----------------------------------------------------------------------------
+// 行内代码（Phase 3）
+// 统一覆盖段落、列表、引用、表格和标题中的行内代码；
+// 不继承代码块的 white-space / padding / token 颜色。
+// ----------------------------------------------------------------------------
+.rbook-article .markdown-body :not(pre) > code {
+    font-family: var(--rbook-font-mono);
+    font-size: var(--rbook-inline-code-size);
+    line-height: inherit;
+    color: var(--rbook-accent);
+    background: var(--rbook-code-bg);
+    border: 1px solid var(--rbook-code-border);
+    border-radius: 4px;
+    padding: 1px 5px;
+    white-space: normal;
+    word-break: break-word;
+    box-shadow: none;
+    text-shadow: none;
+    font-weight: inherit;
+}
+
+// ----------------------------------------------------------------------------
+// 代码块（Phase 4）
+// 字号/行高来自 --rbook-code-size / --rbook-code-lh（14px/22px），
+// 行号列、代码列和 Prism 主题共用这一组度量（列对齐规则见 markdown-r.scss）。
+// .line-numbers-mode 包裹的代码块由容器负责背景、边框、圆角和滚动，
+// 这里只处理独立出现（无行号列）的普通代码块。
+// ----------------------------------------------------------------------------
+
+// Mermaid/PlantUML/DOT 的 <pre> 由各自脚本接管，不套代码块外观。
+// 只作用于 .line-numbers-mode 之外的独立 <pre>；带行号代码块的
+// 外观由容器（markdown-r.scss 的 .line-numbers-mode）统一负责，
+// 否则代码列会再套一层 border/background，形成双层边框。
+.rbook-article .markdown-body > pre:not(.line-numbers-pre):not(.mermaid):not(.plantuml):not(.dot),
+.rbook-article .markdown-body :not(.line-numbers-mode) > pre:not(.line-numbers-pre):not(.mermaid):not(.plantuml):not(.dot) {
+    font-family: var(--rbook-font-mono);
+    font-size: var(--rbook-code-size);
+    line-height: var(--rbook-code-lh);
+    margin-block: 12px 24px;
+    padding: 12px 14px;
+    border: 1px solid var(--rbook-code-border);
+    border-radius: 8px;
+    background: var(--rbook-code-bg);
+    color: var(--rbook-text);
+    overflow-x: auto;
+    // 代码独立横向滚动，不跟随正文换行。
+    white-space: pre;
+
+    code {
+        font-family: inherit;
+        font-size: inherit;
+        line-height: inherit;
+        color: inherit;
+        background: transparent;
+        border: 0;
+        border-radius: 0;
+        padding: 0;
+        white-space: inherit;
+        text-shadow: none;
+        display: block;
+    }
+}
+
+// ----------------------------------------------------------------------------
+// Prism 语法 token（Phase 5）
+// 暗色主题直接使用 prism-vsc-dark-plus.css（文章页无条件加载）；
+// 浅色主题的代码背景较亮，这里用一套浅色 token 配色保证对比度。
+// ----------------------------------------------------------------------------
+html:not([data-theme="dark"]) .rbook-article .markdown-body {
+    .token.comment,
+    .token.prolog,
+    .token.cdata {
+        color: #6a737d;
+    }
+
+    .token.punctuation,
+    .token.operator,
+    .token.entity,
+    .token.tag .token.punctuation {
+        color: #24292e;
+    }
+
+    .token.property,
+    .token.boolean,
+    .token.number,
+    .token.constant,
+    .token.symbol,
+    .token.inserted,
+    .token.unit,
+    .token.important,
+    .token.doctype .token.doctype-tag {
+        color: #005cc5;
+    }
+
+    .token.tag,
+    .token.selector {
+        color: #22863a;
+    }
+
+    .token.string,
+    .token.char,
+    .token.builtin,
+    .token.deleted,
+    .token.attr-value,
+    .token.attr-value .token.punctuation {
+        color: #032f62;
+    }
+
+    .token.attr-name,
+    .token.function,
+    .token.class-name,
+    .token.maybe-class-name,
+    .token.namespace {
+        color: #6f42c1;
+    }
+
+    .token.keyword,
+    .token.atrule,
+    .token.atrule .token.rule,
+    .token.keyword.module,
+    .token.keyword.control-flow {
+        color: #d73a49;
+    }
+
+    .token.regex {
+        color: #a31515;
+    }
+
+    .token.variable,
+    .token.parameter,
+    .token.console,
+    .token.interpolation,
+    .token.escape,
+    .token.doctype .token.name {
+        color: #e36209;
+    }
+}
+
+// ----------------------------------------------------------------------------
+// 移动端（Phase 6）
+// 正文保持 16px，不通过缩小字号解决宽度；代码块、表格与块公式
+// 已各自横向滚动。
+// ----------------------------------------------------------------------------
+@media (max-width: 640px) {
+    .rbook-article {
+        padding-inline: 12px;
+    }
+}

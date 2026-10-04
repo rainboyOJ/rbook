@@ -2,17 +2,17 @@
 
 .header {
     @include shadow-1;
-    padding:1rem 0;
+    padding:10px 0;
 
     nav {
-        padding:0 2rem;
+        padding:0 20px;
         display: flex;
         align-items:center;
         justify-content:space-between;
 
         .brand {
             img {
-                height:4rem;
+                height:40px;
                 width: auto;
             }
         }
@@ -21,8 +21,8 @@
             list-style:none;
             a {
                 display:block;
-                padding:.5rem 1rem;
-                font-size:1.8rem;
+                padding:.50px 10px;
+                font-size:18px;
                 text-decoration:none;
                 color:black;
                 @include transition;

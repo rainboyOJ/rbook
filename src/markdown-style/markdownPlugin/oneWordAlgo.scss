@@ -1,18 +1,17 @@
 .markdown-body {
     .oneWordAlgo {
-        $BorderStyle:1px solid rgba(0,0,0,0.175);
-        margin:1rem auto;
+        $BorderStyle:1px solid var(--rbook-border);
+        margin:16px auto;
         max-width:600px;
         display:flex;
         flex-direction:column;
         border:$BorderStyle;
-        border-radius:0.375rem;
+        border-radius:6px;
         .title {
-            font-family: var(--heading-Latin-font), Baskerville, Georgia, "Liberation Serif", "Kaiti SC", STKaiti, "AR PL UKai CN", "AR PL UKai HK", "AR PL UKai TW", "AR PL UKai TW MBE", "AR PL KaitiM GB", KaiTi, KaiTi_GB2312, DFKai-SB, "TW-Kai", serif, serif;
-            padding:0.5rem 1rem;
+            font-family: var(--rbook-font-heading);
+            padding:8px 16px;
             margin:0;
-            // 这里使用sass的color函数不是更好吗
-            background-color: rgba(33,37,41,0.03);
+            background-color: var(--rbook-surface-muted);
             border-bottom:$BorderStyle;
             span {
 
@@ -20,14 +19,14 @@
         }
         .content {
             p {
-                font-family: var(--heading-Latin-font), Baskerville, Georgia, "Liberation Serif", "Kaiti SC", STKaiti, "AR PL UKai CN", "AR PL UKai HK", "AR PL UKai TW", "AR PL UKai TW MBE", "AR PL KaitiM GB", KaiTi, KaiTi_GB2312, DFKai-SB, "TW-Kai", serif, serif;
+                font-family: var(--rbook-font-heading);
                 column-span: all;
                 font-size: 1.5em;
                 font-weight:bold;
             }
             flex: 1 1 auto;
-            padding:1rem;
-            background-color:chartreuse;
+            padding:16px;
+            background-color: var(--rbook-surface);
         }
     }
 }

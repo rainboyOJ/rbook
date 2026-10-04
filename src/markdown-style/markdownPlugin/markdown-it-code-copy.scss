@@ -1,23 +1,28 @@
+.line-numbers-mode {
+    position: relative;
+}
+
 .markdown-it-code-copy {
     position: absolute;
     top: 10px;
     right: 10px;
     cursor: pointer;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    background-color: rgba(30, 30, 30, 0.85);
-    color: #ccc;
+    border: 1px solid var(--rbook-code-border);
+    background-color: var(--rbook-surface);
+    color: var(--rbook-muted);
     border-radius: 4px;
     padding: 3px 10px;
     font-size: 12px;
     line-height: 1.4;
+    font-family: var(--rbook-font-body);
     outline: none;
     user-select: none;
     transition: background-color 0.2s, color 0.2s, border-color 0.2s;
 
     &:hover {
-        background-color: rgba(60, 60, 60, 0.95);
-        color: #fff;
-        border-color: rgba(255, 255, 255, 0.4);
+        border-color: var(--rbook-accent);
+        color: var(--rbook-accent);
+        background-color: var(--rbook-accent-muted);
     }
 
     &.copied {

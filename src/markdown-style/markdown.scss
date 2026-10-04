@@ -1,12 +1,19 @@
 // https://stackoverflow.com/a/30279590
 // The syntax is the same as now - @import "your/path/to/the/file", without an extension after the file name. This will import your file directly. If you append *.css at the end, it will translate into the css rule @import url(...).
-html,body {
-    font-size:62.5%;
-}
-.markdown-body {
-    max-width:800px;
-    margin: 0 auto;
-}
+//
+// 导入顺序（见 docs/typography-theme-plan.md 建议的文件改造顺序）：
+//   1. 主题变量与壳层样式（article-shell.scss 定义 --rbook-* 排版变量）
+//   2. 正文排版基础（typography.scss：正文节奏、行内代码、代码块度量）
+//   3. 旧正文与代码规则收拢（markdown_perfect.scss）
+//   4. 代码块行号/复制按钮（vendor/markdown-r.scss、markdown-it-code-copy.scss）
+//   5. 插件与容器样式
+// 注意：文章页已移除旧的根字号缩放 hack，正文排版统一走 px 与 em。
+
+// 主题变量与壳层样式（最先加载，提供 --rbook-* 变量）。
+@import "../style/article-shell.scss";
+
+// 正文排版基础：正文节奏、标题、行内代码、代码块与行号的统一度量。
+@import "./typography.scss";
 
 @import "./info.scss";
 @import "./vendor/markdown-r.scss";
@@ -17,7 +24,6 @@ html,body {
 // @import "./markdownPlugin/clipcopy-container.scss";
 // Omit the .css extension so Sass inlines this local stylesheet. Keeping the
 // extension makes Sass emit a browser-side import to a source-only path.
-@import "./markdownPlugin/pseudocode";
 @import "./markdown_perfect.scss";
 @import "../style/scrobar.scss";
 @import "./markdownPlugin/oneWordAlgo.scss";
@@ -25,4 +31,3 @@ html,body {
 @import "../../bin/triple-square-brackets/extra_link.scss";
 @import "./codetabs.scss";
 @import "./iframe-style.scss";
-@import "../style/article-shell.scss";

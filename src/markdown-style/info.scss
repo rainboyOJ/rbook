@@ -1,12 +1,12 @@
 //显示页面的相关信息
 
 .info-header {
-    margin:0 1rem;
+    margin:0 16px;
 }
 
 .title-bar { 
     h1 {
-        font-size:2rem;
+        font-size:32px;
     }
     text-align:center;
 }
@@ -14,5 +14,5 @@
 .badges {
     display:flex;
     justify-content:center;
-    gap:0.5rem;
+    gap:8px;
 }

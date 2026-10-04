@@ -1,15 +1,15 @@
 .colorfulbox {
-    // background-color: rgba(22, 20, 20, 0.179);
-    color: rgb(32, 46, 26);
-    border: 1px solid black;
+    background-color: var(--rbook-surface-muted);
+    color: var(--rbook-text);
+    border: 1px solid var(--rbook-border);
     padding: 20px;
     border-radius: 5px;
     position: relative;
-    margin: 3.6rem 0;
+    margin: 57.6px 0;
 }
 
 .colorfulbox > p:first-child {
-    border: 1px solid black;
+    border: 1px solid var(--rbook-border);
     margin: 0;
     display: inline-block;
     padding: 0.5em;
@@ -17,6 +17,6 @@
     position: absolute;
     top:0px;
     transform: translate(10px, -50%);
-    color: turquoise;
-    background-color: black;
+    color: var(--rbook-surface);
+    background-color: var(--rbook-text);
 }

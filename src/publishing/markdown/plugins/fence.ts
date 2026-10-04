@@ -44,10 +44,10 @@ export default function fencePlugin(md: MarkdownIt): void {
             const lineCount = token.content.replace(/\n$/, '').split('\n').length
             const numbers = Array.from({ length: lineCount }, (_, i) => i + 1).join('\n')
             return `
-<div style="position: relative" class="code-with-linenumber line-numbers-mode">
+<div class="code-with-linenumber line-numbers-mode">
     <pre class="line-numbers-pre"><span class="line-numbers-wrapper" aria-hidden="true">${numbers}</span></pre>
     ${rendered}
-    <button class="markdown-it-code-copy" data-clipboard-text="${content}" style="position: absolute; top: 10px; right: 10px; cursor: pointer; outline: none;" onclick="window.myclipboard(this)" title="复制">复制</button>
+    <button class="markdown-it-code-copy" data-clipboard-text="${content}" title="复制" onclick="window.myclipboard(this)">复制</button>
 </div>`
         }
 

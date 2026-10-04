@@ -4,11 +4,11 @@ div[class^="language-"] {
 
 .zeroclipboard-container {
     position:absolute;
-    top:1rem;
-    right:1rem;
+    top:16px;
+    right:16px;
     cursor:pointer;
-    padding:0.5rem;
-    border-radius:5px;
+    padding:8px;
+    border-radius:8px;
 
     &:hover {
         background: rgba(#fff,0.5);

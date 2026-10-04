@@ -1,5 +1,21 @@
 :root {
     color-scheme: light;
+
+    // —— 正文排版变量（见 docs/typography-theme-plan.md 与 ADR 0009）——
+    // 字体族：正文/标题使用系统无衬线，代码使用系统等宽，不加载 Web Font。
+    --rbook-font-body: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+    --rbook-font-heading: var(--rbook-font-body);
+    --rbook-font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", "Noto Sans Mono CJK SC", monospace;
+    // 字号与行高：正文 16px/24px，代码块 14px/22px，行内代码为正文的 0.875em。
+    --rbook-body-size: 16px;
+    --rbook-body-lh: 24px;
+    --rbook-code-size: 14px;
+    --rbook-code-lh: 22px;
+    --rbook-inline-code-size: 0.875em;
+    // 正文宽度：42em，48em 仅作后续可用性复评候选值。
+    --rbook-article-width: 42em;
+
+    // —— 主题颜色变量 ——
     --rbook-bg: #f8fafc;
     --rbook-surface: #ffffff;
     --rbook-surface-muted: #f1f5f9;
@@ -9,7 +25,8 @@
     --rbook-accent: #0369a1;
     --rbook-accent-hover: #075985;
     --rbook-accent-muted: #e0f2fe;
-    --rbook-code-bg: #f8fafc;
+    // 浅色代码背景与页面背景（#f8fafc）拉开小幅差异，保证代码块边界可辨。
+    --rbook-code-bg: #eef2f7;
     --rbook-code-border: #cbd5e1;
     --rbook-danger-bg: #fef2f2;
     --rbook-danger-border: #fca5a5;
@@ -27,6 +44,8 @@
 
 html[data-theme="dark"] {
     color-scheme: dark;
+
+    // 排版度量（字号/行高/宽度）与浅色一致，仅颜色随主题切换。
     --rbook-bg: #0f172a;
     --rbook-surface: #111827;
     --rbook-surface-muted: #1e293b;
@@ -36,6 +55,7 @@ html[data-theme="dark"] {
     --rbook-accent: #7dd3fc;
     --rbook-accent-hover: #bae6fd;
     --rbook-accent-muted: #0c4a6e;
+    // 暗色代码背景与正文背景分层。
     --rbook-code-bg: #182235;
     --rbook-code-border: #475569;
     --rbook-danger-bg: #451a1a;
@@ -89,8 +109,9 @@ html, body {
 .rbook-sidebar li.active > ul { display: block; }
 
 .rbook-main { min-width: 0; position: relative; background: var(--rbook-bg); color: var(--rbook-text); }
-.rbook-article { min-height: 100vh; padding: 4rem 2rem; }
-.rbook-article .markdown-body { max-width: 900px; color: var(--rbook-text); }
+// 文章壳层几何使用 px，避免依赖根字号（文章页已移除 62.5% 根字号缩放）。
+.rbook-article { min-height: 100vh; padding: 48px 24px; }
+.rbook-article .markdown-body { color: var(--rbook-text); }
 .rbook-main.full-article { position: fixed; inset: 0; z-index: 1000; overflow: auto; background: var(--rbook-bg); }
 
 .rbook-page-tools {
@@ -144,6 +165,8 @@ html[data-theme="dark"] .theme-toggle__sun { display: block; }
 .github-corner svg { fill: var(--rbook-text) !important; color: var(--rbook-surface) !important; }
 
 // Published Markdown content follows the same semantic palette as the shell.
+// 正文排版（标题/段落/表格/引用）由 typography.scss 统一管理；
+// 这里只保留主题颜色变量层面的引用（主页无 typography.scss 时的兜底）。
 .markdown-body a { color: var(--rbook-accent); }
 .markdown-body a:hover { color: var(--rbook-accent-hover); }
 .markdown-body hr { border-color: var(--rbook-border); }
@@ -157,6 +180,12 @@ html[data-theme="dark"] .theme-toggle__sun { display: block; }
     color: var(--rbook-accent);
     background: var(--rbook-code-bg);
     box-shadow: 0 0 0 1px var(--rbook-code-border);
+}
+
+// 行内代码的统一外观（字号/边框/内边距）由 typography.scss 的
+// :not(pre) > code 负责；上述 p/li/heading code 选择器只提供颜色兑底。
+.rbook-article .markdown-body :not(pre) > code {
+    box-shadow: none;
 }
 
 .rbook-article .btn-outline-light {
@@ -207,7 +236,7 @@ html[data-theme="dark"] .theme-toggle__sun { display: block; }
     .rbook-sidebar.active { left: 0; }
     .button-menu { display: block; position: fixed; top: 10px; left: 10px; z-index: 1003; }
     .rbook-page-tools { right: 10px; bottom: 12px; }
-    .rbook-article { padding-top: 5rem; }
+    .rbook-article { padding-top: 56px; }
 }
 
 @media print {
