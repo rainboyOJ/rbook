@@ -15,8 +15,8 @@ html {
         align-items: stretch;
 
         margin-block: 12px 24px;
-        border: 1px solid var(--rbook-code-border);
-        border-radius: 8px;
+        // 无边框、无圆角：代码块靠背景色与页面分层（设计确认，见
+        // typography-theme-plan 实施记录）；行号与代码的区分靠列分隔线。
         background: var(--rbook-code-bg);
         overflow: hidden;
 
@@ -77,6 +77,8 @@ html {
             overflow: hidden;
             .line-numbers-wrapper {
                 display: block;
+                // 左侧留白与代码列 padding 呼应，行号不顶到背景块边缘。
+                padding-left: 14px;
                 padding-right: 6px;
                 margin-right: 6px;
                 border-right: 1px solid var(--rbook-code-border);

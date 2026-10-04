@@ -234,14 +234,14 @@
 // 代码块（Phase 4）
 // 字号/行高来自 --rbook-code-size / --rbook-code-lh（14px/22px），
 // 行号列、代码列和 Prism 主题共用这一组度量（列对齐规则见 markdown-r.scss）。
-// .line-numbers-mode 包裹的代码块由容器负责背景、边框、圆角和滚动，
+// .line-numbers-mode 包裹的代码块由容器负责背景和滚动，
 // 这里只处理独立出现（无行号列）的普通代码块。
 // ----------------------------------------------------------------------------
 
 // Mermaid/PlantUML/DOT 的 <pre> 由各自脚本接管，不套代码块外观。
 // 只作用于 .line-numbers-mode 之外的独立 <pre>；带行号代码块的
-// 外观由容器（markdown-r.scss 的 .line-numbers-mode）统一负责，
-// 否则代码列会再套一层 border/background，形成双层边框。
+// 外观由容器（markdown-r.scss 的 .line-numbers-mode）统一负责。
+// 代码块统一无边框无圆角，靠背景色与页面分层（设计确认）。
 .rbook-article .markdown-body > pre:not(.line-numbers-pre):not(.mermaid):not(.plantuml):not(.dot),
 .rbook-article .markdown-body :not(.line-numbers-mode) > pre:not(.line-numbers-pre):not(.mermaid):not(.plantuml):not(.dot) {
     font-family: var(--rbook-font-mono);
@@ -249,11 +249,13 @@
     line-height: var(--rbook-code-lh);
     margin-block: 12px 24px;
     padding: 12px 14px;
-    border: 1px solid var(--rbook-code-border);
-    border-radius: 8px;
     background: var(--rbook-code-bg);
     color: var(--rbook-text);
     overflow-x: auto;
+    // 无边框无圆角（设计确认）；显式置零以压过 Prism 主题自带的
+    // border-radius: 0.3em。
+    border: 0;
+    border-radius: 0;
     // 代码独立横向滚动，不跟随正文换行。
     white-space: pre;
 

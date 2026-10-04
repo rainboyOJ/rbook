@@ -119,7 +119,7 @@ Heti 的基础排版参数可以作为第一版基线：
 - 代码块字号统一为约 `14px`；
 - 代码块行高统一为 `1.5～1.6`；
 - 行号和代码共用同一组字号、行高和垂直内边距变量；
-- 代码块容器负责背景、边框、圆角和滚动行为；
+- 代码块容器负责背景、行号分隔线和滚动行为；代码块无边框无圆角，靠背景色与页面分层，行号列左侧留白与代码列 padding 呼应；
 - Prism 主题只负责语法 token 颜色；
 - 复制按钮、行号列和代码列在浅色与暗色主题中保持相同布局规则；
 - 删除或收拢旧的重复行号规则，避免 `code[v-pre]` 与新 fence 结构互相覆盖。
@@ -174,7 +174,7 @@ typography 用例与 [tests/markdown-style.test.js](../tests/markdown-style.test
 | 2 | 段落节奏 | 段落间距稳定（上 12px / 下 24px），不随内容抖动 |
 | 3 | 标题层级 | H1～H6 字号递减、600 字重、间距节奏与计划参数表一致 |
 | 4 | 行内代码 | 正文/列表/引用/表格/标题中的行内代码外观一致，与代码块明显区分 |
-| 5 | 行号对齐 | 行号列与代码逐行对齐，缩放窗口后仍对齐 |
+| 5 | 行号对齐 | 行号列与代码逐行对齐，缩放窗口后仍对齐；行号列左侧有留白，不顶背景块边缘 |
 | 6 | 长代码滚动 | 长行代码块内部横向滚动，正文本身不溢出 |
 | 7 | 复制按钮 | 复制按钮在浅/暗色主题中均清晰可见、可用 |
 | 8 | 公式 | 行内与块级公式在 42em 宽度内正常显示，超宽可滚动 |
@@ -213,6 +213,7 @@ typography 用例与 [tests/markdown-style.test.js](../tests/markdown-style.test
 - 移除 [markdown.scss](../src/markdown-style/markdown.scss) 与 [style.scss](../src/style.scss) 的 62.5% 根字号；受影响的旧 `rem` 值（含站点壳与旧插件）已按原有效像素值换算为 `px`。
 - [markdown_perfect.scss](../src/markdown-style/markdown_perfect.scss) 中旧的行内代码配色、`code[v-pre]` 计数行号、标题与引用样式已收拢删除，正文/代码统一走 typography.scss。
 - [markdown-r.scss](../src/markdown-style/vendor/markdown-r.scss) 的行号列与代码列改为共享 `--rbook-code-*` 变量；[fence.ts](../src/publishing/markdown/plugins/fence.ts) 不再输出内联定位样式，复制按钮样式收括到 markdown-it-code-copy.scss。
+- 浏览器人工检查后的视觉修正：所有代码块（含带行号容器与独立 `<pre>`）去掉 border 与圆角，靠 `--rbook-code-bg` 背景色与页面分层；行号列与代码列之间的分隔线保留；行号列左侧增加 14px 留白，与代码列 padding 呼应；行内代码保留 border 以形成层级对比。
 - 旧 typora-latex-theme 的字体、标题 em 缩放、表格衬线字体改为引用 `--rbook-*` 变量，保留标题自动编号与三线表线宽。
 - 排版 fixture 与验收清单见上文；第 5 项主题/宽度人工检查待浏览器验证。
 
