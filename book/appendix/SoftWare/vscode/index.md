@@ -136,7 +136,7 @@ g++ -g -o 1 1.cpp
 ## 手动修改快捷键
 
 <video width="100%" height="360" controls>
-    <source src="https://d.roj.ac.cn/d/oneDrive/RainboyVideo/rbook/vscode-shortcut-change.mp4" type="video/mp4">
+    <source src="/video/vscode-shortcut-change.mp4" type="video/mp4">
     Your browser does not support the video tag.
 </video>
 

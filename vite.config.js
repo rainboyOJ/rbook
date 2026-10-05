@@ -9,6 +9,31 @@ import { ViteEjsPlugin } from "vite-plugin-ejs";
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const require = createRequire(import.meta.url)
 
+function videoAssetsPlugin() {
+    const videoDir = resolve(__dirname, 'video')
+    let outputDir
+    return {
+        name: 'rbook-video-assets',
+        configResolved(config) {
+            outputDir = resolve(config.root, config.build.outDir)
+        },
+        configureServer(server) {
+            server.middlewares.use((req, res, next) => {
+                if (req.url?.startsWith('/video/')) {
+                    // 交给 Vite 的静态文件服务处理 MIME 和视频 Range 请求。
+                    req.url = '/@fs' + videoDir + req.url.slice('/video'.length)
+                }
+                next()
+            })
+        },
+        closeBundle() {
+            if (fs.existsSync(videoDir)) {
+                fs.cpSync(videoDir, resolve(outputDir, 'video'), { recursive: true })
+            }
+        },
+    }
+}
+
 function collectAnimationEntries() {
     const bookDir = resolve(__dirname, 'book')
     const entries = {}
@@ -201,6 +226,7 @@ const runtimeEntry = resolve(__dirname, 'packages/animation/src/runtime.ts')
 
 export default defineConfig({
     plugins: [
+        videoAssetsPlugin(),
         articleDevPlugin(animationEntries, runtimeEntry),
         ViteEjsPlugin({
             menu: {
