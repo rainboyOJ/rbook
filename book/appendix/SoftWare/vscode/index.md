@@ -6,6 +6,8 @@ update_time : 2023-04-27
 
 # vscode的使用
 
+- [VS Code 配置 DeepSeek](./deepseek.md)
+
 怎么自动格式化
 
 1. 首先在vscode中安装扩展C/C++，扩展程序将自动安装clang-format。

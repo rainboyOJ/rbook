@@ -266,6 +266,8 @@
       children:
         - title: "vscode"
           path: "vscode"
+        - title: "VS Code 配置 DeepSeek"
+          path: "vscode/deepseek.md"
         - title: "cgdb"
           path: "cgdb"
         - title: "pure-ftpd"
