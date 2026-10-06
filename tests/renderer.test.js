@@ -220,6 +220,12 @@ describe('Phase 3: 新 Markdown 渲染核心', () => {
         assert.ok(content.includes('markdown-it-code-copy'))
     })
 
+    it('复制属性保留代码中的实体和引号', () => {
+        const md = createMarkdownRenderer({ index })
+        const { content } = renderMarkdown('```html\n<span title="x">&amp; &#39;</span>\n```', md)
+        assert.ok(content.includes('data-clipboard-text="&lt;span title=&quot;x&quot;&gt;&amp;amp; &amp;#39;&lt;/span&gt;\n"'))
+    })
+
     it('.excalidraw.svg 相对路径渲染', () => {
         const md = createMarkdownRenderer({ index, excalidraw: { basePath: policy.book } })
         const { content } = renderMarkdown('![图](./image.excalidraw.svg)', md)

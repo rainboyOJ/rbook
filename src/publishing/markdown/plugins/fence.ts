@@ -33,9 +33,7 @@ export default function fencePlugin(md: MarkdownIt): void {
         }
 
         const rendered = highlightCode(token.content, langName)
-        const content = tokens[idx].content
-            .replaceAll('"', '&quot;')
-            .replaceAll('\'', '&#39;')
+        const content = md.utils.escapeHtml(token.content)
 
         if (content && content.length > 0) {
             // 构建期生成行号列：与代码同 lineHeight、右对齐、borderRight 分隔，
