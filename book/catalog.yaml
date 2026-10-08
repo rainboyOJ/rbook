@@ -272,6 +272,8 @@
           path: "cgdb"
         - title: "pure-ftpd"
           path: "pure-ftpd"
+        - title: "isolate 沙箱"
+          path: "isolate"
         - title: "在线工具"
           path: "online.md"
         - title: "neovim"
