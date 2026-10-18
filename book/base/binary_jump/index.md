@@ -33,7 +33,7 @@
 5. 证明这种最快方案的普遍性
 
 
-![figure1](/images/binary_jump/figure1.svg "figure1")
+![figure1](./images/figure1.svg "figure1")
 
 
 ## 思维过程
@@ -98,7 +98,7 @@ print(n,x,y)
 5. 发现"跳跃$jump$"是**可合并的**.因为是在一条线性数据上跳转,只有一条路径,所以显示跳转这个操作$jump(i,j)$是的答案是唯一,所以等式$jump(i,x+y) = jump(jump(i,x),y)$是成立的(结合律).
 
 
-![firgure_jump_merge](/images/binary_jump/figure_jump_merge.svg "firgure_jump_merge")
+![firgure_jump_merge](./images/figure_jump_merge.svg "firgure_jump_merge")
 
 
 $$
@@ -115,7 +115,7 @@ $$
 证明2: 如果存在一种跳跃方案,设为$(a_1,a_2,a_3,\cdots,a_x)$,其中$a_i = 2^k,k\in \mathbb N$,则交换这个方案的中的任意相邻位置,不影响方案的正确性.简单的说就是满足交换率.
 
 
-![figure2](/images/binary_jump/figure2.svg "figure2")
+![figure2](./images/figure2.svg "figure2")
 
 TODO
 
