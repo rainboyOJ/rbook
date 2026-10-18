@@ -11,4 +11,4 @@
 则可以这样说:完成事件$C$的方法数等于完成事件$A$的方法数加上事件$B$的方法数
 
 
-![figure 1](/images/math/combinatorics/rule_of_sum_1.svg "figure 1")
+![figure 1](./images/rule_of_sum_1.svg "figure 1")

@@ -101,7 +101,7 @@ $$
 1. 逆时针($Counterclockwise$),从$0$开始走$x$步是停下来是哪个位置?
 1. 逆时针($Counterclockwise$),从$p(0 \leqslant p \leqslant 7)$开始走$x$步是停下来是哪个位置?
 
-![circle1](/images/math/remainder/circle_numer_1.svg "Figure 1")
+![circle1](./images/circle_numer_1.svg "Figure 1")
 
 
 显然有一个很容易想到的规律1:从任意一个位置$x$开始走,如果恰好走了一圈($8$步),停下的位置就是$x$.
@@ -168,9 +168,9 @@ $$
 - `Figure 1`,从$3$开始逆走$132$步,是哪里?
 - `Figure 2`,从$5$开始逆走$124$步,是哪里?
 
-![circle2](/images/math/remainder/circle_numer_2.svg "Figure 2")
+![circle2](./images/circle_numer_2.svg "Figure 2")
 
-![circle3](/images/math/remainder/circle_numer_3.svg "Figure 3")
+![circle3](./images/circle_numer_3.svg "Figure 3")
 
 
 ## 相关题目
