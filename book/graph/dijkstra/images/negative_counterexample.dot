@@ -1,0 +1,14 @@
+digraph G {
+    rankdir=LR;
+    bgcolor="transparent";
+    node [shape=circle, style="filled", fillcolor="#f8fafc", color="#475569", penwidth=1.5, fontname="sans-serif", fontsize=13];
+    edge [color="#64748b", fontcolor="#0f172a", fontname="sans-serif", fontsize=12, penwidth=1.2];
+
+    s [label="s", fillcolor="#dbeafe", color="#2563eb", fontcolor="#1e40af"];
+    a [label="a"];
+    b [label="b"];
+
+    s -> a [label=" 2 ", color="#2563eb", fontcolor="#1d4ed8"];
+    s -> b [label=" 5 "];
+    b -> a [label=" -4 ", color="#dc2626", fontcolor="#b91c1c", penwidth=1.8];
+}

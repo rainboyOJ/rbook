@@ -1,0 +1,48 @@
+digraph G {
+    rankdir=LR;
+    bgcolor="transparent";
+    node [shape=box, style="rounded,filled", fillcolor="#f1f5f9", color="#94a3b8", fontname="sans-serif", fontsize=11];
+    edge [color="#64748b", fontname="sans-serif", fontsize=10];
+
+    subgraph cluster_0 {
+        label="初始状态";
+        bgcolor="#ffffff";
+        style="dashed,rounded";
+        color="#cbd5e1";
+        q0 [label="堆: [ (0, 1) ]\ndis: [0, ∞, ∞, ∞, ∞]\nS = ∅"];
+    }
+
+    subgraph cluster_1 {
+        label="第 1 轮：弹出最小点 1 (距离 0)";
+        bgcolor="#ffffff";
+        style="dashed,rounded";
+        color="#cbd5e1";
+        q1 [label="确定点 1，S = { 1 }\n松弛 2: dis[2]=8 -> 入堆 (8, 2)\n松弛 3: dis[3]=2 -> 入堆 (2, 3)\n堆: [ (2, 3), (8, 2) ]"];
+    }
+
+    subgraph cluster_2 {
+        label="第 2 轮：弹出最小点 3 (距离 2)";
+        bgcolor="#ffffff";
+        style="dashed,rounded";
+        color="#cbd5e1";
+        q2 [label="确定点 3，S = { 1, 3 }\n松弛 2: 2+1=3 < 8 -> dis[2]=3, 入堆 (3, 2)\n松弛 4: 2+7=9 -> dis[4]=9, 入堆 (9, 4)\n堆: [ (3, 2), (8, 2)*, (9, 4) ]\n*注：(8, 2) 已过期"];
+    }
+
+    subgraph cluster_3 {
+        label="第 3 轮：弹出最小点 2 (距离 3)";
+        bgcolor="#ffffff";
+        style="dashed,rounded";
+        color="#cbd5e1";
+        q3 [label="确定点 2，S = { 1, 3, 2 }\n松弛 4: 3+2=5 < 9 -> dis[4]=5, 入堆 (5, 4)\n堆: [ (5, 4), (8, 2)*, (9, 4)* ]"];
+    }
+
+    subgraph cluster_4 {
+        label="第 4 轮及后续：过期跳过与完成";
+        bgcolor="#ffffff";
+        style="dashed,rounded";
+        color="#cbd5e1";
+        q4 [label="弹出 (5, 4) -> 确定点 4，S = { 1, 3, 2, 4 }\n后续弹出 (8, 2) 与 (9, 4)：\n因 du != dis[u] 被判定过期直接跳过！\n最终 dis: [0, 3, 2, 5, ∞]"];
+    }
+
+    q0 -> q1 -> q2 -> q3 -> q4;
+}
