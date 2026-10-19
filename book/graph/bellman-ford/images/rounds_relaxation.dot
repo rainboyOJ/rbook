@@ -1,0 +1,48 @@
+digraph G {
+    rankdir=LR;
+    bgcolor="transparent";
+    node [shape=box, style="rounded,filled", fillcolor="#f1f5f9", color="#94a3b8", fontname="sans-serif", fontsize=11];
+    edge [color="#64748b", fontname="sans-serif", fontsize=10];
+
+    subgraph cluster_0 {
+        label="初始状态 (Round 0)";
+        bgcolor="#ffffff";
+        style="dashed,rounded";
+        color="#cbd5e1";
+        r0 [label="源点 dis[s] = 0\n其余点 dis = ∞\n保证了最多 0 条边的最短路"];
+    }
+
+    subgraph cluster_1 {
+        label="第 1 轮松弛 (Round 1)";
+        bgcolor="#ffffff";
+        style="dashed,rounded";
+        color="#cbd5e1";
+        r1 [label="枚举所有 m 条边\n源点的一度邻居被更新\n保证了最多 1 条边的最短路"];
+    }
+
+    subgraph cluster_2 {
+        label="第 2 轮松弛 (Round 2)";
+        bgcolor="#ffffff";
+        style="dashed,rounded";
+        color="#cbd5e1";
+        r2 [label="再次枚举所有 m 条边\n二度邻居被更新\n保证了最多 2 条边的最短路"];
+    }
+
+    subgraph cluster_3 {
+        label="第 n-1 轮松弛 (Round n-1)";
+        bgcolor="#ffffff";
+        style="dashed,rounded";
+        color="#cbd5e1";
+        r3 [label="任意简单路径最多 n-1 条边\n所有简单最短路已全部固定！\n若提前无任何松弛可提前 break"];
+    }
+
+    subgraph cluster_4 {
+        label="第 n 轮检查 (检测负环)";
+        bgcolor="#ffffff";
+        style="dashed,rounded";
+        color="#cbd5e1";
+        r4 [label="若仍能成功松弛任何边：\n说明存在 ≥ n 条边的更短路径\n必然绕了负权环！"];
+    }
+
+    r0 -> r1 -> r2 -> r3 -> r4;
+}

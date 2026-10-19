@@ -1,17 +1,23 @@
 {
-    "file":"index.md",
-    "title":"负环",
-    "id":"negative_circle",
-    "pre":[
+    "file": "index.md",
+    "title": "负环",
+    "id": "negative_circle",
+    "pre": [
         "bellman-ford",
         "spfa"
     ],
-    "code_template" : [{
-        "title": "负环 negative_circle",
-        "tags":[ "graph" ],
-        "desc":"spfa找负环",
-        //代码所在的路径
-        "code":"./spfa_1.cpp"
-    }]
-
+    "code_template": [
+        {
+            "title": "SPFA 边数计数判负环 (BFS版)",
+            "tags": ["graph", "negative_cycle"],
+            "desc": "基于队列与经过边数计数（全员入队）判定负环",
+            "code": "./spfa_1.cpp"
+        },
+        {
+            "title": "DFS 版 SPFA 判定负环",
+            "tags": ["graph", "negative_cycle"],
+            "desc": "基于递归调用栈在松弛链上发现回边判定负环",
+            "code": "./dfs_spfa.cpp"
+        }
+    ]
 }

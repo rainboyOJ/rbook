@@ -1,0 +1,19 @@
+digraph G {
+    rankdir=LR;
+    bgcolor="transparent";
+    node [shape=circle, style="filled", fillcolor="#f8fafc", color="#475569", penwidth=1.5, fontname="sans-serif", fontsize=13];
+    edge [color="#64748b", fontcolor="#0f172a", fontname="sans-serif", fontsize=12, penwidth=1.2];
+
+    s [label="u", fillcolor="#dbeafe", color="#2563eb", fontcolor="#1e40af"];
+    v1 [label="v1"];
+    b1 [label="b", fillcolor="#fee2e2", color="#dc2626"];
+    c [label="c"];
+    b2 [label="b", fillcolor="#fee2e2", color="#dc2626"];
+    t [label="v", fillcolor="#dcfce7", color="#16a34a", fontcolor="#15803d"];
+
+    s -> v1;
+    v1 -> b1;
+    b1 -> c [label=" 环权值 ≥ 0 ", color="#dc2626", fontcolor="#dc2626", style="dashed"];
+    c -> b2 [color="#dc2626", style="dashed"];
+    b1 -> t [label=" 直接跳过环更短 ", color="#16a34a", fontcolor="#16a34a", penwidth=2.0];
+}

@@ -54,6 +54,8 @@ $$
 
 我们以包含非负边权的图（源点为 $1$）为例，演示贪心选择与堆优化的全过程：
 
+[[[animate: ./dijkstra.animation.ts]]]
+
 ![示例图](./images/graph_example.svg)
 
 图中边权：
