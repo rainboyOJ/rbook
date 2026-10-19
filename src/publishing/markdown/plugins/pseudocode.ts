@@ -1,22 +1,7 @@
 import MarkdownIt from 'markdown-it'
-import path from 'path'
 import type { Diagnostic } from '../../domain/diagnostics'
-
-let pseudocodeRenderer: { renderToString: (code: string, options: Record<string, unknown>) => string } | null = null
-
-try {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    pseudocodeRenderer = require('../../vendor/pseudocode.min.js')
-}
-catch {
-    try {
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
-        pseudocodeRenderer = require(path.join(__dirname, '../../vendor/pseudocode.min.js'))
-    }
-    catch {
-        pseudocodeRenderer = null
-    }
-}
+// 使用静态导入，让 TypeScript 将运行时依赖一起输出到 .tsbuild。
+import pseudocodeRenderer from '../../vendor/pseudocode.min.js'
 
 export interface PseudocodePluginOptions {
     lineNumber?: boolean
@@ -34,7 +19,7 @@ export function renderPseudocodeBlock(code: string, opts: PseudocodePluginOption
     if (pseudocodeRenderer && typeof pseudocodeRenderer.renderToString === 'function') {
         try {
             const rendered = pseudocodeRenderer.renderToString(code, options)
-            return `<div class="pseudocode"><p>${rendered}</p></div>\n`
+            return `<div class="pseudocode">${rendered}</div>\n`
         }
         catch (err) {
             opts.diagnostics?.push({
@@ -66,7 +51,6 @@ export default function pseudocodePlugin(md: MarkdownIt, opts: PseudocodePluginO
 
         let next = start + 1
         let found = false
-        let lastLine = ''
 
         for (; next < end; next++) {
             const lineStart = state.bMarks[next] + state.tShift[next]
@@ -86,7 +70,7 @@ export default function pseudocodePlugin(md: MarkdownIt, opts: PseudocodePluginO
         token.block = true
         token.content = content
         return true
-    })
+    }, { alt: ['paragraph', 'reference', 'blockquote', 'list'] })
 
     md.renderer.rules.rbook_pseudocode = (tokens, idx) => {
         return renderPseudocodeBlock(tokens[idx].content, opts)

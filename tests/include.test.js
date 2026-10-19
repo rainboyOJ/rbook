@@ -66,7 +66,7 @@ describe('Phase 2: include 插件', () => {
     it('fence 外 [[[include: ...]]] 内联片段并参与 markdown 解析', () => {
         const { html, diag } = renderNew('[[[include: ./problem.md]]]\n')
         // 片段里的 markdown 标题应被解析成 HTML
-        assert.ok(html.includes('<h3>'), '片段内容应作为 markdown 解析')
+        assert.match(html, /<h3\b[^>]*>/, '片段内容应作为 markdown 解析（允许标题锚点属性）')
         assert.ok(!html.includes('include-missing'), '不应有失败标记')
         assert.equal(diag.filter(d => d.level === 'error').length, 0)
     })

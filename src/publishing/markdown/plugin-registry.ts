@@ -9,6 +9,7 @@ import problemListPlugin from './plugins/problem-list'
 import fencePlugin from './plugins/fence'
 import excalidrawPlugin, { ExcalidrawOptions } from './plugins/excalidraw'
 import animatePlugin, { AnimateOptions } from './plugins/animate'
+import tocPlugin from './plugins/toc'
 
 export interface PluginRegistryOptions {
     rbookLink: RbookLinkOptions
@@ -29,6 +30,7 @@ export interface PluginRegistryOptions {
 export function registerPlugins(md: MarkdownIt, opts: PluginRegistryOptions): void {
     // 1. 标准语法
     md.use(mathPlugin, { diagnostics: opts.rbookLink.diagnostics })
+    md.use(tocPlugin)
 
     // 2. Rbook 内容扩展
     // 顺序很关键：include 必须先在 contentMacros 之前展开。
