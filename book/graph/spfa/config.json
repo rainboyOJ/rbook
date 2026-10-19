@@ -1,8 +1,14 @@
 {
-    "id":"spfa",
-    "file":"index.md",
-    "title":"spfa",
-    "pre":[
+    "id": "spfa",
+    "file": "index.md",
+    "title": "spfa",
+    "pre": [
         "bellman-ford"
-    ]
+    ],
+    "code_template": [{
+        "title": "SPFA 最短路",
+        "tags": ["graph", "shortest_path"],
+        "desc": "基于队列优化的 Bellman-Ford (SPFA) 单源最短路与负环判定模板",
+        "code": "./spfa.cpp"
+    }]
 }
