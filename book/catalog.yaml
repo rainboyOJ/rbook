@@ -150,6 +150,8 @@
       path: "spfa"
     - title: "dijkstra"
       path: "dijkstra"
+    - title: "dijkstra求次短路"
+      path: "dijkstra_second_shortest"
     - title: "负圈"
       path: "negative_circle"
     - title: "最小生成树"

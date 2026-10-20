@@ -1,0 +1,18 @@
+digraph G {
+    rankdir=LR;
+    bgcolor="transparent";
+    node [shape=box, style="rounded,filled", fillcolor="#f1f5f9", color="#94a3b8", fontname="sans-serif", fontsize=11];
+    edge [color="#64748b", fontname="sans-serif", fontsize=10];
+
+    cand [label="候选距离 nd = d + w\n考察目标点 v", fillcolor="#e0e7ff", color="#6366f1"];
+
+    case1 [label="情况 1: nd < dis1[v]\n打破当前最短路！\n① 旧的最短路 dis1[v] 降级为次短路 dis2[v]\n② 新的 nd 成为新的最短路 dis1[v]\n③ 产生两个新状态压入堆", fillcolor="#dcfce7", color="#16a34a"];
+
+    case2 [label="情况 2: dis1[v] < nd < dis2[v]\n无法更新最短路，但可以更新次短路！\n① 更新次短路 dis2[v] = nd\n② 将 (nd, v) 压入堆", fillcolor="#fef9c3", color="#ca8a04"];
+
+    case3 [label="情况 3: nd >= dis2[v] 或 nd == dis1[v]\n对严格次短路毫无贡献\n直接忽略/跳过", fillcolor="#fee2e2", color="#dc2626"];
+
+    cand -> case1 [label=" 比最短路更小 "];
+    cand -> case2 [label=" 介于两者之间 "];
+    cand -> case3 [label=" 劣于当前次短路 "];
+}
