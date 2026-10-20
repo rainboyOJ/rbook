@@ -62,11 +62,18 @@ const templateRenderer = new PageTemplateRenderer({
     menuHtml: '',
 })
 
-/** 允许省略 .md：先按给出的路径，再试 <target>.md。 */
+/**
+ * 允许省略 .md：<target>.md → <target>/index.md → <target>（仅当它是文件）。
+ * 注意别让目录名直接命中第一项，否则后面读源码会 EISDIR、扫描被静默跳过。
+ */
 function resolveEntry(t) {
     const candidates = [t, t + '.md', path.join(t, 'index.md')]
+    const isFile = c => {
+        const abs = path.join(projectRoot, 'book', c)
+        return fs.existsSync(abs) && fs.statSync(abs).isFile()
+    }
     for (const c of candidates) {
-        if (fs.existsSync(path.join(projectRoot, 'book', c))) return c
+        if (isFile(c)) return c
     }
     return t
 }
@@ -104,6 +111,44 @@ function stripFencesAndCodes(src) {
         .replace(/^[ \t]*(`{3,}|~{3,})[^\n]*\n[\s\S]*?^[ \t]*\1[ \t]*$/gm, blank)
         // 行内代码（成对的 n 个反引号）
         .replace(/(`+)[^`]*?\1/g, blank)
+        // 数学：`$$…$$` 与 `$…$` 里出现 == 或 ++ 是公式本身，不是失效方言
+        .replace(/\$\$[\s\S]*?\$\$/g, blank)
+        .replace(/\$[^$\n]*\$/g, blank)
+}
+
+/**
+ * 只扫**本文件自己的正文**。
+ * 文章的 HTML 里混着被 include 进来的片段，如果直接扫产物，
+ * 会把 `index.md` 的检查结果算到片段头上（行号也对不上）。
+ * 这里按 include 插件同样的规则把片段内联后再切片，保证行号指向当前文件。
+ */
+const INCLUDE_RE = /\[\[\[\s*include\s*:\s*([^\]]+?)\s*\]\]\]/g
+const FENCE_FILE_RE = /(?:^|\s)file\s*=\s*(?:"([^"]+)"|'([^']+)'|(\S+))/
+
+/** 参与本次扫描的所有源文件（本文件 + 递归 include 进来的片段）。 */
+const scanSources = []
+
+function expandIncludes(text, fromFile, depth = 0) {
+    if (depth > 8) return text
+    if (!scanSources.some(s => s.abs === fromFile)) scanSources.push({ abs: fromFile, text })
+    return text.replace(INCLUDE_RE, (_w, rawTarget) => {
+        const target = rawTarget.trim().replace(/^["']|["']$/g, '')
+        const abs = target.startsWith('/')
+            ? path.join(projectRoot, 'book', target.replace(/^\/+/, ''))
+            : path.resolve(path.dirname(fromFile), target)
+        try {
+            return expandIncludes(fs.readFileSync(abs, 'utf8'), abs, depth + 1)
+        }
+        catch {
+            return ''
+        }
+    })
+}
+
+/** 把 `file=` 注入的内容也换成空白：我们的输出只以“本文件写下的内容”为准。 */
+function blankFileFences(text) {
+    return text.replace(/^[ \t]*(`{3,}|~{3,})([^\n]*\n[\s\S]*?)^[ \t]*\1[ \t]*$/gm,
+        (whole, _fence, info) => (FENCE_FILE_RE.test(info) ? whole.replace(/[^\n]/g, ' ') : whole))
 }
 
 const sourcePath = path.join(projectRoot, 'book', entryPath)
@@ -114,15 +159,38 @@ try {
 catch {
     rawSource = ''
 }
-const scan = stripFencesAndCodes(rawSource)
-const lineOf = (index) => rawSource.slice(0, index).split('\n').length
+const expanded = blankFileFences(expandIncludes(rawSource, sourcePath))
+const scan = stripFencesAndCodes(expanded)
+
+/**
+ * 命中位置 -> 「哪个文件第几行」。
+ * 扫描用的是展开 include 之后的文本，下标已与任何单个文件脱钩，
+ * 因此拿命中的字面量回各个源文件里顺序查找（同一片段重复出现时依次推进）。
+ */
+const searchCursor = new Map()
+function locatedAt(text) {
+    for (const file of [scanSources[0], ...scanSources.slice(1)]) {
+        if (!file) continue
+        const key = file.abs + '\u0000' + text
+        const from = searchCursor.get(key) || 0
+        let at = file.text.indexOf(text, from)
+        if (at < 0) at = file.text.indexOf(text)
+        if (at < 0) continue
+        searchCursor.set(key, at + text.length)
+        return {
+            line: file.text.slice(0, at).split('\n').length,
+            file: path.relative(path.join(projectRoot, 'book'), file.abs).replace(/\\/g, '/'),
+        }
+    }
+    return { line: null, file: null }
+}
 
 /** 只扫正文区域的 HTML（避免命中页面模板）。 */
 const bodyMatch = result.html.match(/<div class="markdown-body">([\s\S]*)<\/article>/)
 const body = bodyMatch ? bodyMatch[1] : result.html
 
 const found = []
-const push = (why, count, sample, line) => found.push({ why, count, sample, line })
+const push = (why, count, sample, loc) => found.push({ why, count, sample, loc })
 
 // --- A1) 未知类型的三方括号指令 -------------------------------------------
 const KNOWN_DIRECTIVES = new Set([
@@ -131,17 +199,20 @@ const KNOWN_DIRECTIVES = new Set([
 for (const m of scan.matchAll(/\[\[\[\s*([a-zA-Z_][a-zA-Z0-9_]*)\s*:/g)) {
     if (KNOWN_DIRECTIVES.has(m[1].toLowerCase())) continue
     push('未知指令类型 [[[' + m[1] + ': …]]]，不会被渲染（只会输出文字）', 1,
-        m[0].slice(0, 80), lineOf(m.index))
+        m[0].slice(0, 80), locatedAt(m[0]))
 }
 
 // --- A2) 双方括号（先把合法三方括号抹掉） ---------------------------------
 // 同样用等长空白替换，保证下标仍可换算回原始行号。
-const noTriple = scan.replace(/\[\[\[[^\]]*\]\]\]/g, m => m.replace(/[^\n]/g, ' '))
+// `[[TOC]]` / `[[toc]]` 是**合法**的目录占位符（markdown-it-toc-done-right 认它），别误报。
+const noTriple = scan
+    .replace(/\[\[\[[^\]]*\]\]\]/g, m => m.replace(/[^\n]/g, ' '))
+    .replace(/\[\[\s*toc\s*\]\]/gi, m => m.replace(/[^\n]/g, ' '))
 const dbRe = /\[\[[^[\]]{1,80}\]\]/g
 const dbHits = [...noTriple.matchAll(dbRe)]
 if (dbHits.length) {
     push('双方括号不是本项目方言（站内链接写 [[[rbook: id]]]）', dbHits.length,
-        dbHits[0][0].slice(0, 80), lineOf(dbHits[0].index))
+        dbHits[0][0].slice(0, 80), locatedAt(dbHits[0][0]))
 }
 
 // --- A3) 其余“看起来能写、其实不支持”的写法 -------------------------------
@@ -158,7 +229,7 @@ const SOURCE_CHECKS = [
 for (const { re, why } of SOURCE_CHECKS) {
     const hits = [...noTriple.matchAll(re)]
     if (hits.length) {
-        push(why, hits.length, hits[0][0].slice(0, 80), lineOf(hits[0].index))
+        push(why, hits.length, hits[0][0].slice(0, 80), locatedAt(hits[0][0]))
     }
 }
 
@@ -185,8 +256,10 @@ if (found.length === 0) {
 else {
     console.log('⚠️ 可疑残留:')
     for (const f of found) {
-        const at = f.line ? ' (第 ' + f.line + ' 行)' : ''
-        console.log('  - [' + f.count + ' 处] ' + f.why + at)
+        const where = f.loc && f.loc.file
+            ? '  ' + f.loc.file + (f.loc.line ? ':' + f.loc.line : '')
+            : ''
+        console.log('  - [' + f.count + ' 处] ' + f.why + where)
         console.log('    例: ' + f.sample)
     }
 }

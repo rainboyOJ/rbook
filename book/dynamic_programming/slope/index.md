@@ -44,7 +44,7 @@ $y_B = d$
 
 ![figure_2](./asymptote/figure2.svg "figure-2")
 
-当我们选取一了一条直线,那么这条直线的斜率$k$就是固定的,此时只能上下平移的去移动这条直线,那么这个直线的截距$b$就是变化的.根据[[[rbook: monotonic_queue]]]的思想:++排除不可能的点++.我们不禁会想哪些点是不可能的点?
+当我们选取一了一条直线,那么这条直线的斜率$k$就是固定的,此时只能上下平移的去移动这条直线,那么这个直线的截距$b$就是变化的.根据[[[rbook: monotonic_queue]]]的思想:<ins>排除不可能的点</ins>.我们不禁会想哪些点是不可能的点?
 
 ![](./asymptote/linear_program_1.svg "figure_2")
 
@@ -56,7 +56,7 @@ $y_B = d$
 1. $x_a < x_b < x_c$
 2. $K(a,b) = k_1 > k_2 =K(b,c)$
 
-::: oneline
+::: colorfulbox
 
 ![figure3_1](./asymptote/figure3_1.svg "figure-3_1")
 

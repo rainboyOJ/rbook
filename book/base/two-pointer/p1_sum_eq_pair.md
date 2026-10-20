@@ -25,7 +25,7 @@
 
 #### 二分查询
 
-可以参考: [[../../recursion/binary_search/有序集上的操作.md]]
+可以参考: [[[rbook: binary_search]]]
 
 #### 双指针法
 

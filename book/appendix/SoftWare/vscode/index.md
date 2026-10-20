@@ -66,7 +66,7 @@ int main(){
 }
 ```
 
-- [[ctrl]] + [[s]] 保存代码
+- <kbd>Ctrl</kbd> + <kbd>S</kbd> 保存代码
 - 保存时,创建一个`code`文件夹,并打开
 - 命名为`1.cpp`,点保存
 
@@ -76,8 +76,8 @@ int main(){
 
 ## 3. 编译运行
 
-1. [[ctrl]] + [[alt]] + [[arrow down]] 打开一个新的桌面
-2. [[ctrl]] + [[alt]] + [[t]] 打开终端,输入编译命令
+1. <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>↓</kbd> 打开一个新的桌面
+2. <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>T</kbd> 打开终端,输入编译命令
 
 输入如下命令
 
@@ -102,35 +102,35 @@ g++ -g -o 1 1.cpp
 
 注释
 
-- 单行注释 [[ctrl]]+[[/]],如果再按一次,取消注释
-- 多行注释 [[ctrl]]+[[/]]
+- 单行注释 <kbd>Ctrl</kbd>+<kbd>/</kbd>,如果再按一次,取消注释
+- 多行注释 <kbd>Ctrl</kbd>+<kbd>/</kbd>
 
 行操作
 
-- 向下/上移动当前行：[[alt]] + [[⬇] / [[⬆]
-- 选中当前行： [[ctrl]]+[[l]]
-- 删除当前行：[[shift ]]+ [[ctrl ]]+ [[k]]
-- 行增加缩进： [[ctrl ]]+ [[\[]]
-- 行减少缩进： [[ctrl ]]+ [[\]]]
-- 复制当前行到上一行：[[shift]]+ [[alt]] +[[up]]
-- 复制当前行到下一行：[[shift]]+ [[alt]] +[[down]]
-- 向下新起一行： [[ctrl]] + [[enter]]
-- 向上新起一行： [[ctrl]] + [[shift]] + [[enter]]
+- 向下/上移动当前行：<kbd>Alt</kbd> + <kbd>↓</kbd> / <kbd>↑</kbd>
+- 选中当前行： <kbd>Ctrl</kbd>+<kbd>L</kbd>
+- 删除当前行：<kbd>Shift</kbd>+ <kbd>Ctrl</kbd>+ <kbd>K</kbd>
+- 行增加缩进： <kbd>Ctrl</kbd> + <kbd>[</kbd>
+- 行减少缩进： <kbd>Ctrl</kbd> + <kbd>]</kbd>
+- 复制当前行到上一行：<kbd>Shift</kbd>+ <kbd>Alt</kbd> +<kbd>↑</kbd>
+- 复制当前行到下一行：<kbd>Shift</kbd>+ <kbd>Alt</kbd> +<kbd>↓</kbd>
+- 向下新起一行： <kbd>Ctrl</kbd> + <kbd>Enter</kbd>
+- 向上新起一行： <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Enter</kbd>
 
 常用
 
-- 撤销 : [[ctrl]] + [[z]]
-- 反撤销 : [[ctrl]] + [[shift]] + [[z]]
-- 向下/下卷屏: [[ctrl]]  + [[⬆]] / [[⬇]]
-- 向左/右跨越单词: [[ctrl]]  + [[⬅]] / [[➡]]
-- 向下/上同时编辑多行(多行光标) : [[ctrl]] + [[shift]] + [[⬆]] / [[⬇]]
+- 撤销 : <kbd>Ctrl</kbd> + <kbd>Z</kbd>
+- 反撤销 : <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Z</kbd>
+- 向下/下卷屏: <kbd>Ctrl</kbd>  + <kbd>⬆</kbd> / <kbd>⬇</kbd>
+- 向左/右跨越单词: <kbd>Ctrl</kbd>  + <kbd>⬅</kbd> / <kbd>➡</kbd>
+- 向下/上同时编辑多行(多行光标) : <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>⬆</kbd> / <kbd>⬇</kbd>
 
 其它
 
-- 显示/隐藏左侧目录栏 [[ctrl]] + [[b]]
-- 控制台终端显示与隐藏：[[ctrl]]+ [[`]]
+- 显示/隐藏左侧目录栏 <kbd>Ctrl</kbd> + <kbd>B</kbd>
+- 控制台终端显示与隐藏：<kbd>Ctrl</kbd>+ <kbd>`</kbd>
 - 切换全屏： F11
-- 格式化整个文件：[[ctrl]] + [[shift]] + [[i]]
+- 格式化整个文件：<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>I</kbd>
 
 
 ## 手动修改快捷键

@@ -57,8 +57,8 @@
 
 几个常用的快捷键
 
-1. [[ctrl]] + [[alt]] + [[t]] 打开终端
-2. [[ctrl]] + [[alt]] + [[⬆️]],[[⬇️]] 切换桌面
+1. <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>T</kbd> 打开终端
+2. <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>↑</kbd>,<kbd>↓</kbd> 切换桌面
 3. `g++ -g -o 1 1.cpp && ./1 < in` 编译并运行
 4. 结合[常用脚本](../utils/scripts/index.md)使用
 
