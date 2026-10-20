@@ -2,7 +2,7 @@
 
 ## 算法背景与直觉
 
-前置算法: `[[bellman-ford]]`。
+前置算法: [[[rbook: bellman-ford]]]。
 
 在 Bellman-Ford 算法中，我们每一轮都对图上的**所有边**进行松弛操作。
 
@@ -122,4 +122,4 @@
 
 ## 负环判定与拓展
 
-关于 SPFA 查找负环的更多原理与证明（边数判定、点更新次数判定、DFS 版 SPFA 对比），见后续章节：`[[negative_circle]]`。
+关于 SPFA 查找负环的更多原理与证明（边数判定、点更新次数判定、DFS 版 SPFA 对比），见后续章节：[[[rbook: negative_circle]]]。
