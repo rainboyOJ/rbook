@@ -1,74 +1,89 @@
-#include <algorithm>
-#include <functional>
-#include <iostream>
-#include <queue>
-#include <utility>
-#include <vector>
+#include <bits/stdc++.h>
+using namespace std;
 
-struct SecondShortestDijkstra {
-    using ll = long long;
-    static constexpr ll INF = (1LL << 62);
+const int MAXN = 5000 + 5; // 点数上界 N <= 5000
+const long long INF = (1LL << 60);
 
-    struct Edge {
-        int to;
-        ll w;
-    };
+struct Edge {
+    int to; // 边指向的点
+    int w;  // 边的长度
+};
 
-    int n;
-    std::vector<std::vector<Edge>> g;
-    std::vector<ll> dis1; // 最短距离
-    std::vector<ll> dis2; // 严格次短距离
+struct HeapNode {
+    int u;
+    long long dist;
 
-    explicit SecondShortestDijkstra(int n)
-        : n(n), g(n + 1), dis1(n + 1, INF), dis2(n + 1, INF) {}
+    // 小根堆：距离大的排后面
+    bool operator<(const HeapNode &other) const {
+        return dist > other.dist;
+    }
+};
 
-    void add_edge(int u, int v, ll w) {
-        g[u].push_back({v, w});
+int n, r;
+vector<Edge> g[MAXN];  // g[u]：从 u 出发的全部边
+long long dist1[MAXN]; // 到 i 的最短距离
+long long dist2[MAXN]; // 到 i 的次短距离，要求严格大于 dist1[i]
+
+void add_edge(int u, int v, int len) {
+    g[u].push_back({v, len});
+}
+
+void dijkstra() {
+    for (int i = 1; i <= n; i++) {
+        dist1[i] = INF;
+        dist2[i] = INF;
     }
 
-    void add_undirected_edge(int u, int v, ll w) {
-        add_edge(u, v, w);
-        add_edge(v, u, w);
-    }
+    priority_queue<HeapNode> pq;
+    dist1[1] = 0;
+    pq.push({1, 0});
 
-    void run(int s) {
-        std::fill(dis1.begin(), dis1.end(), INF);
-        std::fill(dis2.begin(), dis2.end(), INF);
+    while (!pq.empty()) {
+        HeapNode cur = pq.top();
+        pq.pop();
 
-        // State: (当前候选距离, 目标点)
-        using State = std::pair<ll, int>;
-        std::priority_queue<State, std::vector<State>, std::greater<State>> q;
+        int u = cur.u;
+        long long d = cur.dist;
 
-        dis1[s] = 0;
-        q.push({0, s});
+        // 这条记录既不是最短路也不是次短路，早已被更优的值取代，展开它无益
+        if (d > dist2[u]) continue;
 
-        while (!q.empty()) {
-            auto [d, u] = q.top();
-            q.pop();
+        for (const Edge &e : g[u]) {
+            int v = e.to;
+            long long nd = d + e.w;
 
-            // 如果当前距离比已记录的次短路还要大，则没有任何利用价值，直接跳过
-            if (d > dis2[u]) continue;
+            // 找到了更短的最短路：旧的最短路是真实路径，不能丢，
+            // 通过交换把它降级成次短候选（交换后 nd 就是旧的最短路值）
+            if (nd < dist1[v]) {
+                std::swap(nd, dist1[v]);
+                pq.push({v, dist1[v]});
+            }
 
-            for (const auto& e : g[u]) {
-                int v = e.to;
-                ll nd = d + e.w;
-
-                // 1. 尝试松弛最短路
-                if (nd < dis1[v]) {
-                    // 原来的最短路降级为次短路
-                    dis2[v] = dis1[v];
-                    q.push({dis2[v], v});
-
-                    dis1[v] = nd;
-                    q.push({dis1[v], v});
-                }
-                // 2. 无法更新最短路，尝试更新严格次短路
-                // 要求 nd 严格大于最短路 dis1[v]，且严格小于当前次短路 dis2[v]
-                else if (nd > dis1[v] && nd < dis2[v]) {
-                    dis2[v] = nd;
-                    q.push({dis2[v], v});
-                }
+            // 只接受严格大于最短路、且能改善次短的候选。
+            // 长度等于最短路的另一条路径不算次短路，所以这里是 < 而不是 <=
+            if (dist1[v] < nd && nd < dist2[v]) {
+                dist2[v] = nd;
+                pq.push({v, dist2[v]});
             }
         }
     }
-};
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    cin >> n >> r;
+
+    for (int i = 1; i <= r; i++) {
+        int u, v, len;
+        cin >> u >> v >> len;
+        add_edge(u, v, len);
+        add_edge(v, u, len); // 道路双向
+    }
+
+    dijkstra();
+
+    cout << dist2[n] << '\n';
+    return 0;
+}
