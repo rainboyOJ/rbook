@@ -37,7 +37,8 @@ const pseudocodeRender = function (code, options = { throwOnError: true, lineNum
 const defCodeCopyOptions = {
   iconStyle: 'font-size: 21px; opacity: 0.4;',
   iconClass: 'mdi mdi-content-copy',
-  buttonStyle: 'position: absolute; top: 17.5px; right: 10px; cursor: pointer; outline: none;',
+  // z-index 必须高于 Prism 主题给 pre > code 的 z-index:1，否则按钮被代码盖住点不到。
+  buttonStyle: 'position: absolute; top: 17.5px; right: 10px; z-index: 2; cursor: pointer; outline: none;',
   buttonClass: '',
 }
 

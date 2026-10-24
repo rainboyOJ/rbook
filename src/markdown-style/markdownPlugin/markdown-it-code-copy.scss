@@ -6,6 +6,11 @@
     position: absolute;
     top: 10px;
     right: 10px;
+    // Prism 主题里有 `pre[class*="language-"] > code[class*="language-"]
+    // { position: relative; z-index: 1 }`（行高亮规则）。code 元素因此
+    // 覆盖了整个代码列（含右上角按钮区域），且层级高于 z-index:auto 的
+    // 绝对定位按钮，点击全部落在 code 上。必须显式抬高按钮层级。
+    z-index: 2;
     cursor: pointer;
     border: 1px solid var(--rbook-code-border);
     background-color: var(--rbook-surface);

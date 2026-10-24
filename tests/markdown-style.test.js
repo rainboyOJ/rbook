@@ -102,4 +102,27 @@ describe('正文排版变量与规则（typography）', () => {
         assert.doesNotMatch(fenceSource, /style="position:\s*relative"/)
         assert.doesNotMatch(fenceSource, /style="position:\s*absolute;\s*top:\s*10px/)
     })
+
+    it('复制按钮层级高于 Prism 的 pre > code（否则按钮被代码盖住无法点击）', () => {
+        // Prism 主题的「行高亮」规则给代码元素提升到 position:relative; z-index:1，
+        // 它铺满整个代码列并盖在绝对定位的复制按钮上，点击全部落在 code 上。
+        const buttonSource = fs.readFileSync(
+            path.join(PROJECT_ROOT, 'src/markdown-style/markdownPlugin/markdown-it-code-copy.scss'), 'utf8')
+        const prismSource = fs.readFileSync(
+            path.join(PROJECT_ROOT, 'src/prism-theme/prism-vsc-dark-plus.css'), 'utf8')
+
+        const codeRule = prismSource.split('pre[class*="language-"] > code[class*="language-"]')[1] || ''
+        const codeZIndex = Number((codeRule.match(/z-index:\s*(-?\d+)/) || [])[1])
+        // 去掉 scss 注释，避免注释里的示例值被当成声明。
+        const buttonDeclarations = buttonSource.replace(/\/\/.*$/gm, '')
+        const buttonBlock = buttonDeclarations.slice(buttonDeclarations.indexOf('.markdown-it-code-copy'))
+        const buttonZIndex = Number((buttonBlock.match(/z-index:\s*(-?\d+)/) || [])[1])
+
+        assert.ok(Number.isFinite(codeZIndex), 'Prism 主题应仍然给 pre > code 设置 z-index')
+        assert.ok(Number.isFinite(buttonZIndex), '复制按钮必须显式声明 z-index')
+        assert.ok(
+            buttonZIndex > codeZIndex,
+            `复制按钮 z-index (${buttonZIndex}) 必须大于代码元素 z-index (${codeZIndex})`,
+        )
+    })
 })
