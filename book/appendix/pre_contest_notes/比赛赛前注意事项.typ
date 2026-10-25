@@ -171,7 +171,7 @@
     columns: (1fr, auto),
     align: (left, bottom),
     [
-      #text(size: 10.5pt, stroke: 0.03em)[rainboy]　#text(size: 10pt, fill: luma(85))[宿城第一中学]
+      #text(size: 10.5pt, stroke: 0.03em)[rainboy]
     ],
     [
       #text(size: 9pt, fill: luma(105))[rainboylvx\@qq.com　·　idx.roj.ac.cn]
