@@ -1,6 +1,6 @@
 ---
 name: rbook-markdown
-description: 编写或修改 /home/rainboy/mycode/newRbook_ejs 这本 rbook 电子书里的 Markdown 时必须遵守的方言说明（站内链接 [[[rbook:]]]、题目链接 [[[p:]]]、include 与 file=、animate、数学、::: 容器、伪代码、题目列表 +p、catalog/config 元数据，以及哪些"通用 Markdown 语法"在本项目其实会静默失效）。当你在 book/ 下新建或编辑任何 .md（index.md、practice.md、teach_plan.md、problem.md…）、调整 book/catalog.yaml 或文章的 config.json/config.yaml、修一个链接/代码块/图片/公式/折叠框渲染不对、把别处的 Markdown 搬进来、或者要判断"这段写法本项目支持吗"时，都应先读这个 skill，不要凭 GitHub / Obsidian / VuePress 的语法直觉下手。
+description: 编写或修改 /home/rainboy/mycode/newRbook_ejs 这本 rbook 电子书里的 Markdown 时必须遵守的方言说明（站内链接 [[[rbook:]]]、题目链接 [[[p:]]]、include 与 file=、animate 与 dsa 动画卡片、数学、::: 容器、伪代码、题目列表 +p、catalog/config 元数据，以及哪些"通用 Markdown 语法"在本项目其实会静默失效）。当你在 book/ 下新建或编辑任何 .md（index.md、practice.md、teach_plan.md、problem.md…）、调整 book/catalog.yaml 或文章的 config.json/config.yaml、修一个链接/代码块/图片/公式/折叠框渲染不对、把别处的 Markdown 搬进来、或者要判断"这段写法本项目支持吗"时，都应先读这个 skill，不要凭 GitHub / Obsidian / VuePress 的语法直觉下手。
 ---
 
 # rbook 的 Markdown 方言
@@ -10,9 +10,10 @@ description: 编写或修改 /home/rainboy/mycode/newRbook_ejs 这本 rbook 电�
 
 动手前先建立三个判断，它们决定了这个仓库的坑长什么样：
 
-1. **不少方言是"块级预处理"，跑在 Markdown 解析之前**
+1. **有些方言是"块级预处理"，跑在 Markdown 解析之前**
    （`[[[include:]]]`、`[[[animate:]]]`、EJS 宏都挂在 `core.ruler` 的 `normalize` 之前）。
-   所以它们**在代码围栏里也会展开**——想在示例里展示指令，必须转义。
+   这类指令**在代码围栏里也会展开**——想在示例里展示它们，必须转义。
+   **`[[[dsa:]]]` 是例外**：它自己做了代码段屏蔽，围栏与行内代码里保持原文。
 2. **绝大多数失效是静默的**：未注册的 `:::` 名变成普通段落、`[g1:cpp]` 被丢弃、
    `[[wikilink]]` 原样输出、`++插入++` 只是文本。不报错，只是"没效果"。
 3. **判断"到底生效了没有"的唯一可靠办法是跑真实渲染器**，本 skill 带了一个脚本（见文末）。
@@ -92,7 +93,16 @@ book/<章>/<文章目录>/
   `[include 失败: …]`（绝不静默丢内容）。
 - 旧写法 `<%- include("./x.md") %>` 仍可用但会报"已弃用"警告，新内容不要再用。
 
-## 四、交互动画
+## 四、交互动画（两种，语义不同）
+
+书里有**两个**动画指令，不要混用：
+
+| 语法 | 含义 | 适用场景 |
+|---|---|---|
+| `[[[animate: ./x.animation.ts]]]` | 内嵌**本书打包**的 TS 动画，在正文里直接跑 | 动画逻辑简单、要与正文紧密配合 |
+| `[[[dsa: slug]]]` | 生成一张**跳转**到外部动画站的卡片 | 演示已由 anima1 / dsa3 独立站点提供 |
+
+### 4.1 `[[[animate:]]]`：内嵌本地动画
 
 ```md
 [[[animate: ./dijkstra.animation.ts]]]
@@ -101,6 +111,37 @@ book/<章>/<文章目录>/
 - 目标必须是 `.animation.ts`、位于 `book/` 内、文件必须存在，否则页面显示
   `动画加载失败: …`。`mount(context)` 的约定见 `docs/interactive-animation.md`。
 - 路径同样相对当前 md 文件；写在被 include 的片段里则相对片段自身。
+- ⚠️ 它是解析前预处理，**连代码围栏里也会展开**，所以在示例里展示必须转义
+  （见第十一节）。
+
+### 4.2 `[[[dsa:]]]`：外链动画卡片
+
+```md
+[[[dsa: quickSort]]]
+
+[[[dsa: floyd | 自己起的标题]]]
+```
+
+- `slug` 必须在 `book/demos.json` 里注册；`| 自定义标题` 可选（slug 仍需校验）。
+- 渲染成卡片：图标 + 标题 + 站点徽章（`anima1` / `dsa3`）+ 描述/标签 + `↗`。
+- **写错 slug 会中断构建**（`phase: 'dsa'` 的 error 诊断），不会发出死链。
+- 卡片指向两个外部站：anima1 是静态站，dsa3 是 Vue 站（`/Animate/<slug>/`）。
+- `book/demos.json` 是**生成物，不要手改**：
+
+  ```bash
+  node scripts/sync-demos.mjs          # 从 ../dsa 与 ../dsa3_ts 重新抓取
+  node scripts/sync-demos.mjs --check  # 只比对，防快照陈旧
+  ```
+
+- 与 `animate` 相反：**代码围栏与行内代码里的 `[[[dsa:]]]` 会保持原文**，
+  所以写语法示例时不用转义。这是它专有的代码段屏蔽，不要假定其它指令也一样。
+- 图标：anima1 用内置水果字体（`src/public/fonts/`），dsa3 用内联 SVG。
+  水果字体的码点表在 `src/markdown-style/dsa-card.scss` 的 `$fruit-icons`。
+- 想快速看有哪些可用 slug：
+
+  ```bash
+  node -e "const d=require('./book/demos.json');console.log(Object.keys(d.demos).join(' '))"
+  ```
 
 ## 五、数学
 
@@ -191,26 +232,54 @@ book/<章>/<文章目录>/
 | `:smile:` 短码 | 字面量 | 直接打 emoji 😄 |
 | ` ```cpp [g1:cpp] ` | `[g1:…]` 被静默忽略，各块独立显示 | 拆成多个 fence，或用 `file=` |
 | `::: center`、`::: line`、`::: oneline` | 原样输出 | 不加容器，或自己写 HTML |
+| `[[[demo: x]]]` | 未知指令，原样输出 | 用 `[[[dsa: x]]]`（外链卡片）或 `[[[animate: ./x.animation.ts]]]`（内嵌） |
 
-## 十一、在示例里展示这些指令
+## 十一、在示例里展示这些指令（逐个看，它们不一样）
 
-因为 include / animate / EJS 都是**解析前**的块级预处理，写进 fence 也会被展开。
-用反斜杠转义 `[[`：
+| 指令 | 在围栏/行内代码里 | 写示例时要转义？ |
+|---|---|---|
+| `[[[include:]]]` | **会被展开** | 要 |
+| `[[[animate:]]]` | **会被展开** | 要 |
+| EJS 宏 | **会被展开** | 要 |
+| `[[[dsa:]]]` | 保持原文 | 不要 |
+| `[[[rbook:]]]` / `[[[p:]]]` | 保持原文（行内规则） | 不要 |
+
+include / animate / EJS 都是**解析前**的块级预处理，写进 fence 也会被展开。
+想展示它们，只能在 `[` 前加反斜杠：
 
 ```md
 \[\[\[include: ./x.md]]]
 \[\[\[animate: ./a.animation.ts]]]
 ```
 
-行内同理：`\[\[\[rbook: dijkstra]]]` 会输出字面量 `[[[rbook: dijkstra]]]`。
+⚠️ 但要知道：**围栏代码块里的反斜杠会原样显示**。上面那行在页面上看起来就是
+`\[\[\[include: …]]]`（带反斜杠），而不是干净的 `[[[include: …]]]`。
+这是当前实现的限制，不是写法错。要展示干净形式，只能用下面两种办法：
+
+- 换成 `[[[dsa:]]]` / `[[[rbook:]]]` 这类**不展开**的指令做示例；
+- 或者在行内代码里写（行内代码中反斜杠也会保留，同样不干净）。
+
+所以最优解往往是：**不要在文章里教学 include/animate 的写法**；要教就指向
+`docs/interactive-animation.md` 这类不进入发布产物的文件（`docs/` 不在 catalog 里，
+不会被渲染）。
+
+行内：`\[\[\[rbook: dijkstra]]]` 会输出字面量 `[[[rbook: dijkstra]]]`（同样带反斜杠）。
 
 注意一个反直觉的细节：**单靠反引号包住不能保住 include/动画指令**（它们是解析前的预处理，
-`` `[[[include: ./x.md]]]` `` 会先被展开成 HTML 再塞进行内代码）。所以：
+`` `[[[include: ./x.md]]]` `` 会先被展开成 HTML 再塞进行内代码）。
 
-- 要写进**行内代码**给人看：反引号 + 反斜杠转义一起用，即 `` `\[\[\[include: ./x.md]]]` ``；
-- 要写进**围栏代码块**给人看：把整个围栏标成 `md`/`text` 也躲不掉，同样要写成 `\[\[\[…]]]`。
+而 `[[[dsa:]]]`、`[[[rbook: id]]]`、`[[[p: …]]]` 在 fence 里本来就安全，不需要转义。
+（`[[[dsa:]]]` 是插件自己屏蔽了代码段；另外两个走的是行内规则，时机在 tokenize 之后。）
+已经验证过的组合：
 
-`[[[rbook: id]]]` 和 `[[[p: …]]]` 走的是行内规则，在 fence 里本来就安全，不需要转义。
+| 围栏内写法 | 结果 |
+|---|---|
+| `[[[animate: ./x.ts]]]` | 变成 `动画加载失败` 错误框 |
+| `\[\[\[animate: ./x.ts]]]` | 原文，**但带反斜杠** |
+| `[[[include: ./x.md]]]` | 变成 `include 失败` 标记 |
+| `\[\[\[include: ./x.md]]]` | 原文，**但带反斜杠** |
+| `[[[dsa: spfa]]]` | 原文，干净 |
+| `[[[rbook: spfa]]]`、`[[[p: …]]]` | 原文，干净 |
 
 ## 十二、验证：跑真实渲染器，而不是靠预览
 
@@ -224,7 +293,7 @@ node .agents/skills/rbook-markdown/scripts/render-check.js graph/spfa/index.md -
 
 - **源码层**（先剥掉围栏与行内代码，所以正确转义过的示例不会被误报）：
   未知的 `[[[type: …]]]`、双方括号、未注册的 `:::` 名字、`++`/`==`/脚注/`[g1:]`；
-- **产物层**：`include-missing`、`rbook-animation--error`、`extra-link missing`。
+- **产物层**：`include-missing`、`rbook-animation--error`、`rbook-dsa-card--error`、`extra-link missing`。
 
 命中位置会给出源码行号，末尾打印全部诊断（含建议）。加 `--html` 可打印正文 HTML。
 退出码 0 = 干净，1 = 有残留或 error 级诊断，2 = 用法或环境错误。
@@ -243,7 +312,9 @@ npm run dev             # 本地预览；改 md / animation.ts 会整页刷新
 - 插件注册顺序：`src/publishing/markdown/plugin-registry.ts`
 - 站内 / 题目链接：`plugins/rbook-link.ts`（只认**三方**括号，单/双方括号完全不参与解析）
 - include 与 `file=`：`plugins/include.ts`
-- 动画：`plugins/animate.ts`
+- 内嵌动画：`plugins/animate.ts`
+- 外链动画卡片：`plugins/dsa.ts` + `book/demos.json`（生成物）+ `scripts/sync-demos.mjs`
+- 卡片样式与水果字体码点表：`src/markdown-style/dsa-card.scss`、`src/public/fonts/`
 - 容器：`plugins/containers.ts`（未注册的名字不会有任何提示）
 - 伪代码：`plugins/pseudocode.ts`、`plugins/fence.ts`
 - 数学：`plugins/math.ts`（内含"公式漏解析"的两类检测）

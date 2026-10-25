@@ -9,6 +9,17 @@
 - 正确处理输入、响应式布局和资源清理；
 - 在开发服务器和静态发布环境中验证动画。
 
+## 两种动画语法：内嵌与跳转
+
+书里有两个不同的指令，语义不能混用：
+
+| 语法 | 含义 | 适用场景 |
+| --- | --- | --- |
+| `[[[animate: ./x.animation.ts]]]` | 内嵌**本书打包**的 TS 动画模块，在正文里直接运行 | 动画逻辑简单、需要与正文紧密结合 |
+| `[[[dsa: quickSort]]]` | 生成一张卡片，**跳转**到外部动画站 | 演示已由 anima1 / dsa3 两个独立站点提供 |
+
+下文先讲内嵌（`animate`），最后一节讲外链卡片（`dsa`）。
+
 ## 最小示例
 
 动画属于文章目录。推荐把 Markdown 和动画入口放在一起：
@@ -552,3 +563,50 @@ export function mount(context: AnimationContext): void {
 - 旧 iframe 动画继续按旧方式工作，新动画使用本机制逐步迁移。
 
 当一个动画值得被多篇文章复用时，可以把纯算法函数或绘图工具提取到公共模块，但文章仍然只需要引用一个 `.animation.ts` 入口。入口保持小，复杂度留在模块内部，文章作者不需要了解构建和运行时的细节。
+
+---
+
+## 外链卡片：`[[[dsa: slug]]]`
+
+当演示已经由外部动画站提供时，不要用 `animate` 内嵌，而是生成一张跳转卡片：
+
+```md
+[[[dsa: quickSort]]]
+
+[[[dsa: floyd | 自己起的标题]]]
+```
+
+`slug` 必须在 `book/demos.json` 里注册；后面的 `| 自定义标题` 可选，用来覆盖注册表里的标题（`slug` 本身仍然要校验）。
+
+### 注册表 `book/demos.json`
+
+这张表是**生成物**，不要手改。它由 `scripts/sync-demos.mjs` 从两个动画仓库抓取：
+
+```bash
+node scripts/sync-demos.mjs          # 重新抓取并写入
+node scripts/sync-demos.mjs --check  # 只比对，CI 里可用来防止快照陈旧
+```
+
+脚本按兄弟目录约定找仓库（`../dsa`、`../dsa3_ts`），也可以用 `--anima1-dir=` / `--dsa3-dir=` 指定。两个仓库都不发布机器可读清单，所以脚本是这样取数据的：
+
+- **anima1**（静态站）：扫 `public/index.html` 的目录条目拿演示名与水果图标，标题取各演示自己的 `<title>`。
+- **dsa3**（Vue 站）：按文本解析 `src/algorithmRegistry.ts`，拿标题、描述、标签与 accent 配色。
+
+书仓库的构建只读已提交的 `book/demos.json`，不依赖另外两个仓库——服务器和 CI 上没有它们。
+
+### 卡片长什么样
+
+- 左侧图标：anima1 用内置的水果字体，dsa3 用它的内联 SVG；
+- 标题 + 站点徽章（`anima1` / `dsa3`）；
+- 描述与标签：dsa3 有就渲染，anima1 没有就省略；
+- 右侧 `↗`，点击在新标签页打开。
+
+### 出错了会怎样
+
+`slug` 写错、站点未在 `sites` 表里、manifest 结构损坏，都会产生 `phase: 'dsa'` 的 **error** 诊断，并让 `npm run build` 失败——和 `animate` 插件对越界路径的策略一致，避免把死链发布出去。
+
+代码块与行内代码里的 `[[[dsa: ...]]]` 会保持原文，方便在文章里写语法示例。
+
+### 图标资源
+
+水果字体（63KB）内置于 `src/public/fonts/fruit-icons.woff`，码点映射在 `src/markdown-style/dsa-card.scss` 的 `$fruit-icons` 里。**不从 anima1 直接引字体**：它的响应没有 `Access-Control-Allow-Origin`，跨域 `@font-face` 会被浏览器拒绝。新增水果时两处都要同步。

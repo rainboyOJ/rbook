@@ -194,7 +194,7 @@ const push = (why, count, sample, loc) => found.push({ why, count, sample, loc }
 
 // --- A1) 未知类型的三方括号指令 -------------------------------------------
 const KNOWN_DIRECTIVES = new Set([
-    'rbook', 'p', 'pp', 'problem', 'problem_info_solution', 'include', 'animate',
+    'rbook', 'p', 'pp', 'problem', 'problem_info_solution', 'include', 'animate', 'dsa',
 ])
 for (const m of scan.matchAll(/\[\[\[\s*([a-zA-Z_][a-zA-Z0-9_]*)\s*:/g)) {
     if (KNOWN_DIRECTIVES.has(m[1].toLowerCase())) continue
@@ -237,6 +237,7 @@ for (const { re, why } of SOURCE_CHECKS) {
 const MARKER_CHECKS = [
     { re: /include-missing/g, why: 'include 目标不存在或路径越界' },
     { re: /rbook-animation--error/g, why: 'animate 目标不存在、越界或不是 .animation.ts' },
+    { re: /rbook-dsa-card--error/g, why: 'dsa 卡片的 slug 未在 book/demos.json 注册（或站点缺失）' },
     { re: /extra-link missing/g, why: 'rbook / 题目链接找不到目标' },
 ]
 for (const { re, why } of MARKER_CHECKS) {
