@@ -1,0 +1,8 @@
+id: pre-contest-notes
+title: 比赛赛前注意事项
+file: index.md
+# Typst 源文件：由 scripts/build-typst.sh 编译成同目录下的同名 .pdf，
+# 再由 copy 复制进 dist，供 index.md 用 <iframe> 内嵌。
+typst: 比赛赛前注意事项.typ
+copy:
+  - 比赛赛前注意事项.pdf

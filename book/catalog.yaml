@@ -265,6 +265,8 @@
 - title: "附录"
   path: "appendix"
   children:
+    - title: "比赛赛前注意事项"
+      path: "pre_contest_notes/"
     - title: "软件"
       path: "SoftWare"
       children:
