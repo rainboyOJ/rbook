@@ -46,7 +46,7 @@
 - title: "枚举与排列组合"
   path: "enumeration_permutaion_combination/"
   children:
-    - title: "对数"
+    - title: "黑白气球"
       path: "pair_number"
     - title: "01序列"
       path: "01_sequence"
