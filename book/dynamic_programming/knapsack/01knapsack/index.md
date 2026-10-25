@@ -68,7 +68,7 @@ $$
 
 <video width="800" loop controls autoplay src="/video/knapsack01.mp4" type="video/mp4">Your browser does not support the video tag. </video>
 
-想看自己改数据、一步步看表格怎么填？试一下交互动画（可改物品重量/价值与容量 C）：
+想看自己改数据,一步步看表格怎么填?试试这个动画(可以改物品的重量,价值和容量C):
 
 [[[dsa: 01Knapsack]]]
 
@@ -168,7 +168,7 @@ cur与1异或,可以不停的变成0,1,0,1,0,1...,达到了一种切换(toggle)�
 
 <video width="800" loop controls autoplay src="/video/knapsack01_1d.mp4" type="video/mp4">Your browser does not support the video tag. </video>
 
-交互动画里可以切到一维演示，重点看逆序枚举时旧值残影的对比：
+想看逆序枚举时旧值是怎么被"残影"掉的,试试这个动画:
 
 [[[dsa: 01Knapsack1]]]
 
@@ -215,7 +215,7 @@ int main(){
 ```haskell [g1:haskell] file=./code/01_knsapsack.hs
 ```
 
-想要可交互地改数据、一步步看倒序枚举怎么更新 `f[]`，见本页上方「01背包一维写法」那节的动画卡片。
+想看倒序枚举怎么一行行地更新 `f[]`,见本页上方「01背包一维写法」的动画卡片.
 
 
 ## 恰好装满

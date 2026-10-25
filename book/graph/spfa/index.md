@@ -46,6 +46,10 @@
 
 [[[animate: ./spfa.animation.ts]]]
 
+想换一组边权,或者拿一个带往返负环的图自己跑一遍?试试这个动画:
+
+[[[dsa: spfa]]]
+
 ![示例图](./images/graph_example.svg)
 
 图中边权如下：
