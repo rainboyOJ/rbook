@@ -17,7 +17,7 @@
         "typecheck:packages": "npm run typecheck --workspaces --if-present",
         "typecheck:animations": "tsc -p tsconfig.animations.json",
         "test": "npm run test:root && npm run test:packages",
-        "test:root": "node --test tests/",
+        "test:root": "node --test \"tests/**/*.test.js\"",
         "test:packages": "npm run test --workspaces --if-present",
         "render:fixture": "node tests/run-fixture.js",
         "check:catalog": "node tests/check-catalog.js",

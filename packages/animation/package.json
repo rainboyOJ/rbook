@@ -4,7 +4,7 @@
     "type": "module",
     "scripts": {
         "typecheck": "tsc -p tsconfig.json",
-        "test": "node --test test/"
+        "test": "node --test \"test/**/*.test.js\""
     },
     "exports": {
         ".": "./src/index.ts",
