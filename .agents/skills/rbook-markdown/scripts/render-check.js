@@ -249,7 +249,10 @@ const errors = diag.filter(d => d.level === 'error')
 
 console.log('=== ' + entryPath + ' ===')
 console.log('正文 HTML 长度: ' + body.length + (showHtml ? '' : '（加 --html 打印正文）'))
-if (showHtml) console.log(body)
+// 用 process.stdout.write 而非 console.log：正文 HTML 可达数百 KB，
+// console.log 在输出管道（| grep / | wc）时会因背压丢掉尾部，
+// 导致统计结果偏小（实际 285KB 只输出 65KB）。
+if (showHtml) process.stdout.write(body + '\n')
 
 if (found.length === 0) {
     console.log('✅ 没有发现方言残留')
@@ -275,4 +278,7 @@ if (diag.length) {
     }
 }
 
-process.exit(found.length === 0 && errors.length === 0 ? 0 : 1)
+// 用 process.exitCode 而不是 process.exit()：后者会立即终止进程，
+// 丢掉 stdout 尚未 flush 的缓冲区，使长正文（数百 KB）被截断。
+// 设置 exitCode 后让 Node 自然退出，输出才完整。
+process.exitCode = found.length === 0 && errors.length === 0 ? 0 : 1
