@@ -58,7 +58,15 @@
 // stroke 的颜色取当前文字填充色，避免给彩色标题叠上一层黑边。
 #show strong: it => context text(stroke: 0.035em + text.fill, it.body)
 
-#set par(justify: true, leading: 0.78em, spacing: 1.05em)
+#set par(justify: true, leading: 0.78em, spacing: 0.92em)
+
+// 中文段首缩进 2 字符。all: true 让紧跟标题的第一段也缩进，符合中文习惯。
+// 列表与表格里要按回去 —— 必须用容器级 show（show enum / show list / show table），
+// 不能写成 show enum.item：那样每个条目被包一层，枚举计数会被打断（实测出现 1,1,2）。
+#set par(first-line-indent: (amount: 2em, all: true))
+#show enum: it => { set par(first-line-indent: 0em); it }
+#show list: it => { set par(first-line-indent: 0em); it }
+#show table: it => { set par(first-line-indent: 0em); it }
 #set heading(numbering: "1.1  ")
 #show heading: it => {
   set text(font: ("LXGW WenKai", "Noto Sans CJK SC"))
@@ -142,9 +150,10 @@
   fill: color.lighten(88%),
   stroke: (left: 3pt + color),
   radius: (right: 3pt),
-  text(size: 9.5pt, [
-    #text(fill: color.darken(25%), stroke: 0.03em + color.darken(25%))[#title] #h(0.4em) #body
-  ]),
+  text(size: 9.5pt, {
+    set par(first-line-indent: 0em)
+    [#text(fill: color.darken(25%), stroke: 0.03em + color.darken(25%))[#title] #h(0.4em) #body]
+  }),
 )
 
 #let tip(title: "技巧", color: rgb("#3a8f5a"), body) = note(title: title, color: color, body)
@@ -184,7 +193,9 @@
     fill: rgb("#f5f7fa"),
   stroke: (left: 3pt + rgb("#1f3a5f")),
   radius: (right: 4pt),
-  text(size: 9.5pt)[
+  text(size: 9.5pt, {
+    set par(first-line-indent: 0em)
+    [
     *摘要*　本文是 2024 版赛前注意事项的 2026 修订版，面向 CSP-J/S 第二轮与 NOIP 的选手。
     文中删去了全部虚拟机（VMWare）相关内容，比赛环境统一按 CCF 官方发布的
     *NOI Linux 2.0（noilinux 2.0）* 改写；内容包括环境速查、赛前必练清单、常用代码模板、
@@ -192,7 +203,8 @@
 
     #v(0.5em)
     *关键字*　CSP-J/S；NOIP；NOI Linux 2.0；代码模板；对拍；考试细节
-  ],
+    ]
+  }),
 )
 
 #block(
@@ -200,14 +212,17 @@
   fill: rgb("#fffaf0"),
   stroke: (left: 3pt + rgb("#e6a23c")),
   radius: (right: 4pt),
-  text(size: 9.5pt)[
+  text(size: 9.5pt, {
+    set par(first-line-indent: 0em)
+    [
     *本版改动*　
     #set enum(numbering: "1.")
     + 删除原第 1 章全部虚拟机（VMWare）内容：不再讲打开虚拟机、传文件的三种方法；
     + 比赛环境统一改写为 *NOI Linux 2.0（noilinux 2.0）*，新增环境速查表、终端与编辑器选择、五个易踩的坑；
     + 代码模板全部更新：统一为 C++14 + `freopen` 写法，补上二进制枚举、`next_permutation`、链式前向星；
     + 新增「赛前必须练熟的五件事」「代码里的常见错误」「时间分配建议」与附录检查清单。
-  ],
+    ]
+  }),
 )
 
 #v(0.9em)
@@ -664,8 +679,11 @@ chmod +x check.sh
 == 图论：存图
 
 J 组、S 组的前两题，存图直接用邻接矩阵 + 暴力 DFS / BFS 就够骗分了。
+数据规模大一些，就用链式前向星或 vector 邻接表。
 
 ```cpp
+const int maxn = 1e5 + 5;
+
 // 1) 邻接矩阵：n <= 1000，边权、重边都无所谓
 int g[1005][1005];
 
@@ -677,9 +695,21 @@ void add(int u, int v, int w = 1) {
     e[++ecnt] = {v, w, head[u]};
     head[u] = ecnt;
 }
+```
 
-// 3) vector 邻接表：代码最短，常数可接受
-vector<int> g2[100005];
+```cpp
+// 3) vector 邻接表：写起来最短，把边存成结构体
+//    名字用 g2，避开上面邻接矩阵的 g；maxn 就是上面那个上界
+struct edge {
+    int v, w;
+};
+
+vector<edge> g2[maxn]; // g2[u]：从 u 出发的全部边
+
+void add_edge(int u, int v, int w) {
+    g2[u].push_back({v, w});
+    g2[v].push_back({u, w}); // 无向图
+}
 ```
 
 == 常用命令
