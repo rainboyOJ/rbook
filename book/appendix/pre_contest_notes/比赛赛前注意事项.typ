@@ -6,6 +6,7 @@
   title: "2026 比赛赛前注意事项",
   author: "rainboy",
   keywords: ("CSP-J/S", "NOIP", "NOI Linux 2.0", "赛前准备", "代码模板"),
+  date: datetime(year: 2026, month: 10, day: 1),
 )
 
 #set page(
@@ -14,21 +15,26 @@
   columns: 1,
   margin: (x: 2.3cm, top: 2.3cm, bottom: 2.2cm),
   numbering: "1",
+  // 页眉：文字 + 下方一条细线。细线用 place 抽出文档流，不占页眉高度。
   header: context {
     let h = if counter(page).get().first() == 1 { none } else {
-      set text(size: 8.5pt, fill: luma(120))
-      grid(
+      set text(size: 8.5pt, fill: luma(115))
+      block(below: 0.45em, grid(
         columns: (1fr, auto),
         align: (left, right),
         [2026 比赛赛前注意事项],
         [rainboy · NOI Linux 2.0],
-      )
+      ))
+      place(top + left, line(length: 100%, stroke: 0.5pt + luma(198)))
     }
     h
   },
+  // 页脚用「当前页 / 总页数」，比长破折号包围的页码更安静
   footer: context {
-    set text(size: 8.5pt, fill: luma(120))
-    align(center, counter(page).display("— 1 —", both: true))
+    set text(size: 8.5pt, fill: luma(115))
+    let cur = counter(page).get().at(0)
+    let tot = counter(page).final().at(0)
+    align(center)[#cur #h(0.35em) / #h(0.35em) #tot]
   },
 )
 
@@ -58,9 +64,11 @@
   set text(font: ("LXGW WenKai", "Noto Sans CJK SC"))
   block(above: 1.5em, below: 0.9em, it)
 }
-#show heading.where(level: 1): it => block(above: 1.9em, below: 1em, {
+#show heading.where(level: 1): it => block(above: 2em, below: 1.05em, {
   set text(size: 15pt, fill: rgb("#1f3a5f"), stroke: 0.045em + rgb("#1f3a5f"))
   it
+  v(0.26em)
+  line(length: 100%, stroke: 0.6pt + rgb("#c2d0de"))
 })
 #show heading.where(level: 2): it => {
   set text(size: 12pt, fill: rgb("#25476f"), stroke: 0.04em + rgb("#25476f"))
@@ -72,15 +80,60 @@
 }
 
 // ---------- 代码块 ----------
+// 代码块：左侧一条色条 + 其余三边细框，和 note/tip 的视觉语言保持一致
 #show raw.where(block: true): it => block(
   width: 100%,
   inset: (x: 0.9em, y: 0.7em),
   fill: rgb("#f7f9fb"),
-  stroke: 0.5pt + rgb("#d5dde5"),
-  radius: 4pt,
+  stroke: (
+    left: 3pt + rgb("#a9c0d6"),
+    top: 0.5pt + rgb("#dde4eb"),
+    bottom: 0.5pt + rgb("#dde4eb"),
+    right: 0.5pt + rgb("#dde4eb"),
+  ),
+  radius: (right: 4pt),
   breakable: false,
   text(size: 8.6pt, it),
 )
+
+// 表题：小一号、灰一点，与正文拉开层次
+#show figure.caption: set text(size: 9pt, fill: luma(95))
+
+// 中文排版惯例是「表题在上、图题在下」，Typst 默认都放下面，这里把表题提到表格上方
+#show figure.where(kind: table): set figure.caption(position: top)
+
+// 参考文献里的链接：与标题同色，避免正文里一片默认蓝
+#show link: set text(fill: rgb("#1f3a5f"))
+#show link: underline
+
+// ---------- 表格：booktabs 风格 ----------
+// 参考 PKU-Typst/ichigo 的参数表写法：去掉所有竖线与内网格，只保留顶部粗线、
+// 表头细线、底部粗线这三条横线，行与行之间靠 row-gutter 拉开距离。
+// 满格网格看起来像 Excel，三线表才像排过版。
+#let rule-strong = 1pt + rgb("#1f3a5f")
+#let rule-light = 0.5pt + luma(172)
+
+// 注意：Typst 里 `..sink` 之前的参数是 positional-only，不能按名传。这三个参数
+// 都必须给默认值，否则 `booktabs(columns: …)` 会报 "the argument `columns` is positional"。
+#let booktabs(columns: 1, align: left, header: none, ..rows) = {
+  let hdr = if header == none {
+    ()
+  }
+  else {
+    (table.header(..header), table.hline(stroke: rule-light))
+  }
+  table(
+    columns: columns,
+    align: align,
+    inset: (x: 0.55em, y: 0.34em),
+    stroke: none,
+    row-gutter: 0.6em,
+    table.hline(stroke: rule-strong),
+    ..hdr,
+    ..rows.pos(),
+    table.hline(stroke: rule-strong),
+  )
+}
 
 // ---------- 提示框 ----------
 #let note(title: "注意", color: rgb("#e6a23c"), body) = block(
@@ -97,24 +150,38 @@
 #let tip(title: "技巧", color: rgb("#3a8f5a"), body) = note(title: title, color: color, body)
 
 // ---------- 封面 ----------
-#align(center)[
+// ---------- 标题区 ----------
+// 左对齐的编辑式封面（思路取自 ichigo 的 simple 主题）：一行小号眉题、一个大标题、
+// 粗细双线，再接左对齐的作者信息。比全部居中的堆叠更稳，也更省纵向空间。
+// 整页用 height: 100% 撑满，末尾的 1fr 把一行版本信息压到页底，避免封面下方空一块。
+#block(width: 100%, height: 100%)[
+  #text(size: 8.8pt, fill: rgb("#7b8b9b"), tracking: 0.14em)[
+    CSP-J/S 2026　·　NOIP 2026　·　NOI LINUX 2.0
+  ]
+  #v(0.5em)
+  #text(size: 26pt, fill: rgb("#1f3a5f"), stroke: 0.05em + rgb("#1f3a5f"))[
+    比赛赛前注意事项
+  ]
+  #v(0.45em)
+  #line(length: 100%, stroke: 2.2pt + rgb("#1f3a5f"))
+  #v(0.1em)
+  #line(length: 100%, stroke: 0.5pt + luma(185))
+  #v(0.75em)
+  #grid(
+    columns: (1fr, auto),
+    align: (left, bottom),
+    [
+      #text(size: 10.5pt, stroke: 0.03em)[rainboy]　#text(size: 10pt, fill: luma(85))[宿城第一中学]
+    ],
+    [
+      #text(size: 9pt, fill: luma(105))[rainboylvx\@qq.com　·　idx.roj.ac.cn]
+    ],
+  )
   #v(1.2em)
-  #text(size: 26pt, fill: rgb("#1f3a5f"), stroke: 0.05em + rgb("#1f3a5f"))[2026 比赛赛前注意事项]
-  #v(0.6em)
-  #text(size: 11pt, fill: luma(90))[CSP-J/S 2026 · NOIP 2026 · NOI Linux 2.0 环境]
-  #v(1.4em)
-]
 
-#align(center)[
-  #text(size: 11pt)[rainboy] \
-  #text(size: 10pt, fill: luma(90))[宿城第一中学] \
-  #text(size: 9.5pt, fill: luma(100))[邮箱： rainboylvx\@qq.com　网站： idx.roj.ac.cn]
-]
-#v(1em)
-
-#block(
-  inset: (x: 1em, y: 0.9em),
-  fill: rgb("#f5f7fa"),
+  #block(
+    inset: (x: 1em, y: 0.9em),
+    fill: rgb("#f5f7fa"),
   stroke: (left: 3pt + rgb("#1f3a5f")),
   radius: (right: 4pt),
   text(size: 9.5pt)[
@@ -150,11 +217,8 @@
 ]
 #v(0.3em)
 
-#table(
+#booktabs(
   columns: (auto, 1fr),
-  align: (left, left),
-  inset: (x: 0.7em, y: 0.42em),
-  stroke: 0.5pt + luma(210),
   [*比赛日期*], [2026 年 10 月 31 日（周六）],
   [*比赛时间*], [入门级 08:30 – 12:00　提高级 14:30 – 18:30],
   [*比赛系统*], [NOI Linux 2.0（noilinux 2.0，Ubuntu 20.04.1 定制，64 位）],
@@ -163,7 +227,12 @@
   [*关键动作*], [写对 `freopen`，写对文件名，删掉所有调试输出],
 )
 
-#v(0.6em)
+  #v(1fr)
+  #align(center)[
+    #text(size: 8.5pt, fill: luma(140))[2026 年 10 月修订　·　软件版本与时间安排以 CCF 官方公告为准]
+  ]
+]
+
 #pagebreak()
 
 #outline(
@@ -181,16 +250,16 @@
 CSP-J/S 2026 第二轮认证于 *2026 年 10 月 31 日（星期六）* 在全国各省同步举行：
 
 #figure(
-  table(
+  booktabs(
     columns: (auto, 1fr, 1fr),
     align: (left, center, center),
-    inset: 0.6em,
-    stroke: 0.5pt + luma(200),
-    table.header([*日期*], [*08:30 – 12:00*], [*14:30 – 18:30*]),
+    header: ([*日期*], [*08:30 – 12:00*], [*14:30 – 18:30*]),
     [2026-10-31（周六）], [CSP-J2（入门级）], [CSP-S2（提高级）],
   ),
   caption: [CSP-J/S 2026 第二轮认证时间],
 )
+
+#v(1.35em)
 
 #let kv = (
   ([开考前入场], [一般要求提前 40–45 分钟到达考点，凭准考证与有效证件入场]),
@@ -200,12 +269,13 @@ CSP-J/S 2026 第二轮认证于 *2026 年 10 月 31 日（星期六）* 在全�
   ([考试时长], [每组 3.5 小时，4 道题，通常每道题 100 分]),
 )
 
-#table(
-  columns: (auto, 1fr),
-  align: (left, left),
-  inset: (x: 0.7em, y: 0.5em),
-  stroke: 0.5pt + luma(205),
-  ..kv.map(((k, v)) => (text(stroke: 0.03em)[#k], v)).flatten(),
+#figure(
+  booktabs(
+
+    columns: (auto, 1fr),
+    ..kv.map(((k, v)) => (text(stroke: 0.03em)[#k], v)).flatten(),
+  ),
+  caption: [第二轮认证的入场、离场与缴费规则],
 )
 
 == NOI Linux 2.0 环境速查
@@ -214,12 +284,9 @@ CSP-J/S 2026 第二轮认证于 *2026 年 10 月 31 日（星期六）* 在全�
 NOI 系列比赛与 CSP-J/S 的标准环境，2026 年继续沿用。它的软件清单在赛前最好背下来：
 
 #figure(
-  table(
+  booktabs(
     columns: (auto, 1fr, auto),
-    align: (left, left, left),
-    inset: (x: 0.7em, y: 0.45em),
-    stroke: 0.5pt + luma(205),
-    table.header([*类别*], [*软件 / 模块*], [*版本*]),
+    header: ([*类别*], [*软件 / 模块*], [*版本*]),
     table.cell(rowspan: 1)[系统], [Kernel（64 位）], [5.4.0-42-generic],
     [语言环境], [GCC / G++], [9.3.0],
     [\ ], [FPC（Pascal）], [3.0.4],
@@ -293,16 +360,17 @@ cd ~/AH-J00001
 
 == 选一个顺手的编辑器
 
-#table(
-  columns: (auto, 1fr),
-  align: (left, left),
-  inset: (x: 0.7em, y: 0.45em),
-  stroke: 0.5pt + luma(205),
-  table.header([*编辑器*], [*说明*]),
-  [Code::Blocks], [开箱即用的 C/C++ IDE，自带编译按钮，无需插件，最保险],
-  [VS Code], [界面现代，但需要装 C/C++ 插件才能补全与调试；若考场不能联网，就只当高级记事本用],
-  [Vim / nano], [纯终端操作，速度最快，前提是你已经用熟了],
-  [Geany], [轻量级 IDE，够用],
+#figure(
+  booktabs(
+
+    columns: (auto, 1fr),
+    header: ([*编辑器*], [*说明*]),
+    [Code::Blocks], [开箱即用的 C/C++ IDE，自带编译按钮，无需插件，最保险],
+    [VS Code], [界面现代，但需要装 C/C++ 插件才能补全与调试；若考场不能联网，就只当高级记事本用],
+    [Vim / nano], [纯终端操作，速度最快，前提是你已经用熟了],
+    [Geany], [轻量级 IDE，够用],
+  ),
+  caption: [noilinux 2.0 里可选的编辑器],
 )
 
 #tip[
@@ -683,17 +751,18 @@ timeout 1.1s ./1 < in
 
 == 代码里的常见错误
 
-#table(
-  columns: (auto, 1fr),
-  align: (left, left),
-  inset: (x: 0.7em, y: 0.45em),
-  stroke: 0.5pt + luma(205),
-  table.header([*现象*], [*最可能的原因*]),
-  [全部 WA / 0 分], [文件名写错、忘了 `freopen`、输出多一个字符],
-  [RE（运行时错误）], [数组越界、开得太小、递归爆栈、除以 0、`vector` 下标超出],
-  [TLE（超时）], [复杂度过高；或用了 `endl`、`cin` 未关同步导致常数过大],
-  [MLE（超内存）], [数组过大，例如 `int a[1e8]` 就已经 400 MB],
-  [本地对、评测错], [未定义行为（越界读写、未初始化变量），或依赖了本机才有的东西],
+#figure(
+  booktabs(
+
+    columns: (auto, 1fr),
+    header: ([*现象*], [*最可能的原因*]),
+    [全部 WA / 0 分], [文件名写错、忘了 `freopen`、输出多一个字符],
+    [RE（运行时错误）], [数组越界、开得太小、递归爆栈、除以 0、`vector` 下标超出],
+    [TLE（超时）], [复杂度过高；或用了 `endl`、`cin` 未关同步导致常数过大],
+    [MLE（超内存）], [数组过大，例如 `int a[1e8]` 就已经 400 MB],
+    [本地对、评测错], [未定义行为（越界读写、未初始化变量），或依赖了本机才有的东西],
+  ),
+  caption: [常见错误现象与最可能的原因],
 )
 
 == 数据规模与内存
@@ -715,17 +784,18 @@ timeout 1.1s ./1 < in
 
 == 时间分配建议
 
-#table(
-  columns: (auto, 1fr),
-  align: (left, left),
-  inset: (x: 0.7em, y: 0.45em),
-  stroke: 0.5pt + luma(205),
-  table.header([*时段*], [*做什么*]),
-  [前 10 分钟], [通读 4 道题，按难度排序，决定开题顺序],
-  [第 10 – 60 分钟], [把最容易的一题写对、写稳，先拿到第一份分],
-  [第 60 – 150 分钟], [主攻第二题，同时对其他题写暴力拿部分分],
-  [第 150 – 190 分钟], [检查所有题的 `freopen`、文件名、输出格式；能对拍就对拍],
-  [最后 20 分钟], [停止写新代码，只做检查与提交；确保每个文件夹里都有能编译的 `.cpp`],
+#figure(
+  booktabs(
+
+    columns: (auto, 1fr),
+    header: ([*时段*], [*做什么*]),
+    [前 10 分钟], [通读 4 道题，按难度排序，决定开题顺序],
+    [第 10 – 60 分钟], [把最容易的一题写对、写稳，先拿到第一份分],
+    [第 60 – 150 分钟], [主攻第二题，同时对其他题写暴力拿部分分],
+    [第 150 – 190 分钟], [检查所有题的 `freopen`、文件名、输出格式；能对拍就对拍],
+    [最后 20 分钟], [停止写新代码，只做检查与提交；确保每个文件夹里都有能编译的 `.cpp`],
+  ),
+  caption: [3.5 小时的时间分配建议],
 )
 
 #note(title: "最后 20 分钟不要做的事", color: rgb("#c0392b"))[
