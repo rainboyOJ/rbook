@@ -1,60 +1,72 @@
-#include <algorithm>
-#include <functional>
-#include <queue>
-#include <utility>
-#include <vector>
+#include <bits/stdc++.h>
+using namespace std;
 
-struct Dijkstra {
-    using ll = long long;
-    static constexpr ll INF = (1LL << 62);
+int n, m;
+int s;
 
-    struct Edge {
-        int to;
-        ll w;
-    };
+typedef long long ll;
+typedef pair<ll, ll> State; // (dis, node_id)，距离在前
+const ll INF = (1ll << 62);  // 约 4.6e18，加边权不会溢出
 
-    std::vector<std::vector<Edge>> g;
-    std::vector<ll> dis;
-    std::vector<int> pre;
+const int maxn = 100000 + 5;
 
-    // 点编号 1..n；所有边权非负，有限最短距离必须小于 INF。
-    explicit Dijkstra(int n) : g(n + 1), dis(n + 1, INF), pre(n + 1, -1) {}
+struct Edge {
+    int to;
+    ll w;
+};
 
-    void add_edge(int u, int v, ll w) {
-        g[u].push_back({v, w}); // 无向边需要再添加 v -> u
-    }
+vector<Edge> g[maxn]; // g[u]：从 u 出发的全部边
+ll dis[maxn];         // dis[i]：s 到 i 的当前最短距离
 
-    void run(int s) {
-        std::fill(dis.begin(), dis.end(), INF);
-        std::fill(pre.begin(), pre.end(), -1);
-        using State = std::pair<ll, int>; // 距离在前，点编号在后
-        std::priority_queue<State, std::vector<State>, std::greater<State>> q;
-        dis[s] = 0;
-        q.push({0, s});
+void add_edge(int u, int v, ll w) {
+    g[u].push_back({v, w}); // 无向边需要再添加 v -> u
+    // g[v].push_back({u, w}); // 无向图
+}
 
-        while (!q.empty()) {
-            auto [du, u] = q.top();
-            q.pop();
-            if (du != dis[u]) continue; // 旧记录不再扫描出边
+void dijkstra(int s) {
+    fill(dis, dis + n + 1, INF); // 只需清到 dis[n+1]
+    // pq 优化：小根堆，距离小的在上
+    // priority_queue 默认是 less（大根），这里用 greater 反转
+    priority_queue<State, vector<State>, greater<State>> q;
 
-            for (const auto& e : g[u]) {
-                // du < INF，且 w >= 0；先判断再相加，避免溢出。
-                if (e.w >= INF - du) continue;
-                ll nd = du + e.w;
-                if (nd >= dis[e.to]) continue; // 只接受严格改善
-                dis[e.to] = nd;
-                pre[e.to] = u;
-                q.push({nd, e.to});
-            }
+    dis[s] = 0;
+    q.push({0, s});
+
+    while (!q.empty()) {
+        // 更像 BFS：每次取出当前距离最小的点
+        ll du = q.top().first;
+        ll u = q.top().second;
+        q.pop();
+
+        if (du > dis[u])
+            continue; // 旧记录，不再扫描出边
+
+        for (auto &e : g[u]) {
+            // du 一定 < INF（只有 nd < dis[v] <= INF 才会入堆），
+            // w 非负，long long 相加不会溢出。
+            ll nd = du + e.w;
+            if (nd >= dis[e.to])
+                continue;
+            dis[e.to] = nd;
+            // pre[e.to] = u;
+            q.push({nd, e.to}); // updated QUEUE
         }
     }
+}
 
-    // run 后使用；不可达返回空数组，否则返回一条最短路径。
-    std::vector<int> path_to(int t) const {
-        if (dis[t] == INF) return {};
-        std::vector<int> path;
-        for (int u = t; u != -1; u = pre[u]) path.push_back(u);
-        std::reverse(path.begin(), path.end());
-        return path;
+int main() {
+    cin >> n >> m;
+    cin >> s;
+    for (int i = 1; i <= m; i++) {
+        int u, v, w;
+        cin >> u >> v >> w;
+        add_edge(u, v, w);
     }
-};
+
+    dijkstra(s);
+
+    for (int i = 1; i <= n; i++) {
+        cout << dis[i] << " ";
+    }
+    return 0;
+}
