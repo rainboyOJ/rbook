@@ -76,7 +76,11 @@ $$
 
 <video width="800" loop controls autoplay src="/video/knapsack01.mp4" type="video/mp4">Your browser does not support the video tag. </video>
 
-想看自己改数据,一步步看表格怎么填?试试这个动画(可以改物品的重量,价值和容量C):
+想一步步看清这张表是怎么填出来的?下面这个交互动画会逐格算出f[i][j],并标出每一格用到的两个来源(`f[i-1][j]` 与 `f[i-1][j-w[i]]`),最后再从答案`f(n,C)`往回倒推,得到到底选了哪几个物品:
+
+[[[animate: ./knapsack01.animation.ts]]]
+
+想在更大的画布上自由试数据?独立演示站里还有一份可以改物品的重量,价值和容量C的版本:
 
 [[[dsa: 01Knapsack]]]
 
