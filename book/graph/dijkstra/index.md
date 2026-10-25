@@ -56,6 +56,10 @@ $$
 
 [[[animate: ./dijkstra.animation.ts]]]
 
+想换一组边权，或者自己一步步看最短路径树怎么长起来？试试这个动画：
+
+[[[dsa: dijkstra]]]
+
 ![示例图](./images/graph_example.svg)
 
 图中边权：

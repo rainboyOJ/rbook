@@ -153,13 +153,16 @@ function collectDsa3(dir) {
     }
     const src = fs.readFileSync(registryFile, 'utf8')
 
-    // 图标名 -> SVG body（插件侧持有同一份定义，这里只记录名字）。
-    const iconNames = new Set()
+    // 图标名 -> SVG body。把 body 直接写进快照，插件就不需要再维护一份
+    // 硬编码的图标表；dsa3 新增图标时无需同步修改书仓库。
+    const iconBodies = new Map()
     const iconBlockStart = src.indexOf('const icons = {')
     const iconBlockEnd = src.indexOf('} satisfies Record')
     if (iconBlockStart >= 0 && iconBlockEnd > iconBlockStart) {
         const block = src.slice(iconBlockStart, iconBlockEnd)
-        for (const match of block.matchAll(/(\w+):\s*\{\s*body:/g)) iconNames.add(match[1])
+        for (const match of block.matchAll(/(\w+):\s*\{\s*body:\s*'((?:[^'\\]|\\.)*)'/g)) {
+            iconBodies.set(match[1], match[2])
+        }
     }
 
     const arrayStart = src.indexOf('export const algorithmRegistry')
@@ -190,7 +193,9 @@ function collectDsa3(dir) {
             description: pick(/\bdescription:\s*'([^']*)'/),
             tags,
             accent: pick(/\baccent:\s*'(#[0-9A-Fa-f]{3,8})'/),
-            icon: icon && iconNames.has(icon) ? icon : null,
+            // 图标名只用于快照可读性；真正渲染用的是 iconSvg
+            icon: icon && iconBodies.has(icon) ? icon : null,
+            iconSvg: icon && iconBodies.has(icon) ? iconBodies.get(icon) : null,
         })
     })
 
@@ -225,7 +230,8 @@ function buildSnapshot({ anima1Dir, dsa3Dir }) {
             title: item.title || item.slug,
             icon: item.icon,
         }
-        // 描述/标签/配色都是 dsa3 独有的，缺就不写，避免快照里出现空字段。
+        // 描述/标签/配色/svg 图标都是 dsa3 独有的，缺就不写，避免快照里出现空字段。
+        if (item.iconSvg) entry.iconSvg = item.iconSvg
         if (item.description) entry.description = item.description
         if (item.tags && item.tags.length > 0) entry.tags = item.tags
         if (item.accent) entry.accent = item.accent

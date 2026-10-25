@@ -48,6 +48,7 @@
       "path": "/Animate/bfs/",
       "title": "BFS 遍历",
       "icon": "search",
+      "iconSvg": "<g fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\"><circle cx=\"11\" cy=\"11\" r=\"8\"/><path d=\"m21 21-4.35-4.35\"/></g>",
       "description": "从起点按层访问其所在的可达分量。",
       "tags": [
         "无向图",
@@ -60,6 +61,7 @@
       "path": "/Animate/bfs_shortest_path/",
       "title": "BFS 最短路",
       "icon": "layers",
+      "iconSvg": "<g fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\"><path d=\"m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z\"/><path d=\"m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65\"/><path d=\"m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65\"/></g>",
       "description": "在权值相同的图中寻找最短路径。",
       "tags": [
         "无向图",
@@ -90,6 +92,7 @@
       "path": "/Animate/dfs/",
       "title": "DFS 遍历",
       "icon": "route",
+      "iconSvg": "<g fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\"><circle cx=\"6\" cy=\"19\" r=\"3\"/><path d=\"M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15\"/><circle cx=\"18\" cy=\"5\" r=\"3\"/></g>",
       "description": "从起点沿路径深入探索其所在的可达分量。",
       "tags": [
         "无向图",
@@ -102,12 +105,27 @@
       "path": "/Animate/dfsscc/",
       "title": "强连通分量",
       "icon": "component",
+      "iconSvg": "<path fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M15.536 11.293a1 1 0 0 0 0 1.414l2.376 2.377a1 1 0 0 0 1.414 0l2.377-2.377a1 1 0 0 0 0-1.414l-2.377-2.377a1 1 0 0 0-1.414 0zm-13.239 0a1 1 0 0 0 0 1.414l2.377 2.377a1 1 0 0 0 1.414 0l2.377-2.377a1 1 0 0 0 0-1.414L6.088 8.916a1 1 0 0 0-1.414 0zm6.619 6.619a1 1 0 0 0 0 1.415l2.377 2.376a1 1 0 0 0 1.414 0l2.377-2.376a1 1 0 0 0 0-1.415l-2.377-2.376a1 1 0 0 0-1.414 0zm0-13.238a1 1 0 0 0 0 1.414l2.377 2.376a1 1 0 0 0 1.414 0l2.377-2.376a1 1 0 0 0 0-1.414l-2.377-2.377a1 1 0 0 0-1.414 0z\"/>",
       "description": "识别有向图中彼此可达的节点集合。",
       "tags": [
         "深度优先",
         "有向图"
       ],
       "accent": "#3157a4"
+    },
+    "dijkstra": {
+      "site": "dsa3",
+      "path": "/Animate/dijkstra/",
+      "title": "Dijkstra 单源最短路",
+      "icon": "shortest",
+      "iconSvg": "<g fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\"><circle cx=\"5\" cy=\"19\" r=\"2.5\"/><circle cx=\"19\" cy=\"5\" r=\"2.5\"/><path d=\"M7.5 18 12 13.5l-2-4 3.5-2 4 4.5\"/></g>",
+      "description": "用优先队列逐个确定结点，观察松弛与最短路径树的生长。",
+      "tags": [
+        "有向图",
+        "带权",
+        "优先队列"
+      ],
+      "accent": "#2563eb"
     },
     "factorial": {
       "site": "anima1",
@@ -120,6 +138,7 @@
       "path": "/Animate/fleury/",
       "title": "Fleury 算法",
       "icon": "route",
+      "iconSvg": "<g fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\"><circle cx=\"6\" cy=\"19\" r=\"3\"/><path d=\"M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15\"/><circle cx=\"18\" cy=\"5\" r=\"3\"/></g>",
       "description": "沿边逐步构造欧拉迹，并判断桥的取舍。",
       "tags": [
         "无向图",
@@ -132,6 +151,7 @@
       "path": "/Animate/floyd/",
       "title": "Floyd 全源最短路",
       "icon": "layers",
+      "iconSvg": "<g fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\"><path d=\"m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z\"/><path d=\"m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65\"/><path d=\"m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65\"/></g>",
       "description": "对照三维分层 DP 与二维原地更新，观察距离表和最短路径的变化。",
       "tags": [
         "动态规划",
@@ -168,6 +188,7 @@
       "path": "/Animate/hierholzer/",
       "title": "Hierholzer 算法",
       "icon": "route",
+      "iconSvg": "<g fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\"><circle cx=\"6\" cy=\"19\" r=\"3\"/><path d=\"M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15\"/><circle cx=\"18\" cy=\"5\" r=\"3\"/></g>",
       "description": "沿未用边前进、无路再回溯收路，构造欧拉路与欧拉回路。",
       "tags": [
         "无向图",
@@ -180,6 +201,7 @@
       "path": "/Animate/hungarian/",
       "title": "二分图最大匹配（匈牙利算法）",
       "icon": "match",
+      "iconSvg": "<g fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\"><path d=\"M8 6l8 6M8 18h8\"/></g><g fill=\"currentColor\"><circle cx=\"6\" cy=\"6\" r=\"2\"/><circle cx=\"6\" cy=\"12\" r=\"2\"/><circle cx=\"6\" cy=\"18\" r=\"2\"/><circle cx=\"18\" cy=\"6\" r=\"2\"/><circle cx=\"18\" cy=\"12\" r=\"2\"/><circle cx=\"18\" cy=\"18\" r=\"2\"/></g>",
       "description": "沿增广路反复腾挪，为左部点寻找数量最多的匹配。",
       "tags": [
         "二分图",
@@ -193,6 +215,7 @@
       "path": "/Animate/kmp/",
       "title": "KMP 字符串匹配",
       "icon": "string",
+      "iconSvg": "<g fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\"><path d=\"M8 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h2M16 4h2a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-2M9 8l3 4-3 4m6-8h.01M15 16h.01\"/></g>",
       "description": "利用 LPS 前缀表跳过无效比较，高效定位模式串。",
       "tags": [
         "字符串",
@@ -295,6 +318,7 @@
       "path": "/Animate/tarjan_cut/",
       "title": "Tarjan 割点",
       "icon": "scissors",
+      "iconSvg": "<g fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\"><circle cx=\"6\" cy=\"6\" r=\"3\"/><path d=\"M8.12 8.12 12 12\"/><path d=\"M20 4 8.12 15.88\"/><circle cx=\"6\" cy=\"18\" r=\"3\"/><path d=\"M14.8 14.8 20 20\"/></g>",
       "description": "找出无向图中移除后会增加连通分量数的关键节点。",
       "tags": [
         "无向图",
@@ -307,6 +331,7 @@
       "path": "/Animate/topsort/",
       "title": "拓扑排序",
       "icon": "branch",
+      "iconSvg": "<g fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\"><path d=\"M15 6a9 9 0 0 0-9 9V3\"/><circle cx=\"18\" cy=\"6\" r=\"3\"/><circle cx=\"6\" cy=\"18\" r=\"3\"/></g>",
       "description": "为有向无环图中的节点建立线性顺序。",
       "tags": [
         "有向图",

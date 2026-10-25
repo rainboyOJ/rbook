@@ -33,6 +33,8 @@ interface DemoEntry {
     path: string
     title: string
     icon?: string | null
+    /** dsa3 的图标 SVG body，由 sync-demos.mjs 从注册表抓取写入。 */
+    iconSvg?: string
     description?: string
     tags?: string[]
     accent?: string
@@ -132,8 +134,11 @@ function renderIcon(entry: DemoEntry): string {
     if (entry.site === 'anima1' && entry.icon) {
         return `<i class="fruit-icon ${escapeAttribute(entry.icon)}" aria-hidden="true"></i>`
     }
-    // dsa3：内联 SVG。
-    const body = (entry.icon && DSA3_ICONS[entry.icon]) || ICON_FALLBACK
+    // dsa3：优先用快照里的 SVG body（sync-demos 自动抓取，新增图标无需改本文件），
+    // 旧快照没带 iconSvg 时回退到内置表，最后才是通用播放图标。
+    const body = entry.iconSvg
+        || (entry.icon && DSA3_ICONS[entry.icon])
+        || ICON_FALLBACK
     return `<svg class="rbook-dsa-card__svg" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">${body}</svg>`
 }
 

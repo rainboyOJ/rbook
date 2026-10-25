@@ -136,7 +136,11 @@ book/<章>/<文章目录>/
 - 与 `animate` 相反：**代码围栏与行内代码里的 `[[[dsa:]]]` 会保持原文**，
   所以写语法示例时不用转义。这是它专有的代码段屏蔽，不要假定其它指令也一样。
 - 图标：anima1 用内置水果字体（`src/public/fonts/`），dsa3 用内联 SVG。
-  水果字体的码点表在 `src/markdown-style/dsa-card.scss` 的 `$fruit-icons`。
+  - anima1 的水果图标：字体已内置，但**码点表**在本仓库（`src/markdown-style/dsa-card.scss`
+    的 `$fruit-icons`）。anima1 新增水果时要同步这张表。
+  - dsa3 的 SVG 图标：`sync-demos.mjs` 会把注册表里的 SVG body 抓进 `demos.json`
+    的 `iconSvg` 字段，**新增图标无需改本仓库任何代码**。插件里还留着一张
+    内置表，只作为旧快照的兜底。
 - 想快速看有哪些可用 slug：
 
   ```bash
