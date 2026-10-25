@@ -24,6 +24,17 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const PROJECT_ROOT = path.resolve(__dirname, '..')
 const OUT_FILE = path.join(PROJECT_ROOT, 'book', 'demos.json')
 
+/**
+ * 退出码约定（deploy.sh 依赖它区分两类失败）：
+ *   0 = 一致 / 已写入
+ *   1 = 快照与远端不一致（快照陈旧，需要重跑生成本脚本）
+ *   2 = 用法错误
+ *   3 = 环境问题（找不到动画仓库 / 注册表解析失败）——无法校验，不代表陈旧
+ */
+const EXIT_STALE = 1
+const EXIT_USAGE = 2
+const EXIT_ENV = 3
+
 /** 站点基址。改域名只需改这里并重跑本脚本。 */
 const SITES = {
     anima1: {
@@ -46,7 +57,7 @@ function parseArgs(argv) {
         else if (arg.startsWith('--dsa3-dir=')) opts.dsa3Dir = arg.slice('--dsa3-dir='.length)
         else {
             console.error(`未知参数: ${arg}`)
-            process.exit(2)
+            process.exit(EXIT_USAGE)
         }
     }
     return opts
@@ -236,21 +247,43 @@ function buildSnapshot({ anima1Dir, dsa3Dir }) {
 
 function main() {
     const opts = parseArgs(process.argv)
-    const anima1Dir = detectDir(opts.anima1Dir, ['../dsa', '../dsa1'], path.join('public', 'index.html'))
-    const dsa3Dir = detectDir(opts.dsa3Dir, ['../dsa3_ts', '../dsa3'], path.join('src', 'algorithmRegistry.ts'))
+    let anima1Dir
+    let dsa3Dir
+    try {
+        anima1Dir = detectDir(opts.anima1Dir, ['../dsa', '../dsa1'], path.join('public', 'index.html'))
+        dsa3Dir = detectDir(opts.dsa3Dir, ['../dsa3_ts', '../dsa3'], path.join('src', 'algorithmRegistry.ts'))
+    }
+    catch (error) {
+        console.error(`无法校验：${error.message}`)
+        process.exit(EXIT_ENV)
+    }
 
-    const snapshot = buildSnapshot({ anima1Dir, dsa3Dir })
+    let snapshot
+    try {
+        snapshot = buildSnapshot({ anima1Dir, dsa3Dir })
+    }
+    catch (error) {
+        console.error(`无法校验：${error.message}`)
+        process.exit(EXIT_ENV)
+    }
     const next = JSON.stringify(snapshot, null, 2) + '\n'
     const count = Object.keys(snapshot.demos).length
 
     if (opts.check) {
-        const prev = fs.existsSync(OUT_FILE) ? fs.readFileSync(OUT_FILE, 'utf8') : ''
+        // 快照缺失与快照陈旧是两回事：缺失说明还没生成过（新 clone、或在
+        // 未入库的机器上），属于环境问题；陈旧才是真的需要重跑本脚本。
+        // 混为一谈会让 deploy.sh 在快照不存在时误报“动画站不一致”并中止。
+        if (!fs.existsSync(OUT_FILE)) {
+            console.error(`无法校验：${path.relative(PROJECT_ROOT, OUT_FILE)} 不存在，先跑一次 node scripts/sync-demos.mjs`)
+            process.exit(EXIT_ENV)
+        }
+        const prev = fs.readFileSync(OUT_FILE, 'utf8')
         if (prev === next) {
             console.log(`OK: book/demos.json 与远端一致（${count} 个演示）`)
             return
         }
         console.error(`book/demos.json 已过期，请运行 node scripts/sync-demos.mjs 重新生成（${count} 个演示）`)
-        process.exit(1)
+        process.exit(EXIT_STALE)
     }
 
     fs.writeFileSync(OUT_FILE, next)

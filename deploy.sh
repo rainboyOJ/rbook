@@ -61,6 +61,28 @@ announce() {
 
 # ── 发布 ───────────────────────────────────────────────────────────────────
 
+# 先校验动画卡片快照 book/demos.json 是否跟得上两个动画站。
+# 该脚本 --check 的退出码：0 一致；1 快照陈旧；2 用法错误；3 环境问题
+# （本机没有 ../dsa 与 ../dsa3_ts 这两个仓库）。
+# 快照陈旧就中止：否则会带着过期或死链的卡片上线。
+# 环境问题只警告：新 clone、CI 或其他机器上本就没有那两个仓库，
+# 此时"无法校验"不代表快照坏了，不该阻断发布。
+if command -v node >/dev/null 2>&1 && [[ -f scripts/sync-demos.mjs ]]; then
+  set +e
+  node scripts/sync-demos.mjs --check
+  demos_check=$?
+  set -e
+  case "$demos_check" in
+    0) ;;
+    1) echo "[deploy] 中止：book/demos.json 与动画站不一致，请先跑 node scripts/sync-demos.mjs" >&2
+       exit 1 ;;
+    3) echo "[deploy] 警告：无法校验 demos.json 时效（缺动画仓库或快照未生成），跳过" >&2 ;;
+    *) echo "[deploy] 警告：demos.json 校验异常退出（exit $demos_check），继续发布" >&2 ;;
+  esac
+else
+  echo "[deploy] 未找到 node 或 scripts/sync-demos.mjs，跳过 demos.json 时效校验" >&2
+fi
+
 # 先编译 TypeScript 发布核心（.tsbuild）。rbook 直接运行编译产物，
 # 不先编译就会用到过期的 .tsbuild，导致源码改动不生效。
 npx tsc -p tsconfig.publishing.json
