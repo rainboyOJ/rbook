@@ -100,7 +100,18 @@ export const renderPages: BuildStage = {
 
         const animationErrors = ctx.diagnostics.filter(d => d.phase === 'animate' && d.level === 'error')
         if (animationErrors.length > 0) {
-            throw new Error(`${animationErrors.length} 个交互动画引用无效，请修复后重新构建`)
+            throw new Error(`${animationErrors.length} 个交互式动画引用无效，请修复后重新构建`)
+        }
+
+        // 动画卡片指向外部站点：slug 写错会发布成死链，因此同样必须阻断。
+        const dsaErrors = ctx.diagnostics.filter(d => d.phase === 'dsa' && d.level === 'error')
+        if (dsaErrors.length > 0) {
+            const detail = dsaErrors
+                .slice(0, 5)
+                .map(d => d.message)
+                .join('; ')
+            const more = dsaErrors.length > 5 ? ` …另有 ${dsaErrors.length - 5} 个` : ''
+            throw new Error(`${dsaErrors.length} 个动画卡片引用无效: ${detail}${more}`)
         }
     },
 }

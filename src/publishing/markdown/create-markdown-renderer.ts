@@ -11,6 +11,7 @@ import { ContentMacrosOptions } from './plugins/content-macros'
 import { IncludeOptions } from './plugins/include'
 import { ProblemUrlResolver } from '../integrations/problem-url'
 import { AnimateOptions, renderAnimateDirectives } from './plugins/animate'
+import { DsaOptions, renderDsaDirectives, loadDemoManifest } from './plugins/dsa'
 
 export interface RendererOptions {
     index: ArticleIndex
@@ -31,6 +32,8 @@ export interface RendererOptions {
     currentSourcePath?: string
     /** 覆盖交互动画引用配置（测试用）。 */
     animate?: AnimateOptions
+    /** 覆盖动画卡片配置（测试用）。 */
+    dsa?: DsaOptions
 }
 
 export interface RenderResult {
@@ -63,9 +66,20 @@ export function createMarkdownRenderer(opts: RendererOptions): MarkdownIt {
     }
 
     const animate = animateOpts(opts)
+    const dsa = dsaOpts(opts)
     const include = includeOpts(opts)
     if (include && animate) {
         include.transformSource = (source, sourcePath) => renderAnimateDirectives(source, sourcePath, animate)
+    }
+    // include 进来的片段同样可能含 [[[dsa:]]]，要在内联时就展开，
+    // 否则片段里的卡片会因错过外层 core ruler 而泄漏成原文。
+    if (include && dsa) {
+        const previous = include.transformSource
+        const manifest = loadDemoManifest(dsa.manifestPath)
+        include.transformSource = (source, sourcePath) => {
+            const afterAnimate = previous ? previous(source, sourcePath) : source
+            return renderDsaDirectives(afterAnimate, sourcePath, manifest, dsa)
+        }
     }
 
     registerPlugins(md, {
@@ -78,9 +92,20 @@ export function createMarkdownRenderer(opts: RendererOptions): MarkdownIt {
         // EJS include 变成“路径越界”失败。
         include,
         animate,
+        dsa,
     })
 
     return md
+}
+
+function dsaOpts(opts: RendererOptions): DsaOptions | undefined {
+    if (opts.dsa) return opts.dsa
+    if (!opts.projectRoot) return undefined
+    const manifestPath = path.join(opts.projectRoot, 'book', 'demos.json')
+    // 快照缺失时静默不安装插件，而不是把每篇带卡片的文章都变成错误：
+    // 与 animateOpts 对 book/ 缺失的处理保持一致。
+    if (!fs.existsSync(manifestPath)) return undefined
+    return { manifestPath, diagnostics: opts.diagnostics }
 }
 
 function animateOpts(opts: RendererOptions): AnimateOptions | undefined {

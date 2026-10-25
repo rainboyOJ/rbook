@@ -9,6 +9,7 @@ import problemListPlugin from './plugins/problem-list'
 import fencePlugin from './plugins/fence'
 import excalidrawPlugin, { ExcalidrawOptions } from './plugins/excalidraw'
 import animatePlugin, { AnimateOptions } from './plugins/animate'
+import dsaPlugin, { DsaOptions } from './plugins/dsa'
 import tocPlugin from './plugins/toc'
 
 export interface PluginRegistryOptions {
@@ -18,6 +19,7 @@ export interface PluginRegistryOptions {
     include?: IncludeOptions
     pseudocode?: PseudocodePluginOptions
     animate?: AnimateOptions
+    dsa?: DsaOptions
 }
 
 /**
@@ -45,6 +47,12 @@ export function registerPlugins(md: MarkdownIt, opts: PluginRegistryOptions): vo
         })
     }
     if (opts.animate) md.use(animatePlugin, opts.animate)
+    if (opts.dsa) {
+        md.use(dsaPlugin, {
+            ...opts.dsa,
+            diagnostics: opts.dsa.diagnostics || opts.rbookLink.diagnostics,
+        })
+    }
     md.use(contentMacrosPlugin, {
         ...opts.contentMacros,
         rojBaseUrl: opts.rbookLink.rojBaseUrl,

@@ -1,0 +1,318 @@
+{
+  "_comment": "由 scripts/sync-demos.mjs 生成，请勿手改；跑该脚本可重新抓取两个动画站。",
+  "sites": {
+    "anima1": {
+      "baseUrl": "https://anima1.roj.ac.cn",
+      "label": "anima1",
+      "title": "数据结构与算法动画"
+    },
+    "dsa3": {
+      "baseUrl": "https://dsa3.roj.ac.cn",
+      "label": "dsa3",
+      "title": "DSA3 算法动画"
+    }
+  },
+  "demos": {
+    "01Knapsack": {
+      "site": "anima1",
+      "path": "/01Knapsack/",
+      "title": "01 背包（二维）",
+      "icon": "icon-lanmei"
+    },
+    "01Knapsack1": {
+      "site": "anima1",
+      "path": "/01Knapsack1/",
+      "title": "01 背包（一维）",
+      "icon": "icon-mangguo"
+    },
+    "4queen1": {
+      "site": "anima1",
+      "path": "/4queen1/",
+      "title": "四皇后游戏",
+      "icon": "icon-heimei"
+    },
+    "4queen2": {
+      "site": "anima1",
+      "path": "/4queen2/",
+      "title": "四皇后全部方案",
+      "icon": "icon-huolongguo"
+    },
+    "8queen": {
+      "site": "anima1",
+      "path": "/8queen/",
+      "title": "八皇后一种方案",
+      "icon": "icon-hongmei"
+    },
+    "bfs": {
+      "site": "dsa3",
+      "path": "/Animate/bfs/",
+      "title": "BFS 遍历",
+      "icon": "search",
+      "description": "从起点按层访问其所在的可达分量。",
+      "tags": [
+        "无向图",
+        "队列"
+      ],
+      "accent": "#7c3aed"
+    },
+    "bfs_shortest_path": {
+      "site": "dsa3",
+      "path": "/Animate/bfs_shortest_path/",
+      "title": "BFS 最短路",
+      "icon": "layers",
+      "description": "在权值相同的图中寻找最短路径。",
+      "tags": [
+        "无向图",
+        "距离"
+      ],
+      "accent": "#0891b2"
+    },
+    "bipartite_graph_best_match": {
+      "site": "anima1",
+      "path": "/bipartite_graph_best_match/",
+      "title": "二分图最佳匹配",
+      "icon": "icon-mugua"
+    },
+    "bubble_sort": {
+      "site": "anima1",
+      "path": "/bubble_sort/",
+      "title": "冒泡排序",
+      "icon": "icon-caomei"
+    },
+    "complete_knapsack": {
+      "site": "anima1",
+      "path": "/complete_knapsack/",
+      "title": "完全背包",
+      "icon": "icon-ningmeng"
+    },
+    "dfs": {
+      "site": "dsa3",
+      "path": "/Animate/dfs/",
+      "title": "DFS 遍历",
+      "icon": "route",
+      "description": "从起点沿路径深入探索其所在的可达分量。",
+      "tags": [
+        "无向图",
+        "递归"
+      ],
+      "accent": "#db2777"
+    },
+    "dfsscc": {
+      "site": "dsa3",
+      "path": "/Animate/dfsscc/",
+      "title": "强连通分量",
+      "icon": "component",
+      "description": "识别有向图中彼此可达的节点集合。",
+      "tags": [
+        "深度优先",
+        "有向图"
+      ],
+      "accent": "#3157a4"
+    },
+    "factorial": {
+      "site": "anima1",
+      "path": "/factorial/",
+      "title": "递归原理：阶乘",
+      "icon": "icon-chengzi"
+    },
+    "fleury": {
+      "site": "dsa3",
+      "path": "/Animate/fleury/",
+      "title": "Fleury 算法",
+      "icon": "route",
+      "description": "沿边逐步构造欧拉迹，并判断桥的取舍。",
+      "tags": [
+        "无向图",
+        "欧拉迹"
+      ],
+      "accent": "#c24b32"
+    },
+    "floyd": {
+      "site": "dsa3",
+      "path": "/Animate/floyd/",
+      "title": "Floyd 全源最短路",
+      "icon": "layers",
+      "description": "对照三维分层 DP 与二维原地更新，观察距离表和最短路径的变化。",
+      "tags": [
+        "动态规划",
+        "带权有向图"
+      ],
+      "accent": "#7c3aed"
+    },
+    "function_pass_parameter": {
+      "site": "anima1",
+      "path": "/function_pass_parameter/",
+      "title": "函数的参数传递",
+      "icon": "icon-boluo"
+    },
+    "function_principle": {
+      "site": "anima1",
+      "path": "/function_principle/",
+      "title": "函数的运行原理",
+      "icon": "icon-baixiangguo"
+    },
+    "Golden_Spiral": {
+      "site": "anima1",
+      "path": "/Golden_Spiral/",
+      "title": "黄金螺旋",
+      "icon": "icon-manyuemei"
+    },
+    "group_knapsack": {
+      "site": "anima1",
+      "path": "/group_knapsack/",
+      "title": "分组背包",
+      "icon": "icon-qingning"
+    },
+    "hierholzer": {
+      "site": "dsa3",
+      "path": "/Animate/hierholzer/",
+      "title": "Hierholzer 算法",
+      "icon": "route",
+      "description": "沿未用边前进、无路再回溯收路，构造欧拉路与欧拉回路。",
+      "tags": [
+        "无向图",
+        "欧拉路"
+      ],
+      "accent": "#4f46e5"
+    },
+    "hungarian": {
+      "site": "dsa3",
+      "path": "/Animate/hungarian/",
+      "title": "二分图最大匹配（匈牙利算法）",
+      "icon": "match",
+      "description": "沿增广路反复腾挪，为左部点寻找数量最多的匹配。",
+      "tags": [
+        "二分图",
+        "匹配",
+        "深度优先"
+      ],
+      "accent": "#6d28d9"
+    },
+    "kmp": {
+      "site": "dsa3",
+      "path": "/Animate/kmp/",
+      "title": "KMP 字符串匹配",
+      "icon": "string",
+      "description": "利用 LPS 前缀表跳过无效比较，高效定位模式串。",
+      "tags": [
+        "字符串",
+        "前缀表"
+      ],
+      "accent": "#176b5b"
+    },
+    "koch_curve": {
+      "site": "anima1",
+      "path": "/koch_curve/",
+      "title": "递归：科赫曲线",
+      "icon": "icon-boluomei"
+    },
+    "lca-tarjan": {
+      "site": "anima1",
+      "path": "/lca-tarjan/",
+      "title": "LCA 离线算法（Tarjan）",
+      "icon": "icon-mihoutao"
+    },
+    "lifeGame": {
+      "site": "anima1",
+      "path": "/lifeGame/",
+      "title": "生命游戏（Life Game）",
+      "icon": "icon-pingguo"
+    },
+    "LIS": {
+      "site": "anima1",
+      "path": "/LIS/",
+      "title": "最长不下降子序列（LIS）",
+      "icon": "icon-lizi"
+    },
+    "maze_bfs": {
+      "site": "anima1",
+      "path": "/maze_bfs/",
+      "title": "迷宫 BFS",
+      "icon": "icon-juzi"
+    },
+    "maze_dfs": {
+      "site": "anima1",
+      "path": "/maze_dfs/",
+      "title": "迷宫 DFS：是否有解",
+      "icon": "icon-hamigua"
+    },
+    "maze_dfs2": {
+      "site": "anima1",
+      "path": "/maze_dfs2/",
+      "title": "迷宫 DFS：解的数量",
+      "icon": "icon-ganlan"
+    },
+    "merge_sort": {
+      "site": "anima1",
+      "path": "/merge_sort/",
+      "title": "归并排序",
+      "icon": "icon-fanqie"
+    },
+    "merge_sort_principle": {
+      "site": "anima1",
+      "path": "/merge_sort_principle/",
+      "title": "归并排序原理",
+      "icon": "icon-chelizi"
+    },
+    "prim": {
+      "site": "anima1",
+      "path": "/prim/",
+      "title": "最小生成树：Prim",
+      "icon": "icon-longyan"
+    },
+    "quickSort": {
+      "site": "anima1",
+      "path": "/quickSort/",
+      "title": "快速排序",
+      "icon": "icon-dayouzi"
+    },
+    "segment_tree_build": {
+      "site": "anima1",
+      "path": "/segment_tree_build/",
+      "title": "线段树：建树",
+      "icon": "icon-lizi1"
+    },
+    "segment_tree_range_update": {
+      "site": "anima1",
+      "path": "/segment_tree_range_update/",
+      "title": "线段树：区间更新",
+      "icon": "icon-niuyouguo"
+    },
+    "segment_tree_single_update": {
+      "site": "anima1",
+      "path": "/segment_tree_single_update/",
+      "title": "线段树：单点更新",
+      "icon": "icon-ningmeng"
+    },
+    "spfa": {
+      "site": "anima1",
+      "path": "/spfa/",
+      "title": "单源最短路：SPFA",
+      "icon": "icon-longyan"
+    },
+    "tarjan_cut": {
+      "site": "dsa3",
+      "path": "/Animate/tarjan_cut/",
+      "title": "Tarjan 割点",
+      "icon": "scissors",
+      "description": "找出无向图中移除后会增加连通分量数的关键节点。",
+      "tags": [
+        "无向图",
+        "dfn/low"
+      ],
+      "accent": "#ca8a04"
+    },
+    "topsort": {
+      "site": "dsa3",
+      "path": "/Animate/topsort/",
+      "title": "拓扑排序",
+      "icon": "branch",
+      "description": "为有向无环图中的节点建立线性顺序。",
+      "tags": [
+        "有向图",
+        "DAG"
+      ],
+      "accent": "#176b5b"
+    }
+  }
+}
