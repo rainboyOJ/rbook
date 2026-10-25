@@ -83,6 +83,15 @@ else
   echo "[deploy] 未找到 node 或 scripts/sync-demos.mjs，跳过 demos.json 时效校验" >&2
 fi
 
+# 先把 Typst 源编译成 PDF。必须跑在 rbook build 之前：发布管线按文章 config 的
+# copy 字段把 PDF 复制进 dist，PDF 不存在会报 error 级诊断。
+# 本机没装 typst 时脚本只警告并 exit 0，沿用仓库里已提交的上一版 PDF。
+if [[ -f scripts/build-typst.sh ]]; then
+  bash scripts/build-typst.sh
+else
+  echo "[deploy] 未找到 scripts/build-typst.sh，跳过 Typst 编译" >&2
+fi
+
 # 先编译 TypeScript 发布核心（.tsbuild）。rbook 直接运行编译产物，
 # 不先编译就会用到过期的 .tsbuild，导致源码改动不生效。
 npx tsc -p tsconfig.publishing.json
