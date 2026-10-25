@@ -33,31 +33,41 @@
 )
 
 // ---------- 字体 ----------
+// 中文：霞鹜文楷（LXGW WenKai）。它自带拉丁字形，所以正文用一份字体就够。
 #set text(
-  font: ("Noto Serif CJK SC", "Noto Sans CJK SC"),
+  font: ("LXGW WenKai", "Noto Sans CJK SC"),
   size: 10.5pt,
   lang: "zh",
   region: "cn",
   hyphenate: false,
 )
-#show raw: set text(font: ("JetBrainsMono NFM", "DejaVu Sans Mono"), size: 9pt)
+
+// 代码：Fira Code。它没有中文字形，必须后备到霞鹜文楷，
+// 否则代码块里的中文注释会变成方框。字体文件放在 assets/fonts/，
+// 由 scripts/build-typst.sh 通过 --font-path 传进来。
+#show raw: set text(font: ("Fira Code", "LXGW WenKai"), size: 9pt)
+
+// LXGW WenKai 只有 Light / Regular / Medium 三个字重，没有 Bold。
+// 直接请求 bold 会被退回 Regular，*强调* 就失去层次，这里用描边模拟加粗。
+// stroke 的颜色取当前文字填充色，避免给彩色标题叠上一层黑边。
+#show strong: it => context text(stroke: 0.035em + text.fill, it.body)
 
 #set par(justify: true, leading: 0.78em, spacing: 1.05em)
 #set heading(numbering: "1.1  ")
 #show heading: it => {
-  set text(font: ("Noto Sans CJK SC", "DejaVu Sans Mono"))
+  set text(font: ("LXGW WenKai", "Noto Sans CJK SC"))
   block(above: 1.5em, below: 0.9em, it)
 }
 #show heading.where(level: 1): it => block(above: 1.9em, below: 1em, {
-  set text(size: 15pt, weight: "bold", fill: rgb("#1f3a5f"))
+  set text(size: 15pt, fill: rgb("#1f3a5f"), stroke: 0.045em + rgb("#1f3a5f"))
   it
 })
 #show heading.where(level: 2): it => {
-  set text(size: 12pt, weight: "bold", fill: rgb("#25476f"))
+  set text(size: 12pt, fill: rgb("#25476f"), stroke: 0.04em + rgb("#25476f"))
   it
 }
 #show heading.where(level: 3): it => {
-  set text(size: 10.5pt, weight: "bold", fill: rgb("#33506e"))
+  set text(size: 10.5pt, fill: rgb("#33506e"), stroke: 0.035em + rgb("#33506e"))
   it
 }
 
@@ -80,7 +90,7 @@
   stroke: (left: 3pt + color),
   radius: (right: 3pt),
   text(size: 9.5pt, [
-    #text(weight: "bold", fill: color.darken(25%))[#title] #h(0.4em) #body
+    #text(fill: color.darken(25%), stroke: 0.03em + color.darken(25%))[#title] #h(0.4em) #body
   ]),
 )
 
@@ -89,7 +99,7 @@
 // ---------- 封面 ----------
 #align(center)[
   #v(1.2em)
-  #text(size: 26pt, weight: "bold", fill: rgb("#1f3a5f"))[2026 比赛赛前注意事项]
+  #text(size: 26pt, fill: rgb("#1f3a5f"), stroke: 0.05em + rgb("#1f3a5f"))[2026 比赛赛前注意事项]
   #v(0.6em)
   #text(size: 11pt, fill: luma(90))[CSP-J/S 2026 · NOIP 2026 · NOI Linux 2.0 环境]
   #v(1.4em)
@@ -136,7 +146,7 @@
 #v(0.9em)
 
 #align(center)[
-  #text(size: 10pt, weight: "bold", fill: rgb("#25476f"))[2026 关键信息速览]
+  #text(size: 10pt, fill: rgb("#25476f"), stroke: 0.035em + rgb("#25476f"))[2026 关键信息速览]
 ]
 #v(0.3em)
 
@@ -195,7 +205,7 @@ CSP-J/S 2026 第二轮认证于 *2026 年 10 月 31 日（星期六）* 在全�
   align: (left, left),
   inset: (x: 0.7em, y: 0.5em),
   stroke: 0.5pt + luma(205),
-  ..kv.map(((k, v)) => (text(weight: "bold")[#k], v)).flatten(),
+  ..kv.map(((k, v)) => (text(stroke: 0.03em)[#k], v)).flatten(),
 )
 
 == NOI Linux 2.0 环境速查

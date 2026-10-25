@@ -28,6 +28,16 @@ fi
 
 echo "[typst] $(typst --version)"
 
+# 仓库自带的字体（Fira Code）。typost 默认只扫系统字体目录，
+# 不把这里传进去就找不到 Fira Code，会静默回退到其它等宽字体。
+FONT_ARGS=()
+if [[ -d assets/fonts ]]; then
+	FONT_ARGS=(--font-path assets/fonts)
+	echo "[typst] 字体目录: assets/fonts"
+else
+	echo "[typst] 警告：缺少 assets/fonts，Fira Code 可能找不到" >&2
+fi
+
 count=0
 skip=0
 fail=0
@@ -65,7 +75,7 @@ while IFS= read -r cfg; do
 	fi
 
 	echo "[typst] 编译: $src -> $pdf"
-	if typst compile "$src" "$pdf"; then
+	if typst compile "${FONT_ARGS[@]}" "$src" "$pdf"; then
 		count=$((count + 1))
 	else
 		echo "[typst] 编译失败: $src" >&2
