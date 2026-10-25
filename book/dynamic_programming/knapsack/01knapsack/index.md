@@ -68,6 +68,10 @@ $$
 
 <video width="800" loop controls autoplay src="/video/knapsack01.mp4" type="video/mp4">Your browser does not support the video tag. </video>
 
+想看自己改数据、一步步看表格怎么填？试一下交互动画（可改物品重量/价值与容量 C）：
+
+[[[dsa: 01Knapsack]]]
+
 
 但是这里,我还是给出利用集合得到DP方程的方法.
 
@@ -164,6 +168,10 @@ cur与1异或,可以不停的变成0,1,0,1,0,1...,达到了一种切换(toggle)�
 
 <video width="800" loop controls autoplay src="/video/knapsack01_1d.mp4" type="video/mp4">Your browser does not support the video tag. </video>
 
+交互动画里可以切到一维演示，重点看逆序枚举时旧值残影的对比：
+
+[[[dsa: 01Knapsack1]]]
+
 
 ### 伪代码
 
@@ -207,7 +215,7 @@ int main(){
 ```haskell [g1:haskell] file=./code/01_knsapsack.hs
 ```
 
-代码演示: http://dsa.rainboy.cc/#/01Knapsack1
+想要可交互地改数据、一步步看倒序枚举怎么更新 `f[]`，见本页上方「01背包一维写法」那节的动画卡片。
 
 
 ## 恰好装满
