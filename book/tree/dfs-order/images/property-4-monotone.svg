@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="490" viewBox="0 0 880 490" role="img" aria-labelledby="title desc">
+<title id="title">P4 · 沿祖先链向下：左端点右移，右端点不增</title>
+<desc id="desc">祖先链 1、2、5、7 对应区间 [1,7]、[2,5]、[4,5]、[5,5]。进入时间严格增大，退出时间可以相等。</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b"/></marker></defs>
+<g font-family="Noto Sans CJK SC, Microsoft YaHei, sans-serif">
+<rect x="0" y="0" width="880" height="490" rx="16" fill="#fff" stroke="#cbd5e1" />
+<text x="28" y="40" font-size="24" fill="#0f172a" text-anchor="start" font-weight="700">P4 · 沿祖先链向下：左端点右移，右端点不增</text>
+<text x="110" y="91" font-size="20" fill="#475569" text-anchor="middle" font-weight="400">祖先链</text>
+<text x="330" y="91" font-size="20" fill="#1d4ed8" text-anchor="middle" font-weight="400">in</text>
+<text x="764" y="91" font-size="20" fill="#b45309" text-anchor="middle" font-weight="400">out</text>
+<text x="400.0" y="110" font-size="17" fill="#475569" text-anchor="middle" font-weight="400">1</text>
+<text x="450.0" y="110" font-size="17" fill="#475569" text-anchor="middle" font-weight="400">2</text>
+<text x="500.0" y="110" font-size="17" fill="#475569" text-anchor="middle" font-weight="400">3</text>
+<text x="550.0" y="110" font-size="17" fill="#475569" text-anchor="middle" font-weight="400">4</text>
+<text x="600.0" y="110" font-size="17" fill="#475569" text-anchor="middle" font-weight="400">5</text>
+<text x="650.0" y="110" font-size="17" fill="#475569" text-anchor="middle" font-weight="400">6</text>
+<text x="700.0" y="110" font-size="17" fill="#475569" text-anchor="middle" font-weight="400">7</text>
+<line x1="110" y1="173" x2="110" y2="195" stroke="#475569" stroke-width="2" marker-end="url(#arrow)" />
+<line x1="110" y1="243" x2="110" y2="265" stroke="#475569" stroke-width="2" marker-end="url(#arrow)" />
+<line x1="110" y1="313" x2="110" y2="335" stroke="#475569" stroke-width="2" marker-end="url(#arrow)" />
+<circle cx="110" cy="150" r="22" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2.5"/>
+<text x="110" y="157" font-size="21" fill="#1d4ed8" text-anchor="middle" font-weight="700">1</text>
+<text x="225" y="157" font-size="22" fill="#0f172a" text-anchor="middle" font-weight="400">[1, 7]</text>
+<text x="330" y="157" font-size="23" fill="#1d4ed8" text-anchor="middle" font-weight="700">1</text>
+<text x="764" y="157" font-size="23" fill="#b45309" text-anchor="middle" font-weight="700">7</text>
+<rect x="375" y="130" width="350" height="40" rx="6" fill="#dbeafe" stroke="#1d4ed8" />
+<circle cx="110" cy="220" r="22" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2.5"/>
+<text x="110" y="227" font-size="21" fill="#1d4ed8" text-anchor="middle" font-weight="700">2</text>
+<text x="225" y="227" font-size="22" fill="#0f172a" text-anchor="middle" font-weight="400">[2, 5]</text>
+<text x="330" y="227" font-size="23" fill="#1d4ed8" text-anchor="middle" font-weight="700">2</text>
+<text x="764" y="227" font-size="23" fill="#b45309" text-anchor="middle" font-weight="700">5</text>
+<rect x="425" y="200" width="200" height="40" rx="6" fill="#dbeafe" stroke="#1d4ed8" />
+<circle cx="110" cy="290" r="22" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2.5"/>
+<text x="110" y="297" font-size="21" fill="#1d4ed8" text-anchor="middle" font-weight="700">5</text>
+<text x="225" y="297" font-size="22" fill="#0f172a" text-anchor="middle" font-weight="400">[4, 5]</text>
+<text x="330" y="297" font-size="23" fill="#1d4ed8" text-anchor="middle" font-weight="700">4</text>
+<text x="764" y="297" font-size="23" fill="#b45309" text-anchor="middle" font-weight="700">5</text>
+<rect x="525" y="270" width="100" height="40" rx="6" fill="#dbeafe" stroke="#1d4ed8" />
+<circle cx="110" cy="360" r="22" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2.5"/>
+<text x="110" y="367" font-size="21" fill="#1d4ed8" text-anchor="middle" font-weight="700">7</text>
+<text x="225" y="367" font-size="22" fill="#0f172a" text-anchor="middle" font-weight="400">[5, 5]</text>
+<text x="330" y="367" font-size="23" fill="#1d4ed8" text-anchor="middle" font-weight="700">5</text>
+<text x="764" y="367" font-size="23" fill="#b45309" text-anchor="middle" font-weight="700">5</text>
+<rect x="575" y="340" width="50" height="40" rx="6" fill="#dbeafe" stroke="#1d4ed8" />
+<line x1="625" y1="191" x2="625" y2="390" stroke="#b45309" stroke-width="2" stroke-dasharray="5 5"/>
+<rect x="28" y="414" width="824" height="48" rx="8" fill="#dbeafe" stroke="none" />
+<text x="440" y="445" font-size="20" fill="#1d4ed8" text-anchor="middle" font-weight="700">in：1 &lt; 2 &lt; 4 &lt; 5；out：7 ≥ 5 ≥ 5 ≥ 5</text>
+</g>
+</svg>

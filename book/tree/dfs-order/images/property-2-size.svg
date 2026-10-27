@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="360" viewBox="0 0 880 360" role="img" aria-labelledby="title desc">
+<title id="title">P2 · 数子树里的点，就是数区间里的格子</title>
+<desc id="desc">子树 2 有四个点，闭区间 [2,5] 有 5-2+1=4 格；叶子 7 的区间 [5,5] 也占一格。</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b"/></marker></defs>
+<g font-family="Noto Sans CJK SC, Microsoft YaHei, sans-serif">
+<rect x="0" y="0" width="880" height="360" rx="16" fill="#fff" stroke="#cbd5e1" />
+<text x="28" y="40" font-size="24" fill="#0f172a" text-anchor="start" font-weight="700">P2 · 数子树里的点，就是数区间里的格子</text>
+<text x="202" y="135" font-size="19" fill="#475569" text-anchor="end" font-weight="400">order[i]</text>
+<rect x="220" y="104" width="78" height="46" rx="6" fill="#f8fafc" stroke="#475569" />
+<text x="259.0" y="135" font-size="22" fill="#475569" text-anchor="middle" font-weight="700">1</text>
+<text x="259.0" y="91" font-size="17" fill="#475569" text-anchor="middle" font-weight="400">1</text>
+<rect x="302" y="104" width="78" height="46" rx="6" fill="#dbeafe" stroke="#1d4ed8" />
+<text x="341.0" y="135" font-size="22" fill="#1d4ed8" text-anchor="middle" font-weight="700">2</text>
+<text x="341.0" y="91" font-size="17" fill="#475569" text-anchor="middle" font-weight="400">2</text>
+<rect x="384" y="104" width="78" height="46" rx="6" fill="#dbeafe" stroke="#1d4ed8" />
+<text x="423.0" y="135" font-size="22" fill="#1d4ed8" text-anchor="middle" font-weight="700">4</text>
+<text x="423.0" y="91" font-size="17" fill="#475569" text-anchor="middle" font-weight="400">3</text>
+<rect x="466" y="104" width="78" height="46" rx="6" fill="#dbeafe" stroke="#1d4ed8" />
+<text x="505.0" y="135" font-size="22" fill="#1d4ed8" text-anchor="middle" font-weight="700">5</text>
+<text x="505.0" y="91" font-size="17" fill="#475569" text-anchor="middle" font-weight="400">4</text>
+<rect x="548" y="104" width="78" height="46" rx="6" fill="#dbeafe" stroke="#1d4ed8" />
+<text x="587.0" y="135" font-size="22" fill="#1d4ed8" text-anchor="middle" font-weight="700">7</text>
+<text x="587.0" y="91" font-size="17" fill="#475569" text-anchor="middle" font-weight="400">5</text>
+<rect x="630" y="104" width="78" height="46" rx="6" fill="#f8fafc" stroke="#475569" />
+<text x="669.0" y="135" font-size="22" fill="#475569" text-anchor="middle" font-weight="700">3</text>
+<text x="669.0" y="91" font-size="17" fill="#475569" text-anchor="middle" font-weight="400">6</text>
+<rect x="712" y="104" width="78" height="46" rx="6" fill="#f8fafc" stroke="#475569" />
+<text x="751.0" y="135" font-size="22" fill="#475569" text-anchor="middle" font-weight="700">6</text>
+<text x="751.0" y="91" font-size="17" fill="#475569" text-anchor="middle" font-weight="400">7</text>
+<text x="202" y="91" font-size="17" fill="#475569" text-anchor="end" font-weight="400">位置 i</text>
+<text x="341" y="182" font-size="18" fill="#1d4ed8" text-anchor="middle" font-weight="400">第 1 个</text>
+<text x="423" y="182" font-size="18" fill="#1d4ed8" text-anchor="middle" font-weight="400">第 2 个</text>
+<text x="505" y="182" font-size="18" fill="#1d4ed8" text-anchor="middle" font-weight="400">第 3 个</text>
+<text x="587" y="182" font-size="18" fill="#1d4ed8" text-anchor="middle" font-weight="400">第 4 个</text>
+<line x1="302" y1="192" x2="302" y2="201" stroke="#1d4ed8" stroke-width="2" />
+<line x1="302" y1="201" x2="626" y2="201" stroke="#1d4ed8" stroke-width="2" />
+<line x1="626" y1="192" x2="626" y2="201" stroke="#1d4ed8" stroke-width="2" />
+<text x="464.0" y="229" font-size="19" fill="#1d4ed8" text-anchor="middle" font-weight="700">两端都要算：5 − 2 + 1 = 4 个点</text>
+<rect x="28" y="268" width="824" height="62" rx="6" fill="#ccfbf1" stroke="none" />
+<text x="50" y="307" font-size="21" fill="#0f766e" text-anchor="start" font-weight="700">叶子 7：in₇ = out₇ = 5，区间 [5, 5] 也有 1 格。</text>
+</g>
+</svg>

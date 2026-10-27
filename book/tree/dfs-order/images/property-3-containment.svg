@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="470" viewBox="0 0 880 470" role="img" aria-labelledby="title desc">
+<title id="title">P3 · 有祖孙关系就包含，没有就分开</title>
+<desc id="desc">点 2 的区间 [2,5] 包含点 5 的区间 [4,5] 和点 7 的区间 [5,5]；点 3 的区间 [6,7] 与点 2 不相交。</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b"/></marker></defs>
+<g font-family="Noto Sans CJK SC, Microsoft YaHei, sans-serif">
+<rect x="0" y="0" width="880" height="470" rx="16" fill="#fff" stroke="#cbd5e1" />
+<text x="28" y="40" font-size="24" fill="#0f172a" text-anchor="start" font-weight="700">P3 · 有祖孙关系就包含，没有就分开</text>
+<text x="298.0" y="92" font-size="18" fill="#475569" text-anchor="middle" font-weight="400">1</text>
+<line x1="260" y1="108" x2="260" y2="369" stroke="#e2e8f0" stroke-width="1" />
+<text x="374.0" y="92" font-size="18" fill="#475569" text-anchor="middle" font-weight="400">2</text>
+<line x1="336" y1="108" x2="336" y2="369" stroke="#e2e8f0" stroke-width="1" />
+<text x="450.0" y="92" font-size="18" fill="#475569" text-anchor="middle" font-weight="400">3</text>
+<line x1="412" y1="108" x2="412" y2="369" stroke="#e2e8f0" stroke-width="1" />
+<text x="526.0" y="92" font-size="18" fill="#475569" text-anchor="middle" font-weight="400">4</text>
+<line x1="488" y1="108" x2="488" y2="369" stroke="#e2e8f0" stroke-width="1" />
+<text x="602.0" y="92" font-size="18" fill="#475569" text-anchor="middle" font-weight="400">5</text>
+<line x1="564" y1="108" x2="564" y2="369" stroke="#e2e8f0" stroke-width="1" />
+<text x="678.0" y="92" font-size="18" fill="#475569" text-anchor="middle" font-weight="400">6</text>
+<line x1="640" y1="108" x2="640" y2="369" stroke="#e2e8f0" stroke-width="1" />
+<text x="754.0" y="92" font-size="18" fill="#475569" text-anchor="middle" font-weight="400">7</text>
+<line x1="716" y1="108" x2="716" y2="369" stroke="#e2e8f0" stroke-width="1" />
+<text x="220" y="92" font-size="18" fill="#475569" text-anchor="end" font-weight="400">位置 i</text>
+<text x="220" y="149" font-size="21" fill="#1d4ed8" text-anchor="end" font-weight="700">点 2  [2,5]</text>
+<rect x="336" y="120" width="304" height="42" rx="6" fill="#dbeafe" stroke="#1d4ed8" />
+<text x="220" y="209" font-size="21" fill="#0f766e" text-anchor="end" font-weight="700">点 5  [4,5]</text>
+<rect x="488" y="180" width="152" height="42" rx="6" fill="#ccfbf1" stroke="#0f766e" />
+<text x="220" y="269" font-size="21" fill="#7e22ce" text-anchor="end" font-weight="700">点 7  [5,5]</text>
+<rect x="564" y="240" width="76" height="42" rx="6" fill="#f3e8ff" stroke="#7e22ce" />
+<text x="220" y="347" font-size="21" fill="#b45309" text-anchor="end" font-weight="700">点 3  [6,7]</text>
+<rect x="640" y="318" width="152" height="42" rx="6" fill="#ffedd5" stroke="#b45309" />
+<line x1="640" y1="110" x2="640" y2="369" stroke="#475569" stroke-width="2" stroke-dasharray="5 5"/>
+<text x="28" y="190" font-size="19" fill="#0f766e" text-anchor="start" font-weight="700">包含</text>
+<text x="28" y="342" font-size="19" fill="#b45309" text-anchor="start" font-weight="700">不相交</text>
+<rect x="28" y="392" width="824" height="48" rx="8" fill="#dbeafe" stroke="none" />
+<text x="440" y="423" font-size="20" fill="#1d4ed8" text-anchor="middle" font-weight="700">2 是 5、7 的祖先；2 与 3 互不为祖先。</text>
+</g>
+</svg>

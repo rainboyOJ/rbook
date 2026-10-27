@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="660" viewBox="0 0 880 660" role="img" aria-labelledby="title desc">
+<title id="title">P6 · 欧拉序里，回到的最浅点就是 LCA</title>
+<desc id="desc">查询点 4 和 7。首次出现位置为 3 和 6，欧拉区间为 4、2、5、7，深度为 3、2、3、4。区间最小深度对应位置 4 的点 2，而点 2 首次出现于位置 2。</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b"/></marker></defs>
+<g font-family="Noto Sans CJK SC, Microsoft YaHei, sans-serif">
+<rect x="0" y="0" width="880" height="660" rx="16" fill="#fff" stroke="#cbd5e1" />
+<text x="28" y="40" font-size="24" fill="#0f172a" text-anchor="start" font-weight="700">P6 · 欧拉序里，回到的最浅点就是 LCA</text>
+<line x1="190" y1="99" x2="120" y2="177" stroke="#cbd5e1" stroke-width="3" />
+<line x1="190" y1="99" x2="300" y2="177" stroke="#cbd5e1" stroke-width="3" />
+<line x1="120" y1="177" x2="60" y2="255" stroke="#1d4ed8" stroke-width="3" />
+<line x1="120" y1="177" x2="180" y2="255" stroke="#1d4ed8" stroke-width="3" />
+<line x1="300" y1="177" x2="300" y2="255" stroke="#cbd5e1" stroke-width="3" />
+<line x1="180" y1="255" x2="180" y2="333" stroke="#1d4ed8" stroke-width="3" />
+<circle cx="190" cy="99" r="22" fill="#f8fafc" stroke="#475569" stroke-width="2.5"/>
+<text x="190" y="106" font-size="21" fill="#475569" text-anchor="middle" font-weight="700">1</text>
+<circle cx="120" cy="177" r="22" fill="#ccfbf1" stroke="#0f766e" stroke-width="2.5"/>
+<text x="120" y="184" font-size="21" fill="#0f766e" text-anchor="middle" font-weight="700">2</text>
+<circle cx="300" cy="177" r="22" fill="#f8fafc" stroke="#475569" stroke-width="2.5"/>
+<text x="300" y="184" font-size="21" fill="#475569" text-anchor="middle" font-weight="700">3</text>
+<circle cx="60" cy="255" r="22" fill="#f3e8ff" stroke="#7e22ce" stroke-width="2.5"/>
+<text x="60" y="262" font-size="21" fill="#7e22ce" text-anchor="middle" font-weight="700">4</text>
+<circle cx="180" cy="255" r="22" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2.5"/>
+<text x="180" y="262" font-size="21" fill="#1d4ed8" text-anchor="middle" font-weight="700">5</text>
+<circle cx="300" cy="255" r="22" fill="#f8fafc" stroke="#475569" stroke-width="2.5"/>
+<text x="300" y="262" font-size="21" fill="#475569" text-anchor="middle" font-weight="700">6</text>
+<circle cx="180" cy="333" r="22" fill="#f3e8ff" stroke="#7e22ce" stroke-width="2.5"/>
+<text x="180" y="340" font-size="21" fill="#7e22ce" text-anchor="middle" font-weight="700">7</text>
+<text x="443" y="115" font-size="22" fill="#7e22ce" text-anchor="start" font-weight="700">查询 4 与 7 的 LCA</text>
+<text x="443" y="166" font-size="26" fill="#1d4ed8" text-anchor="start" font-weight="700">4 → 2 → 5 → 7</text>
+<text x="443" y="207" font-size="21" fill="#0f172a" text-anchor="start" font-weight="400">退回 2，再走向 7。</text>
+<text x="443" y="247" font-size="20" fill="#0f172a" text-anchor="start" font-weight="400">这段遍历不会离开子树 2，</text>
+<text x="443" y="280" font-size="20" fill="#0f766e" text-anchor="start" font-weight="700">最浅点就是 2（深度为 2）。</text>
+<text x="172" y="406" font-size="19" fill="#475569" text-anchor="end" font-weight="400">欧拉位置 i</text>
+<rect x="190" y="375" width="44" height="46" rx="6" fill="#f8fafc" stroke="#475569" />
+<text x="212.0" y="406" font-size="22" fill="#475569" text-anchor="middle" font-weight="700">1</text>
+<rect x="238" y="375" width="44" height="46" rx="6" fill="#f8fafc" stroke="#475569" />
+<text x="260.0" y="406" font-size="22" fill="#475569" text-anchor="middle" font-weight="700">2</text>
+<rect x="286" y="375" width="44" height="46" rx="6" fill="#f3e8ff" stroke="#7e22ce" />
+<text x="308.0" y="406" font-size="22" fill="#7e22ce" text-anchor="middle" font-weight="700">3</text>
+<rect x="334" y="375" width="44" height="46" rx="6" fill="#f8fafc" stroke="#475569" />
+<text x="356.0" y="406" font-size="22" fill="#475569" text-anchor="middle" font-weight="700">4</text>
+<rect x="382" y="375" width="44" height="46" rx="6" fill="#f8fafc" stroke="#475569" />
+<text x="404.0" y="406" font-size="22" fill="#475569" text-anchor="middle" font-weight="700">5</text>
+<rect x="430" y="375" width="44" height="46" rx="6" fill="#f3e8ff" stroke="#7e22ce" />
+<text x="452.0" y="406" font-size="22" fill="#7e22ce" text-anchor="middle" font-weight="700">6</text>
+<rect x="478" y="375" width="44" height="46" rx="6" fill="#f8fafc" stroke="#475569" />
+<text x="500.0" y="406" font-size="22" fill="#475569" text-anchor="middle" font-weight="700">7</text>
+<rect x="526" y="375" width="44" height="46" rx="6" fill="#f8fafc" stroke="#475569" />
+<text x="548.0" y="406" font-size="22" fill="#475569" text-anchor="middle" font-weight="700">8</text>
+<rect x="574" y="375" width="44" height="46" rx="6" fill="#f8fafc" stroke="#475569" />
+<text x="596.0" y="406" font-size="22" fill="#475569" text-anchor="middle" font-weight="700">9</text>
+<rect x="622" y="375" width="44" height="46" rx="6" fill="#f8fafc" stroke="#475569" />
+<text x="644.0" y="406" font-size="22" fill="#475569" text-anchor="middle" font-weight="700">10</text>
+<rect x="670" y="375" width="44" height="46" rx="6" fill="#f8fafc" stroke="#475569" />
+<text x="692.0" y="406" font-size="22" fill="#475569" text-anchor="middle" font-weight="700">11</text>
+<rect x="718" y="375" width="44" height="46" rx="6" fill="#f8fafc" stroke="#475569" />
+<text x="740.0" y="406" font-size="22" fill="#475569" text-anchor="middle" font-weight="700">12</text>
+<rect x="766" y="375" width="44" height="46" rx="6" fill="#f8fafc" stroke="#475569" />
+<text x="788.0" y="406" font-size="22" fill="#475569" text-anchor="middle" font-weight="700">13</text>
+<text x="172" y="463" font-size="19" fill="#475569" text-anchor="end" font-weight="400">E[i]</text>
+<rect x="190" y="432" width="44" height="46" rx="6" fill="#f8fafc" stroke="#475569" />
+<text x="212.0" y="463" font-size="22" fill="#475569" text-anchor="middle" font-weight="700">1</text>
+<rect x="238" y="432" width="44" height="46" rx="6" fill="#f8fafc" stroke="#475569" />
+<text x="260.0" y="463" font-size="22" fill="#475569" text-anchor="middle" font-weight="700">2</text>
+<rect x="286" y="432" width="44" height="46" rx="6" fill="#dbeafe" stroke="#1d4ed8" />
+<text x="308.0" y="463" font-size="22" fill="#1d4ed8" text-anchor="middle" font-weight="700">4</text>
+<rect x="334" y="432" width="44" height="46" rx="6" fill="#ccfbf1" stroke="#0f766e" />
+<text x="356.0" y="463" font-size="22" fill="#0f766e" text-anchor="middle" font-weight="700">2</text>
+<rect x="382" y="432" width="44" height="46" rx="6" fill="#dbeafe" stroke="#1d4ed8" />
+<text x="404.0" y="463" font-size="22" fill="#1d4ed8" text-anchor="middle" font-weight="700">5</text>
+<rect x="430" y="432" width="44" height="46" rx="6" fill="#dbeafe" stroke="#1d4ed8" />
+<text x="452.0" y="463" font-size="22" fill="#1d4ed8" text-anchor="middle" font-weight="700">7</text>
+<rect x="478" y="432" width="44" height="46" rx="6" fill="#f8fafc" stroke="#475569" />
+<text x="500.0" y="463" font-size="22" fill="#475569" text-anchor="middle" font-weight="700">5</text>
+<rect x="526" y="432" width="44" height="46" rx="6" fill="#f8fafc" stroke="#475569" />
+<text x="548.0" y="463" font-size="22" fill="#475569" text-anchor="middle" font-weight="700">2</text>
+<rect x="574" y="432" width="44" height="46" rx="6" fill="#f8fafc" stroke="#475569" />
+<text x="596.0" y="463" font-size="22" fill="#475569" text-anchor="middle" font-weight="700">1</text>
+<rect x="622" y="432" width="44" height="46" rx="6" fill="#f8fafc" stroke="#475569" />
+<text x="644.0" y="463" font-size="22" fill="#475569" text-anchor="middle" font-weight="700">3</text>
+<rect x="670" y="432" width="44" height="46" rx="6" fill="#f8fafc" stroke="#475569" />
+<text x="692.0" y="463" font-size="22" fill="#475569" text-anchor="middle" font-weight="700">6</text>
+<rect x="718" y="432" width="44" height="46" rx="6" fill="#f8fafc" stroke="#475569" />
+<text x="740.0" y="463" font-size="22" fill="#475569" text-anchor="middle" font-weight="700">3</text>
+<rect x="766" y="432" width="44" height="46" rx="6" fill="#f8fafc" stroke="#475569" />
+<text x="788.0" y="463" font-size="22" fill="#475569" text-anchor="middle" font-weight="700">1</text>
+<text x="172" y="520" font-size="19" fill="#475569" text-anchor="end" font-weight="400">dep[E[i]]</text>
+<rect x="190" y="489" width="44" height="46" rx="6" fill="#f8fafc" stroke="#475569" />
+<text x="212.0" y="520" font-size="22" fill="#475569" text-anchor="middle" font-weight="700">1</text>
+<rect x="238" y="489" width="44" height="46" rx="6" fill="#f8fafc" stroke="#475569" />
+<text x="260.0" y="520" font-size="22" fill="#475569" text-anchor="middle" font-weight="700">2</text>
+<rect x="286" y="489" width="44" height="46" rx="6" fill="#dbeafe" stroke="#1d4ed8" />
+<text x="308.0" y="520" font-size="22" fill="#1d4ed8" text-anchor="middle" font-weight="700">3</text>
+<rect x="334" y="489" width="44" height="46" rx="6" fill="#ccfbf1" stroke="#0f766e" />
+<text x="356.0" y="520" font-size="22" fill="#0f766e" text-anchor="middle" font-weight="700">2</text>
+<rect x="382" y="489" width="44" height="46" rx="6" fill="#dbeafe" stroke="#1d4ed8" />
+<text x="404.0" y="520" font-size="22" fill="#1d4ed8" text-anchor="middle" font-weight="700">3</text>
+<rect x="430" y="489" width="44" height="46" rx="6" fill="#dbeafe" stroke="#1d4ed8" />
+<text x="452.0" y="520" font-size="22" fill="#1d4ed8" text-anchor="middle" font-weight="700">4</text>
+<rect x="478" y="489" width="44" height="46" rx="6" fill="#f8fafc" stroke="#475569" />
+<text x="500.0" y="520" font-size="22" fill="#475569" text-anchor="middle" font-weight="700">3</text>
+<rect x="526" y="489" width="44" height="46" rx="6" fill="#f8fafc" stroke="#475569" />
+<text x="548.0" y="520" font-size="22" fill="#475569" text-anchor="middle" font-weight="700">2</text>
+<rect x="574" y="489" width="44" height="46" rx="6" fill="#f8fafc" stroke="#475569" />
+<text x="596.0" y="520" font-size="22" fill="#475569" text-anchor="middle" font-weight="700">1</text>
+<rect x="622" y="489" width="44" height="46" rx="6" fill="#f8fafc" stroke="#475569" />
+<text x="644.0" y="520" font-size="22" fill="#475569" text-anchor="middle" font-weight="700">2</text>
+<rect x="670" y="489" width="44" height="46" rx="6" fill="#f8fafc" stroke="#475569" />
+<text x="692.0" y="520" font-size="22" fill="#475569" text-anchor="middle" font-weight="700">3</text>
+<rect x="718" y="489" width="44" height="46" rx="6" fill="#f8fafc" stroke="#475569" />
+<text x="740.0" y="520" font-size="22" fill="#475569" text-anchor="middle" font-weight="700">2</text>
+<rect x="766" y="489" width="44" height="46" rx="6" fill="#f8fafc" stroke="#475569" />
+<text x="788.0" y="520" font-size="22" fill="#475569" text-anchor="middle" font-weight="700">1</text>
+<line x1="286" y1="539" x2="286" y2="548" stroke="#0f766e" stroke-width="2" />
+<line x1="286" y1="548" x2="474" y2="548" stroke="#0f766e" stroke-width="2" />
+<line x1="474" y1="539" x2="474" y2="548" stroke="#0f766e" stroke-width="2" />
+<text x="380.0" y="576" font-size="19" fill="#0f766e" text-anchor="middle" font-weight="700">查询 [3, 6]：深度最小值 2，对应点 E[4] = 2</text>
+<rect x="28" y="595" width="824" height="48" rx="8" fill="#ffedd5" stroke="none" />
+<text x="440" y="626" font-size="20" fill="#b45309" text-anchor="middle" font-weight="700">注意：最小值在位置 4，但 pos(2) = 2，不在查询区间内。</text>
+</g>
+</svg>
