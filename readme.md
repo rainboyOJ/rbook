@@ -78,6 +78,10 @@ rbook build --profile full  # 完整构建 (含动画、论文、third_part)
 
 ### 多语言 code tab
 
+相邻的两个及以上 fence，在 info 里写 `[分组名:标签名]` 即合成一组标签页；
+分组名不同、或中间隔着其它内容就各自成组。面板显隐是纯 CSS，没有 JS 也能切换，
+打印时会展开全部版本。实现见 `src/publishing/markdown/plugins/code-tabs.ts`。
+
 ```
 \`\`\`js [g1:JavaScript]
 console.log("hello");

@@ -59,6 +59,22 @@
         })
     })
 
+    // 代码标签页：面板显隐由 CSS（input:checked + div）负责，这里只把当前
+    // 标签标成 .is-active，保证没有 JS 时仍然可以切换。
+    document.querySelectorAll('.code-tabs').forEach(tabs => {
+        const inputs = Array.from(tabs.querySelectorAll('.code-tabs-radio'))
+        if (!inputs.length) return
+        const labels = Array.from(tabs.querySelectorAll('.code-tabs-bar label'))
+        const sync = () => {
+            for (const input of inputs) {
+                const label = labels.find(l => l.getAttribute('for') === input.id)
+                if (label) label.classList.toggle('is-active', input.checked)
+            }
+        }
+        tabs.addEventListener('change', sync)
+        sync()
+    })
+
     // Optional tooltips must never prevent code-copy initialization.
     document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(element => {
         try {

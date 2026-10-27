@@ -7,6 +7,7 @@ import pseudocodePlugin, { PseudocodePluginOptions } from './plugins/pseudocode'
 import rbookLinkPlugin, { RbookLinkOptions } from './plugins/rbook-link'
 import problemListPlugin from './plugins/problem-list'
 import fencePlugin from './plugins/fence'
+import codeTabsPlugin from './plugins/code-tabs'
 import excalidrawPlugin, { ExcalidrawOptions } from './plugins/excalidraw'
 import animatePlugin, { AnimateOptions } from './plugins/animate'
 import dsaPlugin, { DsaOptions } from './plugins/dsa'
@@ -68,6 +69,9 @@ export function registerPlugins(md: MarkdownIt, opts: PluginRegistryOptions): vo
     md.use(problemListPlugin, opts.rbookLink)
 
     // 3. 外部集成
+    // code-tabs 必须在 fence 之前注册：它在 core 阶段给同组 fence 打
+    // meta.codeTabs，fence 渲染器再据此把代码块包成标签面板。
+    md.use(codeTabsPlugin)
     md.use(fencePlugin)
     md.use(excalidrawPlugin, opts.excalidraw || {})
 

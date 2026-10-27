@@ -3,6 +3,7 @@ import MarkdownIt from 'markdown-it'
 const katex = require('katex')
 
 import { renderPseudocodeBlock } from './pseudocode'
+import { renderCodeTabPane, type CodeTabMeta } from './code-tabs'
 import { highlightCode } from '../highlight'
 
 export default function fencePlugin(md: MarkdownIt): void {
@@ -35,13 +36,15 @@ export default function fencePlugin(md: MarkdownIt): void {
         const rendered = highlightCode(token.content, langName)
         const content = md.utils.escapeHtml(token.content)
 
+        let html = rendered
+
         if (content && content.length > 0) {
             // 构建期生成行号列：与代码同 lineHeight、右对齐、borderRight 分隔，
             // 样式见 markdown-r.scss 的 .line-numbers-mode（VuePress 风格）。
             // aria-hidden + user-select:none，不影响复制与无障碍。
             const lineCount = token.content.replace(/\n$/, '').split('\n').length
             const numbers = Array.from({ length: lineCount }, (_, i) => i + 1).join('\n')
-            return `
+            html = `
 <div class="code-with-linenumber line-numbers-mode">
     <pre class="line-numbers-pre"><span class="line-numbers-wrapper" aria-hidden="true">${numbers}</span></pre>
     ${rendered}
@@ -49,6 +52,11 @@ export default function fencePlugin(md: MarkdownIt): void {
 </div>`
         }
 
-        return rendered
+        // code-tabs 插件在 core 阶段给同组 fence 打了 meta.codeTabs，
+        // 这里顺手把渲染好的代码块包成标签面板（标签栏只在第一块上输出）。
+        const tabs = token.meta && (token.meta as { codeTabs?: CodeTabMeta }).codeTabs
+        if (tabs) return renderCodeTabPane(tabs, html)
+
+        return html
     }
 }

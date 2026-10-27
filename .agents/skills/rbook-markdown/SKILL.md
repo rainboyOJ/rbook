@@ -14,7 +14,7 @@ description: 编写或修改 /home/rainboy/mycode/newRbook_ejs 这本 rbook 电�
    （`[[[include:]]]`、`[[[animate:]]]`、EJS 宏都挂在 `core.ruler` 的 `normalize` 之前）。
    这类指令**在代码围栏里也会展开**——想在示例里展示它们，必须转义。
    **`[[[dsa:]]]` 是例外**：它自己做了代码段屏蔽，围栏与行内代码里保持原文。
-2. **绝大多数失效是静默的**：未注册的 `:::` 名变成普通段落、`[g1:cpp]` 被丢弃、
+2. **绝大多数失效是静默的**：未注册的 `:::` 名变成普通段落、`[g1:]` 标签为空时被丢弃、
    `[[wikilink]]` 原样输出、`++插入++` 只是文本。不报错，只是"没效果"。
 3. **判断"到底生效了没有"的唯一可靠办法是跑真实渲染器**，本 skill 带了一个脚本（见文末）。
 
@@ -180,6 +180,23 @@ book/<章>/<文章目录>/
 
 - 普通代码块走 Prism 高亮 + 行号列 + 复制按钮。别名：`c++`→cpp、`py`/`python3`→python、
   `js`、`ts`、`sh`/`shell`/`zsh`→bash、`yml`。未收录语言会自动尝试加载，失败退化为纯文本。
+- **代码标签页**：相邻的两个及以上 fence，在 info 里写 `[分组名:标签名]`：
+
+  ````md
+  ```cpp [g1:C++]
+  int main() { return 0; }
+  ```
+  ```py [g1:Python]
+  print(1)
+  ```
+  ````
+
+  规则：**同一分组名 + 彼此相邻**才合成一组；中间隔了段落/列表边界就各自成组；
+  分组名不同也各自成组；单块成组照常输出标签栏（只会有一个标签）。
+  标签名可以写中文；分组名不要带空格、冒号、方括号。
+  面板显隐是纯 CSS（`input:checked + div`），没 JS 也能点；JS 只把当前标签标成
+  `.is-active`。打印时会展开全部版本并在每块上方标出 `data-label`。
+  `file=` 可以和标签共存：`` ```cpp [g1:C++] file=./a.cpp ``。
 - 特殊语言名：`mermaid`（前端 CDN 渲染）、`pseudocode`、`math`、`plantuml`、`dot`。
   ⚠️ `plantuml` 与 `dot` 目前**只输出 `<pre>`**，仓库里没有对应渲染器，放进去只会看到源码。
 - 伪代码两种写法等价：
@@ -234,7 +251,8 @@ book/<章>/<文章目录>/
 | 脚注 `[^1]` + `[^1]: 说明` | 变成指向说明文字的怪链接 | 直接写正文或括注 |
 | 任务列表 `- [ ]` | 普通列表项字面量 | 用 emoji 或纯文字 |
 | `:smile:` 短码 | 字面量 | 直接打 emoji 😄 |
-| ` ```cpp [g1:cpp] ` | `[g1:…]` 被静默忽略，各块独立显示 | 拆成多个 fence，或用 `file=` |
+| ` ```cpp [g1:] ` | 标签为空，标记被丢弃，退化成普通代码块 | 补上标签名：`[g1:C++]` |
+| 同组 fence 中间夹段落 | 各自成组（两个单标签组） | 删掉中间内容，让它们相邻 |
 | `::: center`、`::: line`、`::: oneline` | 原样输出 | 不加容器，或自己写 HTML |
 | `[[[demo: x]]]` | 未知指令，原样输出 | 用 `[[[dsa: x]]]`（外链卡片）或 `[[[animate: ./x.animation.ts]]]`（内嵌） |
 
@@ -296,7 +314,7 @@ node .agents/skills/rbook-markdown/scripts/render-check.js graph/spfa/index.md -
 脚本用**项目真实管线**（catalog + 文章 config + 全部插件）渲染指定文章，然后分两层体检：
 
 - **源码层**（先剥掉围栏与行内代码，所以正确转义过的示例不会被误报）：
-  未知的 `[[[type: …]]]`、双方括号、未注册的 `:::` 名字、`++`/`==`/脚注/`[g1:]`；
+  未知的 `[[[type: …]]]`、双方括号、未注册的 `:::` 名字、`++`/`==`/脚注/`[g1:]` 空标签；
 - **产物层**：`include-missing`、`rbook-animation--error`、`rbook-dsa-card--error`、`extra-link missing`。
 
 命中位置会给出源码行号，末尾打印全部诊断（含建议）。加 `--html` 可打印正文 HTML。
@@ -321,6 +339,7 @@ npm run dev             # 本地预览；改 md / animation.ts 会整页刷新
 - 卡片样式与水果字体码点表：`src/markdown-style/dsa-card.scss`、`src/public/fonts/`
 - 容器：`plugins/containers.ts`（未注册的名字不会有任何提示）
 - 伪代码：`plugins/pseudocode.ts`、`plugins/fence.ts`
+- 代码标签页：`plugins/code-tabs.ts`（分组）+ `plugins/fence.ts`（包面板）+ `src/markdown-style/codetabs.scss`
 - 数学：`plugins/math.ts`（内含"公式漏解析"的两类检测）
 - 题目列表：`plugins/problem-list.ts`
 - TOC 与锚点：`plugins/toc.ts`

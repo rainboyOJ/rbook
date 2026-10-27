@@ -106,14 +106,11 @@ $$
 
 读入一棵树和若干祖孙询问，输出先序、欧拉序、每个点的四元组，以及每次询问的结果。
 
-**C++ 版**：
+两个版本输出完全一致（Python 用显式栈遍历，欧拉序部分仍是递归，已放宽递归上限）：
 
-```cpp file=./code/dfs_order_full.cpp
+```cpp [g1:C++] file=./code/dfs_order_full.cpp
 ```
-
-**Python 版**（先序遍历用显式栈，输出与 C++ 版逐字节一致；欧拉序部分仍是递归，已放宽递归上限）：
-
-```py file=./code/dfs_order_full.py
+```py [g1:Python] file=./code/dfs_order_full.py
 ```
 
 ## 性质

@@ -1,49 +1,132 @@
+// 代码标签页（code tabs）
+//
+// 结构由 src/publishing/markdown/plugins/code-tabs.ts 生成：
+//
+//   .code-tabs
+//     ul.code-tabs-bar > li > label[for]
+//     .code-tabs-panes
+//       input.code-tabs-radio + div.code-tabs-pane
+//
+// 面板显隐只用 CSS（input:checked + div），没有 JS 也能切换；
+// JS 只负责给当前标签加 .is-active。
+
 .code-tabs {
-    border: 1px solid rgb(240, 240, 240);
-    border-radius: 3px;
+    // 颜色统一走主题变量，暗色主题由 article-shell.scss 的 --rbook-* 提供。
+    --code-tabs-border: var(--rbook-border, rgb(240, 240, 240));
+    --code-tabs-label: var(--rbook-muted, rgba(100, 116, 139, 1));
+    --code-tabs-label-active: var(--rbook-text, rgba(38, 38, 38, 1));
+
+    margin-block: 16px 24px;
+    border: 1px solid var(--code-tabs-border);
+    border-radius: 8px;
+    overflow: hidden;
+
     input {
         display: none;
     }
+
+    // 面板：未选中的隐藏，选中的显示。
+    // !important 保留旧行为（容错任何外层对 div 的 display 覆盖）。
     input + div {
         display: none !important;
     }
-    input:checked + div{
+
+    input:checked + div {
         display: block !important;
     }
+
     label {
-        color: rgba(191, 191, 191, 1);
+        color: var(--code-tabs-label);
     }
+
     input:checked + label {
-        color: rgba(38, 38, 38, 1);
+        color: var(--code-tabs-label-active);
     }
+
     ul {
         font-size: 0;
         padding: 0;
+        margin: 0;
         white-space: nowrap;
         overflow: auto;
         user-select: none;
-        border-bottom: 1px solid rgb(240, 240, 240);
+        border-bottom: 1px solid var(--code-tabs-border);
     }
+
     li {
         list-style: none;
         display: inline-block;
         position: relative;
     }
+
     label {
         cursor: pointer;
         user-select: none;
         display: inline-block;
-        padding: 2px 5px;
-        margin: 5px;
+        padding: 8px 12px;
+        margin: 0;
         font-size: 14px;
+        line-height: 1.2;
+        border-radius: 0;
+        transition: color 0.15s ease;
     }
+
+    label:hover,
+    label.is-active {
+        color: var(--code-tabs-label-active);
+    }
+
+    label.is-active {
+        font-weight: 600;
+        // 当前标签用下划线标记，不依赖颜色区分（灰度/无 JS 时也能分辨位置）。
+        box-shadow: inset 0 -2px 0 var(--rbook-accent, #2563eb);
+    }
+
+    // 标签之间的细分隔线
     li ~ li::before {
         content: "";
         height: 12px;
         width: 1px;
-        background: rgba(191, 191, 191, 1);
+        background: var(--code-tabs-border);
         position: absolute;
         top: 50%;
+        left: 0;
         transform: translate(-50%, -50%);
+    }
+
+    // 面板内的代码块去掉自身外边距，避免容器里出现双份留白。
+    .code-tabs-pane > .line-numbers-mode {
+        margin-block: 0;
+    }
+}
+
+// 打印：标签栏收起，所有版本依次展开并标出各自的标签名，
+// 这样纸上不会只剩当前选中的那一版。
+@media print {
+    .code-tabs {
+        border: none;
+        overflow: visible;
+    }
+
+    .code-tabs-bar {
+        display: none !important;
+    }
+
+    .code-tabs input,
+    .code-tabs-panes > input + div,
+    .code-tabs-pane {
+        display: block !important;
+    }
+
+    .code-tabs-pane + .code-tabs-pane {
+        margin-top: 12px;
+    }
+
+    .code-tabs-pane::before {
+        content: attr(data-label);
+        display: block;
+        font-size: 12px;
+        color: var(--code-tabs-label);
+        padding: 0 0 4px;
     }
 }
