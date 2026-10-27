@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="420" viewBox="0 0 880 420" role="img" aria-labelledby="title desc">
+<title id="title">P5 · 祖先一直在前，旁支会换到另一边</title>
+<desc id="desc">两遍 DFS 都从左到右读序列。第一遍按原儿子顺序访问，第二遍把每个点的儿子顺序反转。点 5 两遍都在点 7 前面，点 4 从点 7 前面换到了后面。</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b"/></marker></defs>
+<g font-family="Noto Sans CJK SC, Microsoft YaHei, sans-serif">
+<rect x="0" y="0" width="880" height="420" rx="16" fill="#fff" stroke="#cbd5e1" />
+<text x="28" y="40" font-size="24" fill="#0f172a" text-anchor="start" font-weight="700">P5 · 祖先一直在前，旁支会换到另一边</text>
+<text x="202" y="140" font-size="19" fill="#475569" text-anchor="end" font-weight="400">正向进入序</text>
+<rect x="220" y="109" width="78" height="46" rx="6" fill="#f8fafc" stroke="#475569" />
+<text x="259.0" y="140" font-size="22" fill="#475569" text-anchor="middle" font-weight="700">1</text>
+<text x="259.0" y="96" font-size="17" fill="#475569" text-anchor="middle" font-weight="400">1</text>
+<rect x="302" y="109" width="78" height="46" rx="6" fill="#f8fafc" stroke="#475569" />
+<text x="341.0" y="140" font-size="22" fill="#475569" text-anchor="middle" font-weight="700">2</text>
+<text x="341.0" y="96" font-size="17" fill="#475569" text-anchor="middle" font-weight="400">2</text>
+<rect x="384" y="109" width="78" height="46" rx="6" fill="#ffedd5" stroke="#b45309" />
+<text x="423.0" y="140" font-size="22" fill="#b45309" text-anchor="middle" font-weight="700">4</text>
+<text x="423.0" y="96" font-size="17" fill="#475569" text-anchor="middle" font-weight="400">3</text>
+<rect x="466" y="109" width="78" height="46" rx="6" fill="#ccfbf1" stroke="#0f766e" />
+<text x="505.0" y="140" font-size="22" fill="#0f766e" text-anchor="middle" font-weight="700">5</text>
+<text x="505.0" y="96" font-size="17" fill="#475569" text-anchor="middle" font-weight="400">4</text>
+<rect x="548" y="109" width="78" height="46" rx="6" fill="#f3e8ff" stroke="#7e22ce" />
+<text x="587.0" y="140" font-size="22" fill="#7e22ce" text-anchor="middle" font-weight="700">7</text>
+<text x="587.0" y="96" font-size="17" fill="#475569" text-anchor="middle" font-weight="400">5</text>
+<rect x="630" y="109" width="78" height="46" rx="6" fill="#f8fafc" stroke="#475569" />
+<text x="669.0" y="140" font-size="22" fill="#475569" text-anchor="middle" font-weight="700">3</text>
+<text x="669.0" y="96" font-size="17" fill="#475569" text-anchor="middle" font-weight="400">6</text>
+<rect x="712" y="109" width="78" height="46" rx="6" fill="#f8fafc" stroke="#475569" />
+<text x="751.0" y="140" font-size="22" fill="#475569" text-anchor="middle" font-weight="700">6</text>
+<text x="751.0" y="96" font-size="17" fill="#475569" text-anchor="middle" font-weight="400">7</text>
+<text x="202" y="96" font-size="17" fill="#475569" text-anchor="end" font-weight="400">位置 in</text>
+<text x="220" y="190" font-size="20" fill="#475569" text-anchor="start" font-weight="400">点 4 在 7 前；点 5 也在 7 前。</text>
+<text x="202" y="284" font-size="19" fill="#475569" text-anchor="end" font-weight="400">反向进入序</text>
+<rect x="220" y="253" width="78" height="46" rx="6" fill="#f8fafc" stroke="#475569" />
+<text x="259.0" y="284" font-size="22" fill="#475569" text-anchor="middle" font-weight="700">1</text>
+<text x="259.0" y="240" font-size="17" fill="#475569" text-anchor="middle" font-weight="400">1</text>
+<rect x="302" y="253" width="78" height="46" rx="6" fill="#f8fafc" stroke="#475569" />
+<text x="341.0" y="284" font-size="22" fill="#475569" text-anchor="middle" font-weight="700">3</text>
+<text x="341.0" y="240" font-size="17" fill="#475569" text-anchor="middle" font-weight="400">2</text>
+<rect x="384" y="253" width="78" height="46" rx="6" fill="#f8fafc" stroke="#475569" />
+<text x="423.0" y="284" font-size="22" fill="#475569" text-anchor="middle" font-weight="700">6</text>
+<text x="423.0" y="240" font-size="17" fill="#475569" text-anchor="middle" font-weight="400">3</text>
+<rect x="466" y="253" width="78" height="46" rx="6" fill="#f8fafc" stroke="#475569" />
+<text x="505.0" y="284" font-size="22" fill="#475569" text-anchor="middle" font-weight="700">2</text>
+<text x="505.0" y="240" font-size="17" fill="#475569" text-anchor="middle" font-weight="400">4</text>
+<rect x="548" y="253" width="78" height="46" rx="6" fill="#ccfbf1" stroke="#0f766e" />
+<text x="587.0" y="284" font-size="22" fill="#0f766e" text-anchor="middle" font-weight="700">5</text>
+<text x="587.0" y="240" font-size="17" fill="#475569" text-anchor="middle" font-weight="400">5</text>
+<rect x="630" y="253" width="78" height="46" rx="6" fill="#f3e8ff" stroke="#7e22ce" />
+<text x="669.0" y="284" font-size="22" fill="#7e22ce" text-anchor="middle" font-weight="700">7</text>
+<text x="669.0" y="240" font-size="17" fill="#475569" text-anchor="middle" font-weight="400">6</text>
+<rect x="712" y="253" width="78" height="46" rx="6" fill="#ffedd5" stroke="#b45309" />
+<text x="751.0" y="284" font-size="22" fill="#b45309" text-anchor="middle" font-weight="700">4</text>
+<text x="751.0" y="240" font-size="17" fill="#475569" text-anchor="middle" font-weight="400">7</text>
+<text x="202" y="240" font-size="17" fill="#475569" text-anchor="end" font-weight="400">位置 rdfn</text>
+<text x="220" y="334" font-size="20" fill="#475569" text-anchor="start" font-weight="400">点 4 换到 7 后；点 5 仍在 7 前。</text>
+<rect x="28" y="358" width="824" height="48" rx="8" fill="#dbeafe" stroke="none" />
+<text x="440" y="389" font-size="20" fill="#1d4ed8" text-anchor="middle" font-weight="700">查询点 7：保留祖先 5，排除旁支 4。</text>
+</g>
+</svg>
