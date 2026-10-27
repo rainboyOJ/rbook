@@ -121,6 +121,8 @@
   children:
     - title: "树的入门"
       path: "base"
+    - title: "DFS序"
+      path: "dfs-order"
     - title: "树的直径"
       path: "diameter"
     - title: "树上差分"
