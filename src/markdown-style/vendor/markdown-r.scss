@@ -101,16 +101,16 @@ html {
     details {
         margin: 0 0 0.6em 0;
         summary {
-            display: inine-block;
+            display: block;
             padding: 0.3em 0.6em;
             width: auto;
             font-weight: bold;
-            text-shadow: 1px 1px 0 lighten(midnightblue,65%);
+            text-shadow: none;
             cursor: pointer;
-            background: lighten(midnightblue,55%) linear-gradient(to bottom, lighten(midnightblue,60%)  48%, lighten(midnightblue,55%)  52%);
-            border: solid 1px lighten(midnightblue,40%);
+            background: var(--rbook-surface-muted);
+            border: solid 1px var(--rbook-border);
             border-radius: 0.3em;
-            color: midnightblue;
+            color: var(--rbook-text);
             user-select: none;
 
             .details-open-indicator { position: absolute; visibility: hidden; }
@@ -132,18 +132,22 @@ html {
             &:hover:after {
                 opacity: 0.7;
             }
-            &:focus { outline: none; }
+            &:focus-visible {
+                outline: 2px solid var(--rbook-accent);
+                outline-offset: 2px;
+            }
         }
         article {
-            border: solid 1px lighten(midnightblue,40%);
-            border-top-color: hsl(0, 0%, 90%);
+            border: solid 1px var(--rbook-border);
+            background: var(--rbook-surface);
+            color: var(--rbook-text);
         }
 
         &[open] {
             summary {
-                color: darken(midnightblue,10%);
+                color: var(--rbook-text);
                 text-shadow: none;
-                background: lighten(midnightblue,45%);
+                background: var(--rbook-accent-muted);
                 border-radius: 0.3em 0.3em 0 0 ;
                 &:before {
                     transform: rotate(90deg);
@@ -216,8 +220,10 @@ html {
 .markdown-body {
     .warning,.error,.info{
         position: relative;
-        background: #ccc;
-        border-left: 5px solid red;
+        // 类型决定语义色，主题变量决定明暗；避免固定浅色背景配上暗色主题的白字。
+        background: var(--rbook-callout-bg);
+        color: var(--rbook-text);
+        border-left: 5px solid var(--rbook-callout-border);
         min-height: 50px;
         margin-top: calc($MARGIN/2);
         margin-bottom: calc($MARGIN/2);
@@ -230,33 +236,23 @@ html {
                 height: 20px;
                 width: 20px;
                 border-radius:100%;
+                background: var(--rbook-callout-border);
             }
         }
     }
     .warning {
-        border-color: #ff9800;
-        .title-icon {
-            img {
-                background: darken($color: #ff9800, $amount: 10%);
-            }
-        }
+        --rbook-callout-bg: var(--rbook-warning-bg);
+        --rbook-callout-border: var(--rbook-warning-border);
     }
 
     .info{
-        border-color: #00529B;
-        .title-icon {
-            img {
-                background: lighten($color: #00529B, $amount: 30%);
-            }
-        }
+        --rbook-callout-bg: var(--rbook-accent-muted);
+        --rbook-callout-border: var(--rbook-accent);
     }
 
     .error{
-        .title-icon {
-            img {
-                background: lighten($color: red, $amount: 20%);
-            }
-        }
+        --rbook-callout-bg: var(--rbook-danger-bg);
+        --rbook-callout-border: var(--rbook-danger-text);
     }
 }
 

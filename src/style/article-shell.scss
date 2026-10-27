@@ -28,6 +28,8 @@
     // 浅色代码背景与页面背景（#f8fafc）拉开小幅差异，保证代码块边界可辨。
     --rbook-code-bg: #eef2f7;
     --rbook-code-border: #cbd5e1;
+    --rbook-warning-bg: #fffbeb;
+    --rbook-warning-border: #b45309;
     --rbook-danger-bg: #fef2f2;
     --rbook-danger-border: #fca5a5;
     --rbook-danger-text: #991b1b;
@@ -56,6 +58,8 @@ html[data-theme="dark"] {
     // 暗色代码背景与正文背景分层。
     --rbook-code-bg: #182235;
     --rbook-code-border: #475569;
+    --rbook-warning-bg: #422006;
+    --rbook-warning-border: #fbbf24;
     --rbook-danger-bg: #451a1a;
     --rbook-danger-border: #7f1d1d;
     --rbook-danger-text: #fecaca;
@@ -205,7 +209,7 @@ html[data-theme="dark"] .theme-toggle__sun { display: block; }
 
 .colorfulbox,
 .colorfulbox.bg-light { border-color: var(--rbook-border); background: var(--rbook-surface-muted) !important; color: var(--rbook-text); }
-.colorfulbox > p:first-child { border-color: var(--rbook-border); background: var(--rbook-text); color: var(--rbook-surface); }
+.colorfulbox > p:first-child { border-color: var(--rbook-border); background: var(--rbook-accent-muted); color: var(--rbook-accent); }
 .markdown-body .oneWordAlgo { border-color: var(--rbook-border); }
 .markdown-body .oneWordAlgo .title { border-color: var(--rbook-border); background: var(--rbook-surface-muted); }
 .markdown-body .oneWordAlgo .content { background: var(--rbook-surface); }
