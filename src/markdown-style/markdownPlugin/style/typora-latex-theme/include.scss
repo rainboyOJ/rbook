@@ -3,7 +3,7 @@
 @import "./text.scss";
 @import "./typora.scss";
 
-@import "./heading.scss";
+// 标题编号由 publishing/markdown/plugins/toc.ts 与目录共同生成。
 @import "./footnote.scss";
 @import "./list.scss";
 @import "./table.scss";

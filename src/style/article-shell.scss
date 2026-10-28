@@ -1,19 +1,22 @@
 :root {
     color-scheme: light;
 
-    // —— 正文排版变量（见 docs/typography-theme-plan.md 与 ADR 0009）——
-    // 字体族：正文/标题使用系统无衬线，代码使用系统等宽，不加载 Web Font。
-    --rbook-font-body: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
-    --rbook-font-heading: var(--rbook-font-body);
+    // —— 正文排版变量（见 docs/article-academic-typography.md 与 ADR 0010）——
+    // 学术正文：自托管宋体；标题与代码保留系统黑体、等宽字体。
+    --rbook-font-body: "Noto Serif SC", "Songti SC", "STSong", "SimSun", "Noto Serif CJK SC", serif;
+    --rbook-font-heading: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
     --rbook-font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", "Noto Sans Mono CJK SC", monospace;
-    // 字号与行高：正文 16px/24px，代码块 14px/22px，行内代码为正文的 0.875em。
-    --rbook-body-size: 16px;
-    --rbook-body-lh: 24px;
+    // 正文 18px/30px，代码块保留 14px/22px。
+    --rbook-body-size: 18px;
+    --rbook-body-lh: 30px;
     --rbook-code-size: 14px;
     --rbook-code-lh: 22px;
     --rbook-inline-code-size: 0.875em;
-    // 正文宽度：42em，48em 仅作后续可用性复评候选值。
-    --rbook-article-width: 42em;
+    // 约 38 个汉字宽，窄屏由可用宽度约束。
+    --rbook-article-width: 684px;
+    --rbook-paragraph-gap: 8px;
+    --rbook-section-gap: 56px;
+    --rbook-subsection-gap: 36px;
 
     // —— 主题颜色变量 ——
     --rbook-bg: #f8fafc;
@@ -210,9 +213,6 @@ html[data-theme="dark"] .theme-toggle__sun { display: block; }
 .colorfulbox,
 .colorfulbox.bg-light { border-color: var(--rbook-border); background: var(--rbook-surface-muted) !important; color: var(--rbook-text); }
 .colorfulbox > p:first-child { border-color: var(--rbook-border); background: var(--rbook-accent-muted); color: var(--rbook-accent); }
-.markdown-body .oneWordAlgo { border-color: var(--rbook-border); }
-.markdown-body .oneWordAlgo .title { border-color: var(--rbook-border); background: var(--rbook-surface-muted); }
-.markdown-body .oneWordAlgo .content { background: var(--rbook-surface); }
 .code-tabs, .code-tabs ul { border-color: var(--rbook-border); }
 .code-tabs label { color: var(--rbook-muted); }
 .code-tabs input:checked + label { color: var(--rbook-text); }

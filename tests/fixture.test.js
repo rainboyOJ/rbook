@@ -21,6 +21,9 @@ describe('发布契约 fixtures', () => {
             'class="error"',
             'class="blackboard"',
             '<details>',
+            'class="rbook-callout-label">说明',
+            'class="rbook-callout-label">注意',
+            'class="rbook-callout-label">错误',
         ], assert)
     })
 

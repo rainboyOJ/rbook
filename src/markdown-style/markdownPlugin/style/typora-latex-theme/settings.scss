@@ -1,7 +1,7 @@
 @import "./font.scss";
 
 // 收拠：正文/标题字体不再由本主题独立定义，统一走 article-shell.scss 的
-// --rbook-font-body / --rbook-font-heading / --rbook-font-mono 与 16px 基线。
+// --rbook-font-body / --rbook-font-heading / --rbook-font-mono 与 18px 基线。
 // 以下变量保留，仅供本主题内部旧规则引用。
 :root {
     --base-Latin-font: var(--rbook-font-body);
@@ -9,7 +9,7 @@
     --base-font-size: var(--rbook-body-size);
     --base-line-height: var(--rbook-body-lh);
     --code-font: var(--rbook-font-mono);
-    --ui-font: var(--rbook-font-body);
+    --ui-font: var(--rbook-font-heading);
 
     /* 引言字体 */
     --quote-font: var(--rbook-font-body);
@@ -24,8 +24,8 @@
     --h6-font-size: 14px;
 
     /* 标题字体（供 heading.scss 的旧 font-family 引用回退） */
-    --heading-Latin-font: var(--rbook-font-body);
-    --heading-Chinese-font: var(--rbook-font-body);
+    --heading-Latin-font: var(--rbook-font-heading);
+    --heading-Chinese-font: var(--rbook-font-heading);
 
     /* 粗体样式设置 */
     --strong-weight: 600;

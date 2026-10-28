@@ -50,13 +50,13 @@ describe('正文排版变量与规则（typography）', () => {
         assert.ok(darkBlock.includes('--rbook-code-bg:'), '暗色主题应定义代码背景变量')
     })
 
-    it('固定正文 16px/24px、代码 14px/22px、正文宽度 42em', () => {
-        assert.match(shellSource, /--rbook-body-size:\s*16px/)
-        assert.match(shellSource, /--rbook-body-lh:\s*24px/)
+    it('固定正文 18px/30px、代码 14px/22px、正文宽度 684px', () => {
+        assert.match(shellSource, /--rbook-body-size:\s*18px/)
+        assert.match(shellSource, /--rbook-body-lh:\s*30px/)
         assert.match(shellSource, /--rbook-code-size:\s*14px/)
         assert.match(shellSource, /--rbook-code-lh:\s*22px/)
         assert.match(shellSource, /--rbook-inline-code-size:\s*0\.875em/)
-        assert.match(shellSource, /--rbook-article-width:\s*42em/)
+        assert.match(shellSource, /--rbook-article-width:\s*684px/)
     })
 
     it('正文规则限定在 .rbook-article .markdown-body 内', () => {

@@ -1,32 +1,20 @@
-.markdown-body {
-    .oneWordAlgo {
-        $BorderStyle:1px solid var(--rbook-border);
-        margin:16px auto;
-        max-width:600px;
-        display:flex;
-        flex-direction:column;
-        border:$BorderStyle;
-        border-radius:6px;
-        .title {
-            font-family: var(--rbook-font-heading);
-            padding:8px 16px;
-            margin:0;
-            background-color: var(--rbook-surface-muted);
-            border-bottom:$BorderStyle;
-            span {
-
-            }
-        }
-        .content {
-            p {
-                font-family: var(--rbook-font-heading);
-                column-span: all;
-                font-size: 1.5em;
-                font-weight:bold;
-            }
-            flex: 1 1 auto;
-            padding:16px;
-            background-color: var(--rbook-surface);
-        }
+.markdown-body .oneWordAlgo {
+    margin: 24px auto;
+    padding: 14px 18px;
+    border: 0;
+    border-inline-start: 2px solid var(--rbook-accent);
+    background: var(--rbook-surface-muted);
+    .title {
+        font: 600 16px/26px var(--rbook-font-heading);
+        padding: 0;
+        margin-bottom: 8px;
+        border: 0;
+        background: transparent;
+    }
+    .content {
+        padding: 0;
+        background: transparent;
+        p { font: inherit; text-indent: 0; }
+        > :last-child { margin-bottom: 0; }
     }
 }

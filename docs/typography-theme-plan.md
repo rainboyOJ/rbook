@@ -11,6 +11,8 @@ aliases:
 
 # Rbook 正文排版与主题样式改造计划
 
+> 历史记录：第一轮方案已被 2026-10-28 定稿的 [学术正文样式](./article-academic-typography.md) 更新。当前正文为自托管宋体 18px/30px、684px 版心，标题为系统黑体；标题与目录共享编号。下文的 16px/24px、42em 和不加载 Web Font 等内容仅记录第一轮决策，现行参数以新定稿和 [ADR 0010](./adr/0010-academic-article-self-hosted-serif.md) 为准。
+
 ## 目标
 
 参考 [赫蹏 Heti](https://sivan.github.io/heti/) 的中文排版原则，重建 Rbook 正文区域的排版基础，使正文、标题、行内代码、代码块和暗色主题具有统一的字体、字号、行高、间距和颜色体系。

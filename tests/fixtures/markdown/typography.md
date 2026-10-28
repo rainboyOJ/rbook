@@ -3,9 +3,11 @@
 这个 fixture 只用于排版（typography）人工与构建检查，
 对应计划：`docs/typography-theme-plan.md` 的"排版 fixture 与验收清单"。
 
+[[toc]]
+
 ## 中文正文
 
-这是一段纯中文正文，用来检查行宽、行高与段落在 42em 正文宽度下的表现。中文排版要求标点不悬挂在行首，且中英文之间有可读的间距。
+这是一段纯中文正文，用来检查行宽、行高与段落在 684px 正文宽度下的表现。中文排版要求标点不悬挂在行首，且中英文之间有可读的间距。
 
 这是一段中英混排的正文：使用 C++ 与 Python 实现 Binary Search 时，时间复杂度都是 O(log n)，但常数因子不同。行内代码如 `lower_bound` 应与正文有清晰区分。
 
@@ -114,3 +116,37 @@ $$
 
 这段正文在浅色和暗色主题下都应清晰可读。
 :::
+
+
+## 性质与长标题
+
+### P1 子树是连续区间，长标题换行后应与标题文字对齐
+
+普通叙述以两个汉字缩进；句中的 **重点** 不应让整段失去缩进。
+
+### P2 区间长度
+
+::: warning
+注意闭区间端点，不能漏掉最后一个点。
+:::
+
+::: error
+输入不合法时应当停止计算。
+:::
+
+::: fold
+展开后可以阅读答案，折叠入口仍然支持键盘操作。
+:::
+
+<figure>
+<img src="/tree/dfs-order/images/property-1-subtree.svg" alt="子树对应连续区间的示意图">
+<figcaption>图 1：子树对应连续区间。</figcaption>
+</figure>
+
+| 宽表第一列 | 宽表第二列 | 宽表第三列 |
+| --- | --- | --- |
+| `first_column_with_a_long_unbreakable_identifier` | `second_column_with_a_long_unbreakable_identifier` | `third_column_with_a_long_unbreakable_identifier` |
+
+$$
+x_1+x_2+x_3+x_4+x_5+x_6+x_7+x_8+x_9+x_{10}+x_{11}+x_{12}+x_{13}+x_{14}=\sum_{i=1}^{14}x_i
+$$

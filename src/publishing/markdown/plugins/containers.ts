@@ -28,9 +28,9 @@ const CONTAINERS: ContainerDef[] = [
 ]
 
 const DEFAULT_CONTAINERS: ContainerDef[] = [
-    ['warning', p => /^warning/i.test(p.trim()), () => `<div class="warning">\n<div class="title-icon"></div>\n`, () => '</div>\n'],
-    ['error', p => /^error/i.test(p.trim()), () => `<div class="error">\n<div class="title-icon"></div>\n`, () => '</div>\n'],
-    ['info', p => /^info/i.test(p.trim()), () => `<div class="info">\n<div class="title-icon"></div>\n`, () => '</div>\n'],
+    ['warning', p => /^warning/i.test(p.trim()), () => `<div class="warning">\n<div class="rbook-callout-label">注意</div>\n`, () => '</div>\n'],
+    ['error', p => /^error/i.test(p.trim()), () => `<div class="error">\n<div class="rbook-callout-label">错误</div>\n`, () => '</div>\n'],
+    ['info', p => /^info/i.test(p.trim()), () => `<div class="info">\n<div class="rbook-callout-label">说明</div>\n`, () => '</div>\n'],
 ]
 
 export default function containersPlugin(md: MarkdownIt): void {

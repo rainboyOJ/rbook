@@ -1,8 +1,10 @@
 ---
-status: accepted
+status: superseded by ADR-0010
 ---
 
 # 文章正文采用系统字体和局部排版 CSS
+
+2026-10-28：正文参数与字体来源约束由 [ADR 0010](./0010-academic-article-self-hosted-serif.md) 替代，局部作用域和代码字体等边界继续有效。以下保留原始决策。
 
 Rbook 的文章正文采用现代无衬线系统字体，代码采用系统等宽字体，并在 `.rbook-article .markdown-body` 范围内维护自己的排版变量和主题规则。正文基线固定为 `16px / 24px`、宽度 `42em`，代码块使用 `14px / 22px`；第一版不加载外部 Web Font、不引入 Heti 全量 CSS 或运行时混排脚本，以保持发布站点的首屏稳定性、插件边界和主题可控性。浅色与暗色主题分别使用匹配自身背景的语法高亮配色，旧规则先审计再收拢。
 

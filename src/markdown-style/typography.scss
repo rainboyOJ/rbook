@@ -1,198 +1,106 @@
-// ============================================================================
-// Rbook 正文排版基础（计划：docs/typography-theme-plan.md / ADR 0009）
-//
-// 排版与颜色变量统一定义在 src/style/article-shell.scss（--rbook-*），
-// 本文件只消费变量，不再出现硬编码的字号、行高与主题颜色。
-//
-// 所有规则限定在 .rbook-article .markdown-body 内，不影响侧边栏和工具按钮。
-// ============================================================================
-
-// ----------------------------------------------------------------------------
-// 正文节奏（Phase 1+2）
-// ----------------------------------------------------------------------------
+// Rbook 学术正文排版；设计记录见 docs/article-academic-typography.md。
+// 所有规则限定于文章，导航与工具按钮继续使用站点壳的字体和度量。
 .rbook-article .markdown-body {
-    // 正文：系统无衬线，16px/24px，宽度 42em（48em 仅作后续复评候选）。
     font-family: var(--rbook-font-body);
     font-size: var(--rbook-body-size);
     line-height: var(--rbook-body-lh);
     max-width: var(--rbook-article-width);
     margin-inline: auto;
-
-    // 中文正文换行：允许在任意字符间断行，但不拆开英文单词。
     overflow-wrap: break-word;
     word-break: normal;
 
-    // 中文标题适度字间距（H1～H3），黑体标题更透气。
-    h1, h2, h3 {
-        letter-spacing: 0.05em;
-    }
-
-    // 标题层级：600 字重 + 稳定垂直节奏（计划参数表）。
-    // 间距使用逻辑属性，方便移动端布局。
-    h1 {
+    h1, h2, h3, h4, h5, h6 {
         font-family: var(--rbook-font-heading);
-        font-size: 32px;
-        line-height: 48px;
-        font-weight: 600;
-        margin-block: 24px 16px;
+        font-weight: 700;
+        line-height: 1.5;
+        letter-spacing: 0.025em;
+        color: var(--rbook-text);
+        scroll-margin-top: 24px;
+        text-indent: 0;
     }
+    h1 { font-size: 36px; line-height: 48px; margin-block: 32px 24px; }
+    h2 { font-size: 28px; line-height: 40px; margin-block: var(--rbook-section-gap) 16px; }
+    h3 { font-size: 22px; line-height: 34px; margin-block: var(--rbook-subsection-gap) 12px; }
+    h4 { font-size: 20px; line-height: 30px; margin-block: 28px 8px; }
+    h5, h6 { font-size: 18px; line-height: 30px; margin-block: 24px 8px; }
+    h6 { color: var(--rbook-muted); }
 
-    h2 {
-        font-family: var(--rbook-font-heading);
-        font-size: 24px;
-        line-height: 36px;
-        font-weight: 600;
-        margin-block: 32px 16px;
+    // 序号独立一列，长标题的续行与文字对齐；不使用另一套 CSS 计数器。
+    .rbook-heading {
+        display: grid;
+        grid-template-columns: max-content minmax(0, 1fr);
+        column-gap: 0.65em;
     }
+    .rbook-heading-text { min-width: 0; }
+    > :first-child { margin-block-start: 0; }
+    h1 + h2, h2 + h3, h3 + h4, h4 + h5, h5 + h6 { margin-block-start: 16px; }
 
-    h3 {
-        font-family: var(--rbook-font-heading);
-        font-size: 20px;
-        line-height: 36px;
-        font-weight: 600;
-        margin-block: 24px 12px;
-    }
-
-    h4 {
-        font-family: var(--rbook-font-heading);
-        font-size: 18px;
-        line-height: 24px;
-        font-weight: 600;
-        margin-block: 24px 8px;
-    }
-
-    h5 {
-        font-family: var(--rbook-font-heading);
-        font-size: 16px;
-        line-height: 24px;
-        font-weight: 600;
-        margin-block: 24px 8px;
-    }
-
-    h6 {
-        font-family: var(--rbook-font-heading);
-        font-size: 14px;
-        line-height: 24px;
-        font-weight: 600;
-        color: var(--rbook-muted);
-        margin-block: 24px 8px;
-    }
-
-    // 相邻标题不叠加间距。
-    h1 + h2, h2 + h3, h3 + h4, h4 + h5, h5 + h6 {
-        margin-block-start: 0;
-    }
-
-    // 段落间距：上 12px，下 24px。
-    p {
-        margin-block: 12px 24px;
-    }
+    p { margin-block: 0 var(--rbook-paragraph-gap); }
+    // 只缩进普通叙述：列表、图注、容器、图片和公式均单独处理。
+    > p, > details > p, > details > article > p { text-indent: 2em; }
+    p:has(> img:only-child),
+    p:has(> a:only-child > img:only-child),
+    p:has(.image-wrapper), p:has(.katex-display) { text-indent: 0; }
 
     ul, ol {
-        margin-block: 12px 24px;
-        padding-inline-start: 2em;
-
-        li {
-            margin-block: 4px;
-        }
-
-        li > p {
-            margin-block: 4px;
-        }
-
-        // 嵌套列表不额外撑开段距。
-        ul, ol {
-            margin-block: 4px;
-        }
+        margin-block: 8px 16px;
+        padding-inline-start: 1.8em;
+        li { margin-block: 4px; }
+        li > p { margin-block: 4px; text-indent: 0; }
+        ul, ol { margin-block: 4px; }
     }
 
-    // 引用：主题边框变量，弱文字层级。
     blockquote {
-        margin-block: 12px 24px;
-        padding: 4px 1em;
-        border-inline-start: 4px solid var(--rbook-border);
+        margin-block: 20px;
+        padding: 8px 1em;
+        border-inline-start: 2px solid var(--rbook-border);
         background: var(--rbook-surface-muted);
-        color: var(--rbook-muted);
-        // 收拢旧主题（typora-latex-theme）给引用单独设置的衬线字体与放大字号。
+        color: var(--rbook-text);
         font-family: inherit;
         font-size: 1em;
-
-        p {
-            margin-block: 8px;
-        }
+        p { margin-block: 0 8px; text-indent: 0; }
+        p:last-child { margin-bottom: 0; }
     }
 
-    // 表格：主题边框变量；窄屏时整块横向滚动，不撑破正文。
+    // 三线表，宽表只在表内滚动。单元格不再逐格画框。
     table {
         display: block;
         width: max-content;
-        max-width: 100%;
-        // 收拢旧主题的 min-width: 500px，避免移动端正文横向溢出。
         min-width: 0;
-        overflow-x: auto;
-        margin-block: 12px 24px;
-        border-collapse: collapse;
-
-        th, td {
-            padding: 6px 12px;
-            border: 1px solid var(--rbook-border);
-        }
-
-        th {
-            background: var(--rbook-surface-muted);
-            font-weight: 600;
-        }
-    }
-
-    // 旧主题对 thead 使用了衬线字体（!important），这里恢复正文字体。
-    thead {
-        font-family: var(--rbook-font-body) !important;
-    }
-
-    // 分隔线使用主题边框变量。
-    hr {
-        margin-block: 24px;
-        border: 0;
-        border-block-start: 1px solid var(--rbook-border);
-    }
-
-    // 链接：主题强调色。
-    a {
-        color: var(--rbook-accent);
-        text-underline-offset: 3px;
-    }
-
-    a:hover {
-        color: var(--rbook-accent-hover);
-    }
-
-    // 强调与删除线。
-    strong {
-        font-weight: 600;
-    }
-
-    del {
-        color: var(--rbook-muted);
-    }
-
-    // 图片与说明。
-    img {
         max-width: 100%;
+        overflow-x: auto;
+        margin: 24px auto;
+        border-collapse: collapse;
+        border: 0;
+        border-block: 1.5px solid var(--rbook-text);
+        font-size: 16px;
+        line-height: 26px;
+        th, td { padding: 8px 12px; border: 0; }
+        th { background: transparent; font-weight: 600; }
+        thead {
+            border-bottom: 1px solid var(--rbook-text);
+            font-family: var(--rbook-font-heading) !important;
+        }
     }
 
-    figure {
-        margin-block: 24px;
-        margin-inline: auto;
-    }
+    hr { margin-block: 24px; border: 0; border-block-start: 1px solid var(--rbook-border); }
+    a { color: var(--rbook-accent); text-underline-offset: 3px; }
+    a:hover { color: var(--rbook-accent-hover); }
+    strong { font-family: var(--rbook-font-heading); font-weight: 600; }
+    del { color: var(--rbook-muted); }
 
+    img { max-width: 100%; height: auto; }
+    p:has(> img:only-child), p:has(> a:only-child > img:only-child),
+    p:has(.image-wrapper), figure { margin-block: 24px; text-indent: 0; }
+    p > img:only-child, p > a:only-child > img:only-child { display: block; margin-inline: auto; }
+    figure { margin-inline: auto; }
     figcaption {
         margin-block-start: 8px;
         color: var(--rbook-muted);
-        font-size: 14px;
+        font: 14px/22px var(--rbook-font-heading);
         text-align: center;
+        p { text-indent: 0; }
     }
-
-    // 脚注区块：弱层级。
     .footnotes {
         margin-block-start: 32px;
         padding-block-start: 16px;
@@ -201,12 +109,52 @@
         font-size: 14px;
     }
 
-    // 块公式：窄屏可横向滚动，不撑破正文。
-    .katex-display {
-        overflow-x: auto;
-        overflow-y: hidden;
-        padding-block: 2px;
+    // texmath 的 section/eqn 和普通 KaTeX 块都不缩进，超宽只在公式内滚动。
+    // 无障碍 MathML 的 1px 隐藏盒固定在公式内部，避免行末静态位置撑宽手机页面。
+    .katex { position: relative; }
+    .katex-mathml { inset: 0 auto auto 0; }
+    section:has(> eqn) { margin-block: 20px; text-indent: 0; }
+    .katex-display { margin-block: 0; overflow-x: auto; overflow-y: hidden; padding-block: 2px; text-indent: 0; }
+    > .katex-display { margin-block: 20px; }
+
+    .table-of-contents {
+        margin-block: 0 40px;
+        font: 16px/26px var(--rbook-font-heading);
+        &::before { content: '目录'; display: block; font-weight: 700; margin-bottom: 8px; }
+        ol { list-style: none; margin: 0; padding: 0; }
+        ol ol { padding-inline-start: 1.5em; }
+        li { margin: 4px 0; }
+        a {
+            display: grid;
+            grid-template-columns: max-content minmax(0, 1fr);
+            gap: 0.65em;
+            color: var(--rbook-text);
+            text-decoration: none;
+        }
+        a:hover { color: var(--rbook-accent); text-decoration: underline; }
+        .rbook-toc-number { color: var(--rbook-muted); }
     }
+
+    details {
+        margin-block: 16px 24px;
+        summary {
+            font: 600 16px/26px var(--rbook-font-heading);
+            background: transparent;
+            border: 0;
+            border-bottom: 1px solid var(--rbook-border);
+            border-radius: 0;
+            padding: 8px 0;
+        }
+        &[open] > summary { background: transparent; border-radius: 0; margin-bottom: 12px; }
+        > article { border: 0; background: transparent; }
+    }
+}
+
+// 文章页标题位于 Markdown 正文之外，但仍属于文章而非站点导航。
+.rbook-article .info-header {
+    max-width: var(--rbook-article-width);
+    margin: 0 auto 40px;
+    .title-bar h1 { font: 700 36px/48px var(--rbook-font-heading); margin: 0 0 16px; }
 }
 
 // ----------------------------------------------------------------------------
@@ -375,11 +323,14 @@ html:not([data-theme="dark"]) .rbook-article .markdown-body {
 
 // ----------------------------------------------------------------------------
 // 移动端（Phase 6）
-// 正文保持 16px，不通过缩小字号解决宽度；代码块、表格与块公式
+// 正文保持 18px，不通过缩小字号解决宽度；代码块、表格与块公式
 // 已各自横向滚动。
 // ----------------------------------------------------------------------------
 @media (max-width: 640px) {
     .rbook-article {
-        padding-inline: 12px;
+        padding-inline: 16px;
+        .markdown-body :is(h1, h2, h3, h4, h5, h6) { scroll-margin-top: 64px; }
+        .markdown-body h2 { font-size: 26px; line-height: 38px; }
+        .markdown-body h1, .info-header .title-bar h1 { font-size: 30px; line-height: 42px; }
     }
 }
