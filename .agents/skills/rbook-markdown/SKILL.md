@@ -1,6 +1,7 @@
 ---
 name: rbook-markdown
-description: 编写或修改 /home/rainboy/mycode/newRbook_ejs 这本 rbook 电子书里的 Markdown 时必须遵守的方言说明（站内链接 [[[rbook:]]]、题目链接 [[[p:]]]、include 与 file=、animate 与 dsa 动画卡片、数学、::: 容器、伪代码、题目列表 +p、catalog/config 元数据，以及哪些"通用 Markdown 语法"在本项目其实会静默失效）。当你在 book/ 下新建或编辑任何 .md（index.md、practice.md、teach_plan.md、problem.md…）、调整 book/catalog.yaml 或文章的 config.json/config.yaml、修一个链接/代码块/图片/公式/折叠框渲染不对、把别处的 Markdown 搬进来、或者要判断"这段写法本项目支持吗"时，都应先读这个 skill，不要凭 GitHub / Obsidian / VuePress 的语法直觉下手。
+description: >-
+  编写或修改 /home/rainboy/mycode/newRbook_ejs 这本 rbook 电子书里的 Markdown 时必须遵守的方言说明（站内链接 [[[rbook:]]]、题目链接 [[[p:]]]、include 与 file=、animate 与 dsa 动画卡片、数学、::: 容器、伪代码、题目列表 +p、catalog/config 元数据，以及哪些"通用 Markdown 语法"在本项目其实会静默失效）。当你在 book/ 下新建或编辑任何 .md（index.md、practice.md、teach_plan.md、problem.md…）、调整 book/catalog.yaml 或文章的 config.json/config.yaml、修一个链接/代码块/图片/公式/折叠框渲染不对、把别处的 Markdown 搬进来、或者要判断"这段写法本项目支持吗"时，都应先读这个 skill，不要凭 GitHub / Obsidian / VuePress 的语法直觉下手。
 ---
 
 # rbook 的 Markdown 方言
