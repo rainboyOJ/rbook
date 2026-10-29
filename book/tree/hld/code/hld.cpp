@@ -15,56 +15,56 @@ ll lazy[maxn << 2];
 
 ll norm(ll x) { return (x % mod + mod) % mod; }
 
-int ls(int o) { return o << 1; }      // o 的左儿子 2o
-int rs(int o) { return o << 1 | 1; }  // o 的右儿子 2o+1
+int ls(int p) { return p << 1; }      // p 的左儿子 2p
+int rs(int p) { return p << 1 | 1; }  // p 的右儿子 2p+1
 
-void apply(int o, int l, int r, ll value) {
+void apply(int p, int l, int r, ll value) {
     value = norm(value);
-    tr[o] = (tr[o] + value * (r - l + 1)) % mod;
-    lazy[o] = (lazy[o] + value) % mod;
+    tr[p] = (tr[p] + value * (r - l + 1)) % mod;
+    lazy[p] = (lazy[p] + value) % mod;
 }
 
-void pushdown(int o, int l, int r) {
+void pushdown(int p, int l, int r) {
     // 懒标记为 0 无事可做；叶子没有儿子可下放，必须提前返回，
-    // 否则 mid = l，会递归进入自己并且写越界的 tr[2o]。
-    if (!lazy[o] || l == r) return;
+    // 否则 mid = l，会递归进入自己并且写越界的 tr[2p]。
+    if (!lazy[p] || l == r) return;
     int mid = (l + r) >> 1;
-    apply(ls(o), l, mid, lazy[o]);
-    apply(rs(o), mid + 1, r, lazy[o]);
-    lazy[o] = 0;
+    apply(ls(p), l, mid, lazy[p]);
+    apply(rs(p), mid + 1, r, lazy[p]);
+    lazy[p] = 0;
 }
 
-void seg_build(int o, int l, int r) {
-    lazy[o] = 0;
+void seg_build(int p, int l, int r) {
+    lazy[p] = 0;
     if (l == r) {
-        tr[o] = norm(base[l]);
+        tr[p] = norm(base[l]);
         return;
     }
     int mid = (l + r) >> 1;
-    seg_build(ls(o), l, mid);
-    seg_build(rs(o), mid + 1, r);
-    tr[o] = (tr[ls(o)] + tr[rs(o)]) % mod;
+    seg_build(ls(p), l, mid);
+    seg_build(rs(p), mid + 1, r);
+    tr[p] = (tr[ls(p)] + tr[rs(p)]) % mod;
 }
 
-void range_add(int ql, int qr, ll value, int o, int l, int r) {
+void range_add(int ql, int qr, ll value, int p, int l, int r) {
     if (ql <= l && r <= qr) {
-        apply(o, l, r, value);
+        apply(p, l, r, value);
         return;
     }
-    pushdown(o, l, r);
+    pushdown(p, l, r);
     int mid = (l + r) >> 1;
-    if (ql <= mid) range_add(ql, qr, value, ls(o), l, mid);
-    if (qr > mid) range_add(ql, qr, value, rs(o), mid + 1, r);
-    tr[o] = (tr[ls(o)] + tr[rs(o)]) % mod;
+    if (ql <= mid) range_add(ql, qr, value, ls(p), l, mid);
+    if (qr > mid) range_add(ql, qr, value, rs(p), mid + 1, r);
+    tr[p] = (tr[ls(p)] + tr[rs(p)]) % mod;
 }
 
-ll range_sum(int ql, int qr, int o, int l, int r) {
-    if (ql <= l && r <= qr) return tr[o];
-    pushdown(o, l, r);
+ll range_sum(int ql, int qr, int p, int l, int r) {
+    if (ql <= l && r <= qr) return tr[p];
+    pushdown(p, l, r);
     int mid = (l + r) >> 1;
     ll answer = 0;
-    if (ql <= mid) answer += range_sum(ql, qr, ls(o), l, mid);
-    if (qr > mid) answer += range_sum(ql, qr, rs(o), mid + 1, r);
+    if (ql <= mid) answer += range_sum(ql, qr, ls(p), l, mid);
+    if (qr > mid) answer += range_sum(ql, qr, rs(p), mid + 1, r);
     return answer % mod;
 }
 /*------------------------ sgt 代码 结束 ------------------------*/

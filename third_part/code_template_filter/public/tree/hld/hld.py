@@ -16,67 +16,67 @@ def sgt_init(size, modulus):
     lazy = [0] * (4 * size + 5)
 
 
-def ls(o):
-    """o 的左儿子 2o。"""
-    return o << 1
+def ls(p):
+    """p 的左儿子 2p。"""
+    return p << 1
 
 
-def rs(o):
-    """o 的右儿子 2o+1。"""
-    return o << 1 | 1
+def rs(p):
+    """p 的右儿子 2p+1。"""
+    return p << 1 | 1
 
 
-def apply(o, l, r, value):
+def apply(p, l, r, value):
     value %= mod
-    tr[o] = (tr[o] + value * (r - l + 1)) % mod
-    lazy[o] = (lazy[o] + value) % mod
+    tr[p] = (tr[p] + value * (r - l + 1)) % mod
+    lazy[p] = (lazy[p] + value) % mod
 
 
-def pushdown(o, l, r):
+def pushdown(p, l, r):
     # 懒标记为 0 无事可做；叶子没有儿子可下放，必须提前返回，
-    # 否则 mid == l，会递归进入自己并且写越界的 tr[2 * o]。
-    if not lazy[o] or l == r:
+    # 否则 mid == l，会递归进入自己并且写越界的 tr[2 * p]。
+    if not lazy[p] or l == r:
         return
     mid = (l + r) >> 1
-    apply(ls(o), l, mid, lazy[o])
-    apply(rs(o), mid + 1, r, lazy[o])
-    lazy[o] = 0
+    apply(ls(p), l, mid, lazy[p])
+    apply(rs(p), mid + 1, r, lazy[p])
+    lazy[p] = 0
 
 
-def seg_build(o, l, r):
-    lazy[o] = 0
+def seg_build(p, l, r):
+    lazy[p] = 0
     if l == r:
-        tr[o] = base[l] % mod
+        tr[p] = base[l] % mod
         return
     mid = (l + r) >> 1
-    seg_build(ls(o), l, mid)
-    seg_build(rs(o), mid + 1, r)
-    tr[o] = (tr[ls(o)] + tr[rs(o)]) % mod
+    seg_build(ls(p), l, mid)
+    seg_build(rs(p), mid + 1, r)
+    tr[p] = (tr[ls(p)] + tr[rs(p)]) % mod
 
 
-def range_add(ql, qr, value, o, l, r):
+def range_add(ql, qr, value, p, l, r):
     if ql <= l and r <= qr:
-        apply(o, l, r, value)
+        apply(p, l, r, value)
         return
-    pushdown(o, l, r)
+    pushdown(p, l, r)
     mid = (l + r) >> 1
     if ql <= mid:
-        range_add(ql, qr, value, ls(o), l, mid)
+        range_add(ql, qr, value, ls(p), l, mid)
     if qr > mid:
-        range_add(ql, qr, value, rs(o), mid + 1, r)
-    tr[o] = (tr[ls(o)] + tr[rs(o)]) % mod
+        range_add(ql, qr, value, rs(p), mid + 1, r)
+    tr[p] = (tr[ls(p)] + tr[rs(p)]) % mod
 
 
-def range_sum(ql, qr, o, l, r):
+def range_sum(ql, qr, p, l, r):
     if ql <= l and r <= qr:
-        return tr[o]
-    pushdown(o, l, r)
+        return tr[p]
+    pushdown(p, l, r)
     mid = (l + r) >> 1
     answer = 0
     if ql <= mid:
-        answer += range_sum(ql, qr, ls(o), l, mid)
+        answer += range_sum(ql, qr, ls(p), l, mid)
     if qr > mid:
-        answer += range_sum(ql, qr, rs(o), mid + 1, r)
+        answer += range_sum(ql, qr, rs(p), mid + 1, r)
     return answer % mod
 # ------------------------ sgt 代码 结束 ------------------------
 
