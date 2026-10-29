@@ -58,15 +58,15 @@ def seg_build(p, l, r):
 def range_add(ql, qr, value, p, l, r):
     """区间加：把 [ql, qr] 整体加 value。"""
     if qr < l or r < ql:
-        return  # 和询问区间不相交：整段剪掉
-    if ql <= l and r <= qr:
-        apply(p, l, r, value)  # 整段被覆盖：打标记后停在这里
         return
-    pushdown(p, l, r)  # 要进儿子了，先把标记下放
+    if ql <= l and r <= qr:
+        apply(p, l, r, value)
+        return
+    pushdown(p, l, r)
     mid = (l + r) >> 1
-    range_add(ql, qr, value, ls(p), l, mid)   # 两儿子都递归，不相交的自己返回
+    range_add(ql, qr, value, ls(p), l, mid)
     range_add(ql, qr, value, rs(p), mid + 1, r)
-    tr[p] = (tr[ls(p)] + tr[rs(p)]) % mod     # 儿子变了，重算自己
+    tr[p] = (tr[ls(p)] + tr[rs(p)]) % mod
 
 
 def range_sum(ql, qr, p, l, r):
