@@ -13,6 +13,7 @@ ll base[maxn];
 ll tr[maxn << 2];
 ll lazy[maxn << 2];
 
+// 把可能为负的 x 归一到 [0, mod)：只用在“外来值”上（输入的初值和增量）。
 ll norm(ll x) { return (x % mod + mod) % mod; }
 
 int ls(int p) { return p << 1; }      // p 的左儿子 2p
@@ -65,7 +66,7 @@ ll range_sum(int ql, int qr, int p, int l, int r) {
     ll answer = 0;
     if (ql <= mid) answer += range_sum(ql, qr, ls(p), l, mid);
     if (qr > mid) answer += range_sum(ql, qr, rs(p), mid + 1, r);
-    return answer % mod;
+    return answer % mod;  // 只累加 [0, mod) 的值，answer 一定非负，用不着 norm
 }
 /*------------------------ sgt 代码 结束 ------------------------*/
 

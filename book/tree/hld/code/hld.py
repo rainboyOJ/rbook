@@ -27,6 +27,7 @@ def rs(p):
 
 
 def apply(p, l, r, value):
+    # Python 的 % 结果非负，负数也能直接归一到 [0, mod)，所以不需要 norm。
     value %= mod
     tr[p] = (tr[p] + value * (r - l + 1)) % mod
     lazy[p] = (lazy[p] + value) % mod
@@ -77,6 +78,7 @@ def range_sum(ql, qr, p, l, r):
         answer += range_sum(ql, qr, ls(p), l, mid)
     if qr > mid:
         answer += range_sum(ql, qr, rs(p), mid + 1, r)
+    # 只累加 [0, mod) 的值，answer 一定非负。
     return answer % mod
 # ------------------------ sgt 代码 结束 ------------------------
 
