@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="445" viewBox="0 0 560 445" role="img" aria-labelledby="title desc">
+<title id="title">重链与重儿子优先编号</title>
+<desc id="desc">重边为 1 到 3、3 到 4，轻边为 1 到 2、3 到 5。DFS 序为 1、3、4、5、2。</desc>
+<style>.canvas{fill:#ffffff}.edge{stroke:#94a3b8;stroke-width:2;fill:none;stroke-dasharray:7 5}.heavy{stroke:#2563eb;stroke-width:3;fill:none}.node{fill:#ffffff;stroke:#64748b;stroke-width:2}.cell{fill:#eff6ff;stroke:#2563eb;stroke-width:2}.sub{fill:#ecfdf5;stroke:#059669;stroke-width:2}.label{fill:#1f2937;font:600 20px system-ui,"Noto Sans CJK SC",sans-serif;text-anchor:middle;dominant-baseline:central}</style>
+<rect class="canvas" width="560" height="445"/>
+<g id="edges"><path class="edge" d="M280 55 L130 155"/><path class="heavy" d="M280 55 L350 155"/><path class="heavy" d="M350 155 L285 255"/><path class="edge" d="M350 155 L450 255"/></g><g id="nodes"><circle class="node" cx="280" cy="55" r="22"/><text class="label" x="280" y="55">1</text>
+<circle class="node" cx="130" cy="155" r="22"/><text class="label" x="130" y="155">2</text>
+<circle class="node" cx="350" cy="155" r="22"/><text class="label" x="350" y="155">3</text>
+<circle class="node" cx="285" cy="255" r="22"/><text class="label" x="285" y="255">4</text>
+<circle class="node" cx="450" cy="255" r="22"/><text class="label" x="450" y="255">5</text>
+</g><text class="label" x="110" y="300">实线：重边</text>
+<text class="label" x="390" y="300">虚线：轻边</text>
+<g id="order"><text class="label" x="65" y="355">节点</text>
+<text class="label" x="65" y="405">dfn</text>
+<rect class="cell" x="115" y="330" width="60" height="50" rx="8"/><text class="label" x="145" y="355">1</text>
+<text class="label" x="145" y="405">1</text>
+<rect class="cell" x="193" y="330" width="60" height="50" rx="8"/><text class="label" x="223" y="355">3</text>
+<text class="label" x="223" y="405">2</text>
+<rect class="cell" x="271" y="330" width="60" height="50" rx="8"/><text class="label" x="301" y="355">4</text>
+<text class="label" x="301" y="405">3</text>
+<rect class="cell" x="349" y="330" width="60" height="50" rx="8"/><text class="label" x="379" y="355">5</text>
+<text class="label" x="379" y="405">4</text>
+<rect class="cell" x="427" y="330" width="60" height="50" rx="8"/><text class="label" x="457" y="355">2</text>
+<text class="label" x="457" y="405">5</text>
+</g>
+</svg>

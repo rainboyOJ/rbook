@@ -1,0 +1,15 @@
+id: hld
+file: index.md
+title: "树链剖分（HLD）"
+pre:
+  - dfs_order
+  - sgt_update_range
+code_template:
+  - title: "树链剖分（C++）"
+    tags: ["tree", "hld", "segment_tree"]
+    desc: "重儿子优先编号，支持路径加、路径和、子树加、子树和及 LCA"
+    code: "./hld.cpp"
+  - title: "树链剖分（Python）"
+    tags: ["tree", "hld", "segment_tree", "python"]
+    desc: "迭代遍历树，配合懒标记线段树维护路径与子树的区间加、区间和"
+    code: "./hld.py"

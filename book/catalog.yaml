@@ -131,6 +131,8 @@
       path: "spanning-tree"
     - title: "爬树LCA"
       path: "jump-lca"
+    - title: "树链剖分（HLD）"
+      path: "hld"
 - title: "图"
   path: "graph"
   children:
