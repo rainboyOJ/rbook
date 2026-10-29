@@ -70,16 +70,14 @@ def range_add(ql, qr, value, p, l, r):
 
 
 def range_sum(ql, qr, p, l, r):
+    if qr < l or r < ql:
+        return 0
     if ql <= l and r <= qr:
         return tr[p]
     pushdown(p, l, r)
     mid = (l + r) >> 1
-    answer = 0
-    if ql <= mid:
-        answer += range_sum(ql, qr, ls(p), l, mid)
-    if qr > mid:
-        answer += range_sum(ql, qr, rs(p), mid + 1, r)
-    # 只累加 [0, mod) 的值，answer 一定非负。
+    answer = range_sum(ql, qr, ls(p), l, mid)
+    answer += range_sum(ql, qr, rs(p), mid + 1, r)
     return answer % mod
 # ------------------------ sgt 代码 结束 ------------------------
 
