@@ -1,0 +1,15 @@
+id: tree-centroid
+file: index.md
+title: "树的重心"
+pre:
+  - tree_base
+  - dfs_order
+code_template:
+  - title: "树的重心（C++）"
+    tags: ["tree", "centroid", "hld"]
+    desc: "HLD 风格：全局数组 + 递归 dfs1 求 sz 与重儿子，回溯时就地算平衡值，并可沿重链走求重心"
+    code: "./tree_centroid.cpp"
+  - title: "树的重心（Python）"
+    tags: ["tree", "centroid", "python"]
+    desc: "逆序汇总子树大小，返回全部重心并保留每个点的平衡值"
+    code: "./tree_centroid.py"

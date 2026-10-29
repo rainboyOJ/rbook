@@ -125,6 +125,8 @@
       path: "dfs-order"
     - title: "树的直径"
       path: "diameter"
+    - title: "树的重心"
+      path: "centroid"
     - title: "树上差分"
       path: "diff_on_tree"
     - title: "基环树"

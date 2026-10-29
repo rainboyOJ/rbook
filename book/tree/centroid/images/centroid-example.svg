@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="390" viewBox="0 0 560 390" role="img" aria-labelledby="title desc">
+<title id="title">八个节点的树与它的两个重心</title>
+<desc id="desc">以 1 为根，1 的儿子为 2 和 3，2 的儿子为 4 和 5，3 的儿子为 6，6 的儿子为 7 和 8。1 和 3 用双圈标出，它们都是重心。</desc>
+<style>.edge{stroke:#555;stroke-width:1.5}.node{fill:#fff;stroke:#222;stroke-width:1.5}.label{fill:#222;font:20px Georgia,"Noto Serif CJK SC",SimSun,serif;text-anchor:middle;dominant-baseline:central}.caption{font-size:16px}</style>
+<rect width="560" height="390" fill="#fff"/>
+<line class="edge" x1="263.36" y1="56.09" x2="161.64" y2="123.91"/>
+<line class="edge" x1="296.64" y1="56.09" x2="398.36" y2="123.91"/>
+<line class="edge" x1="133.29" y1="151.21" x2="91.71" y2="208.79"/>
+<line class="edge" x1="156.71" y1="151.21" x2="198.29" y2="208.79"/>
+<line class="edge" x1="415.00" y1="155.00" x2="415.00" y2="205.00"/>
+<line class="edge" x1="403.29" y1="241.21" x2="361.71" y2="298.79"/>
+<line class="edge" x1="426.71" y1="241.21" x2="468.29" y2="298.79"/>
+<circle class="node" cx="280" cy="45" r="25"/>
+<circle class="node" cx="280" cy="45" r="20"/><text class="label" x="280" y="45">1</text>
+<circle class="node" cx="145" cy="135" r="20"/><text class="label" x="145" y="135">2</text>
+<circle class="node" cx="415" cy="135" r="25"/>
+<circle class="node" cx="415" cy="135" r="20"/><text class="label" x="415" y="135">3</text>
+<circle class="node" cx="80" cy="225" r="20"/><text class="label" x="80" y="225">4</text>
+<circle class="node" cx="210" cy="225" r="20"/><text class="label" x="210" y="225">5</text>
+<circle class="node" cx="415" cy="225" r="20"/><text class="label" x="415" y="225">6</text>
+<circle class="node" cx="350" cy="315" r="20"/><text class="label" x="350" y="315">7</text>
+<circle class="node" cx="480" cy="315" r="20"/><text class="label" x="480" y="315">8</text>
+<text class="label caption" x="280" y="370">图 1　双圈表示重心；属性见下表。</text></svg>

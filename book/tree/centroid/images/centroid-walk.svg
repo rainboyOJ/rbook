@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="320" viewBox="0 0 680 320" role="img" aria-labelledby="walk-title walk-desc">
+  <title id="walk-title">删除 u 后向六个点的连通块移动</title>
+  <desc id="walk-desc">删除 u 后，左侧连通块恰有两个点，右侧连通块恰有六个点并超过 n 的一半。黑色箭头从 u 指向右侧相邻点 v。</desc>
+  <style>
+    .canvas { fill: #ffffff; }
+    .region { stroke-width: 2; stroke-dasharray: 7 6; }
+    .region--small { fill: #f3f3f3; stroke: #888888; }
+    .region--heavy { fill: #eeeeee; stroke: #555555; }
+    .edge { fill: none; stroke: #888888; stroke-width: 2; stroke-linecap: round; }
+    .edge--move { fill: none; stroke: #222222; stroke-width: 3; stroke-linecap: round; }
+    .node { fill: #ffffff; stroke: #555555; stroke-width: 2; }
+    .node--current { fill: #f3f3f3; stroke: #222222; stroke-width: 3; }
+    .node--next { fill: #eeeeee; stroke: #222222; stroke-width: 3; }
+    .label { fill: #222222; font: 600 18px Georgia, "Noto Serif CJK SC", SimSun, serif; text-anchor: middle; dominant-baseline: central; }
+    .label--key { font-size: 20px; }
+    .label--heavy { fill: #333333; }
+  </style>
+  <defs>
+    <marker id="walk-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M 0 0 L 10 5 L 0 10 Z" fill="#222222" />
+    </marker>
+  </defs>
+  <rect class="canvas" width="680" height="320" />
+  <g id="components">
+    <rect class="region region--small" x="24" y="54" width="176" height="224" />
+    <rect class="region region--heavy" x="394" y="30" width="262" height="268" />
+    <text class="label label--key" x="112" y="82">2 个点</text>
+    <text class="label label--key label--heavy" x="525" y="58">6 个点 &gt; n/2</text>
+  </g>
+  <g id="tree-edges">
+    <line class="edge" x1="112" y1="136" x2="112" y2="224" />
+    <line class="edge" x1="134" y1="136" x2="264" y2="166" />
+    <line class="edge--move" x1="316" y1="166" x2="408" y2="166" marker-end="url(#walk-arrow)" />
+    <line class="edge" x1="460" y1="166" x2="516" y2="104" />
+    <line class="edge" x1="460" y1="166" x2="516" y2="224" />
+    <line class="edge" x1="516" y1="104" x2="594" y2="82" />
+    <line class="edge" x1="516" y1="104" x2="594" y2="142" />
+    <line class="edge" x1="516" y1="224" x2="594" y2="242" />
+  </g>
+  <g id="tree-nodes">
+    <circle class="node" cx="112" cy="136" r="22" />
+    <circle class="node" cx="112" cy="224" r="22" />
+    <circle class="node--current" cx="290" cy="166" r="26" />
+    <circle class="node--next" cx="434" cy="166" r="26" />
+    <circle class="node" cx="516" cy="104" r="22" />
+    <circle class="node" cx="516" cy="224" r="22" />
+    <circle class="node" cx="594" cy="82" r="22" />
+    <circle class="node" cx="594" cy="142" r="22" />
+    <circle class="node" cx="594" cy="242" r="22" />
+    <text class="label" x="290" y="166">u</text>
+    <text class="label" x="434" y="166">v</text>
+  </g>
+</svg>

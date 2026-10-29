@@ -1,0 +1,86 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="560"
+  height="300"
+  viewBox="0 0 560 300"
+  role="img"
+  aria-labelledby="distance-reroot-title distance-reroot-desc"
+>
+  <title id="distance-reroot-title">从 u 移到 v 时两侧点的距离变化</title>
+  <desc id="distance-reroot-desc">边 u-v 将树分成两侧。从 u 移到 v 后，u 侧 n 减 s 个点的距离各增加一，v 侧 s 个点的距离各减少一。</desc>
+  <style>
+    .canvas { fill: #ffffff; }
+    .region { stroke-width: 2; stroke-dasharray: 7 6; }
+    .region--increase { fill: #eeeeee; stroke: #555555; }
+    .region--decrease { fill: #eeeeee; stroke: #222222; }
+    .edge { fill: none; stroke: #888888; stroke-width: 2; stroke-linecap: round; }
+    .move { fill: none; stroke: #222222; stroke-width: 3; stroke-linecap: round; }
+    .node { fill: #ffffff; stroke: #555555; stroke-width: 2; }
+    .node--start { fill: #f3f3f3; stroke: #222222; stroke-width: 3; }
+    .node--target { fill: #eeeeee; stroke: #222222; stroke-width: 3; }
+    .label {
+      fill: #222222;
+      font: 600 18px Georgia, "Noto Serif CJK SC", SimSun, serif;
+      text-anchor: middle;
+      dominant-baseline: central;
+    }
+    .delta { font-weight: 700; }
+    .delta--increase { fill: #333333; }
+    .delta--decrease { fill: #333333; }
+  </style>
+  <defs>
+    <marker
+      id="distance-reroot-arrow"
+      markerWidth="10"
+      markerHeight="10"
+      refX="9"
+      refY="5"
+      orient="auto"
+      markerUnits="userSpaceOnUse"
+    >
+      <path d="M 0 0 L 10 5 L 0 10 Z" fill="#222222" />
+    </marker>
+  </defs>
+
+  <rect class="canvas" width="560" height="300" />
+
+  <g id="partitions">
+    <rect class="region region--increase" x="20" y="24" width="240" height="252" />
+    <rect class="region region--decrease" x="300" y="24" width="240" height="252" />
+    <text class="label" x="140" y="52">n − s 个点</text>
+    <text class="label delta delta--increase" x="140" y="80">距离 +1</text>
+    <text class="label" x="420" y="52">s 个点</text>
+    <text class="label delta delta--decrease" x="420" y="80">距离 −1</text>
+  </g>
+
+  <g id="tree-edges">
+    <line class="edge" x1="72" y1="126" x2="148" y2="182" />
+    <line class="edge" x1="72" y1="182" x2="148" y2="182" />
+    <line class="edge" x1="72" y1="238" x2="148" y2="182" />
+    <line class="edge" x1="148" y1="182" x2="226" y2="182" />
+    <line class="edge" x1="226" y1="182" x2="334" y2="182" />
+    <line class="edge" x1="334" y1="182" x2="412" y2="182" />
+    <line class="edge" x1="412" y1="182" x2="488" y2="126" />
+    <line class="edge" x1="412" y1="182" x2="488" y2="182" />
+    <line class="edge" x1="412" y1="182" x2="488" y2="238" />
+  </g>
+
+  <g id="tree-nodes">
+    <circle class="node" cx="72" cy="126" r="22" />
+    <circle class="node" cx="72" cy="182" r="22" />
+    <circle class="node" cx="72" cy="238" r="22" />
+    <circle class="node" cx="148" cy="182" r="22" />
+    <circle class="node node--start" cx="226" cy="182" r="26" />
+    <circle class="node node--target" cx="334" cy="182" r="26" />
+    <circle class="node" cx="412" cy="182" r="22" />
+    <circle class="node" cx="488" cy="126" r="22" />
+    <circle class="node" cx="488" cy="182" r="22" />
+    <circle class="node" cx="488" cy="238" r="22" />
+    <text class="label" x="226" y="182">u</text>
+    <text class="label" x="334" y="182">v</text>
+  </g>
+
+  <g id="reroot-move">
+    <path class="move" d="M 238 140 C 260 106 300 106 322 140" marker-end="url(#distance-reroot-arrow)" />
+  </g>
+</svg>
