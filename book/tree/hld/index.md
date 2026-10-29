@@ -187,7 +187,7 @@ $$
 
 /*------------------------ hld 代码 开始 ------------------------*/
    g[] / a[] / fa[] / dep[] / sz[] / son[] / top[] / dfn[] / timer
-   init / add_edge / dfs1 / dfs2 / build
+   add_edge / dfs1 / dfs2 / build          （Python 另需 init 负责分配数组）
    lca / path_add / path_sum / subtree_add / subtree_sum
 /*------------------------ hld 代码 结束 ------------------------*/
 ```
@@ -196,9 +196,10 @@ $$
 
 | 接口 | 用途 |
 |---|---|
-| `init(n, mod)` | 每组数据重新调用：C++ 只清邻接表（其余数组由 `build` 逐点覆写）；Python 重建各列表 |
+| `n`、`mod` | C++ 直接赋值，是全局变量；Python 由 `init(n, mod)` 一起设置 |
+| `init(n, mod)`（仅 Python） | 重建各列表并分配线段树数组，每组数据调用一次 |
 | `a[u]`、`add_edge(u,v)` | 设置初值、添加无向边 |
-| `build(root)` | 固定根，两遍 DFS 预处理并建立线段树；每次初始化后调用一次 |
+| `build(root)` | 加完边之后调用一次：两遍 DFS 预处理并建立线段树 |
 | `path_add(u,v,delta)` / `path_sum(u,v)` | 路径加 / 路径和，包含两个端点 |
 | `subtree_add(u,delta)` / `subtree_sum(u)` | 子树加 / 子树和，包含 `u` |
 | `lca(u,v)` | 只跳链求 LCA，$O(\log n)$ |
@@ -211,7 +212,7 @@ $$
 - 维护最大值 / 异或等：sgt 段换成对应合并方式，`apply` 改成相应标记；
 - 边权转点权：只改 hld 段里 `path_*` 的区间端点（见后面的易错点）。
 
-C++ 版使用定长全局数组，`maxn` 按题目约束调整，且必须满足 $n \leqslant maxn$：`tr`、`lazy` 占用 `4 * maxn` 个 `long long`，`maxn` 开到 $10^6$ 时这两个数组约需 64MB。Python 版按 $n$ 动态建列表，没有这个限制。
+C++ 版使用定长全局数组，因此没有 `init`：`n` / `mod` 直接赋值，数组靠 `build` 逐点覆写，多组数据时清一下邻接表即可。`maxn` 按题目约束调整，且必须满足 $n \leqslant maxn$：`tr`、`lazy` 占用 `4 * maxn` 个 `long long`，`maxn` 开到 $10^6$ 时这两个数组约需 64MB。Python 版按 $n$ 动态建列表，没有这个限制。
 
 要求输入是一棵连通树，$n \geqslant 1$，`root` 在 `1..n` 内。模板处理取模后的和；初值和增量可以是负数，输出统一落在 `[0,mod-1]`。C++ 约定 $1 \leqslant mod \leqslant 2^{31}-1$，初值和增量在 `long long` 范围内，乘法使用 `long long`。不取模的问题需要同步修改线段树与路径累加处，并检查和及乘积的范围。
 

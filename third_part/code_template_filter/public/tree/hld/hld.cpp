@@ -16,8 +16,8 @@ ll lazy[maxn << 2];
 // 把可能为负的 x 归一到 [0, mod)：只用在“外来值”上（输入的初值和增量）。
 ll norm(ll x) { return (x % mod + mod) % mod; }
 
-int ls(int p) { return p << 1; }      // p 的左儿子 2p
-int rs(int p) { return p << 1 | 1; }  // p 的右儿子 2p+1
+int ls(int p) { return p << 1; }     // p 的左儿子 2p
+int rs(int p) { return p << 1 | 1; } // p 的右儿子 2p+1
 
 void apply(int p, int l, int r, ll value) {
     value = norm(value);
@@ -77,21 +77,13 @@ ll range_sum(int ql, int qr, int p, int l, int r) {
 vector<int> g[maxn];
 ll a[maxn];
 
-int fa[maxn];   // fa[u]：父亲，根的 fa 为 0
-int dep[maxn];  // dep[u]：深度，根为 1
-int sz[maxn];   // sz[u]：子树大小（含自己）
-int son[maxn];  // son[u]：重儿子，叶子为 0
-int top[maxn];  // top[u]：所在重链的链头
-int dfn[maxn];  // dfn[u]：线段树上的位置（DFS 新编号）
+int fa[maxn];  // fa[u]：父亲，根的 fa 为 0
+int dep[maxn]; // dep[u]：深度，根为 1
+int sz[maxn];  // sz[u]：子树大小（含自己）
+int son[maxn]; // son[u]：重儿子，叶子为 0
+int top[maxn]; // top[u]：所在重链的链头
+int dfn[maxn]; // dfn[u]：线段树上的位置（DFS 新编号）
 int timer;
-
-// 多组数据只需要清邻接表：旧边必须走。
-// 其余数组在 dfs1 / dfs2 / seg_build 里逐点重新赋值，旧值不会影响结果。
-void init(int _n, int _mod) {
-    n = _n;
-    mod = _mod;
-    for (int u = 1; u <= n; ++u) g[u].clear();
-}
 
 void add_edge(int u, int v) {
     g[u].push_back(v);
@@ -101,9 +93,9 @@ void add_edge(int u, int v) {
 // 第一遍 DFS：往下求 fa、dep，回溯时汇总 sz 并选出重儿子 son
 void dfs1(int u, int father) {
     fa[u] = father;
-    dep[u] = dep[father] + 1;  // 根的 father 为 0、dep[0] 恒为 0，故根深度为 1
-    sz[u] = 1;                 // 先算上自己
-    son[u] = 0;                // 叶子没有重儿子
+    dep[u] = dep[father] + 1; // 根的 father 为 0、dep[0] 恒为 0，故根深度为 1
+    sz[u] = 1;                // 先算上自己
+    son[u] = 0;               // 叶子没有重儿子
     for (int v : g[u]) {
         if (v == father) continue;
         dfs1(v, u);
@@ -116,7 +108,7 @@ void dfs1(int u, int father) {
 void dfs2(int u, int head) {
     top[u] = head;
     dfn[u] = ++timer;
-    base[timer] = a[u];  // 把点权搬到 sgt 段的数组上，线段树维护的就是它
+    base[timer] = a[u]; // 把点权搬到 sgt 段的数组上，线段树维护的就是它
     if (son[u]) dfs2(son[u], head);
     for (int v : g[u]) {
         if (v == fa[u] || v == son[u]) continue;
@@ -124,12 +116,12 @@ void dfs2(int u, int head) {
     }
 }
 
-// 预处理入口：两遍 DFS 把树拍成 dfn 序，再建线段树。
+// 预处理入口：加完边之后调用一次。其余数组在 dfs1 / dfs2 / seg_build 里逐点覆写。
 void build(int root) {
-    dfs1(root, 0);       // 填 fa / dep / sz / son
-    timer = 0;
-    dfs2(root, root);    // 填 top / dfn / base
-    seg_build(1, 1, n);  // 交给 sgt 段
+    dfs1(root, 0);      // 填 fa / dep / sz / son
+    timer = 0;          // 从 1 重新分配 dfn
+    dfs2(root, root);   // 填 top / dfn / base
+    seg_build(1, 1, n); // 交给 sgt 段
 }
 
 int lca(int u, int v) {

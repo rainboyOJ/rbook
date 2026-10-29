@@ -1,62 +1,65 @@
-template<typename T=int,int N=maxn>
-struct sgt_range {
-    T tr[N*4+5];
-    T flag[N*4+5]; //flag 里的内容与题目有关，灵活设定
-    inline int lp(int p){return p<<1;}
-    inline int rp(int p){return (p<<1)|1;}
-    inline int mid(int l,int r){return (l+r)>>1;}
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
 
-    inline void pushup(int p){  //向上合并
-        tr[p] = tr[lp(p)] + tr[rp(p)];
-    }
-    inline void pushdown(int p,int m){ //向下压标记
-        if( flag[p] ){ //当前点有flag
-            flag[lp(p)] = flag[rp(p)] = flag[p];
-            tr[lp(p)] = flag[p]*(m-(m>>1)); //成段替换需要这样写
-            tr[rp(p)] = flag[p]*(m>>1);
-            flag[p] = 0;
-        }
-    }
+/*------------------------ sgt 代码 开始 ------------------------*/
+// 懒标记线段树：维护数组 base[1..n]，支持区间加、区间和。
+// 节点与区间均为 1 下标。无取模版本（和可为负）。
+ll base[maxn];
+ll tr[maxn << 2];
+ll lazy[maxn << 2];
 
-    void build(int l,int r,int p){ //建立
-        if( l == r ) {
-            scanf("%d",&tr[p]);
-            return;
-        }
-        int m = mid(l,r);
-        build(l,m,lp(p));
-        build(m+1,r,rp(p));
-        pushup(p);
-    }
+int ls(int p) { return p << 1; }      // p 的左儿子 2p
+int rs(int p) { return p << 1 | 1; }  // p 的右儿子 2p+1
 
-    // 区间更新
-    void update(int L,int R,T v,int l,int r,int p){ 
-        if(L <= l && r <= R) {
-            flag[p] = v; 
-            tr[p] = (r-l+1)*v;
-            return;
-        }
-        pushdown(p,r-l+1); //路过
-        int m = mid(l,r);
-        if( L<=m) 
-            update(L,R,v,l,m,lp(p));
-        if( R>=m+1)
-            update(L,R,v,m+1,r,rp(p));
-        pushup(p);
-    }
+void apply(int p, int l, int r, ll value) {
+    tr[p] += value * (r - l + 1);
+    lazy[p] += value;
+}
 
-    //区间查询
-    T query(int L,int R,int l,int r,int p){
-        if( L <=l && r<=R ) {
-            return tr[p];
-        }
-        pushdown(p, r-l+1);
-        int m = mid(l,r);
-        T ret = 0;
-        if( L <= m ) ret+=query(L,R,l,m,lp(p));
-        if( R >=m+1) ret+=query(L,R,m+1,r,rp(p));
-        //pushup(p);
-        return ret;
+void pushdown(int p, int l, int r) {
+    // 懒标记为 0 无事可做；叶子没有儿子可下放，必须提前返回，
+    // 否则 mid = l，会递归进入自己并且写越界的 tr[2p]。
+    if (!lazy[p] || l == r) return;
+    int mid = (l + r) >> 1;
+    apply(ls(p), l, mid, lazy[p]);
+    apply(rs(p), mid + 1, r, lazy[p]);
+    lazy[p] = 0;
+}
+
+void seg_build(int p, int l, int r) {
+    lazy[p] = 0;
+    if (l == r) {
+        tr[p] = base[l];
+        return;
     }
-};
-sgt_range<> sgt;
+    int mid = (l + r) >> 1;
+    seg_build(ls(p), l, mid);
+    seg_build(rs(p), mid + 1, r);
+    tr[p] = tr[ls(p)] + tr[rs(p)];
+}
+
+// 区间加：把 [ql, qr] 整体加 value。
+void range_add(int ql, int qr, ll value, int p, int l, int r) {
+    if (qr < l || r < ql) return;
+    if (ql <= l && r <= qr) {
+        apply(p, l, r, value);
+        return;
+    }
+    pushdown(p, l, r);
+    int mid = (l + r) >> 1;
+    range_add(ql, qr, value, ls(p), l, mid);
+    range_add(ql, qr, value, rs(p), mid + 1, r);
+    tr[p] = tr[ls(p)] + tr[rs(p)];
+}
+
+ll range_sum(int ql, int qr, int p, int l, int r) {
+    if (qr < l || r < ql) return 0;
+    if (ql <= l && r <= qr) return tr[p];
+    pushdown(p, l, r);
+    int mid = (l + r) >> 1;
+    ll answer = range_sum(ql, qr, ls(p), l, mid);
+    answer += range_sum(ql, qr, rs(p), mid + 1, r);
+    return answer;
+}
+/*------------------------ sgt 代码 结束 ------------------------*/
