@@ -177,12 +177,14 @@ $$
 
 | 接口 | 用途 |
 |---|---|
-| `init(n, mod)` | 清空全局状态并分配空间；每组数据重新调用 |
+| `init(n, mod)` | 清空邻接表；每组数据重新调用。其余数组由 `build` 逐点覆写，不需要手工清零 |
 | `a[u]`、`add_edge(u,v)` | 设置初值、添加无向边 |
 | `build(root)` | 固定根，预处理并建立线段树；每次初始化后调用一次 |
 | `path_add(u,v,delta)` / `path_sum(u,v)` | 路径加 / 路径和，包含两个端点 |
 | `subtree_add(u,delta)` / `subtree_sum(u)` | 子树加 / 子树和，包含 `u` |
 | `lca(u,v)` | 只跳链求 LCA，$O(\log n)$ |
+
+C++ 版使用定长全局数组，`maxn` 按题目约束调整，且必须满足 $n \leqslant maxn$：`tr`、`lazy` 占用 `4 * maxn` 个 `long long`，`maxn` 开到 $10^6$ 时这两个数组约需 64MB。Python 版按 $n$ 动态建列表，没有这个限制。
 
 要求输入是一棵连通树，$n \geqslant 1$，`root` 在 `1..n` 内。模板处理取模后的和；初值和增量可以是负数，输出统一落在 `[0,mod-1]`。C++ 约定 $1 \leqslant mod \leqslant 2^{31}-1$，初值和增量在 `long long` 范围内，乘法使用 `long long`。不取模的问题需要同步修改线段树与路径累加处，并检查和及乘积的范围。
 

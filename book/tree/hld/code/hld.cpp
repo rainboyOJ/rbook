@@ -4,21 +4,20 @@ using ll = long long;
 
 // 节点与区间均为 1 下标；init -> 填 a / 加边 -> build -> 操作。
 // n >= 1，1 <= mod <= 2^31-1；所有权值、增量用 long long。
+const int maxn = 100000 + 5;  // 按题目规模调整，n 不能超过 maxn
+
 int n, mod;
-vector<vector<int>> g;
-vector<int> fa, dep, sz, son, top, dfn, rev;
-vector<ll> a, base, tr, lazy;
+vector<int> g[maxn];
+int fa[maxn], dep[maxn], sz[maxn], son[maxn], top[maxn], dfn[maxn], rev[maxn];
+ll a[maxn], base[maxn], tr[maxn << 2], lazy[maxn << 2];
 
 ll norm(ll x) { return (x % mod + mod) % mod; }
 
+// 多组数据只需要清邻接表：旧边必须走。
+// 其余数组在 build() / seg_build() 里逐点重新赋值，旧值不会影响结果。
 void init(int count, int modulus) {
     n = count; mod = modulus;
-    g.assign(n + 1, {});
-    fa.assign(n + 1, 0); dep.assign(n + 1, 0);
-    sz.assign(n + 1, 0); son.assign(n + 1, 0);
-    top.assign(n + 1, 0); dfn.assign(n + 1, 0); rev.assign(n + 1, 0);
-    a.assign(n + 1, 0); base.assign(n + 1, 0);
-    tr.assign(4 * n + 5, 0); lazy.assign(4 * n + 5, 0);
+    for (int u = 1; u <= n; ++u) g[u].clear();
 }
 
 void add_edge(int u, int v) {
@@ -39,14 +38,15 @@ void pushdown(int u, int l, int r) {
     lazy[u] = 0;
 }
 
-void seg_build(int u, int l, int r, const vector<long long> &base) {
+void seg_build(int u, int l, int r) {
+    lazy[u] = 0;  // 建树时顺手清懒标记，init 就不必整体清零
     if (l == r) {
         tr[u] = norm(base[l]);
         return;
     }
     int mid = (l + r) >> 1;
-    seg_build(u << 1, l, mid, base);
-    seg_build(u << 1 | 1, mid + 1, r, base);
+    seg_build(u << 1, l, mid);
+    seg_build(u << 1 | 1, mid + 1, r);
     tr[u] = (tr[u << 1] + tr[u << 1 | 1]) % mod;
 }
 
@@ -75,41 +75,45 @@ long long range_sum(int ql, int qr, int u, int l, int r) {
 // 第一遍：先记录父亲在前的顺序，再逆序汇总子树信息。
 // 第二遍：显式栈模拟重儿子优先 DFS，避免链形树的 O(n) 递归栈。
 void build(int root) {
-    vector<int> order{root};
-    dep[root] = 1;
-    for (int i = 0; i < n; ++i) {
+    static int order[maxn], stk[maxn];
+    int cnt = 0;
+    order[cnt++] = root;
+    fa[root] = 0; dep[root] = 1;  // 显式写根父亲，不依赖 fa 的预清零
+    for (int i = 0; i < cnt; ++i) {
         int u = order[i];
         for (int v : g[u]) {
             if (v == fa[u]) continue;
             fa[v] = u; dep[v] = dep[u] + 1;
-            order.push_back(v);
+            order[cnt++] = v;
         }
     }
     for (int i = n - 1; i >= 0; --i) {
         int u = order[i];
-        sz[u] = 1;
+        sz[u] = 1; son[u] = 0;
+        int best = 0, best_size = 0;  // 局部变量比较，不依赖 son[] 的旧值
         for (int v : g[u]) {
             if (v == fa[u]) continue;
             sz[u] += sz[v];
-            if (sz[v] > sz[son[u]]) son[u] = v;
+            if (sz[v] > best_size) { best_size = sz[v]; best = v; }
         }
+        son[u] = best;
     }
-    int timer = 0;
-    vector<int> st{root};
+    int timer = 0, tp = 0;
+    stk[tp++] = root;
     top[root] = root;
-    while (!st.empty()) {
-        int u = st.back(); st.pop_back();
+    while (tp > 0) {
+        int u = stk[--tp];
         dfn[u] = ++timer; rev[timer] = u; base[timer] = a[u];
         // 轻儿子先入栈，重儿子后入栈，故重儿子先被访问。
         for (int v : g[u]) {
             if (v == fa[u] || v == son[u]) continue;
-            top[v] = v; st.push_back(v);
+            top[v] = v; stk[tp++] = v;
         }
         if (son[u]) {
-            top[son[u]] = top[u]; st.push_back(son[u]);
+            top[son[u]] = top[u]; stk[tp++] = son[u];
         }
     }
-    seg_build(1, 1, n, base);
+    seg_build(1, 1, n);
 }
 
 int lca(int u, int v) {
@@ -150,6 +154,7 @@ void subtree_add(int u, long long delta) {
 long long subtree_sum(int u) {
     return range_sum(dfn[u], dfn[u] + sz[u] - 1, 1, 1, n);
 }
+
 
 int main() {
     ios::sync_with_stdio(false);
