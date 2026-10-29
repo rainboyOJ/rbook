@@ -2,19 +2,28 @@
 using namespace std;
 using ll = long long;
 
+// 懒标记线段树（区间加 + 区间和，取模），节点与区间均为 1 下标。
+// 这是 sgt_update_range 章节的独立模板，sgt 段与 HLD 模板完全一致。
+const int maxn = 100000 + 5;
+
+int mod;  // 取模的模数，使用前先赋值（hld 模板里由读入设置）
+
 /*------------------------ sgt 代码 开始 ------------------------*/
-// 懒标记线段树：维护数组 base[1..n]，支持区间加、区间和。
-// 节点与区间均为 1 下标。无取模版本（和可为负）。
+// 懒标记线段树：维护数组 base[1..n]，支持区间加、区间和对 mod 取模。
 ll base[maxn];
 ll tr[maxn << 2];
 ll lazy[maxn << 2];
 
-int ls(int p) { return p << 1; }      // p 的左儿子 2p
-int rs(int p) { return p << 1 | 1; }  // p 的右儿子 2p+1
+// 把可能为负的 x 归一到 [0, mod)：只用在“外来值”上（输入的初值和增量）。
+ll norm(ll x) { return (x % mod + mod) % mod; }
+
+int ls(int p) { return p << 1; }     // p 的左儿子 2p
+int rs(int p) { return p << 1 | 1; } // p 的右儿子 2p+1
 
 void apply(int p, int l, int r, ll value) {
-    tr[p] += value * (r - l + 1);
-    lazy[p] += value;
+    value = norm(value);
+    tr[p] = (tr[p] + value * (r - l + 1)) % mod;
+    lazy[p] = (lazy[p] + value) % mod;
 }
 
 void pushdown(int p, int l, int r) {
@@ -30,13 +39,13 @@ void pushdown(int p, int l, int r) {
 void seg_build(int p, int l, int r) {
     lazy[p] = 0;
     if (l == r) {
-        tr[p] = base[l];
+        tr[p] = norm(base[l]);
         return;
     }
     int mid = (l + r) >> 1;
     seg_build(ls(p), l, mid);
     seg_build(rs(p), mid + 1, r);
-    tr[p] = tr[ls(p)] + tr[rs(p)];
+    tr[p] = (tr[ls(p)] + tr[rs(p)]) % mod;
 }
 
 // 区间加：把 [ql, qr] 整体加 value。
@@ -50,7 +59,7 @@ void range_add(int ql, int qr, ll value, int p, int l, int r) {
     int mid = (l + r) >> 1;
     range_add(ql, qr, value, ls(p), l, mid);
     range_add(ql, qr, value, rs(p), mid + 1, r);
-    tr[p] = tr[ls(p)] + tr[rs(p)];
+    tr[p] = (tr[ls(p)] + tr[rs(p)]) % mod;
 }
 
 ll range_sum(int ql, int qr, int p, int l, int r) {
@@ -60,6 +69,6 @@ ll range_sum(int ql, int qr, int p, int l, int r) {
     int mid = (l + r) >> 1;
     ll answer = range_sum(ql, qr, ls(p), l, mid);
     answer += range_sum(ql, qr, rs(p), mid + 1, r);
-    return answer;
+    return answer % mod;
 }
 /*------------------------ sgt 代码 结束 ------------------------*/
