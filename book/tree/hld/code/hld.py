@@ -16,6 +16,16 @@ def sgt_init(size, modulus):
     lazy = [0] * (4 * size + 5)
 
 
+def ls(o):
+    """o 的左儿子 2o。"""
+    return o << 1
+
+
+def rs(o):
+    """o 的右儿子 2o+1。"""
+    return o << 1 | 1
+
+
 def apply(o, l, r, value):
     value %= mod
     tr[o] = (tr[o] + value * (r - l + 1)) % mod
@@ -28,8 +38,8 @@ def pushdown(o, l, r):
     if not lazy[o] or l == r:
         return
     mid = (l + r) >> 1
-    apply(o << 1, l, mid, lazy[o])
-    apply(o << 1 | 1, mid + 1, r, lazy[o])
+    apply(ls(o), l, mid, lazy[o])
+    apply(rs(o), mid + 1, r, lazy[o])
     lazy[o] = 0
 
 
@@ -39,9 +49,9 @@ def seg_build(o, l, r):
         tr[o] = base[l] % mod
         return
     mid = (l + r) >> 1
-    seg_build(o << 1, l, mid)
-    seg_build(o << 1 | 1, mid + 1, r)
-    tr[o] = (tr[o << 1] + tr[o << 1 | 1]) % mod
+    seg_build(ls(o), l, mid)
+    seg_build(rs(o), mid + 1, r)
+    tr[o] = (tr[ls(o)] + tr[rs(o)]) % mod
 
 
 def range_add(ql, qr, value, o, l, r):
@@ -51,10 +61,10 @@ def range_add(ql, qr, value, o, l, r):
     pushdown(o, l, r)
     mid = (l + r) >> 1
     if ql <= mid:
-        range_add(ql, qr, value, o << 1, l, mid)
+        range_add(ql, qr, value, ls(o), l, mid)
     if qr > mid:
-        range_add(ql, qr, value, o << 1 | 1, mid + 1, r)
-    tr[o] = (tr[o << 1] + tr[o << 1 | 1]) % mod
+        range_add(ql, qr, value, rs(o), mid + 1, r)
+    tr[o] = (tr[ls(o)] + tr[rs(o)]) % mod
 
 
 def range_sum(ql, qr, o, l, r):
@@ -64,9 +74,9 @@ def range_sum(ql, qr, o, l, r):
     mid = (l + r) >> 1
     answer = 0
     if ql <= mid:
-        answer += range_sum(ql, qr, o << 1, l, mid)
+        answer += range_sum(ql, qr, ls(o), l, mid)
     if qr > mid:
-        answer += range_sum(ql, qr, o << 1 | 1, mid + 1, r)
+        answer += range_sum(ql, qr, rs(o), mid + 1, r)
     return answer % mod
 # ------------------------ sgt 代码 结束 ------------------------
 
