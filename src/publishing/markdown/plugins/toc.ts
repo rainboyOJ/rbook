@@ -19,9 +19,10 @@ interface OutlineEntry {
 const AUTHOR_NUMBER = /^(P\d+|(?:性质|定理|引理|推论|例题|例)\s*\d+)(?:[：:、.．]\s*|\s+|$)|^[一二三四五六七八九十百零〇]+[、．.]\s*|^\d+(?:\.\d+)*(?:(?:[、．]|\.(?!\d))\s*|\s+)/u
 
 export default function tocPlugin(md: MarkdownIt): void {
-    const options = { level: [2, 3], slugify }
-    md.use(anchor, options)
-    md.use(toc, options)
+    const anchorOptions = { level: [2, 3, 4, 5, 6], slugify }
+    const tocOptions = { level: [2], slugify }
+    md.use(anchor, anchorOptions)
+    md.use(toc, tocOptions)
 
     // anchor / generateTocAst 先读取原文。此后再包裹标题，保证旧锚点稳定。
     md.core.ruler.after('generateTocAst', 'rbook_heading_outline', state => {
@@ -61,7 +62,7 @@ export default function tocPlugin(md: MarkdownIt): void {
             suffix.content = '</span>'
             inline.children = [prefix, ...inline.children, suffix]
 
-            if (level <= 3) {
+            if (level === 2) {
                 const entry: OutlineEntry = {
                     level, id: heading.attrGet('id') || slugify(title), number,
                     title: displayTitle, children: [],

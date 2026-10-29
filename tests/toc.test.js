@@ -13,11 +13,12 @@ it('[[toc]] 生成分层目录，中文、格式化和重复标题均链接到�
     assert.ok(html.includes('<nav class="table-of-contents"><ol>'))
     assert.ok(!html.includes('[[toc]]'))
     const nav = html.match(/<nav[\s\S]*?<\/nav>/)[0]
-    for (const id of ['中文标题', '重复-code', '中文标题-1', 'section']) {
+    for (const id of ['中文标题', '中文标题-1', 'section']) {
         assert.ok(nav.includes(`href="#${id}"`))
         assert.ok(html.includes(`id="${id}"`))
     }
-    assert.ok(nav.includes('<ol><li><a href="#重复-code">'))
+    assert.ok(html.includes('id="重复-code"'))
+    assert.ok(!nav.includes('重复'))
     assert.ok(!nav.includes('文章标题'))
 })
 
@@ -37,10 +38,14 @@ it('章节和目录共享编号，作者编号不叠加，旧锚点和内联格�
     const headings = [...html.matchAll(/<h[23][^>]*data-heading-number="([^"]+)"/g)].map(m => m[1])
     const tocNumbers = [...html.matchAll(/class="rbook-toc-number">([^<]*)</g)].map(m => m[1])
     assert.deepEqual(headings, ['1', '1.1', 'P1', 'P2', '2', '一、', 'P3：', '2.3', '2.4', '2.1'])
-    assert.deepEqual(tocNumbers, headings)
-    for (const id of ['p1-子树', 'p2-区间', 'p3祖先', '21-手工编号']) {
+    assert.deepEqual(tocNumbers, ['1', '2'])
+    for (const id of ['基础', '进阶']) {
         assert.ok(html.includes(`id="${id}"`), id)
         assert.ok(html.includes(`href="#${id}"`), id)
+    }
+    for (const id of ['p1-子树', 'p2-区间', 'p3祖先', '21-手工编号']) {
+        assert.ok(html.includes(`id="${id}"`), id)
+        assert.ok(!html.match(new RegExp(`href="#${id}"`)), id)
     }
     assert.ok(!html.includes('data-heading-number="1.2 P1"'))
 })
@@ -50,6 +55,6 @@ it('标题可从 H3 开始，重置到新 H1，转义目录文字且不拆分中
     assert.deepEqual([...html.matchAll(/data-heading-number="([^"]+)"/g)].map(m => m[1]), ['1', '1.1', '1', '1.1', '1.2'])
     const nav = html.match(/<nav[\s\S]*?<\/nav>/)[0]
     assert.ok(nav.includes('&lt;script&gt; &amp; 说明'))
-    assert.ok(nav.includes('例子 P1 仍是标题文字'))
+    assert.ok(!nav.includes('例子 P1 仍是标题文字'))
     assert.ok(html.includes('<strong>正文</strong> <code>&lt;script&gt;</code>'))
 })

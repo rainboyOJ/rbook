@@ -50,7 +50,7 @@ book/<章>/<文章目录>/
 - 正文顶部 `---\ntitle: …\n---` front matter **只被读取 title**，是标题的兜底；
   正常元数据仍写在 config 里。
 - 正文第一行惯例写 `[[TOC]]`（也认 `[TOC]`、`[[toc]]`、`[[Toc]]`），在该位置渲染页内目录
-  `<nav class="table-of-contents">`，只收 h2/h3。没有这个占位符就没有页内目录
+  `<nav class="table-of-contents">`，只收 h2。没有这个占位符就没有页内目录
   （侧边栏菜单来自 catalog，与此无关）。
 
 ## 二、站内与题目链接
