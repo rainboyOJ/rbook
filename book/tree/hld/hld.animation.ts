@@ -173,7 +173,7 @@ export function mount(context: AnimationContext): void {
         <div class="order-scroll" tabindex="0" role="region" aria-label="DFS 序，可横向滚动"><div class="order"></div></div>
         <h4>重链列表</h4>
         <div class="chains" aria-label="点击选择一条重链"></div>
-        <p class="footer">size 对应正文的 sz，重儿子对应 son。子树一样大时选输入中先出现的儿子；轻儿子按输入逆序访问，与本文模板一致。重链不一定在图的最左侧，同一条链也不一定竖直。</p>
+        <p class="footer">size 对应正文的 sz，重儿子对应 son。子树一样大时选输入中先出现的儿子；轻儿子按输入顺序访问，与本文模板一致。重链不一定在图的最左侧，同一条链也不一定竖直。</p>
       </div>
     `
     context.root.append(style, shell)

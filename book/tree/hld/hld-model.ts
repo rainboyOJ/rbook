@@ -82,23 +82,20 @@ export function decompose(input: TreeInput) {
             if (size[v] > size[heavy[u]]) heavy[u] = v
         }
     }
-    const stack = [root]
-    top[root] = root
+    // Same order as the article's dfs2: number u, recurse into the heavy son first,
+    // then walk the light children in input order.
     let timer = 0
-    while (stack.length) {
-        const u = stack.pop()!
+    const dfs2 = (u: number, head: number): void => {
+        top[u] = head
         dfn[u] = ++timer
         rev[timer] = u
+        if (heavy[u]) dfs2(heavy[u], head)
         for (const v of children[u]) {
             if (v === heavy[u]) continue
-            top[v] = v
-            stack.push(v)
-        }
-        if (heavy[u]) {
-            top[heavy[u]] = top[u]
-            stack.push(heavy[u])
+            dfs2(v, v)
         }
     }
+    dfs2(root, root)
     const chains: number[][] = []
     for (const u of rev.slice(1)) {
         if (top[u] !== u) continue

@@ -1,22 +1,109 @@
-# Python 3.8+；全局列表与函数。节点、区间均为 1 下标。
-# init(n, mod) -> 填 a / add_edge -> build(root) -> 路径与子树操作。
-# 一次维护一棵静态树；新数据必须重新 init。mod 为正整数。
+# 树链剖分（HLD）+ 懒标记线段树（1-indexed）
+
+# ------------------------ sgt 代码 开始 ------------------------
+# 懒标记线段树：维护数组 base[1..n]，支持区间加、区间和对 mod 取模。
+base = []
+tr = []
+lazy = []
+mod = 0
+
+
+def sgt_init(size, modulus):
+    global mod, base, tr, lazy
+    mod = modulus
+    base = [0] * (size + 1)
+    tr = [0] * (4 * size + 5)
+    lazy = [0] * (4 * size + 5)
+
+
+def apply(o, l, r, value):
+    value %= mod
+    tr[o] = (tr[o] + value * (r - l + 1)) % mod
+    lazy[o] = (lazy[o] + value) % mod
+
+
+def pushdown(o, l, r):
+    # 懒标记为 0 无事可做；叶子没有儿子可下放，必须提前返回，
+    # 否则 mid == l，会递归进入自己并且写越界的 tr[2 * o]。
+    if not lazy[o] or l == r:
+        return
+    mid = (l + r) >> 1
+    apply(o << 1, l, mid, lazy[o])
+    apply(o << 1 | 1, mid + 1, r, lazy[o])
+    lazy[o] = 0
+
+
+def seg_build(o, l, r):
+    lazy[o] = 0
+    if l == r:
+        tr[o] = base[l] % mod
+        return
+    mid = (l + r) >> 1
+    seg_build(o << 1, l, mid)
+    seg_build(o << 1 | 1, mid + 1, r)
+    tr[o] = (tr[o << 1] + tr[o << 1 | 1]) % mod
+
+
+def range_add(ql, qr, value, o, l, r):
+    if ql <= l and r <= qr:
+        apply(o, l, r, value)
+        return
+    pushdown(o, l, r)
+    mid = (l + r) >> 1
+    if ql <= mid:
+        range_add(ql, qr, value, o << 1, l, mid)
+    if qr > mid:
+        range_add(ql, qr, value, o << 1 | 1, mid + 1, r)
+    tr[o] = (tr[o << 1] + tr[o << 1 | 1]) % mod
+
+
+def range_sum(ql, qr, o, l, r):
+    if ql <= l and r <= qr:
+        return tr[o]
+    pushdown(o, l, r)
+    mid = (l + r) >> 1
+    answer = 0
+    if ql <= mid:
+        answer += range_sum(ql, qr, o << 1, l, mid)
+    if qr > mid:
+        answer += range_sum(ql, qr, o << 1 | 1, mid + 1, r)
+    return answer % mod
+# ------------------------ sgt 代码 结束 ------------------------
+
+
+# ------------------------ hld 代码 开始 ------------------------
+# 树链剖分：g 存树，a 存原点权，6 个核心数组维护树上信息。
+n = 0
+g = []
+a = []
+
+fa = []
+dep = []
+sz = []
+son = []
+top = []
+dfn = []
+timer = 0
+
 
 def init(count, modulus):
-    global n, mod, g, fa, dep, sz, son, top, dfn, rev, a, base, tr, lazy
-    n, mod = count, modulus
+    """一组新数据：清空邻接表、重建各数组，并把 mod / base 交给 sgt 段。"""
+    global n, g, a, fa, dep, sz, son, top, dfn, timer
+    n = count
+    timer = 0
+    # dfs1 / dfs2 是递归，链形树深度可达 n；这里按 n 放宽递归上限。
+    import sys
+    if sys.getrecursionlimit() < 3 * count + 100:
+        sys.setrecursionlimit(3 * count + 100)
+    sgt_init(count, modulus)
     g = [[] for _ in range(n + 1)]
+    a = [0] * (n + 1)
     fa = [0] * (n + 1)
     dep = [0] * (n + 1)
     sz = [0] * (n + 1)
     son = [0] * (n + 1)
     top = [0] * (n + 1)
     dfn = [0] * (n + 1)
-    rev = [0] * (n + 1)
-    a = [0] * (n + 1)
-    base = [0] * (n + 1)
-    tr = [0] * (4 * n + 5)
-    lazy = [0] * (4 * n + 5)
 
 
 def add_edge(u, v):
@@ -24,94 +111,41 @@ def add_edge(u, v):
     g[v].append(u)
 
 
-def apply(u, l, r, a):
-    a %= mod
-    # 区间长度是 r - l + 1；先取模再加，防止数值无限增长。
-    tr[u] = (tr[u] + a * (r - l + 1)) % mod
-    lazy[u] = (lazy[u] + a) % mod
+def dfs1(u, father):
+    fa[u] = father
+    dep[u] = dep[father] + 1  # 根的 father 为 0、dep[0] 恒为 0，故根深度为 1
+    sz[u] = 1                 # 先算上自己
+    son[u] = 0                # 叶子没有重儿子
+    for v in g[u]:
+        if v == father:
+            continue
+        dfs1(v, u)
+        sz[u] += sz[v]
+        if sz[v] > sz[son[u]]:
+            son[u] = v
 
-def pushdown(u, l, r):
-    # 叶节点没有儿子可下传；lazy 为 0 时无事可做。
-    if lazy[u] == 0 or l == r:
-        return
-    mid = (l + r) >> 1  # 除以 2 向下取整
-    apply(u << 1, l, mid, lazy[u])  # 左儿子编号 2u
-    apply(u << 1 | 1, mid + 1, r, lazy[u])  # 右儿子编号 2u+1
-    lazy[u] = 0
 
-def seg_build(u, l, r, base):
-    if l == r:
-        tr[u] = base[l] % mod
-        return
-    mid = (l + r) >> 1
-    seg_build(u << 1, l, mid, base)
-    seg_build(u << 1 | 1, mid + 1, r, base)
-    tr[u] = (tr[u << 1] + tr[u << 1 | 1]) % mod
-
-def range_add(ql, qr, a, u, l, r):
-    if ql <= l and r <= qr:
-        apply(u, l, r, a)
-        return
-    pushdown(u, l, r)
-    mid = (l + r) >> 1
-    if ql <= mid:
-        range_add(ql, qr, a, u << 1, l, mid)
-    if qr > mid:
-        range_add(ql, qr, a, u << 1 | 1, mid + 1, r)
-    tr[u] = (tr[u << 1] + tr[u << 1 | 1]) % mod
-
-def range_sum(ql, qr, u, l, r):
-    if ql <= l and r <= qr:
-        return tr[u]
-    pushdown(u, l, r)
-    mid = (l + r) >> 1
-    answer = 0
-    if ql <= mid:
-        answer += range_sum(ql, qr, u << 1, l, mid)
-    if qr > mid:
-        answer += range_sum(ql, qr, u << 1 | 1, mid + 1, r)
-    return answer % mod
+def dfs2(u, head):
+    global timer
+    top[u] = head
+    timer += 1
+    dfn[u] = timer
+    base[timer] = a[u]  # 把点权搬到 sgt 段的数组上，线段树维护的就是它
+    if son[u]:
+        dfs2(son[u], head)
+    for v in g[u]:
+        if v == fa[u] or v == son[u]:
+            continue
+        dfs2(v, v)
 
 
 def build(root):
-    # 父亲在前，逆序时儿子的子树大小已经算好。
-    order = [root]
-    dep[root] = 1
-    for u in order:
-        for v in g[u]:
-            if v == fa[u]:
-                continue
-            fa[v] = u
-            dep[v] = dep[u] + 1
-            order.append(v)
-    for u in reversed(order):
-        sz[u] = 1
-        for v in g[u]:
-            if v == fa[u]:
-                continue
-            sz[u] += sz[v]
-            if sz[v] > sz[son[u]]:
-                son[u] = v
-
+    """预处理入口：两遍 DFS 把树拍成 dfn 序，再建线段树。"""
+    global timer
+    dfs1(root, 0)        # 填 fa / dep / sz / son
     timer = 0
-    stack = [root]
-    top[root] = root
-    while stack:
-        u = stack.pop()
-        timer += 1
-        dfn[u] = timer
-        rev[timer] = u
-        base[timer] = a[u]
-        # 后进先出：先压轻儿子，再压重儿子，保持 DFS 的子树连续性。
-        for v in g[u]:
-            if v == fa[u] or v == son[u]:
-                continue
-            top[v] = v
-            stack.append(v)
-        if son[u]:
-            top[son[u]] = top[u]
-            stack.append(son[u])
-    seg_build(1, 1, n, base)
+    dfs2(root, root)     # 填 top / dfn / base
+    seg_build(1, 1, n)   # 交给 sgt 段
 
 
 def lca(u, v):
@@ -124,31 +158,32 @@ def lca(u, v):
 
 def path_add(u, v, delta):
     while top[u] != top[v]:
-        # 处理链头更深的一边，再跨过链头上方的轻边。
         if dep[top[u]] < dep[top[v]]:
             u, v = v, u
         range_add(dfn[top[u]], dfn[u], delta, 1, 1, n)
         u = fa[top[u]]
-    # 同一条链上：浅的是 LCA，区间就是 [dfn[u], dfn[v]]。
     if dep[u] > dep[v]:
         u, v = v, u
     range_add(dfn[u], dfn[v], delta, 1, 1, n)
+
 
 def path_sum(u, v):
     answer = 0
     while top[u] != top[v]:
         if dep[top[u]] < dep[top[v]]:
             u, v = v, u
-        answer += range_sum(dfn[top[u]], dfn[u], 1, 1, n)
-        answer %= mod
+        answer = (answer + range_sum(dfn[top[u]], dfn[u], 1, 1, n)) % mod
         u = fa[top[u]]
     if dep[u] > dep[v]:
         u, v = v, u
-    answer += range_sum(dfn[u], dfn[v], 1, 1, n)
-    return answer % mod
+    answer = (answer + range_sum(dfn[u], dfn[v], 1, 1, n)) % mod
+    return answer
+
 
 def subtree_add(u, delta):
     range_add(dfn[u], dfn[u] + sz[u] - 1, delta, 1, 1, n)
 
+
 def subtree_sum(u):
     return range_sum(dfn[u], dfn[u] + sz[u] - 1, 1, 1, n)
+# ------------------------ hld 代码 结束 ------------------------

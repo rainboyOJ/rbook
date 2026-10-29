@@ -45,10 +45,10 @@ describe('HLD 结果观察器', () => {
         assert.deepEqual(parseTree('1 1'), { n: 1, root: 1, edges: [] })
     })
 
-    it('重儿子并列时遵循输入顺序，轻儿子逆序入 DFS 序', () => {
+    it('重儿子并列时遵循输入顺序，轻儿子按输入顺序入 DFS 序', () => {
         const tree = decompose(parseTree('5 1\n1 4\n1 2\n1 5\n1 3'))
         assert.equal(tree.heavy[1], 4)
-        assert.deepEqual(tree.rev.slice(1), [1, 4, 3, 5, 2])
+        assert.deepEqual(tree.rev.slice(1), [1, 4, 2, 5, 3])
     })
 
     it('对多种树逐点验证子树区间、最大儿子、链头及连续编号', () => {

@@ -11,5 +11,5 @@ code_template:
     code: "./hld.cpp"
   - title: "树链剖分（Python）"
     tags: ["tree", "hld", "segment_tree", "python"]
-    desc: "迭代遍历树，配合懒标记线段树维护路径与子树的区间加、区间和"
+    desc: "两遍 DFS 求重儿子与编号，配合懒标记线段树维护路径与子树的区间加、区间和"
     code: "./hld.py"
