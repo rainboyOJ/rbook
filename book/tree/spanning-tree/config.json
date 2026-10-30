@@ -1,5 +1,20 @@
 {
-    "title":"基环树",
-    "file":"index.md",
-    "id":"spanning-tree"
+    "title": "基环树",
+    "file": "index.md",
+    "id": "spanning-tree",
+    "pre": ["graph_tarjan_loop", "topsort"],
+    "code_template": [
+        {
+            "title": "无向基环树找环（C++）",
+            "tags": ["tree", "graph", "dfs"],
+            "desc": "DFS 时间戳 + 父亲回溯：非树边必连祖先，跳过反向边 i^1 以支持重边；输出环上点序、每条环边与环长",
+            "code": "./code/find_cycle.cpp"
+        },
+        {
+            "title": "内向基环树找环与递推（C++）",
+            "tags": ["tree", "graph", "topsort"],
+            "desc": "拓扑剥叶定位环，再按拓扑序逆序递推 ans[u]=ans[nxt[u]]+1；对应洛谷 P2921，支持自环",
+            "code": "./code/functional_cycle.cpp"
+        }
+    ]
 }
