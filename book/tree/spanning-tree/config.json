@@ -2,25 +2,51 @@
     "title": "基环树",
     "file": "index.md",
     "id": "spanning-tree",
-    "pre": ["graph_tarjan_loop", "topsort"],
+    "pre": [
+        "graph_tarjan_loop",
+        "topsort"
+    ],
     "code_template": [
         {
             "title": "无向基环树找环·剥叶法（C++）",
-            "tags": ["tree", "graph", "bfs"],
+            "tags": [
+                "tree",
+                "graph",
+                "bfs"
+            ],
             "desc": "反复删掉度数为 1 的点，剩下的必为环；队列剥叶 + 沿环走一圈，输出环上点序、每条环边与环长。无递归、无时间戳，最容易懂",
             "code": "./code/find_cycle_peel.cpp"
         },
         {
             "title": "内向基环树找环与递推（C++）",
-            "tags": ["tree", "graph", "topsort"],
+            "tags": [
+                "tree",
+                "graph",
+                "topsort"
+            ],
             "desc": "拓扑剥叶定位环，再按拓扑序逆序递推 ans[u]=ans[nxt[u]]+1；对应洛谷 P2921，支持自环",
             "code": "./code/functional_cycle.cpp"
         },
         {
             "title": "无向基环树找环·DFS 时间戳（C++）",
-            "tags": ["tree", "graph", "dfs"],
+            "tags": [
+                "tree",
+                "graph",
+                "dfs"
+            ],
             "desc": "通用备选：非树边必连祖先，跳过反向边 id^1 以支持重边；不依赖「恰好一个环」，一般图也能用。输出格式与剥叶法一致",
             "code": "./code/find_cycle.cpp"
+        },
+        {
+            "title": "基环树最大权独立集·断环+树形DP（C++）",
+            "tags": [
+                "tree",
+                "graph",
+                "dp",
+                "divide_and_conquer"
+            ],
+            "desc": "剥叶找环后断掉一条环边，分别以两端为根各跑一次树形DP，各取「根不选」的答案后取max；按边编号断边以支持二元环。对应洛谷 P1453，P2607 同一套做法",
+            "code": "./code/cycle_independent_set.cpp"
         }
     ]
 }
