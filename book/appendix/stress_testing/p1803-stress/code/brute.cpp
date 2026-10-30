@@ -1,43 +1,49 @@
-// brute.cpp —— 暴力（标准答案）: 01 序列, 二进制枚举每场比赛选(1) / 不选(0)
-// 对拍时必须保证它正确, 宁慢勿错.
+// brute.cpp —— 标准答案: 01 序列
+// b[i] = 0 表示不参加第 i 场, b[i] = 1 表示参加第 i 场
 #include <bits/stdc++.h>
 using namespace std;
+const int maxn = 20; // 对拍时 n <= 8
 
 int n;
 int ans = 0;
-int L[20], R[20]; // L[i] / R[i]: 第 i 场比赛的开始 / 结束时间
+int L[maxn], R[maxn]; // 第 i 场比赛的开始 / 结束时间
+int b[maxn];          // 01 序列
 
-// 判断 mask 这种选择方案是否合法: 任意两场被选中的比赛都不能冲突
-bool check(int mask) {
-    for (int i = 0; i < n; i++) {
-        if (((mask >> i) & 1) == 0) continue;
-        for (int j = i + 1; j < n; j++) {
-            if (((mask >> j) & 1) == 0) continue;
-            // 区间 [L[i], R[i]] 与 [L[j], R[j]] 有重叠就不能同时选
-            // 注意: 只有 start < 上一场 end 才算冲突, 首尾相接是可以的
-            if (L[i] < R[j] && L[j] < R[i]) return false;
+// 检查当前的 01 序列是否合法: 任意两场被选中的比赛都不能冲突
+bool check() {
+    for(int i = 1;i <= n ;++i ) {
+        if( b[i] == 0) continue;
+        for(int j = i+1;j <= n ;++j ) {
+            if( b[j] == 0) continue;
+            // 首尾相接不算冲突, 只有真正重叠才算
+            if( L[i] < R[j] && L[j] < R[i]) return false;
         }
     }
     return true;
 }
 
-int main() {
-    cin >> n;
-    for (int i = 0; i < n; i++) {
-        cin >> L[i] >> R[i];
-    }
-
-    // 01 序列: 第 i 位为 1 表示参加第 i 场比赛
-    for (int mask = 0; mask < (1 << n); mask++) {
-        if (!check(mask)) continue;
-
+// dep: 现在决定第 dep 场比赛选不选
+void dfs(int dep) {
+    if( dep > n) {
+        if( !check() ) return;
         int cnt = 0;
-        for (int i = 0; i < n; i++) {
-            if ((mask >> i) & 1) cnt++;
-        }
-        ans = max(ans, cnt);
+        for(int i = 1;i <= n ;++i ) // i: 数一数选了几场
+            cnt += b[i];
+        ans = max(ans,cnt);
+        return;
     }
+    for(int i = 0;i <= 1 ;++i ) // i: 0->1
+    {
+        b[dep] = i;
+        dfs(dep+1);
+    }
+}
 
-    cout << ans << '\n';
+int main () {
+    std::cin >> n;
+    for(int i = 1;i <= n ;++i ) // i: 1->n
+        std::cin >> L[i] >> R[i];
+    dfs(1);
+    std::cout << ans << "\n";
     return 0;
 }
