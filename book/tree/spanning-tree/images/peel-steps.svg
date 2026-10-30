@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 340" font-family="-apple-system, 'Segoe UI', 'Noto Sans CJK SC', sans-serif">
+  <rect width="700" height="340" fill="#ffffff"/>
+
+  <!-- ============ 第一格：原始 ============ -->
+  <g>
+    <text x="20" y="24" font-size="13" font-weight="700" fill="#172033">① 原始基环树</text>
+    <text x="20" y="42" font-size="11" fill="#64748b">叶子：6、7</text>
+
+    <!-- 尾巴边 -->
+    <g stroke="#94a3b8" stroke-width="2" fill="none">
+      <line x1="80" y1="130" x2="80" y2="85"/>
+      <line x1="80" y1="85" x2="80" y2="45"/>
+      <line x1="160" y1="210" x2="160" y2="255"/>
+    </g>
+    <!-- 环边 -->
+    <g stroke="#dc2626" stroke-width="3" fill="none">
+      <line x1="80" y1="130" x2="160" y2="130"/>
+      <line x1="160" y1="130" x2="160" y2="210"/>
+      <line x1="160" y1="210" x2="80" y2="210"/>
+      <line x1="80" y1="210" x2="80" y2="130"/>
+    </g>
+    <!-- 环上点 -->
+    <g fill="#dc2626">
+      <circle cx="80" cy="130" r="6"/><circle cx="160" cy="130" r="6"/>
+      <circle cx="160" cy="210" r="6"/><circle cx="80" cy="210" r="6"/>
+    </g>
+    <!-- 树上点 -->
+    <g fill="#64748b">
+      <circle cx="80" cy="85" r="5"/><circle cx="80" cy="45" r="5"/><circle cx="160" cy="255" r="5"/>
+    </g>
+    <text x="88" y="49" font-size="10" fill="#64748b">6</text>
+    <text x="166" y="259" font-size="10" fill="#64748b">7</text>
+    <text x="88" y="89" font-size="10" fill="#64748b">5</text>
+  </g>
+
+  <!-- ============ 第二格：剥掉 6、7 ============ -->
+  <g>
+    <text x="240" y="24" font-size="13" font-weight="700" fill="#172033">② 剥掉 6、7</text>
+    <text x="240" y="42" font-size="11" fill="#64748b">5 变成新叶子</text>
+
+    <!-- 已剥掉的边（虚线） -->
+    <g stroke="#e2e8f0" stroke-width="2" fill="none" stroke-dasharray="4 4">
+      <line x1="300" y1="85" x2="300" y2="45"/>
+      <line x1="380" y1="210" x2="380" y2="255"/>
+    </g>
+    <!-- 5 到 1 的边仍在 -->
+    <line x1="300" y1="130" x2="300" y2="85" stroke="#94a3b8" stroke-width="2"/>
+    <g stroke="#dc2626" stroke-width="3" fill="none">
+      <line x1="300" y1="130" x2="380" y2="130"/>
+      <line x1="380" y1="130" x2="380" y2="210"/>
+      <line x1="380" y1="210" x2="300" y2="210"/>
+      <line x1="300" y1="210" x2="300" y2="130"/>
+    </g>
+    <!-- 已剥掉的点 -->
+    <g fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="3 3">
+      <circle cx="300" cy="45" r="5"/><circle cx="380" cy="255" r="5"/>
+    </g>
+    <g fill="#dc2626">
+      <circle cx="300" cy="130" r="6"/><circle cx="380" cy="130" r="6"/>
+      <circle cx="380" cy="210" r="6"/><circle cx="300" cy="210" r="6"/>
+    </g>
+    <circle cx="300" cy="85" r="5" fill="#f59e0b"/>
+    <text x="308" y="89" font-size="10" fill="#b45309">5 度数=1</text>
+  </g>
+
+  <!-- ============ 第三格：剥掉 5 ============ -->
+  <g>
+    <text x="460" y="24" font-size="13" font-weight="700" fill="#172033">③ 再剥掉 5</text>
+    <text x="460" y="42" font-size="11" fill="#64748b">剩下的全是环</text>
+
+    <g stroke="#e2e8f0" stroke-width="2" fill="none" stroke-dasharray="4 4">
+      <line x1="520" y1="130" x2="520" y2="85"/>
+      <line x1="520" y1="85" x2="520" y2="45"/>
+      <line x1="600" y1="210" x2="600" y2="255"/>
+    </g>
+    <g stroke="#dc2626" stroke-width="3" fill="none">
+      <line x1="520" y1="130" x2="600" y2="130"/>
+      <line x1="600" y1="130" x2="600" y2="210"/>
+      <line x1="600" y1="210" x2="520" y2="210"/>
+      <line x1="520" y1="210" x2="520" y2="130"/>
+    </g>
+    <g fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="3 3">
+      <circle cx="520" cy="85" r="5"/><circle cx="520" cy="45" r="5"/><circle cx="600" cy="255" r="5"/>
+    </g>
+    <g fill="#dc2626">
+      <circle cx="520" cy="130" r="6"/><circle cx="600" cy="130" r="6"/>
+      <circle cx="600" cy="210" r="6"/><circle cx="520" cy="210" r="6"/>
+    </g>
+    <text x="466" y="292" font-size="11" fill="#dc2626">每个点度数都 = 2，剥不动了</text>
+  </g>
+
+  <text x="20" y="322" font-size="11" fill="#475569">灰色虚线＝已被剥掉的点与边。环上的点度数恒为 2，所以队列一旦清空，剩下的一定就是环。</text>
+</svg>
