@@ -112,7 +112,7 @@ dfs1(u, father):
 
 C++ 模板直接沿用 [[[rbook: hld]]] 的写法：`const int maxn` 加全局数组、递归 `dfs1`，一遍 DFS 同时得到 `fa`、`sz`、`son`、`balance`。这样写的实际好处是**重心可以寄生在 HLD 的预处理上**：如果题目已经为了路径操作做过剖分，`sz` 和 `son` 早就在手，求重心只多一行赋值和一次扫描。
 
-代价是递归深度。链形树的 `dfs1` 会递归 $n$ 层：C++ 在默认 8MB 栈下 $n=10^5$ 的链通常能过（与 HLD 模板同等风险）；Python 的默认递归上限只有一千左右，所以 Python 模板仍用显式栈逆序汇总，不依赖递归深度。
+代价是递归深度。链形树的 `dfs1` 会递归 $n$ 层。C++ 默认 8MB 栈大约能压到 $1.5\times10^5$ 层，$n=3\times10^5$ 的链会直接爆栈；OJ 一般把栈限额设成与内存上限一致（本地 `roj-local-judge-lite` 的 `judge.py` 默认就是 `栈 = 内存上限`），这时 $512\text{MB}$ 栈跑 $3\times10^5$ 层毫无压力。Python 的递归上限默认只有一千，但 Python 3.12+ 把递归帧放在堆上，`sys.setrecursionlimit()` 放宽后同样能跑链形树，不占栈空间。因此两份倍增跳表模板的 `dfs1` 都是递归写法，与 HLD 同形。
 
 ### 沿重链走：不扫全树也能找到重心
 
@@ -169,6 +169,12 @@ k=0: up[3][0] = 4，sz[4]*2 = 8 >= 7   -> 跳到 4
 另一侧（`p` 一侧）是“补树”，`p` 的儿子集合少了 `u`，必须改信息才能查：把 `p` 的重儿子换成“除 `u` 外最大的邻居”，同步改 `sz[p]` 和 `fa`，再重建 `p` 这一层的跳表。因为切边只影响 `p` 一个点，其余节点零修改，所以整趟枚举每条边仍是 $O(n \log n)$。
 
 这就是 [[[rbook: binary_jump]]] 里“跳表可复用”的直接收益：预处理一次，之后每个连通块单独 $O(\log n)$。
+
+::: info
+
+**Python 版用 `array('i')` 存跳表。** 把 `up` 写成 `[[0]*(n+1) for _ in range(LOGN)]` 看起来自然，但每个格子是一个独立的 Python `int` 对象，$n=3\times10^5$ 时要 150MB 以上；换成 `array('i')` 后每格 4 字节，整张表约 23MB，实测峰值从 160MB 降到 140MB（剩下的主要是邻接表的 list 开销）。
+
+:::
 
 ## 算法证明
 
@@ -229,7 +235,7 @@ $$
 
 - 时间复杂度：$O(n)$。一次 `dfs1` 汇总 `sz`、`son`、`balance`，再线性扫一遍收集答案，都只处理线性数量的节点或边。沿重链走的写法额外花 $O(\text{重链长度})\leqslant O(n)$，且不必扫全树。
 - 空间复杂度：$O(n)$。邻接表与 `fa`、`sz`、`son`、`balance` 均占线性空间；C++ 版不再需要访问顺序和显式栈两个数组。
-- 递归栈：C++ 的 `dfs1` 在链形树上会递归 $n$ 层，这部分开销计入空间，最坏也是 $O(n)$；Python 版用显式栈，不受语言递归上限影响。
+- 递归栈：`dfs1` 在链形树上会递归 $n$ 层，这部分开销计入空间，最坏也是 $O(n)$。C++ 需保证栈限额够大（OJ 通常让栈跟随内存上限）；Python 3.12+ 的递归帧在堆上，只需 `sys.setrecursionlimit()` 放宽上限。
 
 倍增跳表版（`tree_centroid_jump.cpp`）的账要分开算：
 
@@ -242,7 +248,7 @@ $$
 
 ## 代码模板
 
-两份模板的预处理思路相同（一遍 DFS 求出 `sz`，用重儿子表示儿子方向的最大块），但接口按语言习惯分开：C++ 沿用 HLD 的全局数组加 `dfs1`/`build`，Python 用动态列表加显式栈的 `find_centroids`。都不使用 `struct` / `class`。
+两份模板的预处理思路相同（一遍递归 `dfs1` 求出 `sz`，用重儿子表示儿子方向的最大块），C++ 沿用 HLD 的全局数组加 `dfs1`/`build`，Python 用动态列表加同名 `dfs1`/`build`。都不使用 `struct` / `class`。
 
 另外两份是**倍增跳表下降版**（`tree_centroid_jump.cpp` / `.py`），接口多出一个“查任意连通块”的入口：
 
@@ -260,8 +266,8 @@ $$
 |---|---|---|
 | `init(n)` | `init(n)` | 清空旧图，每组新数据调用一次；C++ 只清 `g`，其余数组由 `dfs1` 逐点覆写 |
 | `add_edge(u, v)` | `add_edge(u, v)` | 添加无向边，两端都会写入邻接表 |
-| `build(root=1)` | `find_centroids(root=1)` | 求全部重心，填充 `balance`、`best`、`ans`；Python 版直接返回升序列表 |
-| `centroid_on_heavy_path()` | — | 沿重链求重心（至多两个，升序），需在同一次 `build` 之后调用 |
+| `build(root=1)` | `find_centroids(root=1)` | 求全部重心，填充 `balance`、`best`、`ans`；Python 版返回升序列表 |
+| `centroid_on_heavy_path()` | `centroid_on_heavy_path()` | 沿重链求重心（至多两个，升序），需在同一次 `build` / `find_centroids` 之后调用 |
 | `balance[u]`、`best` | 同名 | 查询删除某点后的最大连通块大小、以及重心的平衡值 |
 
 扫全树版的接口表如上；倍增跳表版另有 `centroid_of_subtree(u)` 与 `centroid_all()`，见下一节。

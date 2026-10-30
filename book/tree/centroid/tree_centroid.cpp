@@ -3,7 +3,7 @@ using namespace std;
 
 // 树的重心，HLD 风格：1 下标、全局数组，预处理与树链剖分的 dfs1 完全同形。
 // 约定：输入是连通无环的树，n >= 1，节点编号为 1..n。
-const int maxn = 100000 + 5;
+const int maxn = 300000 + 5;
 
 int n;
 vector<int> g[maxn];

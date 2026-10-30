@@ -18,13 +18,9 @@ int up[maxn][LOGN]; // up[u][k]：沿重链从 u 向下跳 2^k 步到达的点�
 int root_node;      // build 的根，重链从这里出发
 vector<int> ans;    // 重心结果，编号升序
 
-// 第一遍用的显式队列。倍增模板面向大 n，这里不用递归 dfs1，
-// 避免链形树把调用栈压到 n 层（Python 版同理）。
-int que[maxn];
-
 void init(int node_count) {
     n = node_count;
-    // fa / sz / son / up 会被 build 逐点覆写，只需清空旧图。
+    // fa / sz / son / up 会被 dfs1 与 build_jump 逐点覆写，只需清空旧图。
     for (int u = 1; u <= n; ++u) g[u].clear();
 }
 
@@ -33,38 +29,33 @@ void add_edge(int u, int v) {
     g[v].push_back(u);
 }
 
+// 第一遍 DFS：与 hld 的 dfs1 同形，往下填 fa，回溯时汇总 sz 并选出重儿子。
+// 回到 u 时 sz[u]、son[u] 都已确定，重链的第 0 层 up[u][0] 也就定了。
+void dfs1(int u, int father) {
+    fa[u] = father;
+    sz[u] = 1;
+    son[u] = 0;
+    for (int v : g[u]) {
+        if (v == father) continue;
+        dfs1(v, u);
+        sz[u] += sz[v];
+        if (sz[v] > sz[son[u]]) son[u] = v; // sz[0] 恒为 0，叶子自然没有重儿子
+    }
+    up[u][0] = son[u];
+}
+
 // 第二遍：按层搭跳表。up[u][k] = up[ up[u][k-1] ][k-1]。
 // 必须外层枚举 k：第 k 层只依赖第 k-1 层，这样才能保证被跳到的点已经算好。
 void build_jump() {
-    for (int u = 1; u <= n; ++u) up[u][0] = son[u]; // 第 0 层就是重儿子
     for (int k = 1; k < LOGN; ++k)
         for (int u = 1; u <= n; ++u)
             up[u][k] = up[up[u][k - 1]][k - 1];
 }
 
 // 预处理入口：加完边之后调用一次。root 只决定父子关系，不影响重心集合。
-// 第一步 BFS 填 fa 并记下遍历序，第二步逆序汇总 sz 并选出重儿子，
-// 第三步按层搭跳表。三步都只处理线性数量的点。
 void build(int start = 1) {
     root_node = start;
-    int head = 0, tail = 0;
-    fa[start] = 0;
-    que[tail++] = start;
-    while (head < tail) {
-        int u = que[head++];
-        for (int v : g[u]) {
-            if (v == fa[u]) continue;
-            fa[v] = u;
-            que[tail++] = v;
-        }
-    }
-    for (int i = 1; i <= n; ++i) sz[i] = 1, son[i] = 0;
-    for (int i = n - 1; i >= 1; --i) { // 跳过根，逆序保证儿子先汇总完
-        int u = que[i]; // BFS 序的逆序 = 儿子先于父亲
-        int p = fa[u];
-        sz[p] += sz[u];
-        if (sz[u] > sz[son[p]]) son[p] = u; // sz[0] 恒为 0，叶子自然没有重儿子
-    }
+    dfs1(root_node, 0);
     build_jump();
 }
 
