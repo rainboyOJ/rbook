@@ -127,6 +127,8 @@
       path: "diameter"
     - title: "树的重心"
       path: "centroid"
+    - title: "点分治"
+      path: "point-divide"
     - title: "树上差分"
       path: "diff_on_tree"
     - title: "基环树"

@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 330" font-family="-apple-system, 'Segoe UI', 'Noto Sans CJK SC', sans-serif">
+  <rect width="640" height="330" fill="#ffffff"/>
+
+  <text x="20" y="30" font-size="15" font-weight="600" fill="#172033">任取分治中心 u，所有路径只有两类</text>
+
+  <!-- 左图：经过 u -->
+  <text x="24" y="62" font-size="13" fill="#0369a1" font-weight="600">① 经过 u：本层统计</text>
+
+  <!-- 三棵子树 -->
+  <g stroke="#94a3b8" stroke-width="2" fill="none">
+    <line x1="150" y1="150" x2="90"  y2="200"/>
+    <line x1="150" y1="150" x2="150" y2="215"/>
+    <line x1="150" y1="150" x2="210" y2="200"/>
+    <!-- 子树内部 -->
+    <line x1="90"  y1="200" x2="60"  y2="240"/>
+    <line x1="90"  y1="200" x2="118" y2="243"/>
+    <line x1="210" y1="200" x2="240" y2="240"/>
+    <line x1="210" y1="200" x2="184" y2="243"/>
+    <line x1="150" y1="215" x2="150" y2="258"/>
+  </g>
+
+  <!-- 经过 u 的路径 A-B 高亮 -->
+  <path d="M60 240 L90 200 L150 150 L210 200 L240 240" stroke="#dc2626" stroke-width="3" fill="none"/>
+  <circle cx="60"  cy="240" r="5" fill="#dc2626"/>
+  <circle cx="240" cy="240" r="5" fill="#dc2626"/>
+  <text x="30"  y="262" font-size="12" fill="#dc2626" font-weight="600">A</text>
+  <text x="246" y="262" font-size="12" fill="#dc2626" font-weight="600">B</text>
+
+  <!-- 中心 u -->
+  <circle cx="150" cy="150" r="20" fill="#e0f2fe" stroke="#0369a1" stroke-width="2"/>
+  <text x="150" y="156" font-size="14" fill="#0369a1" text-anchor="middle" font-weight="700">u</text>
+
+  <!-- 剩余节点 -->
+  <g fill="#64748b">
+    <circle cx="90"  cy="200" r="6"/>
+    <circle cx="118" cy="243" r="6"/>
+    <circle cx="150" cy="215" r="6"/>
+    <circle cx="150" cy="258" r="6"/>
+    <circle cx="210" cy="200" r="6"/>
+    <circle cx="184" cy="243" r="6"/>
+  </g>
+  <text x="150" y="292" font-size="12" fill="#64748b" text-anchor="middle">距离 dis(A)+dis(B) 可一次算出</text>
+
+  <!-- 分隔线 -->
+  <line x1="320" y1="48" x2="320" y2="300" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4 4"/>
+
+  <!-- 右图：不经过 u -->
+  <text x="344" y="62" font-size="13" fill="#7c3aed" font-weight="600">② 不经过 u：递归到子树里统计</text>
+
+  <g stroke="#94a3b8" stroke-width="2" fill="none">
+    <line x1="470" y1="150" x2="410" y2="200"/>
+    <line x1="470" y1="150" x2="470" y2="215"/>
+    <line x1="470" y1="150" x2="530" y2="200"/>
+    <line x1="410" y1="200" x2="380" y2="240"/>
+    <line x1="410" y1="200" x2="438" y2="243"/>
+    <line x1="470" y1="215" x2="470" y2="258"/>
+    <line x1="530" y1="200" x2="560" y2="240"/>
+    <line x1="530" y1="200" x2="504" y2="243"/>
+  </g>
+
+  <!-- 同一子树内的路径 C-D -->
+  <path d="M380 240 L410 200 L438 243" stroke="#7c3aed" stroke-width="3" fill="none"/>
+  <circle cx="380" cy="240" r="5" fill="#7c3aed"/>
+  <circle cx="438" cy="243" r="5" fill="#7c3aed"/>
+  <text x="352" y="262" font-size="12" fill="#7c3aed" font-weight="600">C</text>
+  <text x="444" y="262" font-size="12" fill="#7c3aed" font-weight="600">D</text>
+
+  <circle cx="470" cy="150" r="20" fill="#e0f2fe" stroke="#0369a1" stroke-width="2"/>
+  <text x="470" y="156" font-size="14" fill="#0369a1" text-anchor="middle" font-weight="700">u</text>
+
+  <g fill="#64748b">
+    <circle cx="410" cy="200" r="6"/>
+    <circle cx="470" cy="215" r="6"/>
+    <circle cx="470" cy="258" r="6"/>
+    <circle cx="530" cy="200" r="6"/>
+    <circle cx="560" cy="240" r="6"/>
+    <circle cx="504" cy="243" r="6"/>
+  </g>
+  <text x="470" y="292" font-size="12" fill="#64748b" text-anchor="middle">C、D 同属一棵子树，路径不过 u</text>
+</svg>

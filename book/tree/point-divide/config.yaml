@@ -1,0 +1,15 @@
+id: point-divide
+file: index.md
+title: "点分治"
+pre:
+  - tree-centroid
+  - dfs_order
+code_template:
+  - title: "点分治·距离不超过 K 的点对计数（C++）"
+    tags: ["tree", "divide_and_conquer", "centroid"]
+    desc: "重心分治框架：getsz/getroot 求重心，calc 用容斥（整块减子树）加分治内排序双指针统计点对；对应洛谷 P4178"
+    code: "./code/point_divide.cpp"
+  - title: "点分治·多次询问是否存在距离 K 的点对（C++）"
+    tags: ["tree", "divide_and_conquer", "centroid"]
+    desc: "同一框架换统计方式：边收集边标记 + 时间戳桶，先查后标天然免去容斥；对应洛谷 P3806"
+    code: "./code/point_divide_queries.cpp"

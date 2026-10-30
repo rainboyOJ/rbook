@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" font-family="-apple-system, 'Segoe UI', 'Noto Sans CJK SC', sans-serif">
+  <rect width="640" height="300" fill="#ffffff"/>
+
+  <text x="20" y="30" font-size="15" font-weight="600" fill="#172033">容斥：整块点对数 − 每棵子树内部点对数</text>
+
+  <!-- 第一行：整块 -->
+  <text x="24" y="66" font-size="13" fill="#0369a1" font-weight="600">calc(u, 0)</text>
+  <text x="24" y="86" font-size="12" fill="#64748b">u 到全部点的距离集合</text>
+
+  <g stroke="#94a3b8" stroke-width="2" fill="none">
+    <line x1="300" y1="80" x2="240" y2="120"/>
+    <line x1="300" y1="80" x2="300" y2="128"/>
+    <line x1="300" y1="80" x2="360" y2="120"/>
+  </g>
+  <circle cx="300" cy="80" r="16" fill="#e0f2fe" stroke="#0369a1" stroke-width="2"/>
+  <text x="300" y="85" font-size="12" fill="#0369a1" text-anchor="middle" font-weight="700">u</text>
+  <g fill="#64748b">
+    <circle cx="240" cy="120" r="5"/><circle cx="300" cy="128" r="5"/><circle cx="360" cy="120" r="5"/>
+  </g>
+  <text x="420" y="86" font-size="13" fill="#dc2626" font-weight="600">＋ 计入</text>
+  <text x="420" y="106" font-size="11" fill="#64748b">含"跨子树"与"u 到点"</text>
+
+  <!-- 第二行：子树 -->
+  <text x="24" y="176" font-size="13" fill="#7c3aed" font-weight="600">calc(v, w)　逐个儿子 v</text>
+  <text x="24" y="196" font-size="12" fill="#64748b">v 子树内部到 u 的距离集合</text>
+
+  <g stroke="#94a3b8" stroke-width="2" fill="none">
+    <line x1="300" y1="190" x2="240" y2="230"/>
+    <line x1="300" y1="190" x2="300" y2="238"/>
+    <line x1="300" y1="190" x2="360" y2="230"/>
+  </g>
+  <circle cx="300" cy="190" r="16" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="3 3"/>
+  <text x="300" y="195" font-size="12" fill="#94a3b8" text-anchor="middle" font-weight="700">u</text>
+  <!-- 只把一棵子树染色 -->
+  <line x1="300" y1="190" x2="240" y2="230" stroke="#7c3aed" stroke-width="3"/>
+  <circle cx="240" cy="230" r="7" fill="#7c3aed"/>
+  <g fill="#cbd5e1">
+    <circle cx="300" cy="238" r="5"/><circle cx="360" cy="230" r="5"/>
+  </g>
+  <text x="420" y="196" font-size="13" fill="#7c3aed" font-weight="600">− 扣掉</text>
+  <text x="420" y="216" font-size="11" fill="#64748b">同一子树内的点对，</text>
+  <text x="420" y="232" font-size="11" fill="#64748b">它们的路径不经过 u</text>
+
+  <text x="24" y="280" font-size="12" fill="#475569">结果：只留下"路径确实经过 u"的点对，正好补上第 ① 类，第 ② 类交给递归。</text>
+</svg>
