@@ -81,3 +81,5 @@ DFS 序首访加载 19 个字体分包，文件内容合计 759,032 字节；本
 字体依据见 [Fontsource](https://fontsource.org/fonts/noto-serif-sc) 与 [Noto CJK](https://github.com/notofonts/noto-cjk)；字体角色借鉴 [W3C 中文排版需求](https://www.w3.org/TR/clreq/#fonts-and-typeface-styles)。具体像素值是本项目面向屏幕阅读的取舍，并非标准规定。
 
 [ADR 0010](./adr/0010-academic-article-self-hosted-serif.md) 记录自托管字体的取舍，替代 [ADR 0009](./adr/0009-article-typography-system-fonts.md) 的正文与字体来源约束。[第一轮排版计划](./typography-theme-plan.md) 保留为历史记录。
+
+正文放弃换成楷体的评估（含逐篇分包加载实测数据与重新考虑时的备选路径）见 [ADR 0011](./adr/0011-keep-serif-body-over-wenkai.md)。
