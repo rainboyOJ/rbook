@@ -471,7 +471,7 @@ int centroid_of_subtree(int u) {   // 与上面的跳表模板完全一致
 }
 ```
 
-预处理 $O(n\log n)$，每次查询 $O(\log n)$，总 $O((n+q)\log n)$。
+完整实现见本文前面的「倍增跳表下降版」模板（`tree_centroid_jump.cpp` 的 `centroid_of_subtree`）。预处理 $O(n\log n)$，每次查询 $O(\log n)$，总 $O((n+q)\log n)$。
 
 ::: info
 
