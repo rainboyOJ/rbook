@@ -26,31 +26,33 @@ void add_edge(int u, int v, int w) {
 
 /*------------------------ 找环 代码 开始 ------------------------*/
 int dfn[maxn], timer; // dfn[u]：DFS 时间戳，0 表示未访问
-int par[maxn];        // par[u]：DFS 树上的父亲
-int parw[maxn];       // parw[u]：边 (par[u], u) 的权值
+int fa[maxn];         // fa[u]：DFS 树上的父亲
+int faw[maxn];        // faw[u]：边 (fa[u], u) 的权值
 
 int cyc_n;         // 环上的点数
-int cyc_v[maxn];   // 环上的点，按环的顺序存放
-int cyc_w[maxn];   // cyc_w[i]：cyc_v[i] 到 cyc_v[i+1]（末项回到 cyc_v[0]）的边权
+vector<int> cyc_v; // 环上的点，按环的顺序存放
+vector<int> cyc_w; // cyc_w[i]：cyc_v[i] 到 cyc_v[i+1]（末项回到 cyc_v[0]）的边权
 long long cyc_sum; // 环上边权之和
 
 // 找到回边 u -> v（v 是 u 的祖先）后，沿父亲指针把整条环拼出来。
 void build_cycle(int u, int v, int back_w) {
-    int tmp[maxn], cnt = 0;
+    vector<int> tmp;
     // 从 u 一路回溯到 v，得到 [u, ..., v]
-    for (int x = u; x != v; x = par[x]) tmp[cnt++] = x;
-    tmp[cnt++] = v;
+    for (int x = u; x != v; x = fa[x]) tmp.push_back(x);
+    tmp.push_back(v);
 
-    cyc_n = cnt;
+    cyc_n = (int)tmp.size();
+    cyc_v.resize(cyc_n);
+    cyc_w.resize(cyc_n);
     // 反转成 [v, ..., u]，这样相邻两点之间就是一条环边
-    for (int i = 0; i < cnt; ++i) cyc_v[i] = tmp[cnt - 1 - i];
+    for (int i = 0; i < cyc_n; ++i) cyc_v[i] = tmp[cyc_n - 1 - i];
 
     cyc_sum = 0;
-    for (int i = 0; i + 1 < cnt; ++i) {
-        cyc_w[i] = parw[cyc_v[i + 1]]; // cyc_v[i] -> cyc_v[i+1] 就是儿子那条父亲边
+    for (int i = 0; i + 1 < cyc_n; ++i) {
+        cyc_w[i] = faw[cyc_v[i + 1]]; // cyc_v[i] -> cyc_v[i+1] 就是儿子那条父亲边
         cyc_sum += cyc_w[i];
     }
-    cyc_w[cnt - 1] = back_w; // 最后一条是那条回边 u -> v
+    cyc_w[cyc_n - 1] = back_w; // 最后一条是那条回边 u -> v
     cyc_sum += back_w;
 }
 
@@ -62,8 +64,8 @@ bool dfs(int u, int in_id) {
         if (e.id == (in_id ^ 1)) continue; // 不走刚来的那条边的反向
         int v = e.to;
         if (!dfn[v]) {
-            par[v] = u;
-            parw[v] = e.w;
+            fa[v] = u;
+            faw[v] = e.w;
             if (dfs(v, e.id)) return true;
         }
         else if (dfn[v] < dfn[u]) {
