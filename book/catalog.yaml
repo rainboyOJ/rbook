@@ -309,6 +309,8 @@
           path: "utils"
         - title: "有趣命令"
           path: "funny_command"
+    - title: "对拍练习：线段覆盖"
+      path: "stress_testing/p1803-stress"
     - title: "技巧"
       path: "tricks"
       children:
