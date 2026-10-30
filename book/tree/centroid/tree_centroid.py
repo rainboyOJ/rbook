@@ -16,7 +16,7 @@ ans = []
 def init(node_count):
     global n, best, g, fa, sz, son, balance, ans
     n = node_count
-    # 链形树上 dfs1 会递归 n 层，先把上限放开（帧在堆上，不占栈空间）。
+    # 链形树上 dfs1 会递归 n 层，先把递归上限放开。
     sys.setrecursionlimit(max(3_000_000, node_count * 4))
     best = n
     g = [[] for _ in range(n + 1)]

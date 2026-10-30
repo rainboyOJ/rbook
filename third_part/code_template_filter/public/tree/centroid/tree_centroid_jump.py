@@ -1,7 +1,7 @@
 # 树的重心（倍增跳表下降版）：把“沿重链一步步下走”压成 O(log n)。
 # 节点编号 1..n，输入必须是连通无环的树，n >= 1。
-# dfs1 是递归写法，与 C++ 版同形；Python 3.12+ 的递归帧分配在堆上，
-# 只要放宽递归上限就能跑链形树，不需要手工维护显式栈。
+# dfs1 是递归写法，与 C++ 版同形；Python 的递归帧在堆上，
+# 用 sys.setrecursionlimit() 放宽上限即可跑链形树。
 import sys
 from array import array
 
@@ -18,7 +18,7 @@ ans = []
 def init(node_count):
     global n, g, fa, sz, son, up, ans
     n = node_count
-    # 链形树上 dfs1 会递归 n 层，先把上限放开（Python 3.12+ 的帧在堆上）。
+    # 链形树上 dfs1 会递归 n 层，先把递归上限放开。
     sys.setrecursionlimit(max(3_000_000, node_count * 4))
     g = [[] for _ in range(n + 1)]
     fa = [0] * (n + 1)
