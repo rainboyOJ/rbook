@@ -205,3 +205,12 @@ sort(id, id + n, cmp_end);
 ::: oneWordAlgo
 怀疑自己的算法，用数据寻找反例，用证明建立信心。
 :::
+
+## 相关文章
+
+- [[[rbook: 01_seq]]]：暴力里「选 / 不选」的母文章
+- [[[rbook: subset_enum]]]：二进制 `mask` 枚举子集的写法
+- [[[rbook: compare_script]]]：本文 `check.sh` 的模板出处
+- [[[rbook: greedy_interval_point]]]：区间选点，同一套交换论证
+- [[[rbook: greedy_interval_grouping]]]：区间分组，同一套相交模型
+- [[[rbook: dfs]]]：把 01 序列暴力改写成 DFS 的练习

@@ -2,7 +2,7 @@
   "id": "p1803-stress",
   "file": "index.md",
   "title": "对拍练习：线段覆盖问题",
-  "pre": ["greedy", "01_seq"],
+  "pre": ["greedy", "01_seq", "subset_enum"],
   "teach_plan": "teach_plan.md",
   "copy": [
     "code/gen.cpp",
