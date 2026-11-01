@@ -656,7 +656,7 @@ for i in {1..1000}; do
     ./gen > in          # 生成数据
     ./1 < in > out1     # 你的程序
     ./2 < in > out2     # 暴力程序
-    diff out1 out2 || break
+    diff -b out1 out2 || break
 done
 ```
 
