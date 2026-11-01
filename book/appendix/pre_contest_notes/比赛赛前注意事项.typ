@@ -649,7 +649,6 @@ int main() {
 这是赛场上找 bug 最快的手段。
 
 ```bash
-#!/bin/bash
 # 文件：check.sh
 # 1.cpp = 你的程序，2.cpp = 暴力程序
 for i in {1..1000}; do
@@ -661,15 +660,20 @@ for i in {1..1000}; do
 done
 ```
 
-使用前先编译好三个程序，然后运行脚本：
+使用前先编译好三个程序，然后用 `bash` 执行脚本：
 
 ```bash
 g++ -O2 -o gen gen.cpp    # 数据生成器
 g++ -O2 -o 1   1.cpp      # 你的程序
 g++ -O2 -o 2   2.cpp      # 暴力程序
-chmod +x check.sh
-./check.sh
+bash check.sh
 ```
+
+#note[
+  不需要 `chmod +x`，也不用写 `#!/bin/bash`：显式用 `bash check.sh` 调用解释器，
+  即使脚本被 Windows 编辑器存成了 CRLF 换行也照样能跑。
+  反过来说，`./check.sh` 这种写法才会被 CRLF 坑成 `bad interpreter`。
+]
 
 #note[
   对拍比的是「去行末空格 + 去末尾回车之后」的内容。手写的输出格式如果有差异
