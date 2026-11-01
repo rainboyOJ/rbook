@@ -4,6 +4,8 @@
 
 [[[include: ./p1_sum_eq_pair.md]]]
 
+[[[include: ./p2_palindrome.md]]]
+
 
 ## 练习
 
