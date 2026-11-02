@@ -54,7 +54,9 @@ bool empty() {
 
 ## 模板
 
-```cpp file=/algo_template/data_structure/stack.cpp
+```cpp [g1:C++] file=/algo_template/data_structure/stack.cpp
+```
+```python [g1:Python] file=./stack.py
 ```
 
 ## 总结
