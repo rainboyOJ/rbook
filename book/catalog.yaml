@@ -133,7 +133,7 @@
       path: "diff_on_tree"
     - title: "基环树"
       path: "spanning-tree"
-    - title: "爬树LCA"
+    - title: "爬树法 LCA"
       path: "jump-lca"
     - title: "树链剖分（HLD）"
       path: "hld"

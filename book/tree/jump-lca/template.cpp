@@ -1,55 +1,69 @@
+#include <bits/stdc++.h>
+using namespace std;
 
-//得到最高位1的位置
-template<typename T>
-int hightBitPos(T n) {
-    return ( sizeof(T) *8 - 1 - __builtin_clz(n) );
+// 倍增（爬树）法求 LCA：全局数组 + 自由函数，不含 main，可整段复制进题解。
+//
+// 用法：
+//   1. add_edge(u, v);           // 加边，n-1 条边都要加完
+//   2. build(n, root);           // 一次 DFS 算出 dep 与整张 up 表
+//   3. lca(u, v) / kth_ancestor(u, k) / dist(u, v)
+//
+// 编号 1..n；根的父亲是哨兵 0，dep[0] = 0，up[0][*] 恒为 0，
+// 任何越界的上跳都落在这个黑洞点里，不需要额外判空。
+// 递归深度最坏是 n（链形树），n 很大时要开大栈（ulimit -s unlimited）。
+
+const int maxn = 1e5 + 5;
+const int MAXLOG = 17; // 必须满足 2^MAXLOG >= n；maxn = 1e5 时 17 够用
+
+vector<int> g[maxn];
+int dep[maxn];              // dep[u]：深度，根为 1
+int up[maxn][MAXLOG + 1];   // up[u][j]：u 的 2^j 级祖先
+int lg;                     // 实际用到的最大指数，由 n 算出
+
+void add_edge(int u, int v) {
+    g[u].push_back(v);
+    g[v].push_back(u);
 }
 
-
-template<typename T>
-T log2(T n) {
-    return 1<< hightBitPos(n);
+// 进入 u 时它的整行 up 就能拼出来：up[u][j] = up[ up[u][j-1] ][j-1]，
+// 所以不需要先 DFS 一遍再单独跑一轮倍增 DP。
+void dfs(int u, int fa) {
+    dep[u] = dep[fa] + 1;
+    up[u][0] = fa;
+    for (int j = 1; j <= lg; ++j) up[u][j] = up[up[u][j - 1]][j - 1];
+    for (int v : g[u]) {
+        if (v == fa) continue;
+        dfs(v, u);
+    }
 }
 
+// 预处理入口：加完边之后调用一次。数组在 dfs 里逐点覆写，无需 memset。
+void build(int n, int root) {
+    lg = 0;
+    while (lg < MAXLOG && (1 << (lg + 1)) <= n) ++lg; // lg = floor(log2(n))
+    dfs(root, 0);
+}
 
-struct Lca {
-    int N,d[maxn],f[maxn][50]; //f[i][j] i点的2^j祖先
-    // 初始化，算出的理论跳的最远可能，与f[][]
-    inline void init(){
-        // for(N=0; (1<<(N+1)) < n ;N++);
-        N = hightBitPos(n);
-        dfs(1,0,1);
-    }
+// u 向上跳 k 层；k 超过深度时返回 0
+int kth_ancestor(int u, int k) {
+    for (int j = 0; j <= lg && u; ++j)
+        if (k >> j & 1) u = up[u][j];
+    return u;
+}
 
-    //树上的遍历来求 f[][] 与d[]每个点的深度
-    void dfs(int u,int fa,int dep){
-        d[u] = dep;
-        f[u][0] = fa;
-        // 显示u点到root路径上的点都已经求出来f[][]
-        for(int j=1;j<=N;++j) f[u][j] = f[ f[u][j-1] ][j-1];
-        for(int i=e.h[u];~i;i=e[i].next){
-            int &v = e[i].v;
-            if( v == fa) continue; //是父亲 就什么也不做
-            dfs(v,u,dep+1);
+int lca(int u, int v) {
+    if (dep[u] < dep[v]) swap(u, v);
+    u = kth_ancestor(u, dep[u] - dep[v]); // 第一步：深的点先提到同一层
+    if (u == v) return u;                 // 浅点本身就是答案
+    for (int j = lg; j >= 0; --j)         // 第二步：从大步到小步一起上跳
+        if (up[u][j] != up[v][j]) {
+            u = up[u][j];
+            v = up[v][j];
         }
-    }
+    return up[u][0]; // 停在 LCA 的两个不同儿子上，再上一层就是答案
+}
 
-    //重载(),找到两个点的lca
-    int operator()(int a,int b){
-        if( d[a] > d[b]) swap(a,b); //保证b是深的点
-        for(int i=N;i>=0;--i){ // b 跳到和a一样深
-            if( d[ f[b][i] ] >= d[a]) // a深度以下是可行区域,包括a
-                b = f[b][i];
-        }
-        if( a == b) return a; //在同一条链上
-     
-        for(int i=N;i>=0;--i){ // 同时跳
-            if( f[a][i] != f[b][i] ){ //不相同就跳
-                a = f[a][i];
-                b = f[b][i];
-            }
-        }
-        return f[a][0]; //返回停下来时候的父亲，就是lca
-    }
-
-} lca;
+int dist(int u, int v) {
+    int w = lca(u, v);
+    return dep[u] + dep[v] - 2 * dep[w];
+}

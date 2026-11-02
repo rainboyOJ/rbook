@@ -1,9 +1,16 @@
-title: 爬树法求lca
 id: jump_lca
 file: index.md
+title: "爬树法求 LCA（倍增）"
+pre:
+  - tree_base
+  - dfs_order
+  - binary_jump
 code_template:
-  - 
-    title: "爬树法求lca"
-    tags: ['lca','graph']
-    desc: 爬树法求
+  - title: "爬树法求 LCA（C++）"
+    tags: ["tree", "lca", "binary_jump"]
+    desc: "一次 DFS 填满祖先表，O(log n) 查询 LCA、第 k 级祖先与两点距离"
     code: "./template.cpp"
+  - title: "爬树法求 LCA（Python）"
+    tags: ["tree", "lca", "binary_jump", "python"]
+    desc: "同样的接口与递推式，按 n 动态建表并放宽递归上限"
+    code: "./template.py"
