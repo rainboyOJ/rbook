@@ -1,0 +1,55 @@
+// 公式复制：点击 KaTeX 公式复制其 LaTeX 源码（思路参考 Voyager 的 formula copy）。
+// 高亮只改背景与 box-shadow，不加 padding：KaTeX 对尺寸敏感，padding 会推动公式和正文重排。
+.rbook-article .markdown-body .katex {
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+// display 公式的 .katex 是 block，会占满整行，高亮变成通栏；
+// fit-content + margin auto 让它收缩到公式宽度并保持居中。
+// 不用 inline-block：那会在行盒里留下基线间隙，每个块公式凭空 +3px。
+.rbook-article .markdown-body .katex-display > .katex {
+    width: fit-content;
+    max-width: 100%;
+    margin-inline: auto;
+}
+
+.rbook-article .markdown-body .katex:hover {
+    background-color: var(--rbook-accent-muted);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--rbook-accent) 35%, transparent);
+}
+
+// 复制反馈：fixed 底部居中，挂在 body 上，不受文章排版影响。
+.rbook-toast {
+    position: fixed;
+    left: 50%;
+    bottom: 32px;
+    z-index: 2000;
+    max-width: min(90vw, 520px);
+    padding: 8px 14px;
+    border-radius: 8px;
+    background: var(--rbook-text);
+    color: var(--rbook-surface);
+    font: 14px/1.4 var(--rbook-font-heading);
+    box-shadow: 0 6px 20px var(--rbook-shadow);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    pointer-events: none;
+    opacity: 0;
+    transform: translate(-50%, 8px);
+    transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.rbook-toast.show {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rbook-article .markdown-body .katex,
+    .rbook-toast {
+        transition: none;
+    }
+}

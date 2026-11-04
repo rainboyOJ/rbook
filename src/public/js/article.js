@@ -75,6 +75,57 @@
         sync()
     })
 
+    // 公式复制：点击 KaTeX 公式，复制它的 LaTeX 源码。
+    // 源码就存在 KaTeX 隐藏 MathML 的 annotation 里，无需给公式额外打标记。
+    let formulaToast = null
+    let formulaToastTimer = 0
+    // 点击会把选区收成光标，所以必须在 mousedown 时先记住“用户本来选着字”。
+    let hadTextSelection = false
+
+    document.addEventListener('mousedown', () => {
+        const selection = window.getSelection()
+        hadTextSelection = Boolean(selection && !selection.isCollapsed && selection.toString().trim())
+    }, true)
+
+    function showToast(message) {
+        if (!formulaToast) {
+            formulaToast = document.createElement('div')
+            formulaToast.className = 'rbook-toast'
+            formulaToast.setAttribute('role', 'status')
+            formulaToast.setAttribute('aria-live', 'polite')
+            document.body.appendChild(formulaToast)
+        }
+        formulaToast.textContent = message
+        formulaToast.classList.add('show')
+        clearTimeout(formulaToastTimer)
+        formulaToastTimer = setTimeout(() => {
+            formulaToast.classList.remove('show')
+        }, 1600)
+    }
+
+    document.addEventListener('click', event => {
+        const target = event.target
+        if (!(target instanceof Element)) return
+
+        const katex = target.closest('.katex')
+        if (!katex) return
+
+        // 拖选正文时不要抢走这次点击。
+        const selection = window.getSelection()
+        if (hadTextSelection || (selection && !selection.isCollapsed)) return
+
+        const annotation = katex.querySelector('annotation[encoding="application/x-tex"]')
+        const latex = annotation?.textContent?.trim()
+        if (!latex) return
+
+        const isDisplay = Boolean(katex.closest('.katex-display'))
+        const text = isDisplay ? `$$${latex}$$` : `$${latex}$`
+        event.stopPropagation()
+        copyText(text)
+            .then(() => showToast('已复制 LaTeX'))
+            .catch(() => showToast('复制失败'))
+    }, true)
+
     // Optional tooltips must never prevent code-copy initialization.
     document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(element => {
         try {
