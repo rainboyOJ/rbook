@@ -93,6 +93,8 @@
       path: "intro"
     - title: "入门"
       path: "number_pyramid"
+    - title: "连续段 DP：为什么要以当前位置结尾"
+      path: "continuous_segment"
     - title: "LIS"
       path: "lis"
     - title: "LCS"
