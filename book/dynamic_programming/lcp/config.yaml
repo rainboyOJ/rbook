@@ -1,0 +1,5 @@
+id: lcp_dp
+title: 'LCP 算法（DP）'
+file: index.md
+pre:
+  - continuous_segment_dp
