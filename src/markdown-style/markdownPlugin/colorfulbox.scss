@@ -1,22 +1,38 @@
+// 带悬浮标签的浅色容器。
+// 标签是容器里第一个段落（约定写法：`:::` 后第一行写「定义」「总结」这类短标签）。
+// 度量意图：标签 14px/20px 的小胶囊，整体高约 25px，明显小于正文行高（30px），
+// 只做“分类标签”，不与 h2 抢视觉层级；字体切到标题黑体，避免和宋体正文混在一起。
 .colorfulbox {
     background-color: var(--rbook-surface-muted);
     color: var(--rbook-text);
     border: 1px solid var(--rbook-border);
     padding: 20px;
-    border-radius: 5px;
+    border-radius: 8px;
     position: relative;
-    margin: 57.6px 0;
+    // 标签上探约 12.5px；48px 的上外边距给标签留出呼吸区后仍能与上一节保持节奏。
+    margin-block: 48px 32px;
 }
 
 .colorfulbox > p:first-child {
     border: 1px solid var(--rbook-border);
     margin: 0;
     display: inline-block;
-    padding: 0.5em;
-    border-radius: 5px;
+    font-family: var(--rbook-font-heading);
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    padding: 2px 10px;
+    border-radius: 999px;
     position: absolute;
-    top:0px;
+    top: 0;
+    // 水平偏移让标签文字落在 21px，与容器 20px 的内容起点对齐。
     transform: translate(10px, -50%);
     color: var(--rbook-accent);
     background-color: var(--rbook-accent-muted);
+    // 长标签（如「定理2: 一维四边形不等式具有决策单调性」）在窄屏不撑破容器。
+    max-width: calc(100% - 24px);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
