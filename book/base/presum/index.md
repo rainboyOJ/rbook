@@ -34,7 +34,15 @@ $$
 
 代码模板如下
 
-```cpp file=/algo_template/base/presum.cpp
+```cpp [g1:C++] file=/algo_template/base/presum.cpp
+```
+```python [g1:Python]
+from itertools import accumulate
+
+s = [0] + list(accumulate(a))   # s[i] = 前 i 个元素的和
+
+def range_sum(l, r):
+    return s[r] - s[l - 1]
 ```
 
 ## 题目列表
