@@ -39,6 +39,8 @@
       path: "hanoi"
     - title: "整数划分"
       path: "div_number"
+    - title: "动态层数循环"
+      path: "dynamic_loop"
     - title: "二分查找"
       path: "binary_search/"
     - title: "题目"
@@ -120,6 +122,13 @@
       path: "slope"
     - title: "四边形不等式优化"
       path: "Quadrangle_Inequality_Optimization/"
+      children:
+        - title: "四边形不等式优化（总览）"
+          path: "index.md"
+        - title: "石子合并"
+          path: "stone_merge/"
+        - title: "诗人小G"
+          path: "poetG/"
 - title: "树"
   path: "tree"
   children:
@@ -185,6 +194,8 @@
       path: "monotonic_queue"
     - title: "堆"
       path: "heap"
+    - title: "二叉查找树"
+      path: "binary_search_tree/"
     - title: "块状数据"
       path: "block_data"
       children:
@@ -213,6 +224,11 @@
           path: "sgt_zkw/"
         - title: "持久化"
           path: "sgt_persistent/"
+- title: "排序"
+  path: "sort"
+  children:
+    - title: "快速排序"
+      path: "quicksort/"
 - title: "工具库"
   path: "utils"
   children:
@@ -256,6 +272,8 @@
           path: "generating_function"
         - title: "Lucas定理"
           path: "lucas"
+    - title: "容斥原理"
+      path: "inclusion-exclusion/"
     - title: "数论"
       path: "numberTheory"
       children:
@@ -267,6 +285,8 @@
           path: "prime"
         - title: "gcd"
           path: "gcd"
+        - title: "exgcd"
+          path: "exgcd/"
         - title: "笔记"
           path: "book_note"
 - title: "其它"
