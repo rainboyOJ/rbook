@@ -45,6 +45,8 @@ export class MenuRenderer {
     private renderEntries(parentPath: string, entries: CatalogEntry[]): string {
         let html = '<ul>\n'
         for (const entry of entries) {
+            // hidden 的条目和它整棵子树都不进侧边栏；它们仍然会被构建和发布。
+            if (entry.hidden === true) continue
             html += this.renderEntry(parentPath, entry)
         }
         html += '</ul>\n'

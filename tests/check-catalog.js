@@ -3,8 +3,10 @@
  *
  * 1. 验证 catalog.yaml 的所有条目可解析，报告配置错误。
  * 2. 孤儿检测：book/ 下的 .md 若无法从 catalog 到达（含 include / teach_plan），
- *    说明它写了却永远不会被发布 —— 必须显式登记到 orphan-allowlist 里。
- *    新增孤儿会让校验失败，避免再出现「写了但没挂上菜单」的内容。
+ *    说明它写了却永远不会被发布 —— 必须显式登记到 orphan-allowlist 里，
+ *    并且**写明为什么不发布**（reason），否则校验失败。
+ * 3. 标题巡检：既没有 config.title、md 里也没有 H1 的文章，页面标题和
+ *    dist/catalog.json 只能用 catalog 导航名冒充，列出来等作者补标题。
  *
  * 非零退出 = 有错误。
  *
@@ -19,6 +21,8 @@ const { resolveArticleSource } = require(path.join(PROJECT_ROOT, '.tsbuild/publi
 const { normalizeMetadata } = require(path.join(PROJECT_ROOT, '.tsbuild/publishing/content/metadata-normalizer.js'))
 const { PathPolicy } = require(path.join(PROJECT_ROOT, '.tsbuild/publishing/content/path-policy.js'))
 const { formatDiagnostic } = require(path.join(PROJECT_ROOT, '.tsbuild/publishing/domain/diagnostics.js'))
+const { CONFIG_FILE_NAMES, loadConfig } = require(path.join(PROJECT_ROOT, '.tsbuild/publishing/content/config-loader.js'))
+const { titleNeedsAuthoring, frontMatterTitle } = require(path.join(PROJECT_ROOT, '.tsbuild/publishing/domain/article-title.js'))
 
 const catalogPath = path.join(PROJECT_ROOT, 'book', 'catalog.yaml')
 const allowlistPath = path.join(__dirname, 'orphan-allowlist.json')
@@ -90,6 +94,36 @@ function expandReachable(seed) {
     return reachable
 }
 
+/**
+ * 孤儿按「为什么没发布」分类。分类不是装饰：它决定 allowlist 里能写哪个 reason。
+ *
+ * - identity  所在目录的 config 把**这个文件**声明为文章（尚未挂进 catalog，P0 债务）
+ * - aux       所在目录有 config，但声明的文章是别的文件；本文件是素材
+ * - draft     config 里标了 status/state: TODO/draft
+ * - triage    纯 md，既不是文章也没被引用，等人判断
+ */
+function classifyOrphan(relPath) {
+    const abs = path.join(policy.book, relPath)
+    const dir = path.dirname(abs)
+    const hasConfig = CONFIG_FILE_NAMES.some(name => fs.existsSync(path.join(dir, name)))
+    if (!hasConfig) return 'triage'
+
+    let config = null
+    try {
+        config = loadConfig(dir, [])
+    }
+    catch { /* 坏 config 由 loadCatalog/渲染阶段报，这里不重复 */ }
+    const data = (config && config.data) || {}
+    const status = String(data.status || data.state || '').toLowerCase()
+    if (status.includes('todo') || status.includes('draft')) return 'draft'
+
+    // 目录里的文章是 config.file 指定的那个文件；其余 md 是素材。
+    const declared = path.normalize(path.join(dir, String(data.file || 'index.md')))
+    return path.normalize(abs) === declared ? 'identity' : 'aux'
+}
+
+const REASONS = new Set(['aux', 'draft', 'triage'])
+
 function computeOrphans() {
     const catalog = loadCatalog(catalogPath, diag)
     const leaves = flattenCatalog(catalog)
@@ -112,51 +146,137 @@ function computeOrphans() {
         .filter(f => !reachable.has(path.resolve(f)))
         .map(f => path.relative(policy.book, f).split(path.sep).join('/'))
         .sort()
-    return { orphans, articleCount: leaves.length }
+    return { orphans, articleCount: leaves.length, leaves }
+}
+
+/** 标题靠 catalog 导航名冒充的文章：既没有 config.title，也没有 frontmatter title。 */
+function findUntitledLeaves(leaves) {
+    const result = []
+    for (const leaf of leaves) {
+        let resolved
+        try {
+            resolved = resolveArticleSource(leaf, policy.book, [])
+        }
+        catch { continue }
+        const raw = resolved.source.raw
+        // 与 markdown/create-markdown-renderer.ts 的 renderMarkdown 同口径：
+        // 只认文件头 YAML frontmatter 里的 title，不认 H1。
+        const headerTitle = frontMatterTitle(raw)
+        if (titleNeedsAuthoring({ metadataTitle: resolved.metadata.title, headerTitle })) {
+            result.push({ leaf, id: resolved.metadata.id })
+        }
+    }
+    return result
 }
 
 function readAllowlist() {
     if (!fs.existsSync(allowlistPath)) return { allowed: [] }
-    try { return JSON.parse(fs.readFileSync(allowlistPath, 'utf8')) }
-    catch (e) { throw new Error(`orphan-allowlist.json 解析失败: ${e.message}`) }
+    try {
+        const payload = JSON.parse(fs.readFileSync(allowlistPath, 'utf8'))
+        const entries = Array.isArray(payload.allowed) ? payload.allowed : []
+        const problems = []
+        const allowed = []
+        for (const entry of entries) {
+            if (typeof entry === 'string') {
+                problems.push(`allowlist 条目必须是 { path, reason } 对象: ${entry}`)
+                continue
+            }
+            if (!entry || typeof entry.path !== 'string' || !entry.path) {
+                problems.push(`allowlist 条目缺少 path: ${JSON.stringify(entry)}`)
+                continue
+            }
+            if (!REASONS.has(entry.reason)) {
+                problems.push(`allowlist 条目 reason 非法（可选 ${[...REASONS].join('/')}）: ${entry.path} -> ${entry.reason}`)
+                continue
+            }
+            allowed.push(entry)
+        }
+        return { allowed, problems }
+    }
+    catch (e) {
+        throw new Error(`orphan-allowlist.json 解析失败: ${e.message}`)
+    }
 }
 
 function main() {
     const update = process.argv.includes('--update-orphans')
-    const { orphans } = computeOrphans()
+    const { orphans, leaves } = computeOrphans()
 
     const auxiliary = orphans.filter(o => AUXILIARY_FILE_RE.test(path.basename(o)))
     const realOrphans = orphans.filter(o => !AUXILIARY_FILE_RE.test(path.basename(o)))
+    const classified = realOrphans.map(p => ({ path: p, kind: classifyOrphan(p) }))
 
     if (update) {
         const payload = {
-            note: '这些 md 从 catalog 无法到达（也没被 include / teach_plan 引用），因此不会发布。请逐项确认：应当移除、挂进 catalog，还是继续保留。',
-            allowed: realOrphans,
+            note: '这些 md 从 catalog 无法到达（也没被 include / teach_plan 引用），因此不会发布。reason 必须写明原因：identity=有 config 声明为文章但没挂进 catalog（P0，优先处理）；aux=目录里非文章的素材；draft=标了 TODO/draft；triage=尚未判断。',
+            // identity 不是可写的 reason，而是「有 config 声明为文章」这一事实；
+            // 它只能以 triage 记为待处理债务，不能靠 aux/draft 豁免。
+            allowed: classified.map(item => ({
+                path: item.path,
+                reason: item.kind === 'identity' ? 'triage' : item.kind,
+            })),
         }
         fs.writeFileSync(allowlistPath, JSON.stringify(payload, null, 2) + '\n', 'utf8')
-        console.log(`\n已写入 ${path.relative(PROJECT_ROOT, allowlistPath)}（${realOrphans.length} 项）`)
-        console.log(`辅助文件（自动忽略 ${auxiliary.length} 个）: ${[...new Set(auxiliary.map(a => path.basename(a)))].sort().join(', ')}`)
+        console.log(`\n已写入 ${path.relative(PROJECT_ROOT, allowlistPath)}（${classified.length} 项）`)
+        console.log(`辅助文件（按文件名自动忽略 ${auxiliary.length} 个）: ${[...new Set(auxiliary.map(a => path.basename(a)))].sort().join(', ')}`)
         return
     }
 
-    const { allowed } = readAllowlist()
-    const allowedSet = new Set(allowed)
-    const newcomers = realOrphans.filter(o => !allowedSet.has(o))
-    const stale = allowed.filter(o => !realOrphans.includes(o))
+    const { allowed, problems = [] } = readAllowlist()
+    const allowedSet = new Set(allowed.map(a => a.path))
+    const newcomerPaths = realOrphans.filter(o => !allowedSet.has(o))
+    const stale = allowed.map(a => a.path).filter(p => !realOrphans.includes(p))
 
     console.log(`孤儿 md: ${orphans.length}（辅助文件 ${auxiliary.length} + 待确认 ${realOrphans.length}）`)
+
+    for (const problem of problems) {
+        diag.push({
+            phase: 'orphan-check',
+            level: 'error',
+            message: problem,
+            suggestion: '运行 node tests/check-catalog.js --update-orphans 重新生成，再逐条校正 reason',
+        })
+    }
+
+    const byPath = new Map(classified.map(c => [c.path, c.kind]))
+    for (const item of allowed) {
+        const kind = byPath.get(item.path)
+        // 有 config 声明为文章的文件不能靠 aux/draft 豁免：它是要发布的文章，只是没挂菜单。
+        if (kind === 'identity' && item.reason !== 'triage') {
+            diag.push({
+                phase: 'orphan-check',
+                level: 'error',
+                message: `${item.path} 所在目录的 config 把它声明为文章，不能用 reason=${item.reason} 豁免`,
+                suggestion: '把它挂进 catalog.yaml，或改用 reason=triage 记为待处理债务',
+            })
+        }
+    }
+
+    const p0 = classified.filter(c => c.kind === 'identity')
+    if (p0.length > 0) {
+        console.log(`\nP0 待处理: ${p0.length} 个文件有 config 声明为文章，但不在 catalog.yaml 里（既不构建也不导航）:`)
+        for (const item of p0) console.log(`  - ${item.path}`)
+        console.log('  三条出路：挂进 catalog.yaml（推荐）／加 hidden: true 渲染但不进侧边栏／降级为素材（改 config 的 file）')
+    }
+
+    const untitled = findUntitledLeaves(leaves)
+    if (untitled.length > 0) {
+        console.log(`\n标题靠导航名兜底: ${untitled.length} 篇（既没有 config.title，md frontmatter 里也没有 title）:`)
+        for (const item of untitled) console.log(`  - ${item.leaf} (id=${item.id})`)
+        console.log('  这几篇的页面标题与 catalog.json 会显示 catalog.yaml 的导航名；补 config.title 或 md frontmatter 的 title 即可')
+    }
 
     if (stale.length > 0) {
         console.log(`\n提示: allowlist 中 ${stale.length} 项已不再是孤儿，可以从 orphan-allowlist.json 删除:`)
         stale.forEach(s => console.log(`  - ${s}`))
     }
 
-    if (newcomers.length > 0) {
+    if (newcomerPaths.length > 0) {
         diag.push({
             phase: 'orphan-check',
             level: 'error',
-            message: `发现 ${newcomers.length} 个新的孤儿 md（写了但不会发布）: ${newcomers.slice(0, 5).join(', ')}${newcomers.length > 5 ? ' …' : ''}`,
-            suggestion: '把它们挂进 catalog，或经确认后运行 node tests/check-catalog.js --update-orphans 登记',
+            message: `发现 ${newcomerPaths.length} 个新的孤儿 md（写了但不会发布）: ${newcomerPaths.slice(0, 5).join(', ')}${newcomerPaths.length > 5 ? ' …' : ''}`,
+            suggestion: '把它们挂进 catalog，或经确认后运行 node tests/check-catalog.js --update-orphans 登记并写明 reason',
         })
     }
 

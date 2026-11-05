@@ -203,3 +203,77 @@ describe('站点首页标记 (catalog home)', () => {
         assert.match(messages(diag, 'error'), /home 必须是布尔值/)
     })
 })
+
+describe('隐藏条目 (catalog hidden)', () => {
+    const PROJECT_ROOT = path.resolve(__dirname, '..')
+    const os = require('os')
+    const fs = require('fs')
+    const { loadCatalog } = require(path.join(PROJECT_ROOT, '.tsbuild/publishing/content/catalog-loader.js'))
+    const { flattenCatalog, flattenCatalogLeaves } = require(path.join(PROJECT_ROOT, '.tsbuild/publishing/domain/catalog.js'))
+    const { MenuRenderer } = require(path.join(PROJECT_ROOT, '.tsbuild/publishing/domain/menu-renderer.js'))
+
+    function loadFromYaml(yaml) {
+        const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'rbook-catalog-'))
+        const file = path.join(dir, 'catalog.yaml')
+        fs.writeFileSync(file, yaml, 'utf8')
+        const diag = []
+        return { catalog: loadCatalog(file, diag), diag }
+    }
+
+    function messages(diag, level) {
+        return diag.filter(d => d.level === level).map(d => d.message).join(' | ')
+    }
+
+    function renderMenu(catalog) {
+        return new MenuRenderer({
+            templateDir: path.join(PROJECT_ROOT, 'src', 'ejs'),
+            root: path.join(PROJECT_ROOT, 'src'),
+        }).render(catalog)
+    }
+
+    it('hidden 不再被当作未知字段', () => {
+        const { diag } = loadFromYaml('- title: A\n  path: a\n  hidden: true\n')
+        assert.ok(!diag.some(d => d.message === '未知字段: hidden'), messages(diag, 'warning'))
+        assert.equal(diag.filter(d => d.level === 'error').length, 0, messages(diag, 'error'))
+    })
+
+    it('hidden 非布尔值报 error', () => {
+        const { diag } = loadFromYaml('- title: A\n  path: a\n  hidden: yes\n')
+        assert.match(messages(diag, 'error'), /hidden 必须是布尔值/)
+    })
+
+    it('home 不能同时 hidden', () => {
+        const { diag } = loadFromYaml('- title: A\n  path: a\n  home: true\n  hidden: true\n')
+        assert.match(messages(diag, 'error'), /home 条目不能同时标 hidden/)
+    })
+
+    it('hidden 叶子照样进构建清单，只是不进侧边栏', () => {
+        const { catalog } = loadFromYaml(
+            '- title: A\n  path: a\n- title: B\n  path: b\n  hidden: true\n',
+        )
+        // 构建清单（flattenCatalog）包含它：hidden 不等于不发布
+        assert.deepEqual(flattenCatalog(catalog).sort(), ['a', 'b'])
+
+        const leaves = flattenCatalogLeaves(catalog)
+        assert.equal(leaves.find(l => l.path === 'b').hidden, true)
+        assert.equal(leaves.find(l => l.path === 'a').hidden, false)
+
+        const html = renderMenu(catalog)
+        assert.ok(html.includes('a'), '可见条目应在侧边栏')
+        assert.ok(!html.includes('b'), 'hidden 条目不应在侧边栏')
+    })
+
+    it('hidden 会向子树传播', () => {
+        const { catalog } = loadFromYaml(
+            '- title: 组\n  path: g\n  hidden: true\n  children:\n    - title: 子\n      path: c\n',
+        )
+        const leaf = flattenCatalogLeaves(catalog).find(l => l.path === 'g/c')
+        assert.equal(leaf.hidden, true, '祖先 hidden 时子条目也应 hidden')
+        assert.ok(!renderMenu(catalog).includes('g/c'))
+    })
+
+    it('真实 catalog 目前没有 hidden 条目（引入前行为不变）', () => {
+        const catalog = loadCatalog(path.join(PROJECT_ROOT, 'book', 'catalog.yaml'))
+        assert.equal(flattenCatalogLeaves(catalog).filter(l => l.hidden).length, 0)
+    })
+})

@@ -5,13 +5,18 @@ import { Diagnostic } from '../domain/diagnostics'
 import { PathPolicy } from '../content/path-policy'
 import { buildArticleIndex } from '../domain/index'
 import { loadCatalog } from '../content/catalog-loader'
-import { flattenCatalog, findHomeLeaf } from '../domain/catalog'
+import { flattenCatalogLeaves, findHomeLeaf } from '../domain/catalog'
+import { frontMatterTitle, resolveArticleTitle } from '../domain/article-title'
 import { resolveArticleSource } from '../content/source-resolver'
 import { PageTemplateRenderer } from '../templates/page-template-renderer'
 import { renderMany } from '../pipeline/render-many'
 import { ProblemProvider } from '../integrations/problem-provider'
 import { ContentMacrosOptions } from '../markdown/plugins/content-macros'
 import { MenuRenderer } from '../domain/menu-renderer'
+import {
+    buildCatalogManifest,
+    writeCatalogManifest,
+} from '../pipeline/catalog-manifest'
 
 export interface BuildStageContext {
     projectRoot: string
@@ -35,12 +40,20 @@ export const prepareCatalog: BuildStage = {
     description: '读取目录清单、配置、生成索引和验证路径',
     run(ctx) {
         const catalog = loadCatalog(path.join(ctx.policy.book, 'catalog.yaml'), ctx.diagnostics)
-        const leaves = flattenCatalog(catalog)
-        const entries = leaves.map(leaf => {
-            const resolved = resolveArticleSource(leaf, ctx.policy.book, ctx.diagnostics)
+        const leafEntries = flattenCatalogLeaves(catalog)
+        const leaves = leafEntries.map(leaf => leaf.path)
+        const entries = leafEntries.map(leaf => {
+            const resolved = resolveArticleSource(leaf.path, ctx.policy.book, ctx.diagnostics)
             return {
                 id: resolved.metadata.id,
-                title: resolved.metadata.title,
+                // 叶子可以没有 config（例如 book/<章节>/practice.md），此时
+                // metadata.title 为空；用 catalog.yaml 的 title 兜底。渲染页面时
+                // 还会优先取 md 的 H1，见 domain/article-title.ts 的优先级说明。
+                title: resolveArticleTitle({
+                    metadataTitle: resolved.metadata.title,
+                    headerTitle: frontMatterTitle(resolved.source.raw),
+                    catalogTitle: leaf.title,
+                }),
                 sourcePath: resolved.source.filePath,
                 publishHref: ctx.policy.publishHref(resolved.source.filePath),
                 metadata: resolved.metadata,
@@ -146,6 +159,43 @@ export const aliasHome: BuildStage = {
     },
 }
 
+/**
+ * 输出对外文章清单 dist/catalog.json。
+ *
+ * 纯静态站没有 REST 接口，rbook_new_problem_solutions 的题解用 `rbook1:<id>`
+ * 引用本站文章，靠这份 JSON 把 id 解析成标题和链接。重复 id 会让一个 id 指向
+ * 错文章，所以发现 error 就直接让构建失败，不带着脏清单发布。
+ */
+export const emitCatalogManifest: BuildStage = {
+    name: 'emit-catalog-manifest',
+    description: '输出 dist/catalog.json（id/title/url 清单）',
+    run(ctx) {
+        const index = ctx.stageResults['index'] as ReturnType<typeof buildArticleIndex> | undefined
+        if (!index) {
+            throw new Error('缺少文章索引，prepare-catalog 阶段未执行')
+        }
+
+        const before = ctx.diagnostics.length
+        const manifest = buildCatalogManifest(index.all, { diagnostics: ctx.diagnostics })
+        const errors = ctx.diagnostics
+            .slice(before)
+            .filter(d => d.level === 'error')
+        if (errors.length > 0) {
+            const detail = errors
+                .slice(0, 5)
+                .map(d => d.message)
+                .join('; ')
+            const more = errors.length > 5 ? ` …另有 ${errors.length - 5} 条` : ''
+            throw new Error(`${errors.length} 篇文章无法进入 catalog.json: ${detail}${more}`)
+        }
+
+        const target = writeCatalogManifest(ctx.policy.dist, manifest)
+        console.log(
+            `[emit-catalog-manifest] ${manifest.total} 条 -> ${path.relative(ctx.policy.root, target)}`,
+        )
+    },
+}
+
 export const buildSiteShell: BuildStage = {
     name: 'build-site-shell',
     description: '调用 Vite/EJS 生成首页和静态壳',
@@ -241,6 +291,7 @@ export const buildOptionalWidgets: BuildStage = {
 export const ALL_STAGES: BuildStage[] = [
     prepareCatalog,
     renderPages,
+    emitCatalogManifest,
     buildSiteShell,
     aliasHome,
     copyAssets,

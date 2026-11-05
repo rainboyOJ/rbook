@@ -1,4 +1,5 @@
 import MarkdownIt from 'markdown-it'
+import { frontMatterTitle } from '../domain/article-title'
 import fs from 'fs'
 import path from 'path'
 import { registerPlugins } from './plugin-registry'
@@ -136,18 +137,13 @@ function includeRoots(projectRoot?: string): string[] {
 
 export function renderMarkdown(raw: string, md: MarkdownIt, env?: Record<string, unknown>): { header: { title: string }, content: string } {
     const lines = raw.split('\n')
-    let header = { title: '' }
+    const header = { title: frontMatterTitle(raw) }
     let body = raw
 
     if (lines[0] && lines[0].trim() === '---') {
         const endIdx = lines.indexOf('---', 1)
         if (endIdx > 1) {
-            const fmLines = lines.slice(1, endIdx)
             body = lines.slice(endIdx + 1).join('\n')
-            for (const line of fmLines) {
-                const m = line.match(/^title\s*:\s*(.+)$/i)
-                if (m) header.title = m[1].trim()
-            }
         }
     }
 

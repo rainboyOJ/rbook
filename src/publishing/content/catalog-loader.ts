@@ -4,7 +4,7 @@ import yaml from 'js-yaml'
 import { Catalog, CatalogEntry } from '../domain/catalog'
 import { Diagnostic } from '../domain/diagnostics'
 
-const KNOWN_KEYS = new Set(['title', 'path', 'children', 'home'])
+const KNOWN_KEYS = new Set(['title', 'path', 'children', 'home', 'hidden'])
 
 export function loadCatalog(catalogPath: string, diagnostics: Diagnostic[] = []): Catalog {
     if (!fs.existsSync(catalogPath)) {
@@ -89,6 +89,22 @@ function validateEntries(entries: CatalogEntry[], parentPath: string, diagnostic
                 phase: 'prepare-catalog',
                 level: 'error',
                 message: `home 必须是布尔值 (path=${entry.path ?? '<none>'})`,
+            })
+        }
+        if (entry.hidden !== undefined && typeof entry.hidden !== 'boolean') {
+            diagnostics.push({
+                phase: 'prepare-catalog',
+                level: 'error',
+                message: `hidden 必须是布尔值 (path=${entry.path ?? '<none>'})`,
+            })
+        }
+        // 首页必须可见：它要顶替站点根路径，藏起来会让侧边栏和首页指向不一致。
+        if (entry.hidden === true && entry.home === true) {
+            diagnostics.push({
+                phase: 'prepare-catalog',
+                level: 'error',
+                message: `home 条目不能同时标 hidden (path=${entry.path ?? '<none>'})`,
+                suggestion: '把 hidden 移到别的条目，或删掉 home',
             })
         }
         if (entry.home === true) {

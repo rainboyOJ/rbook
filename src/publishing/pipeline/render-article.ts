@@ -105,6 +105,8 @@ export function renderArticle(opts: RenderArticleOptions): RenderArticleResult {
         outputPath,
         gitLocation,
         teachPlanHref,
+        // 索引里的 title 已在 prepare-catalog 阶段用 catalog.yaml 的标题兜过底。
+        catalogTitle: opts.index.bySourcePath.get(resolved.source.filePath)?.title,
     })
 
     const html = opts.templateRenderer.render(opts.templateName || 'article.html', view)

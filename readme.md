@@ -34,6 +34,34 @@ rbook build --profile core  # 核心构建 (不含第三方资产)
 rbook build --profile full  # 完整构建 (含动画、论文、third_part)
 ```
 
+## 对外文章清单 `dist/catalog.json`
+
+本站是纯静态站，没有 REST 接口。构建时多写一个 `dist/catalog.json`，nginx 当普通静态
+文件托管，供其他项目按 **文章 id** 引用本站文章（现在是
+`rbook_new_problem_solutions` 的题解 frontmatter）。
+
+```json
+{
+  "site": "rbook1",
+  "generatedAt": "2026-11-05T06:41:39.240Z",
+  "total": 134,
+  "items": [{ "id": "presum", "title": "前缀和", "url": "/base/presum/index.html" }]
+}
+```
+
+约束：
+
+- **`site` 是站点短名。** `rbook1` = 本站 (`rbook.roj.ac.cn`)，`rbook2` =
+  `rbook_nunjucks` (`rbook2.roj.ac.cn`)。两本书存在同名 id，所以使用方要拼成
+  `rbook1:<id>` 才能唯一定位；本文件里的 `id` 保持裸值。
+- **`url` 必须是站内根相对路径**（以 `/` 开头、不以 `//` 开头），使用方不接受绝对域名。
+- **`id` 必须唯一**。重复会让一个 id 指向两篇文章，所以构建直接失败
+  （`tests/catalog-manifest.test.js` 盯这条）。
+- id 来自文章目录的 `config.json` 里的 `id`，没写时由目录名/文件名推导；标题优先用
+  config 的 `title`，缺省时回退到 `catalog.yaml` 的 `title`。
+- 只收录**能从 catalog.yaml 解析出真实 URL** 的文章。写了 config 但不在 catalog 里的
+  目录会以 warning 列出来，不进入清单（有 id 却点不进去的链接比没有链接更糟）。
+
 ## 文件
 
 ```
@@ -44,7 +72,7 @@ rbook build --profile full  # 完整构建 (含动画、论文、third_part)
 │   ├── ejs             页面模板
 │   └── markdown-style  markdown 样式
 ├── book                书的 md 源文件
-│   └── catalog.yaml    目录清单 (显式编排)
+│   └── catalog.yaml    目录清单 (显式编排；hidden: true = 构建并发布，但不进侧边栏)
 ├── dist                构建产物 (gitignore)
 ├── .tsbuild            TS 编译产物 (gitignore)
 ├── tests               测试与发布契约 fixture
