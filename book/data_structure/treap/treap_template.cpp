@@ -67,8 +67,9 @@ struct Treap {
             if( cn(p) > 1) cn(p)--,sz(p)--;
             else if(!lc(p) || !rc(p) ) p = lc(p) +rc(p); //只有一个孩子存在
             else { //两个孩子都存在
-                //把小的那个孩子提上来,自己下去了
-                rotate(p, fix(lc(p)) < fix(rc(p))); 
+                //把 fix 更小的那个孩子提上来，自己下沉一层
+                //aim=0 右旋提左孩子；aim=1 左旋提右孩子
+                rotate(p, fix(lc(p)) > fix(rc(p)));
                 _del(p,v);//把提上来的点 sz--
             }
         }

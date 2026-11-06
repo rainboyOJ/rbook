@@ -24,25 +24,25 @@ description: >-
 ```
 book/<章>/<文章目录>/
 ├── index.md          # 正文；文件名由 config 的 file 字段指定
-├── config.json       # 或 config.jsonc / config.yaml / config.yml（按此优先级取一个）
+├── config.yaml       # 或 config.json / config.jsonc / config.yml（按 json → yaml 的优先级取一个）
 ├── images/           # 相对 index.md 引用的图片
 └── xxx.animation.ts  # 可选：交互动画入口
 ```
 
 - **菜单与 id 的唯一真相是 `book/catalog.yaml`**。文章目录必须在那里登记，
   否则 `npm run check:catalog` 会判为孤儿（写了但永远不会发布）。
-- `config.json` 关键字段：
+- `config.yaml` 关键字段（2026-11 起 `book/` 已全部统一为 yaml；加载器仍兼容 json/jsonc）：
 
-  ```json
-  {
-    "id": "bellman-ford",
-    "file": "index.md",
-    "title": "bellman-ford",
-    "pre": ["dijkstra"],
-    "teach_plan": "teach_plan.md",
-    "copy": ["assets/a.png"],
-    "code_template": [{ "title": "Bellman-Ford 最短路", "code": "./bellman_ford.cpp" }]
-  }
+  ```yaml
+  id: bellman-ford
+  file: index.md
+  title: bellman-ford
+  pre: [dijkstra]
+  teach_plan: teach_plan.md
+  copy: [assets/a.png]
+  code_template:
+    - title: Bellman-Ford 最短路
+      code: ./bellman_ford.cpp
   ```
 
   `id` 是 `[[[rbook: id]]]` 的唯一键；缺省时由路径推导（`index.md` 用目录名，其它用文件名）。
@@ -355,7 +355,6 @@ npm run dev             # 本地预览；改 md / animation.ts 会整页刷新
 - 伪代码：`plugins/pseudocode.ts`、`plugins/fence.ts`
 - 代码标签页：`plugins/code-tabs.ts`（分组）+ `plugins/fence.ts`（包面板）+ `src/markdown-style/codetabs.scss`
 - 数学：`plugins/math.ts`（内含"公式漏解析"的两类检测）
-- 题目列表：`plugins/problem-list.ts`
 - TOC 与锚点：`plugins/toc.ts`
 - 文章元数据：`content/metadata-normalizer.ts`、`content/config-loader.ts`
 - 路径与发布 href：`content/path-policy.ts`

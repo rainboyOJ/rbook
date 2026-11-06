@@ -196,6 +196,8 @@
       path: "heap"
     - title: "二叉查找树"
       path: "binary_search_tree/"
+    - title: "Treap 平衡树"
+      path: "treap"
     - title: "块状数据"
       path: "block_data"
       children:

@@ -134,10 +134,6 @@
       "reason": "triage"
     },
     {
-      "path": "data_structure/treap/index.md",
-      "reason": "triage"
-    },
-    {
       "path": "dynamic_programming/knapsack/grouped_knapsack/index.md",
       "reason": "triage"
     },
