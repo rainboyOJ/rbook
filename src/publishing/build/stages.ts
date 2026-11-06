@@ -11,6 +11,7 @@ import { resolveArticleSource } from '../content/source-resolver'
 import { PageTemplateRenderer } from '../templates/page-template-renderer'
 import { renderMany } from '../pipeline/render-many'
 import { ProblemProvider } from '../integrations/problem-provider'
+import { Pcs2PracticeProvider } from '../integrations/pcs2-practice-provider'
 import { ContentMacrosOptions } from '../markdown/plugins/content-macros'
 import { MenuRenderer } from '../domain/menu-renderer'
 import {
@@ -23,6 +24,7 @@ export interface BuildStageContext {
     policy: PathPolicy
     diagnostics: Diagnostic[]
     problemProvider?: ProblemProvider
+    practiceProvider?: Pcs2PracticeProvider | null
     blogUrl?: string
     rojBaseUrl?: string
     contentMacros?: ContentMacrosOptions
@@ -90,6 +92,7 @@ export const renderPages: BuildStage = {
             index,
             templateRenderer,
             problemProvider: ctx.problemProvider,
+            practiceProvider: ctx.practiceProvider,
             blogUrl: ctx.blogUrl,
             rojBaseUrl: ctx.rojBaseUrl,
             diagnostics: ctx.diagnostics,

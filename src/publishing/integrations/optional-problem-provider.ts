@@ -11,10 +11,6 @@ export class OptionalProblemProvider implements ProblemProvider {
         return this.impl ? this.impl.getProblemById(id) : null
     }
 
-    getProblemsForArticle(rbookId: string): ProblemInfo[] {
-        return this.impl ? this.impl.getProblemsForArticle(rbookId) : []
-    }
-
     isAvailable(): boolean {
         return this.impl !== null
     }

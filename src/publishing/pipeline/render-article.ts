@@ -9,6 +9,8 @@ import { ArtifactWriter } from './artifact-writer'
 import { Diagnostic } from '../domain/diagnostics'
 import { ArticleIndex } from '../domain/metadata'
 import { ProblemProvider } from '../integrations/problem-provider'
+import { Pcs2PracticeProvider } from '../integrations/pcs2-practice-provider'
+import { appendPracticeSection, buildPracticeSection } from './practice-section'
 import { ContentMacrosOptions } from '../markdown/plugins/content-macros'
 
 export interface RenderArticleOptions {
@@ -18,6 +20,8 @@ export interface RenderArticleOptions {
     templateRenderer: PageTemplateRenderer
     templateName?: string
     problemProvider?: ProblemProvider
+    /** pcs2 题解关系；缺失时不生成「相关题解」小节（构建层会单独报不可用） */
+    practiceProvider?: Pcs2PracticeProvider | null
     blogUrl?: string
     rojBaseUrl?: string
     diagnostics?: Diagnostic[]
@@ -50,7 +54,17 @@ export function renderArticle(opts: RenderArticleOptions): RenderArticleResult {
         currentSourcePath: resolved.source.filePath,
     })
 
-    const { header, content } = renderMarkdown(resolved.source.raw, renderer, {
+    // 「相关题解」只注入到 catalog 里的正式文章：renderRelatedDocuments 直接调
+    // renderMarkdown，不经过这里，所以教学计划等辅助文档不受影响。
+    const practiceDisabled = resolved.metadata.practice === false || resolved.metadata.practice === 'false'
+    const practiceSection = opts.practiceProvider && !practiceDisabled
+        ? buildPracticeSection(opts.practiceProvider.getProblemsForArticle(resolved.metadata.id))
+        : null
+    const sourceRaw = practiceSection
+        ? appendPracticeSection(resolved.source.raw, practiceSection)
+        : resolved.source.raw
+
+    const { header, content } = renderMarkdown(sourceRaw, renderer, {
         id: resolved.metadata.id,
         currentMdFilePath: resolved.source.filePath,
         root: policy.root,

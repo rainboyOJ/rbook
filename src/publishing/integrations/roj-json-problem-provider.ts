@@ -11,6 +11,10 @@ import { ProblemInfo, ProblemProvider } from './problem-provider'
  * 线上所有 `[[[p: ...]]]` 都退化成 `extra-link missing`。
  * 这里直接读 roj.json（LokiJS 的序列化格式，本身就是普通 JSON），
  * 零额外依赖、无副作用。
+ *
+ * 注意：本 provider 现在只负责 `[[[p:]]]` 的 getProblemById（题目链接与标题）。
+ * 「文章 -> 相关题解」的反向关系已改由 pcs2 题解仓库的 showAtRbook 提供，
+ * 见 integrations/pcs2-practice-provider.ts。
  */
 
 interface RawProblem {
@@ -19,7 +23,8 @@ interface RawProblem {
     oj?: string
     title?: string
     link?: string
-    solutions?: Array<{ practice_rbook?: string[] }>
+    /** 只需判断有没有题解；practice_rbook 已迁到 pcs2 的 showAtRbook */
+    solutions?: unknown[]
 }
 
 export interface RojJsonProblemProviderOptions {
@@ -31,8 +36,6 @@ export class RojJsonProblemProvider implements ProblemProvider {
     readonly name = 'roj-json'
 
     private readonly byId = new Map<string, ProblemInfo>()
-    /** rbook 文章 id -> 关联题目 */
-    private readonly byRbookId = new Map<string, ProblemInfo[]>()
     private readonly withSolution = new Set<string>()
 
     constructor(opts: RojJsonProblemProviderOptions) {
@@ -55,16 +58,6 @@ export class RojJsonProblemProvider implements ProblemProvider {
             }
             this.byId.set(id, info)
             if (info.hasSolution) this.withSolution.add(id)
-
-            for (const sol of p.solutions || []) {
-                for (const rbookId of sol.practice_rbook || []) {
-                    const key = str(rbookId)
-                    if (!key) continue
-                    const list = this.byRbookId.get(key) || []
-                    list.push(info)
-                    this.byRbookId.set(key, list)
-                }
-            }
         }
     }
 
@@ -74,10 +67,6 @@ export class RojJsonProblemProvider implements ProblemProvider {
 
     getProblemById(id: string): ProblemInfo | null {
         return this.byId.get(id) || null
-    }
-
-    getProblemsForArticle(rbookId: string): ProblemInfo[] {
-        return this.byRbookId.get(rbookId) || []
     }
 
     hasSolution(id: string): boolean {

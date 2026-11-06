@@ -1,7 +1,7 @@
 ---
 name: rbook-markdown
 description: >-
-  编写或修改 /home/rainboy/mycode/newRbook_ejs 这本 rbook 电子书里的 Markdown 时必须遵守的方言说明（站内链接 [[[rbook:]]]、题目链接 [[[p:]]]、include 与 file=、animate 与 dsa 动画卡片、数学、::: 容器、伪代码、题目列表 +p、catalog/config 元数据，以及哪些"通用 Markdown 语法"在本项目其实会静默失效）。当你在 book/ 下新建或编辑任何 .md（index.md、practice.md、teach_plan.md、problem.md…）、调整 book/catalog.yaml 或文章的 config.json/config.yaml、修一个链接/代码块/图片/公式/折叠框渲染不对、把别处的 Markdown 搬进来、或者要判断"这段写法本项目支持吗"时，都应先读这个 skill，不要凭 GitHub / Obsidian / VuePress 的语法直觉下手。
+  编写或修改 /home/rainboy/mycode/newRbook_ejs 这本 rbook 电子书里的 Markdown 时必须遵守的方言说明（站内链接 [[[rbook:]]]、题目链接 [[[p:]]]、include 与 file=、animate 与 dsa 动画卡片、数学、::: 容器、伪代码、自动生成的「相关题解」、catalog/config 元数据，以及哪些"通用 Markdown 语法"在本项目其实会静默失效）。当你在 book/ 下新建或编辑任何 .md（index.md、practice.md、teach_plan.md、problem.md…）、调整 book/catalog.yaml 或文章的 config.json/config.yaml、修一个链接/代码块/图片/公式/折叠框渲染不对、把别处的 Markdown 搬进来、或者要判断"这段写法本项目支持吗"时，都应先读这个 skill，不要凭 GitHub / Obsidian / VuePress 的语法直觉下手。
 ---
 
 # rbook 的 Markdown 方言
@@ -220,14 +220,26 @@ book/<章>/<文章目录>/
   `\begin{algorithm}` + `\begin{algorithmic}` 包住，否则渲染失败并退化成一个 `<pre>`
   （同时打一条 warning）。伪代码内部的 `$…$` 交给 KaTeX，不算公式漏解析。
 
-## 八、题目列表
+## 八、相关题解（自动生成，不要手写）
+
+每篇正式文章的末尾都会自动追加一节：
 
 ```md
-+p THIS_ID
+## 相关题解
+
+| 题目 | OJ | 难度 |
+| --- | --- | --- |
+| [a^b](https://pcs2.roj.ac.cn/problems/roj/3000) | roj | 普及- |
 ```
 
-- 必须**单独成行**（行首 `+p `）。`THIS_ID` 会替换成当前文章 id，也可以写具体 id。
-- 数据来自题库 provider 的 `getProblemsForArticle(id)`；未配置或没数据时渲染"暂无题目"。
+- 数据来自 pcs2 题解仓库（`~/mycode/rbook_new_problem_solutions/problems`）里每道题
+  frontmatter 的 `showAtRbook`，只取 `rbook1:<文章 id>` 形式的引用。写法见
+  `rbook_new_problem_solutions/.agents/skills/oj-show-at-rbook`。
+- 排序按 pcs2 的 `lib/difficulty.json`（由易到难，未知排最后）。
+- 没有任何关联题解时，仍会显示标题和「暂无相关题解」。
+- 不想出现在某篇文章里：在该文章 `config.yaml` 写 `practice: false`
+  （附录类、与 OJ 无关的文章适合关掉）。
+- **`+p THIS_ID` 方言已删除**，不要再写；写了会当普通文字输出。
 
 ## 九、图片与资产
 

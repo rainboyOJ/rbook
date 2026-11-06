@@ -2,3 +2,4 @@ title: 工具
 file: index.md
 copy:
   - ./luogu_sample_download.py
+practice: false

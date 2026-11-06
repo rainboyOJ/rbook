@@ -22,6 +22,3 @@ TODO
 ```cpp file=./discrete.cpp
 ```
 
-## 练习题目
-
-+p THIS_ID

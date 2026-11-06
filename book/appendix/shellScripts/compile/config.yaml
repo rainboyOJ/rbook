@@ -3,3 +3,4 @@ file: index.md
 copy:
   - ./b.py
   - ./b.sh
+practice: false

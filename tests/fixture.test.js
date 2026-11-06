@@ -91,11 +91,6 @@ describe('发布契约 fixtures', () => {
         assertMarkers(html, ['class="extra-link"', '/base/presum/index.html'], assert)
     })
 
-    it('problem-list.md 渲染题目列表容器', () => {
-        const { html } = runFixture(path.join(FIXTURES, 'problem-list.md'))
-        assertMarkers(html, ['class="problem_list_content"'], assert)
-    })
-
     it('ejs-macros.md 渲染常用宏 (video, dvideo, iframe, pid_to_url)', () => {
         const { html } = runFixture(path.join(FIXTURES, 'ejs-macros.md'))
         assertMarkers(html, [

@@ -20,6 +20,9 @@ import { MenuRenderer } from '../domain/menu-renderer'
 export interface CliOptions {
     projectRoot: string
     problemProvider?: import('../integrations/problem-provider').ProblemProvider
+    practiceProvider?: import('../integrations/pcs2-practice-provider').Pcs2PracticeProvider | null
+    /** practiceProvider 为 null 时的原因，full profile 会据此中断构建 */
+    practiceUnavailableReason?: string
     blogUrl?: string
     rojBaseUrl?: string
     templateName?: string
@@ -121,6 +124,7 @@ export function createCli(opts: CliOptions): Command {
                     index: ctx.index,
                     templateRenderer,
                     problemProvider: opts.problemProvider,
+                    practiceProvider: opts.practiceProvider,
                     blogUrl: opts.blogUrl,
                     rojBaseUrl: opts.rojBaseUrl,
                     diagnostics: diag,
@@ -163,6 +167,7 @@ export function createCli(opts: CliOptions): Command {
                     index: ctx.index,
                     templateRenderer,
                     problemProvider: opts.problemProvider,
+                    practiceProvider: opts.practiceProvider,
                     blogUrl: opts.blogUrl,
                     rojBaseUrl: opts.rojBaseUrl,
                     diagnostics: diag,
@@ -215,11 +220,30 @@ export function createCli(opts: CliOptions): Command {
             try {
                 const profile = getProfile(options.profile)
                 console.log(`[build] profile: ${profile.name}`)
+
+                // 缺 pcs2 数据时，所有文章都会渲染成「暂无相关题解」。发布路径（full）
+                // 必须中断，否则会把错内容静默同步到线上；本地 core 只告警。
+                if (!opts.practiceProvider) {
+                    const message = `pcs2 题目数据不可用: ${opts.practiceUnavailableReason || '未知原因'}`
+                    if (profile.name === 'full') {
+                        throw new Error(`${message}\n提示: 确认 ~/mycode/rbook_new_problem_solutions/problems 存在，或设置 PCS2_PROBLEMS_DIR`)
+                    }
+                    diag.push({
+                        phase: 'practice-provider',
+                        level: 'warning',
+                        message,
+                        suggestion: '设置 PCS2_PROBLEMS_DIR，或确认兄弟仓库存在',
+                    })
+                }
+                else {
+                    console.log(`[build] pcs2: ${opts.practiceProvider.articleCount} 篇文章有关联题解（扫 ${opts.practiceProvider.fileCount} 个题目文件）`)
+                }
                 const ctx: BuildStageContext = {
                     projectRoot: opts.projectRoot,
                     policy,
                     diagnostics: diag,
                     problemProvider: opts.problemProvider,
+                    practiceProvider: opts.practiceProvider,
                     blogUrl: opts.blogUrl,
                     rojBaseUrl: opts.rojBaseUrl,
                     contentMacros: opts.contentMacros,

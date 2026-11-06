@@ -9,7 +9,6 @@ export interface ProblemInfo {
 
 export interface ProblemProvider {
     getProblemById(id: string): ProblemInfo | null
-    getProblemsForArticle(rbookId: string): ProblemInfo[]
     name: string
 }
 

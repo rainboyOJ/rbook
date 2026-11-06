@@ -118,6 +118,3 @@ a 要么是最优决策点,要么不是最优决策点.
 
 所以最后的时间为$O(n \times logn \times logn + n) \approx n(logn)^2$
 
-## 相关题目
-
-+p THIS_ID

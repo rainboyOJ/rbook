@@ -3,3 +3,4 @@ file: index.md
 copy:
   - cpp.json
   - keyboard-shortcuts-linux.pdf
+practice: false

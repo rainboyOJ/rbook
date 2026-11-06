@@ -4,6 +4,8 @@ export interface ArticleMetadata {
     file: string
     copy?: string[]
     teachPlan?: string
+    /** `false` 时不自动追加「相关题解」小节（默认追加） */
+    practice?: boolean | string
     [key: string]: unknown
 }
 

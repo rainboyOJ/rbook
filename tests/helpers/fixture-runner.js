@@ -35,11 +35,6 @@ const mockProblemProvider = {
             hasSolution: true,
         }
     },
-    getProblemsForArticle() {
-        return [
-            { id: 'luogu-8218', oj: 'luogu', sid: '8218', title: '求区间和', link: '/p/8218', hasSolution: true },
-        ]
-    },
 }
 
 function runFixture(fixturePath, options = {}) {

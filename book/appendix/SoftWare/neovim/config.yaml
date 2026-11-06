@@ -4,3 +4,4 @@ file: index.md
 hiden_in_brain: true
 copy:
   - ./vimrc.txt
+practice: false

@@ -5,7 +5,6 @@ import includePlugin, { IncludeOptions } from './plugins/include'
 import containersPlugin from './plugins/containers'
 import pseudocodePlugin, { PseudocodePluginOptions } from './plugins/pseudocode'
 import rbookLinkPlugin, { RbookLinkOptions } from './plugins/rbook-link'
-import problemListPlugin from './plugins/problem-list'
 import fencePlugin from './plugins/fence'
 import codeTabsPlugin from './plugins/code-tabs'
 import excalidrawPlugin, { ExcalidrawOptions } from './plugins/excalidraw'
@@ -26,7 +25,7 @@ export interface PluginRegistryOptions {
 /**
  * 按 4 类生命周期显式注册插件：
  * 1. 标准语法扩展 (Math / KaTeX)
- * 2. Rbook 内容扩展 (EJS 宏、include、容器、伪代码、链接、题目列表)
+ * 2. Rbook 内容扩展 (EJS 宏、include、容器、伪代码、链接)
  * 3. 外部集成 (Fences / 图表、Excalidraw SVG)
  * 4. 输出后处理
  */
@@ -66,7 +65,6 @@ export function registerPlugins(md: MarkdownIt, opts: PluginRegistryOptions): vo
         diagnostics: opts.rbookLink.diagnostics,
     })
     md.use(rbookLinkPlugin, opts.rbookLink)
-    md.use(problemListPlugin, opts.rbookLink)
 
     // 3. 外部集成
     // code-tabs 必须在 fence 之前注册：它在 core 阶段给同组 fence 打

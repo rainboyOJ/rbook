@@ -6,3 +6,4 @@ file: index.md
 typst: 比赛赛前注意事项.typ
 copy:
   - 比赛赛前注意事项.pdf
+practice: false
