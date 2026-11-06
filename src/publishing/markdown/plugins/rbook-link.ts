@@ -110,8 +110,7 @@ function renderProblemLink(type: string, body: string, rawType: string, opts: Rb
 
         const r = opts.problemUrl.resolve(ref.oj, ref.pid, ref.inlineTitle)
         const text = r.title ? `${r.normalizedOj} ${r.normalizedPid}: ${escapeHtml(r.title)}` : `${r.normalizedOj} ${r.normalizedPid}`
-        const icon = faviconFor(r.normalizedOj)
-        return `<a class="extra-link" target="_blank" href="${r.url}">[<img src="${icon}"/> ${text}]</a>`
+        return `<a class="extra-link" target="_blank" href="${r.url}">[${text}]</a>`
     }
 
     // 兼容路径：仍走旧 problemProvider（题库未配置时给出明确诊断）
@@ -129,15 +128,9 @@ function renderProblemLink(type: string, body: string, rawType: string, opts: Rb
     if (info) {
         const rojBase = opts.rojBaseUrl || 'https://roj.ac.cn'
         const checkmark = (type === 'pp' || type === 'problem_info_solution') && info.hasSolution ? '&#x2713; ' : ''
-        return `<a class="extra-link" target="_blank" href="${rojBase}${info.link}">${checkmark}[<img src="${rojBase}/fav/favicon-32x32.png"/> ${info.oj} ${info.sid}: ${info.title}]</a>`
+        return `<a class="extra-link" target="_blank" href="${rojBase}${info.link}">${checkmark}[${info.oj} ${info.sid}: ${info.title}]</a>`
     }
     return `<span class="extra-link missing">[problem: ${id}]</span>`
-}
-
-/** 各 OJ 的 favicon 地址（用于链接前的小图标）。 */
-function faviconFor(oj: string): string {
-    if (oj === 'roj') return 'https://roj.ac.cn/fav/favicon-32x32.png'
-    return 'https://roj.ac.cn/fav/favicon-32x32.png'
 }
 
 export default function rbookLinkPlugin(md: MarkdownIt, opts: RbookLinkOptions): void {
