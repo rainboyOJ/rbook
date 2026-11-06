@@ -129,7 +129,10 @@ describe('pcs2 相关题解：小节渲染', () => {
             },
         ])
         assert.ok(md.includes('| 题目 | OJ | 难度 |'))
-        assert.ok(md.includes('[\\[USACO08DEC\\] a\\|b &lt;c&gt;](https://pcs2.test/problems/luogu/P1)'))
+        assert.ok(md.includes(
+            '<a href="https://pcs2.test/problems/luogu/P1" target="_blank" rel="noopener noreferrer">'
+            + '[USACO08DEC] a\\|b &lt;c&gt;</a>',
+        ))
         assert.ok(md.includes('| luogu | 普及- |'))
     })
 
@@ -174,8 +177,11 @@ describe('pcs2 相关题解：文章注入', () => {
     it('正式文章末尾自动出现「相关题解」表格', () => {
         const result = renderWithConfig('id: practice-on\ntitle: 开\nfile: index.md\n')
         assert.ok(result.html.includes('相关题解'))
-        assert.ok(result.html.includes('https://pcs2.test/problems/luogu/P1'))
         assert.ok(result.html.includes('<table>'))
+        // 题目链接必须是新标签页打开，且 href 原样保留
+        assert.ok(result.html.includes(
+            '<a href="https://pcs2.test/problems/luogu/P1" target="_blank" rel="noopener noreferrer">',
+        ))
     })
 
     it('practice: false 时不注入', () => {

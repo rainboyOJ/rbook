@@ -12,6 +12,9 @@ export const PRACTICE_SECTION_HEADING = '## 相关题解'
 /** 一篇没有关联题解时显示的文字。 */
 export const PRACTICE_EMPTY_TEXT = '暂无相关题解'
 
+/** 题目链接在新标签页打开，与本仓库 [[[p: ...]]] 生成的链接行为一致。 */
+const LINK_TARGET = 'target="_blank" rel="noopener noreferrer"'
+
 /** 生成 Markdown（而不是 HTML），这样标题能进入 TOC，表格也能套用现有 .markdown-body 样式。 */
 export function buildPracticeSection(problems: PracticeProblem[]): string {
     const lines = [PRACTICE_SECTION_HEADING, '']
@@ -23,10 +26,13 @@ export function buildPracticeSection(problems: PracticeProblem[]): string {
 
     lines.push('| 题目 | OJ | 难度 |', '| --- | --- | --- |')
     for (const problem of problems) {
-        const title = escapeInline(problem.title) || escapeInline(problem.problemId)
-        const oj = escapeInline(problem.oj)
-        const difficulty = escapeInline(problem.difficulty) || '未知'
-        lines.push(`| [${title}](${problem.url}) | ${oj} | ${difficulty} |`)
+        const title = escapeCell(problem.title) || escapeCell(problem.problemId)
+        const oj = escapeCell(problem.oj)
+        const difficulty = escapeCell(problem.difficulty) || '未知'
+        // 表格单元格里内联 HTML：Markdown 链接语法无法表达 target，而本仓库
+        // 所有题目链接都要求新标签页打开，避免把读者带离当前文章。
+        const link = `<a href="${escapeAttribute(problem.url)}" ${LINK_TARGET}>${title}</a>`
+        lines.push(`| ${link} | ${oj} | ${difficulty} |`)
     }
     return lines.join('\n')
 }
@@ -36,20 +42,28 @@ export function appendPracticeSection(raw: string, section: string): string {
     return `${raw.replace(/\s+$/, '')}\n\n${section}\n`
 }
 
-/**
- * 单元格与链接文字共用的转义。
- * 题解标题里真实出现过 `[USACO08DEC] Secret Message G` 这类方括号，
- * 不转义会把链接拆坏；`|` 会把表格拆坏。
- */
-function escapeInline(value: string): string {
+/** HTML 文本与属性值的转义。 */
+function escapeHtml(value: string): string {
     return value
-        .replace(/\\/g, '\\\\')
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+}
+
+/** 属性值只多处理换行，避免把标签拆断。 */
+function escapeAttribute(value: string): string {
+    return escapeHtml(value).replace(/\r?\n/g, ' ')
+}
+
+/**
+ * 表格单元格转义。
+ * 标题里真实出现过 `[USACO08DEC] Secret Message G` 这类方括号，放进 HTML 文本
+ * 不需要转义；真正会拆坏表格的是 `|`，必须写成 `\|` 交给 Markdown 的表格切分器。
+ */
+function escapeCell(value: string): string {
+    return escapeHtml(value)
         .replace(/\|/g, '\\|')
-        .replace(/\[/g, '\\[')
-        .replace(/\]/g, '\\]')
         .replace(/\r?\n/g, ' ')
         .trim()
 }
