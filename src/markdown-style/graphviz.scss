@@ -1,0 +1,51 @@
+.rbook-article .markdown-body .rbook-graphviz {
+    margin-block: 24px;
+    min-width: 0;
+    max-width: 100%;
+    text-indent: 0;
+
+    // 保留作者指定的图形颜色，深浅主题都使用白色图纸，确保黑色文字可读。
+    .rbook-graphviz__canvas {
+        max-width: 100%;
+        overflow: auto;
+        padding: 16px;
+        border: 1px solid var(--rbook-border);
+        background: #fff;
+        color: #111;
+        overscroll-behavior-x: contain;
+        svg { display: block; max-width: none; margin-inline: auto; }
+    }
+    details.rbook-graphviz__source {
+        margin: 0;
+        > summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            min-height: 44px;
+            margin: 0;
+            padding: 9px 0;
+            border: 0;
+            border-radius: 0;
+            background: transparent;
+            color: var(--rbook-muted);
+            font: 14px/24px var(--rbook-font-heading);
+            list-style: none;
+            &::-webkit-details-marker { display: none; }
+            &::before { content: none; }
+            &::after { content: '+'; float: none; opacity: 1; font-size: 20px; }
+            &:hover { color: var(--rbook-accent); }
+            &:focus-visible { outline: 2px solid var(--rbook-accent); outline-offset: -2px; }
+        }
+        &[open] > summary::after { content: '−'; }
+        .code-with-linenumber { margin-block: 0 8px; }
+    }
+}
+
+@media print {
+    .rbook-article .markdown-body .rbook-graphviz {
+        break-inside: avoid;
+        .rbook-graphviz__canvas { overflow: visible; border: 0; padding: 0; }
+        .rbook-graphviz__canvas svg { max-width: 100%; height: auto; }
+        .rbook-graphviz__source { display: none; }
+    }
+}

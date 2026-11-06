@@ -198,8 +198,9 @@ book/<章>/<文章目录>/
   面板显隐是纯 CSS（`input:checked + div`），没 JS 也能点；JS 只把当前标签标成
   `.is-active`。打印时会展开全部版本并在每块上方标出 `data-label`。
   `file=` 可以和标签共存：`` ```cpp [g1:C++] file=./a.cpp ``。
-- 特殊语言名：`mermaid`（前端 CDN 渲染）、`pseudocode`、`math`、`plantuml`、`dot`。
-  ⚠️ `plantuml` 与 `dot` 目前**只输出 `<pre>`**，仓库里没有对应渲染器，放进去只会看到源码。
+- 特殊语言名：`mermaid`（前端 CDN 渲染）、`pseudocode`、`math`、`plantuml`、`dot`、`viz-dot`。
+  `dot` 与 `viz-dot` 在构建期用 Graphviz 生成内联 SVG，图下提供折叠源码和复制按钮。每块只写一张图；也支持 `file=` 和代码标签页。构建机器必须安装 Graphviz 的 `dot` 命令，语法错误或生成失败会中断构建。详见 `docs/graphviz.md`。
+  ⚠️ `plantuml` 目前**只输出 `<pre>`**，仓库里没有对应渲染器，放进去只会看到源码。
 - 伪代码两种写法等价：
 
   ````md

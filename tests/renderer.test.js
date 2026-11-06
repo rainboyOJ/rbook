@@ -204,7 +204,8 @@ describe('Phase 3: 新 Markdown 渲染核心', () => {
     it('dot fence 渲染', () => {
         const md = createMarkdownRenderer({ index })
         const { content } = renderMarkdown('```dot\ndigraph G { A -> B }\n```', md)
-        assert.ok(content.includes('class="dot"'))
+        assert.ok(content.includes('class="rbook-graphviz"'))
+        assert.ok(content.includes('<svg role="img"'))
     })
 
     it('pseudocode fence 渲染', () => {

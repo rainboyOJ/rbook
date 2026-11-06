@@ -32,7 +32,8 @@ describe('发布契约 fixtures', () => {
         assertMarkers(html, [
             'class="mermaid"',
             'class="plantuml"',
-            'class="dot"',
+            'class="rbook-graphviz"',
+            '<svg role="img"',
             'class="pseudocode"',
             'markdown-it-code-copy',
         ], assert)

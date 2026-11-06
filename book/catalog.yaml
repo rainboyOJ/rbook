@@ -247,6 +247,11 @@
       path: "number_base"
     - title: "二进制"
       path: "binary"
+      children:
+        - title: "二进制基础"
+          path: "index.md"
+        - title: "二进制与集合"
+          path: "set"
     - title: "快速幂"
       path: "quick_pow"
     - title: "对数"

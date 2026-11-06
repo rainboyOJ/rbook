@@ -72,7 +72,10 @@ export function registerPlugins(md: MarkdownIt, opts: PluginRegistryOptions): vo
     // code-tabs 必须在 fence 之前注册：它在 core 阶段给同组 fence 打
     // meta.codeTabs，fence 渲染器再据此把代码块包成标签面板。
     md.use(codeTabsPlugin)
-    md.use(fencePlugin)
+    md.use(fencePlugin, {
+        diagnostics: opts.rbookLink.diagnostics,
+        currentSourcePath: opts.rbookLink.currentSourcePath,
+    })
     md.use(excalidrawPlugin, opts.excalidraw || {})
 
     // 4. 后处理可在必要时挂载 rules

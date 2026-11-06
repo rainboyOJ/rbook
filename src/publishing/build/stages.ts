@@ -111,6 +111,12 @@ export const renderPages: BuildStage = {
             throw new Error(`${result.failed} 篇文章渲染失败 (共 ${result.total} 篇): ${detail}${more}`)
         }
 
+        // 关联文档的异常由 renderMany 收集为诊断，也必须阻断发布。
+        const graphvizErrors = ctx.diagnostics.filter(d => d.phase === 'graphviz' && d.level === 'error')
+        if (graphvizErrors.length > 0) {
+            throw new Error(`${graphvizErrors.length} 个 Graphviz 图形渲染失败，请修复后重新构建`)
+        }
+
         const animationErrors = ctx.diagnostics.filter(d => d.phase === 'animate' && d.level === 'error')
         if (animationErrors.length > 0) {
             throw new Error(`${animationErrors.length} 个交互式动画引用无效，请修复后重新构建`)

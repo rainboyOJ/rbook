@@ -5,8 +5,32 @@ const katex = require('katex')
 import { renderPseudocodeBlock } from './pseudocode'
 import { renderCodeTabPane, type CodeTabMeta } from './code-tabs'
 import { highlightCode } from '../highlight'
+import { renderGraphvizSvg } from './graphviz'
+import type { Diagnostic } from '../../domain/diagnostics'
 
-export default function fencePlugin(md: MarkdownIt): void {
+interface FenceOptions {
+    diagnostics?: Diagnostic[]
+    currentSourcePath?: string
+}
+
+function renderCopyableCode(md: MarkdownIt, source: string, language: string): string {
+    const rendered = highlightCode(source, language)
+    const content = md.utils.escapeHtml(source)
+    if (!content) return rendered
+    const lineCount = source.replace(/\n$/, '').split('\n').length
+    const numbers = Array.from({ length: lineCount }, (_, i) => i + 1).join('\n')
+    return `
+<div class="code-with-linenumber line-numbers-mode">
+    <pre class="line-numbers-pre"><span class="line-numbers-wrapper" aria-hidden="true">${numbers}</span></pre>
+    ${rendered}
+    <button class="markdown-it-code-copy" data-clipboard-text="${content}" title="复制" onclick="window.myclipboard(this)">复制</button>
+</div>`
+}
+
+export default function fencePlugin(md: MarkdownIt, opts: FenceOptions = {}): void {
+    md.core.ruler.before('block', 'rbook_graphviz_counter', state => {
+        state.env.rbookGraphvizIndex = 0
+    })
     md.renderer.rules.fence = function(tokens, idx, options, env, slf) {
         const token = tokens[idx]
         const code = token.content.trim()
@@ -19,7 +43,22 @@ export default function fencePlugin(md: MarkdownIt): void {
             case 'plantuml':
                 return `<pre class="plantuml">${code}</pre>`
             case 'dot':
-                return `<pre class="dot">${code}</pre>`
+            case 'viz-dot': {
+                const svg = renderGraphvizSvg(token.content, {
+                    idPrefix: `rbook-graphviz-${++env.rbookGraphvizIndex}-`,
+                    sourcePath: env.currentMdFilePath || opts.currentSourcePath,
+                    line: token.map ? token.map[0] + 1 : undefined,
+                    diagnostics: opts.diagnostics,
+                })
+                const html = `<div class="rbook-graphviz">
+<div class="rbook-graphviz__canvas">${svg}</div>
+<details class="rbook-graphviz__source"><summary>查看 DOT 源码</summary>
+${renderCopyableCode(md, token.content, 'dot')}
+</details>
+</div>\n`
+                const tabs = token.meta && (token.meta as { codeTabs?: CodeTabMeta }).codeTabs
+                return tabs ? renderCodeTabPane(tabs, html) : html
+            }
             case 'pseudocode':
                 return renderPseudocodeBlock(code)
             case 'math':
@@ -33,24 +72,7 @@ export default function fencePlugin(md: MarkdownIt): void {
                 break
         }
 
-        const rendered = highlightCode(token.content, langName)
-        const content = md.utils.escapeHtml(token.content)
-
-        let html = rendered
-
-        if (content && content.length > 0) {
-            // 构建期生成行号列：与代码同 lineHeight、右对齐、borderRight 分隔，
-            // 样式见 markdown-r.scss 的 .line-numbers-mode（VuePress 风格）。
-            // aria-hidden + user-select:none，不影响复制与无障碍。
-            const lineCount = token.content.replace(/\n$/, '').split('\n').length
-            const numbers = Array.from({ length: lineCount }, (_, i) => i + 1).join('\n')
-            html = `
-<div class="code-with-linenumber line-numbers-mode">
-    <pre class="line-numbers-pre"><span class="line-numbers-wrapper" aria-hidden="true">${numbers}</span></pre>
-    ${rendered}
-    <button class="markdown-it-code-copy" data-clipboard-text="${content}" title="复制" onclick="window.myclipboard(this)">复制</button>
-</div>`
-        }
+        const html = renderCopyableCode(md, token.content, langName)
 
         // code-tabs 插件在 core 阶段给同组 fence 打了 meta.codeTabs，
         // 这里顺手把渲染好的代码块包成标签面板（标签栏只在第一块上输出）。
