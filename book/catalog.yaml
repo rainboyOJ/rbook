@@ -75,6 +75,8 @@
       children:
         - title: "序"
           path: "index.md"
+    - title: "广度优先搜索"
+      path: "bfs"
 - title: "贪心"
   path: "greedy"
   children:
