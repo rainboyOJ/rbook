@@ -75,16 +75,14 @@ describe('显示公式 $$ 漏解析检测', () => {
         assert.match(latex[0].message, /显示公式/)
     })
 
-    it('正常的 $$ 公式不误报', () => {
-        const { content, latex } = render('前言\n\n$$\nf(x) = x^2 + 1\n$$\n')
-        assert.ok(!content.includes('$$'), '正常公式不应残留 $$')
-        assert.equal(latex.length, 0)
-    })
+    it('正常的 $$ 公式与行内 $x$ 不误报', () => {
+        const display = render('前言\n\n$$\nf(x) = x^2 + 1\n$$\n')
+        assert.ok(!display.content.includes('$$'), '正常公式不应残留 $$')
+        assert.equal(display.latex.length, 0)
 
-    it('行内 $x$ 不受影响', () => {
-        const { content, latex } = render('设 $f(n)$ 表示方案数。\n')
-        assert.ok(content.includes('katex'))
-        assert.equal(latex.length, 0)
+        const inline = render('设 $f(n)$ 表示方案数。\n')
+        assert.ok(inline.content.includes('katex'))
+        assert.equal(inline.latex.length, 0)
     })
 })
 
@@ -112,20 +110,17 @@ describe('行内 $...$ 未解析检测', () => {
         assert.match(latex[0].message, /行内公式/)
     })
 
-    it('$x + y$ 正常，不报错', () => {
-        const { content, latex } = render('前面 $x + y$ 后面\n')
-        assert.ok(!content.includes('$x + y$'), '应已渲染为数学')
-        assert.equal(latex.length, 0)
-    })
-
-    it('$$ 显示公式内侧的空格不算问题', () => {
-        const { latex } = render('文字\n\n$$ a \\odot b $$\n')
-        assert.equal(latex.length, 0)
-    })
-
-    it('代码块里的 $ x $ 不报错', () => {
-        const { latex } = render('```\n$ keep $ me\n```\n')
-        assert.equal(latex.length, 0)
+    it('正常写法不误报：$x + y$、$$ 内侧空格、代码块里的 $', () => {
+        const cases = [
+            '前面 $x + y$ 后面\n',
+            '文字\n\n$$ a \\odot b $$\n',
+            '```\n$ keep $ me\n```\n',
+        ]
+        for (const source of cases) {
+            const { content, latex } = render(source)
+            assert.equal(latex.length, 0, source)
+            assert.ok(!content.includes('katex-error'), source)
+        }
     })
 })
 

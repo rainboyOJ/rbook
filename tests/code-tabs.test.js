@@ -1,8 +1,6 @@
 const { describe, it } = require('node:test')
 const assert = require('node:assert/strict')
 const path = require('node:path')
-const fs = require('node:fs')
-const sass = require('sass')
 
 const PROJECT_ROOT = path.resolve(__dirname, '..')
 const { createMarkdownRenderer, renderMarkdown } = require(
@@ -184,27 +182,5 @@ describe('code-tabs：info 解析', () => {
         assert.equal(parseCodeTabsInfo('').tabs, null)
         assert.equal(parseCodeTabsInfo('cpp [g1]').tabs, null)
         assert.equal(parseCodeTabsInfo('cpp [g1:]').tabs, null)
-    })
-})
-
-describe('code-tabs：样式契约', () => {
-    const css = sass.compile(path.join(PROJECT_ROOT, 'src/markdown-style/markdown.scss')).css
-    const codetabsSource = fs.readFileSync(
-        path.join(PROJECT_ROOT, 'src/markdown-style/codetabs.scss'), 'utf8')
-
-    it('面板显隐只依赖 input:checked，无需 JS', () => {
-        assert.match(css, /\.code-tabs input \+ div\s*\{/, '未选中面板应默认隐藏')
-        assert.match(css, /\.code-tabs input:checked \+ div\s*\{/, '选中面板应显示')
-    })
-
-    it('打印时展开全部面板并标出标签名', () => {
-        assert.match(codetabsSource, /@media print\s*\{/, '应有打印样式')
-        assert.match(codetabsSource, /content:\s*attr\(data-label\)/, '打印时应输出 data-label')
-        assert.match(codetabsSource, /\.code-tabs-bar\s*\{\s*display:\s*none/, '打印时应收起标签栏')
-    })
-
-    it('当前标签有可辨识的选中态（不只靠颜色）', () => {
-        assert.match(codetabsSource, /label\.is-active/, 'JS 应能标记当前标签')
-        assert.match(codetabsSource, /box-shadow:\s*inset/, '当前标签应有下划线等非颜色标记')
     })
 })

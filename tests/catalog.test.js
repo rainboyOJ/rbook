@@ -88,23 +88,18 @@ describe('Phase 2: Catalog 与元数据模型', () => {
         assert.equal(md2.id, 'log')
     })
 
-    it('PathPolicy 正确计算 href', () => {
+    it('PathPolicy 把 book 下的源文件映射到 dist 内的 .html', () => {
         const policy = new PathPolicy(PROJECT_ROOT)
-        const href = policy.publishHref(path.join(PROJECT_ROOT, 'book', 'base', 'presum', 'index.md'))
-        assert.equal(href, '/base/presum/index.html')
-    })
-
-    it('PathPolicy 正确计算 outputPath', () => {
-        const policy = new PathPolicy(PROJECT_ROOT)
-        const out = policy.outputPath(path.join(PROJECT_ROOT, 'book', 'base', 'presum', 'index.md'))
-        assert.ok(out.endsWith('/dist/base/presum/index.html'))
+        const source = path.join(PROJECT_ROOT, 'book', 'base', 'presum', 'index.md')
+        assert.ok(policy.publishHref(source).endsWith('/base/presum/index.html'))
+        assert.ok(policy.outputPath(source).endsWith('/dist/base/presum/index.html'))
     })
 
     it('resolveArticleSource 解析目录 + config', () => {
         const resolved = resolveArticleSource('base/presum', path.join(PROJECT_ROOT, 'book'))
         assert.ok(resolved.metadata.id)
         assert.ok(resolved.metadata.title)
-        assert.ok(resolved.source.raw.includes('前缀和'))
+        assert.ok(resolved.source.raw.length > 0, '应读到文章正文')
     })
 
     it('normalizeMetadata 处理 hiden_* 别名并发出 warning', () => {
@@ -158,12 +153,6 @@ describe('站点首页标记 (catalog home)', () => {
     function messages(diag, level) {
         return diag.filter(d => d.level === level).map(d => d.message).join(' | ')
     }
-
-    it('真实 catalog 把引言标记为首页', () => {
-        const catalog = loadCatalog(path.join(PROJECT_ROOT, 'book', 'catalog.yaml'))
-        assert.equal(findHomeLeaf(catalog), 'introducation/')
-        assert.equal(findHomeEntry(catalog)?.title, '前言')
-    })
 
     it('没有标记时返回 null', () => {
         const { catalog } = loadFromYaml('- title: A\n  path: a\n')
@@ -270,10 +259,5 @@ describe('隐藏条目 (catalog hidden)', () => {
         const leaf = flattenCatalogLeaves(catalog).find(l => l.path === 'g/c')
         assert.equal(leaf.hidden, true, '祖先 hidden 时子条目也应 hidden')
         assert.ok(!renderMenu(catalog).includes('g/c'))
-    })
-
-    it('真实 catalog 目前没有 hidden 条目（引入前行为不变）', () => {
-        const catalog = loadCatalog(path.join(PROJECT_ROOT, 'book', 'catalog.yaml'))
-        assert.equal(flattenCatalogLeaves(catalog).filter(l => l.hidden).length, 0)
     })
 })

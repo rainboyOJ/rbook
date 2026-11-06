@@ -161,8 +161,7 @@ Heti 的基础排版参数可以作为第一版基线：
 
 排版 fixture 已落在 [tests/fixtures/markdown/typography.md](../tests/fixtures/markdown/typography.md)，
 覆盖第 1～4 项（第 5 项的浅/暗色、窄/宽屏状态需要浏览器人工切换检查）。
-对应构建检查见 [tests/fixture.test.js](../tests/fixture.test.js) 的
-typography 用例与 [tests/markdown-style.test.js](../tests/markdown-style.test.js) 的排版变量用例。
+对应构建检查见 [tests/fixture.test.js](../tests/fixture.test.js) 的 typography 用例。
 
 浏览器人工检查至少覆盖桌面宽度和手机宽度，并记录字体回退、代码滚动、行号对齐、链接对比度和正文横向溢出结果。
 

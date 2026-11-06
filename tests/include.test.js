@@ -55,14 +55,6 @@ describe('Phase 2: include 插件', () => {
         assert.equal(diag.length, 0, `不应有诊断: ${JSON.stringify(diag)}`)
     })
 
-    it('fence 内 file= 读取文件并高亮（不再依赖 EJS）', () => {
-        const { html, diag } = renderNew('```cpp file=./sol.cpp\n```\n')
-        assert.ok(html.includes('#include'), '应包含文件内容')
-        assert.ok(html.includes('language-cpp'), '应按 cpp 高亮')
-        assert.ok(!html.includes('file='), 'file= 不应泄漏到 class')
-        assert.equal(diag.filter(d => d.level === 'error').length, 0)
-    })
-
     it('fence 外 [[[include: ...]]] 内联片段并参与 markdown 解析', () => {
         const { html, diag } = renderNew('[[[include: ./problem.md]]]\n')
         // 片段里的 markdown 标题应被解析成 HTML

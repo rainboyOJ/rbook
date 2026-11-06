@@ -141,21 +141,33 @@ describe('动画卡片 Markdown 扩展', () => {
         assert.equal((content.match(/rbook-dsa-card--error/g) || []).length, 3)
     })
 
-    it('代码块与行内代码里的语法保持原文不展开', t => {
+    it('代码块、行内代码与未闭合围栏里的指令都保持原文，围栏外照常展开', t => {
         const setup = fixture()
         t.after(() => fs.rmSync(setup.root, { recursive: true, force: true }))
 
-        const { content, diagnostics } = render(
-            '用 `[[[dsa: plain]]]` 这样写。\n\n```md\n[[[dsa: plain]]]\n```\n',
+        // 行内代码 + 围栏（围栏里两条指令）：都必须是原文，且不应产生诊断。
+        const literal = render(
+            '用 `[[[dsa: plain]]]` 这样写。\n\n```md\n[[[dsa: plain]]]\n\n[[[dsa: rich]]]\n```\n',
             setup,
         )
+        assert.doesNotMatch(literal.content, /class="rbook-dsa-card"/)
+        const inline = literal.content.match(/<code>\[\[\[dsa: plain\]\]\]<\/code>/)
+        assert.ok(inline, '行内代码应保持原文')
+        // 回归：早期实现只保护围栏内的第一条指令，后续指令仍会被展开。
+        const fenced = [...literal.content.matchAll(/<code[^>]*>([\s\S]*?)<\/code>/g)]
+            .map(m => m[1])
+            .find(text => text.includes('dsa: rich'))
+        assert.ok(fenced, '围栏里第二条指令也应保留')
+        assert.equal((fenced.match(/\[\[\[dsa:/g) || []).length, 2)
+        assert.deepEqual(literal.diagnostics, [])
 
-        // 两处都必须是原文，且不应产生任何诊断（围栏内容会同时出现在
-        // <code> 和复制按钮的 data-clipboard-text 里，所以按行首锚点计数）
-        assert.match(content, /<code[^>]*>\[\[\[dsa: plain\]\]\]/)
-        assert.match(content, /<code>\[\[\[dsa: plain\]\]\]<\/code>/)
-        assert.doesNotMatch(content, /class="rbook-dsa-card"/)
-        assert.deepEqual(diagnostics, [])
+        // 卡片夹在两个围栏之间：仍应渲染成卡片。
+        const between = render('```cpp\nint x;\n```\n\n[[[dsa: plain]]]\n\n```cpp\nint y;\n```\n', setup)
+        assert.equal((between.content.match(/class="rbook-dsa-card"/g) || []).length, 1)
+
+        // 未闭合围栏：markdown-it 会吃到底，卡片不应被展开。
+        const unclosed = render('```md\n[[[dsa: plain]]]\n', setup)
+        assert.doesNotMatch(unclosed.content, /class="rbook-dsa-card"/)
     })
 
     it('被 include 的片段里的卡片同样展开', t => {
@@ -171,36 +183,6 @@ describe('动画卡片 Markdown 扩展', () => {
         assert.match(content, /class="rbook-dsa-card"/)
         assert.match(content, /href="https:\/\/anima1\.example\/plain\/"/)
         assert.deepEqual(diagnostics, [])
-    })
-
-    it('围栏里的多条指令都保持原文（不止第一条）', t => {
-        const setup = fixture()
-        t.after(() => fs.rmSync(setup.root, { recursive: true, force: true }))
-
-        // 回归：早期实现会把围栏拆成首尾两个片段，
-        // 导致围栏内部只剩第一条指令被保护，后面几条仍然被展开。
-        const src = '```md\n[[[dsa: plain]]]\n\n[[[dsa: rich]]]\n```\n'
-        const { content, diagnostics } = render(src, setup)
-
-        assert.doesNotMatch(content, /class="rbook-dsa-card"/)
-        // 围栏正文（含复制按钮的副本）里两条指令都应保持字面量
-        const code = content.match(/<code[^>]*>([\s\S]*?)<\/code>/)
-        assert.ok(code, '应渲染出代码块')
-        assert.equal((code[1].match(/\[\[\[dsa:/g) || []).length, 2)
-        assert.deepEqual(diagnostics, [])
-    })
-
-    it('围栏外的卡片不受相邻围栏影响，且未闭合围栏也不漏', t => {
-        const setup = fixture()
-        t.after(() => fs.rmSync(setup.root, { recursive: true, force: true }))
-
-        // 卡片夹在两个围栏之间：仍应渲染成卡片
-        const between = render('```cpp\nint x;\n```\n\n[[[dsa: plain]]]\n\n```cpp\nint y;\n```\n', setup)
-        assert.equal((between.content.match(/class="rbook-dsa-card"/g) || []).length, 1)
-
-        // 未闭合围栏：markdown-it 会吃到底，卡片不应被展开
-        const unclosed = render('```md\n[[[dsa: plain]]]\n', setup)
-        assert.doesNotMatch(unclosed.content, /class="rbook-dsa-card"/)
     })
 
     it('manifest 结构不正确时立即抛错而不是静默跳过', t => {

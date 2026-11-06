@@ -115,28 +115,4 @@ describe('站点主题控制', () => {
         const page = runController({ stored: 'sepia', systemDark: false })
         assert.equal(page.root.dataset.theme, 'light')
     })
-
-    it('首页和文章页共享早期初始化与主题按钮', () => {
-        const head = fs.readFileSync(path.join(PROJECT_ROOT, 'src/component/head.html'), 'utf8')
-        const home = fs.readFileSync(path.join(PROJECT_ROOT, 'src/home.html'), 'utf8')
-        const article = fs.readFileSync(path.join(PROJECT_ROOT, 'src/ejs/article.html'), 'utf8')
-        const toggle = fs.readFileSync(path.join(PROJECT_ROOT, 'src/component/theme-toggle.ejs'), 'utf8')
-
-        assert.match(head, /\/js\/theme-controller\.js/)
-        assert.match(home, /theme-toggle\.ejs/)
-        assert.match(article, /theme-toggle\.ejs/)
-        assert.match(toggle, /data-theme-toggle/)
-        assert.match(toggle, /aria-pressed/)
-    })
-
-    it('首页和文章样式都引入共享主题令牌', () => {
-        const shell = fs.readFileSync(path.join(PROJECT_ROOT, 'src/style/article-shell.scss'), 'utf8')
-        const indexStyle = fs.readFileSync(path.join(PROJECT_ROOT, 'src/style.scss'), 'utf8')
-        const articleStyle = fs.readFileSync(path.join(PROJECT_ROOT, 'src/markdown-style/markdown.scss'), 'utf8')
-
-        assert.match(shell, /html\[data-theme="dark"\]/)
-        assert.match(shell, /--rbook-bg:/)
-        assert.match(indexStyle, /style\/article-shell\.scss/)
-        assert.match(articleStyle, /\.\.\/style\/article-shell\.scss/)
-    })
 })

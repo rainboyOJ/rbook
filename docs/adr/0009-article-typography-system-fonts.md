@@ -24,4 +24,4 @@ Rbook 的文章正文采用现代无衬线系统字体，代码采用系统等�
 
 - 排版变量落在 `src/style/article-shell.scss`（`--rbook-font-*`、`--rbook-body-*`、`--rbook-code-*`、`--rbook-article-width`），规则落在 `src/markdown-style/typography.scss`，均限定在 `.rbook-article .markdown-body` 内。
 - 随本决策一起移除了 `markdown.scss` 与 `style.scss` 的 62.5% 根字号缩放；受影响的旧 `rem` 值已按原有效像素换算为 `px`，避免因根字号改为 16px 而意外放大。
-- 验证 fixture：`tests/fixtures/markdown/typography.md`（构建期检查见 `tests/fixture.test.js` 与 `tests/markdown-style.test.js`）。
+- 验证 fixture：`tests/fixtures/markdown/typography.md`（构建期检查见 `tests/fixture.test.js`）。

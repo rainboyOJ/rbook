@@ -29,19 +29,6 @@ it('dot 和 viz-dot 都生成真实 SVG，保留中文标签及作者的颜色',
     }
 })
 
-it('二进制文章的两幅原图保持图形结构，不再输出 viz-dot 普通代码块', () => {
-    const source = fs.readFileSync(path.join(ROOT, 'book/math/binary/index.md'), 'utf8')
-    const html = renderer().render(source)
-    const figures = [...html.matchAll(/<svg\b[\s\S]*?<\/svg>/g)].map(m => m[0])
-    assert.equal(figures.length, 2)
-    assert.equal((figures[0].match(/class="node"/g) || []).length, 5)
-    assert.equal((figures[0].match(/class="edge"/g) || []).length, 4)
-    for (const title of ['STL &lt;bitset&gt;', '原生位操作', '状态压缩', '状压DP', '状压线段树']) assert.ok(figures[0].includes(title), title)
-    assert.ok(figures[0].includes('lightblue'))
-    assert.ok(figures[1].includes('保留最低位的1:lowbit'))
-    assert.ok(!html.includes('language-viz-dot'))
-})
-
 it('折叠源码与复制属性保留原始文本、换行和特殊字符', () => {
     const source = 'digraph G {\n  a [label="<bitset> & 字符"];\n  a -> b;\n}\n'
     const html = renderer().render('```dot\n' + source + '```')

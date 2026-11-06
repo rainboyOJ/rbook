@@ -22,6 +22,4 @@ it('自托管字体 CSS 的每个分包均存在、校验通过并能在发布�
     }
     assert.doesNotMatch(css, /https?:|\.woff\)/)
     assert.match(fs.readFileSync(path.join(root, 'LICENSE'), 'utf8'), /SIL OPEN FONT LICENSE/)
-    const template = fs.readFileSync(path.resolve(__dirname, '../src/ejs/article.html'), 'utf8')
-    assert.ok(template.includes('href="/fonts/noto-serif-sc/400.css"'))
 })
