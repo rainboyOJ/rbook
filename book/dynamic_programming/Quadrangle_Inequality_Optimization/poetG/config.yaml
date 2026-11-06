@@ -1,0 +1,7 @@
+id: poetG
+title: 诗人小G
+file: index.md
+pre:
+  - stone_merger_quadrangle
+  - decision_mono
+group: problem

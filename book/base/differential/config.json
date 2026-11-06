@@ -1,8 +1,0 @@
-{
-    "id":"differential",
-    "title":"差分",
-    "file":"index.md",
-    "copy" : [
-        "./matrix.svg"
-    ]
-}

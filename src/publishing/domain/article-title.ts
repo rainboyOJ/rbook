@@ -12,12 +12,12 @@
  * 注意 `header.title` 不是 md 的第一个 H1，而是 renderMarkdown 从 md 的 YAML
  * frontmatter 里读出来的 `title:`（见 markdown/create-markdown-renderer.ts）。
  *
- * 背景：`config.json` 是可选的，`book/<章节>/practice.md` 这类叶子可能既没有 config
+ * 背景：`config.yaml` 是可选的，`book/<章节>/practice.md` 这类叶子可能既没有 config
  * 也没有 frontmatter，于是 `metadata.title` 与 `header.title` 都为空。以前这里会落成
  * 「未知」，现在优先用 `catalog.yaml` 的 title 兜底——它由 catalog-loader 保证非空。
  */
 export interface ArticleTitleInput {
-    /** 文章目录 config.json 里的 title */
+    /** 文章目录 config.yaml 里的 title */
     metadataTitle?: string
     /** md frontmatter 里的 title（renderMarkdown 的 header.title） */
     headerTitle?: string

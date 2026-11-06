@@ -1,0 +1,5 @@
+id: fibonacci
+title: 斐波那契数列
+file: index.md
+copy:
+  - ./tree.svg
