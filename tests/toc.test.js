@@ -2,9 +2,10 @@ const { it } = require('node:test')
 const assert = require('node:assert/strict')
 const { createMarkdownRenderer } = require('../.tsbuild/publishing/markdown/create-markdown-renderer.js')
 
-function renderer() {
+function renderer(options = {}) {
     return createMarkdownRenderer({
         index: { byId: new Map(), bySourcePath: new Map(), byPublishHref: new Map(), all: [] },
+        ...options,
     })
 }
 
@@ -18,7 +19,8 @@ it('[[toc]] 生成分层目录，中文、格式化和重复标题均链接到�
         assert.ok(html.includes(`id="${id}"`))
     }
     assert.ok(html.includes('id="重复-code"'))
-    assert.ok(!nav.includes('重复'))
+    assert.ok(nav.includes('href="#重复-code"'))
+    assert.match(nav, /href="#中文标题"[\s\S]*?<ol><li><a href="#重复-code"/)
     assert.ok(!nav.includes('文章标题'))
 })
 
@@ -38,14 +40,14 @@ it('章节和目录共享编号，作者编号不叠加，旧锚点和内联格�
     const headings = [...html.matchAll(/<h[23][^>]*data-heading-number="([^"]+)"/g)].map(m => m[1])
     const tocNumbers = [...html.matchAll(/class="rbook-toc-number">([^<]*)</g)].map(m => m[1])
     assert.deepEqual(headings, ['1', '1.1', 'P1', 'P2', '2', '一、', 'P3：', '2.3', '2.4', '2.1'])
-    assert.deepEqual(tocNumbers, ['1', '2'])
+    assert.deepEqual(tocNumbers, headings)
     for (const id of ['基础', '进阶']) {
         assert.ok(html.includes(`id="${id}"`), id)
         assert.ok(html.includes(`href="#${id}"`), id)
     }
     for (const id of ['p1-子树', 'p2-区间', 'p3祖先', '21-手工编号']) {
         assert.ok(html.includes(`id="${id}"`), id)
-        assert.ok(!html.match(new RegExp(`href="#${id}"`)), id)
+        assert.ok(html.includes(`href="#${id}"`), id)
     }
     assert.ok(!html.includes('data-heading-number="1.2 P1"'))
 })
@@ -55,6 +57,29 @@ it('标题可从 H3 开始，重置到新 H1，转义目录文字且不拆分中
     assert.deepEqual([...html.matchAll(/data-heading-number="([^"]+)"/g)].map(m => m[1]), ['1', '1.1', '1', '1.1', '1.2'])
     const nav = html.match(/<nav[\s\S]*?<\/nav>/)[0]
     assert.ok(nav.includes('&lt;script&gt; &amp; 说明'))
-    assert.ok(!nav.includes('例子 P1 仍是标题文字'))
+    assert.ok(nav.includes('例子 P1 仍是标题文字'))
+    assert.ok(nav.includes('href="#起点"'))
+    assert.ok(!nav.includes('下级'))
     assert.ok(html.includes('<strong>正文</strong> <code>&lt;script&gt;</code>'))
+})
+
+it('只有三级标题的文章仍有目录，四级标题不进入目录', () => {
+    const html = renderer().render('[[TOC]]\n\n### 第一节\n\n#### 细节\n\n### 第二节')
+    const nav = html.match(/<nav[\s\S]*?<\/nav>/)[0]
+    assert.deepEqual([...nav.matchAll(/href="#([^"]+)"/g)].map(m => m[1]), ['第一节', '第二节'])
+    assert.ok(html.includes('id="细节"'))
+})
+
+it('目录保留题目链接的可见标题并转义，原有标题锚点不变', () => {
+    const md = renderer({
+        problemProvider: {
+            getProblemById: () => ({ link: '/problem/3384', oj: 'luogu', sid: 'P3384', title: '树链剖分 & 子树' }),
+        },
+    })
+    const html = md.render('[[TOC]]\n\n## 例题\n\n### 1. [[[p: luogu-P3384]]]')
+    const nav = html.match(/<nav[\s\S]*?<\/nav>/)[0]
+    assert.ok(nav.includes('树链剖分 &amp; 子树'))
+    assert.ok(!nav.includes('<img'))
+    assert.ok(html.includes('id="1"'))
+    assert.ok(nav.includes('href="#1"'))
 })

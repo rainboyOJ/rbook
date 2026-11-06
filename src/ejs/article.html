@@ -24,6 +24,7 @@
           <%- include("../component/theme-toggle.ejs") %>
           <button class="rbook-tool-button" type="button" id="full-button">全屏</button>
         </div>
+        <div class="rbook-reading-layout">
         <article class="rbook-article">
     <div class="info-header">
         <%- include("./component/title.html")%>
@@ -57,11 +58,13 @@
         <%- content %>
     </div>
         </article>
+        </div>
       </main>
     </div>
     <script src="/bootstrap-5.3.2-dist/js/bootstrap.bundle.min.js"> </script>
     <script src="/js/article.js"></script>
     <script type="module" src="/js/site-shell.js"></script>
+    <script type="module" src="/js/article-toc.js"></script>
     <script type="module" src="/js/animation-runtime.js"></script>
     <script type="module" src="/js/mermaid-theme.js"></script>
   </body>

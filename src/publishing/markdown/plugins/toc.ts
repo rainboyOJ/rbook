@@ -20,7 +20,7 @@ const AUTHOR_NUMBER = /^(P\d+|(?:性质|定理|引理|推论|例题|例)\s*\d+)(
 
 export default function tocPlugin(md: MarkdownIt): void {
     const anchorOptions = { level: [2, 3, 4, 5, 6], slugify }
-    const tocOptions = { level: [2], slugify }
+    const tocOptions = { level: [2, 3], slugify }
     md.use(anchor, anchorOptions)
     md.use(toc, tocOptions)
 
@@ -45,8 +45,15 @@ export default function tocPlugin(md: MarkdownIt): void {
             counters[level]++
             counters.fill(0, level + 1)
             const title = inline.children
-                .filter(t => t.type === 'text' || t.type === 'code_inline')
-                .map(t => t.content).join('')
+                .map(t => {
+                    if (t.type === 'text' || t.type === 'code_inline' || t.type === 'image') return t.content
+                    // 题目链接是专用 token，保留其可见标题；锚点仍使用此前按原文生成的 id。
+                    if (t.type === 'rbook_link') {
+                        const html = md.renderer.renderInline([t], md.options, state.env)
+                        return md.utils.unescapeAll(html.replace(/<[^>]*>/g, ''))
+                    }
+                    return ''
+                }).join('')
             // 只有前缀完整存在于开头的 text token 中才拆分，保留强调/代码等内联结构。
             const firstText = inline.children.find(t => t.type !== 'strong_open' && t.type !== 'em_open' && !(t.type === 'text' && t.content === ''))
             const match = firstText?.type === 'text' ? firstText.content.match(AUTHOR_NUMBER) : null
@@ -62,7 +69,7 @@ export default function tocPlugin(md: MarkdownIt): void {
             suffix.content = '</span>'
             inline.children = [prefix, ...inline.children, suffix]
 
-            if (level === 2) {
+            if (level <= 3) {
                 const entry: OutlineEntry = {
                     level, id: heading.attrGet('id') || slugify(title), number,
                     title: displayTitle, children: [],

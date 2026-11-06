@@ -1,0 +1,134 @@
+// 以正文可用宽度决定是否放置侧栏，全屏阅读同样适用。
+.rbook-main { container: rbook-reading / inline-size; }
+.rbook-reading-layout { min-width: 0; }
+.rbook-toc-rail { display: none; }
+.rbook-reading-layout .table-of-contents li::before { content: none; }
+
+.rbook-reading-layout details.rbook-toc {
+    min-width: 0;
+    margin: 0 0 32px;
+    color: var(--rbook-muted);
+    font: 14px/24px var(--rbook-font-heading);
+    text-indent: 0;
+
+    > summary {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 44px;
+        padding: 8px 0;
+        border: 0;
+        border-block: 1px solid var(--rbook-border);
+        border-radius: 0;
+        background: transparent;
+        color: var(--rbook-text);
+        font: 600 14px/24px var(--rbook-font-heading);
+        list-style: none;
+        cursor: pointer;
+        &::-webkit-details-marker { display: none; }
+        &::before { content: none; }
+        &::after { content: '+'; font-size: 20px; font-weight: 400; opacity: 1; float: none; }
+    }
+    &[open] > summary {
+        margin: 0 0 12px;
+        &::after { content: '−'; }
+    }
+    > .rbook-toc-caption { display: none; }
+
+    .table-of-contents {
+        position: relative;
+        margin: 0;
+        padding: 0;
+        border-inline-start: 1px solid var(--rbook-border);
+        font: inherit;
+        max-height: min(60vh, 480px);
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        scrollbar-width: thin;
+        &::before { display: none; }
+        ol { list-style: none; margin: 0; padding: 0; }
+        li { margin: 0; padding: 0; }
+        li > ol { display: none; padding: 0 0 6px 12px; }
+        li.is-current-section > ol { display: block; }
+        a {
+            position: relative;
+            display: grid;
+            grid-template-columns: max-content minmax(0, 1fr);
+            gap: 8px;
+            padding: 7px 12px;
+            color: var(--rbook-muted);
+            font-weight: 400;
+            text-decoration: none;
+            overflow-wrap: anywhere;
+            transition: color 160ms ease;
+            &::before {
+                content: '';
+                position: absolute;
+                inset-inline-start: 0;
+                top: 9px;
+                width: 2px;
+                height: 20px;
+                background: var(--rbook-accent);
+                opacity: 0;
+                transition: opacity 160ms ease;
+            }
+            &:hover { color: var(--rbook-text); text-decoration: none; }
+            &.is-active {
+                color: var(--rbook-accent);
+                font-weight: 600;
+                &::before { opacity: 1; }
+                .rbook-toc-number { color: inherit; }
+            }
+        }
+        .rbook-toc-number { color: var(--rbook-muted); font-variant-numeric: tabular-nums; }
+    }
+
+    a:focus-visible, > summary:focus-visible {
+        outline: 2px solid var(--rbook-accent);
+        outline-offset: -2px;
+    }
+}
+
+@container rbook-reading (min-width: 1040px) {
+    .rbook-reading-layout.has-toc {
+        display: grid;
+        grid-template-columns: minmax(0, 732px) 224px;
+        gap: 32px;
+        max-width: 1036px;
+        margin-inline: auto;
+        padding-inline: 24px;
+        align-items: start;
+
+        > .rbook-article { min-width: 0; padding-inline: 0; }
+        > .rbook-toc-rail {
+            display: block;
+            position: sticky;
+            top: 48px;
+            max-height: calc(100dvh - 96px);
+            padding-top: 4px;
+            margin-top: 48px;
+            .rbook-toc { margin: 0; }
+            .rbook-toc > summary { display: none; }
+            .rbook-toc-caption {
+                display: block;
+                margin-bottom: 16px;
+                color: var(--rbook-text);
+                font-size: 12px;
+                font-weight: 600;
+                letter-spacing: 0.12em;
+            }
+            .table-of-contents { max-height: calc(100dvh - 140px); }
+        }
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rbook-reading-layout .rbook-toc .table-of-contents a,
+    .rbook-reading-layout .rbook-toc .table-of-contents a::before { transition: none; }
+}
+
+@media print {
+    .rbook-main { container-type: normal; }
+    .rbook-reading-layout.has-toc { display: block; padding: 0; }
+    .rbook-toc-rail, .rbook-toc { display: none !important; }
+}
