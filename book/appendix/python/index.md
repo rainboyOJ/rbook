@@ -3,6 +3,8 @@ title: 有用的python
 status: TODO
 ---
 
+[[TOC]]
+
 ## 说明
 
 比赛可以使用python3,学一下python3,很有用的.

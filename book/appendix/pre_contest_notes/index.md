@@ -1,3 +1,5 @@
+[[TOC]]
+
 <style>
   /* 正文默认 max-width: 672px（为散文阅读设计的栏宽），PDF 需要占满整个文章区 */
   .markdown-body:has(> iframe.pdf-viewer) {

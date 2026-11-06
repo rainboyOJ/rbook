@@ -4,6 +4,8 @@ author: rainboy
 update_time : 2023-04-27
 ---
 
+[[TOC]]
+
 # vscode的使用
 
 - [VS Code 配置 DeepSeek](./deepseek.md)

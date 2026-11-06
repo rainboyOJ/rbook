@@ -4,6 +4,8 @@ author: rainboy
 update_time: 2026-10-05
 ---
 
+[[TOC]]
+
 # VS Code 配置 DeepSeek
 
 写算法题时，我们可以在 VS Code 中让 DeepSeek 帮忙解释编译错误、检查边界情况，或者讨论自己的解题思路。本篇介绍如何安装 `deepseek-v4-for-copilot` 扩展，把 DeepSeek 接入 **Copilot Chat**，并用它辅助学习。

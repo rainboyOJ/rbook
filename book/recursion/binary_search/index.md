@@ -1,3 +1,5 @@
+[[TOC]]
+
 ## 问题
 
 [[[include: ./problem.md]]]

@@ -1,3 +1,5 @@
+[[TOC]]
+
 
 根据均值不等式，$A_n \geqslant G_n$
 

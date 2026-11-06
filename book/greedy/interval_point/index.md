@@ -1,3 +1,5 @@
+[[TOC]]
+
 ## 区间选点证明
 
 题目：Radar Installation AcWing112

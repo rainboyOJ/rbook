@@ -1,3 +1,5 @@
+[[TOC]]
+
 ## 核心
 
 ::: oneWordAlgo

@@ -3,6 +3,8 @@ title: tarjan求图的割点
 status: TODO
 ---
 
+[[TOC]]
+
 
 ## 原理
 

@@ -1,3 +1,5 @@
+[[TOC]]
+
 ## 题目
 
 https://roj.ac.cn/roj/1265/index.html
