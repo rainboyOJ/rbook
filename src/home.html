@@ -22,7 +22,9 @@
         </div>
         <div class="main sticky-footer__main rbook-layout" style="">
             <div class="rbook-sidebar box" id="sidebar">
-                <nav aria-label="文章目录"><%- menu.html %></nav>
+                <%- include("./component/sidebar-search.ejs") %>
+                <nav id="sidebar-tree" aria-label="文章目录"><%- menu.html %></nav>
+                <nav id="sidebar-results" class="rbook-sidebar-results" aria-label="搜索结果" hidden></nav>
             </div>
             <div class="article rbook-main box">
                 <article class="rbook-article">

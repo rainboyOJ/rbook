@@ -110,6 +110,39 @@ html, body {
 .rbook-sidebar .item:hover, .rbook-sidebar .item.active { background: var(--rbook-accent-muted); color: var(--rbook-accent); }
 .rbook-sidebar li > ul { display: none; }
 .rbook-sidebar li.active > ul { display: block; }
+.rbook-sidebar [hidden] { display: none !important; }
+.rbook-sidebar.has-search { padding-top: 0; }
+.rbook-sidebar .rbook-menu-title { min-width: 0; }
+
+.rbook-sidebar-search {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    margin: 0 -10px 12px;
+    padding: 12px 10px 10px;
+    border-bottom: 1px solid var(--rbook-border);
+    background: var(--rbook-surface);
+
+    label { display: block; margin-bottom: 7px; color: var(--rbook-text); font: 600 12px/20px var(--rbook-font-heading); letter-spacing: 0.06em; }
+    &__field { display: flex; align-items: center; min-height: 44px; border: 1px solid var(--rbook-border); border-radius: 3px; background: var(--rbook-bg); }
+    &__field:focus-within { border-color: var(--rbook-accent); outline: 1px solid var(--rbook-accent); }
+    input { flex: 1; min-width: 0; width: 100%; height: 44px; padding: 8px 10px; border: 0; border-radius: 0; outline: 0; background: transparent; color: var(--rbook-text); font: 14px/24px var(--rbook-font-heading); }
+    input::placeholder { color: var(--rbook-muted); opacity: 1; }
+    input::-webkit-search-cancel-button { display: none; }
+    button { flex: 0 0 44px; height: 44px; padding: 0; border: 0; background: transparent; color: var(--rbook-muted); font: 24px/1 var(--rbook-font-heading); cursor: pointer; }
+    button:hover { color: var(--rbook-text); }
+    p { margin: 7px 0 0; color: var(--rbook-muted); font: 12px/20px var(--rbook-font-heading); }
+}
+
+.rbook-sidebar .rbook-sidebar-results {
+    li { margin: 0 0 4px; padding: 0; }
+    .item { display: block; min-height: 60px; padding: 9px 10px; overflow-wrap: anywhere; }
+    .rbook-sidebar-result__title { display: block; font-size: 14px; font-weight: 500; line-height: 24px; }
+    .rbook-sidebar-result__path { display: block; margin-top: 2px; color: var(--rbook-muted); font-size: 12px; line-height: 20px; }
+    mark { padding: 0; background: var(--rbook-accent-muted); color: var(--rbook-accent); font-weight: 600; }
+    .rbook-sidebar-search__empty { margin: 0; padding: 14px 10px; color: var(--rbook-muted); font-size: 14px; line-height: 24px; }
+}
+.rbook-sidebar :is(.rbook-sidebar-results a, .rbook-sidebar-search button):focus-visible { outline: 2px solid var(--rbook-accent); outline-offset: -2px; }
 
 .rbook-main { min-width: 0; position: relative; background: var(--rbook-bg); color: var(--rbook-text); }
 // 文章壳层几何使用 px，避免依赖根字号（文章页已移除 62.5% 根字号缩放）。
@@ -262,6 +295,8 @@ html[data-theme="dark"] .theme-toggle__sun { display: block; }
     .rbook-layout { display: block; }
     .rbook-sidebar { position: fixed; left: -310px; z-index: 1002; width: 300px; padding-top: 52px; transition: left .2s ease; }
     .rbook-sidebar.active { left: 0; }
+    .rbook-sidebar-search { padding-top: 56px; }
+    .rbook-sidebar-search input { font-size: 16px; }
     .button-menu { display: block; position: fixed; top: 10px; left: 10px; z-index: 1003; }
     .rbook-page-tools { right: 10px; bottom: 12px; }
     .rbook-article { padding-top: 56px; }

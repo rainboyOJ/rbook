@@ -259,8 +259,8 @@ describe('隐藏条目 (catalog hidden)', () => {
         assert.equal(leaves.find(l => l.path === 'a').hidden, false)
 
         const html = renderMenu(catalog)
-        assert.ok(html.includes('a'), '可见条目应在侧边栏')
-        assert.ok(!html.includes('b'), 'hidden 条目不应在侧边栏')
+        assert.ok(html.includes('href="/a/index.html"'), '可见条目应在侧边栏')
+        assert.ok(!html.includes('href="/b/index.html"'), 'hidden 条目不应在侧边栏')
     })
 
     it('hidden 会向子树传播', () => {
