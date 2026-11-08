@@ -1,35 +1,56 @@
-//linklist
+#include <bits/stdc++.h>
+using namespace std;
 
-linklist<int> e;
-queue<int> que;
+int n, m;
+vector<vector<int>> e; // e[u] 保存从 u 出发的边的终点
+vector<int> in_deg;     // 运行中表示剩余入度，会被 topsort 修改
+vector<int> ta;         // 拓扑排序输出的顶点序列
 
-int in_deg[maxn]; //每个点的入度
+bool topsort() {
+    queue<int> q;
+    ta.clear();
 
-//存topsort的结果
-int ta[maxn];
-int ta_cnt;
-
-void topsort() {
-    // 把入度为0的点加入队列里
-    for(int i = 1;i <= n ;++i ) // i: 1->n
-    {
-        if( in_deg[i] == 0) q.push(i);
+    for (int u = 1; u <= n; ++u) {
+        if (in_deg[u] == 0) q.push(u);
     }
 
-    //队列不空
-    while( !q.empty())
-    {
+    while (!q.empty()) {
         int u = q.front();
         q.pop();
-        //放到结果队列里
-        ta_cnt++;
-        ta[ta_cnt] = u;
+        ta.push_back(u);
 
-        for(int i = e.h[u]; ~i;i = e.e[i].next) 
-        {
-            int v = e.e[i].v;
-            --in_deg[v];
-            if( in_deg[v] == 0) q.push(v);
+        for (int v : e[u]) {
+            --in_deg[v]; // 删除 u -> v，解除一条依赖
+            if (in_deg[v] == 0) q.push(v);
         }
     }
+
+    return static_cast<int>(ta.size()) == n;
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    cin >> n >> m;
+    e.resize(n + 1);
+    in_deg.assign(n + 1, 0);
+    for (int i = 0; i < m; ++i) {
+        int u, v;
+        cin >> u >> v;
+        e[u].push_back(v);
+        ++in_deg[v];
+    }
+
+    if (!topsort()) {
+        cout << "Cycle\n";
+        return 0;
+    }
+
+    for (int i = 0; i < n; ++i) {
+        if (i > 0) cout << ' ';
+        cout << ta[i];
+    }
+    cout << '\n';
+    return 0;
 }
