@@ -46,6 +46,23 @@ it('清空、无结果及 HTML/正则字符都作为普通查询处理', () => {
     assert.deepEqual(filterSidebarEntries([{ title: 'a+b', breadcrumb: 'C++', href: '/' }], 'c++'), [{ title: 'a+b', breadcrumb: 'C++', href: '/' }])
 })
 
+it('菜单显示短名时，英文 id 与正文长标题也能搜到同一篇', () => {
+    const { filterSidebarEntries } = helpers()
+    const lis = {
+        title: 'LIS',
+        breadcrumb: '动态规划',
+        articleId: 'lis',
+        articleTitle: '最长上长子序列',
+        href: '/lis/',
+    }
+    const entries = [...articles, lis]
+    assert.deepEqual(filterSidebarEntries(entries, 'lis'), [lis])
+    assert.deepEqual(filterSidebarEntries(entries, '最长上长'), [lis])
+    assert.deepEqual(filterSidebarEntries(entries, '动态规划 子序列'), [lis])
+    // 没有 data-* 的旧条目照旧只按菜单名和面包屑匹配
+    assert.deepEqual(filterSidebarEntries(entries, 'toposort'), [])
+})
+
 it('恢复搜索时校验关键词和结果滚动位置，不接受坏存储', () => {
     assert.equal(helpers().readSidebarSearch(), null)
     assert.equal(helpers('bad json').readSidebarSearch(), null)

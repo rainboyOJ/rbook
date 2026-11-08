@@ -22,7 +22,7 @@ const { normalizeMetadata } = require(path.join(PROJECT_ROOT, '.tsbuild/publishi
 const { PathPolicy } = require(path.join(PROJECT_ROOT, '.tsbuild/publishing/content/path-policy.js'))
 const { formatDiagnostic } = require(path.join(PROJECT_ROOT, '.tsbuild/publishing/domain/diagnostics.js'))
 const { CONFIG_FILE_NAMES, loadConfig } = require(path.join(PROJECT_ROOT, '.tsbuild/publishing/content/config-loader.js'))
-const { titleNeedsAuthoring, frontMatterTitle } = require(path.join(PROJECT_ROOT, '.tsbuild/publishing/domain/article-title.js'))
+const { titleNeedsAuthoring, frontMatterTitle, menuTitleWidth, MENU_TITLE_MAX_WIDTH } = require(path.join(PROJECT_ROOT, '.tsbuild/publishing/domain/article-title.js'))
 
 const catalogPath = path.join(PROJECT_ROOT, 'book', 'catalog.yaml')
 const allowlistPath = path.join(__dirname, 'orphan-allowlist.json')
@@ -169,6 +169,28 @@ function findUntitledLeaves(leaves) {
     return result
 }
 
+/**
+ * menu_title 太长会把侧边栏撑爆。
+ *
+ * 只查新字段：catalog.yaml 里那些存量短名（有的本来就 23 个字）不报，避免一上来
+ * 就淹没在历史告警里。
+ */
+function findLongMenuTitles(leaves) {
+    const result = []
+    for (const leaf of leaves) {
+        let resolved
+        try {
+            resolved = resolveArticleSource(leaf, policy.book, [])
+        }
+        catch { continue }
+        const menuTitle = String(resolved.metadata.menuTitle || '').trim()
+        if (!menuTitle) continue
+        const width = menuTitleWidth(menuTitle)
+        if (width > MENU_TITLE_MAX_WIDTH) result.push({ leaf, menuTitle, width })
+    }
+    return result
+}
+
 function readAllowlist() {
     if (!fs.existsSync(allowlistPath)) return { allowed: [] }
     try {
@@ -264,6 +286,17 @@ function main() {
         console.log(`\n标题靠导航名兜底: ${untitled.length} 篇（既没有 config.title，md frontmatter 里也没有 title）:`)
         for (const item of untitled) console.log(`  - ${item.leaf} (id=${item.id})`)
         console.log('  这几篇的页面标题与 catalog.json 会显示 catalog.yaml 的导航名；补 config.title 或 md frontmatter 的 title 即可')
+    }
+
+    const longMenuTitles = findLongMenuTitles(leaves)
+    for (const item of longMenuTitles) {
+        diag.push({
+            phase: 'menu-title',
+            sourcePath: item.leaf,
+            level: 'warning',
+            message: `menu_title「${item.menuTitle}」宽 ${item.width}，超过上限 ${MENU_TITLE_MAX_WIDTH}（约 ${MENU_TITLE_MAX_WIDTH / 2} 个汉字），侧边栏会撑爆`,
+            suggestion: '把 menu_title 改短，或者干脆删掉它，回退到 catalog.yaml 里的短名',
+        })
     }
 
     if (stale.length > 0) {

@@ -9,7 +9,7 @@ const assert = require('node:assert/strict')
 const path = require('path')
 
 const PROJECT_ROOT = path.resolve(__dirname, '..')
-const { resolveArticleTitle, titleNeedsAuthoring } = require(
+const { resolveArticleTitle, titleNeedsAuthoring, resolveMenuTitle, menuTitleWidth, MENU_TITLE_MAX_WIDTH } = require(
     path.join(PROJECT_ROOT, '.tsbuild/publishing/domain/article-title.js'),
 )
 
@@ -63,5 +63,27 @@ describe('frontmatter title 解析', () => {
 
     it('frontmatter 没闭合时当作没有标题', () => {
         assert.equal(frontMatterTitle('---\ntitle: 孤零零\n正文'), '')
+    })
+})
+
+describe('侧边栏菜单标题', () => {
+    it('config.menu_title 优先于 catalog 的导航名', () => {
+        assert.equal(resolveMenuTitle({ menuTitle: 'LIS', catalogTitle: '最长上升子序列' }), 'LIS')
+    })
+
+    it('没写 menu_title 就沿用 catalog 里的短名（存量 144 篇不迁移）', () => {
+        assert.equal(resolveMenuTitle({ menuTitle: '', catalogTitle: 'LIS' }), 'LIS')
+        assert.equal(resolveMenuTitle({ catalogTitle: '拓扑排序' }), '拓扑排序')
+    })
+
+    it('两边都为空才落到兜底', () => {
+        assert.equal(resolveMenuTitle({}), '未知')
+    })
+
+    it('显示宽度按全角 2、半角 1 估算', () => {
+        assert.equal(menuTitleWidth('LIS'), 3)
+        assert.equal(menuTitleWidth('拓扑排序'), 8)
+        assert.equal(menuTitleWidth('拓扑排序 topsort'), 8 + 1 + 7)
+        assert.equal(MENU_TITLE_MAX_WIDTH, 32)
     })
 })

@@ -1,6 +1,6 @@
 <li>
     <% if (ul.length === 0) { %>
-    <a class="item document" href="<%= link %>">
+    <a class="item document" href="<%= link %>"<% if (articleId) { %> data-article-id="<%= articleId %>"<% } %><% if (articleTitle) { %> data-article-title="<%= articleTitle %>"<% } %>>
     <% } else { %>
     <button class="item directory" type="button" aria-expanded="false" data-directory="<%= directoryPath %>">
     <% } %>

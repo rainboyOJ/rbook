@@ -4,6 +4,8 @@ import { Diagnostic } from '../domain/diagnostics'
 interface RawConfig {
     id?: unknown
     title?: unknown
+    menu_title?: unknown
+    menuTitle?: unknown
     file?: unknown
     copy?: unknown
     teach_plan?: unknown
@@ -17,13 +19,17 @@ interface RawConfig {
 }
 
 export function normalizeMetadata(raw: RawConfig, sourcePath: string, diagnostics: Diagnostic[] = []): ArticleMetadata {
-    const { copy: _c, teachPlan: _tp, teach_plan: _tp1, teach_plain: _tp2, ...rest } = raw
+    const { copy: _c, teachPlan: _tp, teach_plan: _tp1, teach_plain: _tp2, menu_title: _mt, menuTitle: _mt2, ...rest } = raw
     const md: ArticleMetadata = {
         ...rest,
         id: str(raw.id) || idFromPath(sourcePath),
         title: str(raw.title) || '',
         file: str(raw.file) || 'index.md',
     }
+
+    // menu_title（也接受驼峰写法）：侧边栏短名，可选。
+    const menuTitle = str(raw.menu_title) || str(raw.menuTitle)
+    if (menuTitle) md.menuTitle = menuTitle.trim()
 
     // 旧字段别名映射
     if (raw.hiden_id !== undefined || raw.hidden_id !== undefined) {

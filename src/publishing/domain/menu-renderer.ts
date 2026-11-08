@@ -12,14 +12,23 @@ export interface MenuRendererOptions {
     /** 叶子 catalog 路径对应的发布 URL。 */
     leafHref?: (catalogPath: string) => string
     /**
-     * 叶子的显示标题。
+     * 叶子的附加信息：菜单短名、文章 id、正文标题。
      *
-     * 侧边栏与页面标题必须同名，否则同一页会出现两个名字
-     * （见 docs/adr/0012-single-source-article-titles.md）。调用方按
-     * `config.title` → md frontmatter title 解析后传进来；返回空值表示
-     * 回退到 catalog.yaml 里的导航标题。
+     * 菜单名走 `config.menu_title` → `catalog.yaml title` 两轨（见
+     * docs/adr/0012-dual-track-article-titles.md）：菜单栏窄，正文标题可能很长。
+     * id 与正文标题只写进 `data-*`，供侧边栏搜索匹配，不显示。
      */
-    leafTitle?: (catalogPath: string) => string | undefined
+    leafMeta?: (catalogPath: string) => LeafMeta | undefined
+}
+
+/** 侧边栏搜索要用的叶子信息；不显示，只挂在 DOM 上。 */
+export interface LeafMeta {
+    /** config.menu_title，空则回退到 catalog 里的 title */
+    menuTitle?: string
+    /** 文章 id，写进 data-article-id，像 topsort 这种英文缩写靠它搜到 */
+    articleId?: string
+    /** 正文标题（config.title 解析结果），写进 data-article-title */
+    articleTitle?: string
 }
 
 /**
@@ -33,12 +42,12 @@ export class MenuRenderer {
     private readonly templatePath: string
     private readonly compiled: ejs.TemplateFunction
     private readonly leafHref?: (catalogPath: string) => string
-    private readonly leafTitle?: (catalogPath: string) => string | undefined
+    private readonly leafMeta?: (catalogPath: string) => LeafMeta | undefined
 
     constructor(opts: MenuRendererOptions) {
         this.templatePath = path.join(opts.templateDir, 'li_item.html')
         this.leafHref = opts.leafHref
-        this.leafTitle = opts.leafTitle
+        this.leafMeta = opts.leafMeta
         if (!fs.existsSync(this.templatePath)) {
             throw new Error(`侧边栏模板不存在: ${this.templatePath}`)
         }
@@ -74,10 +83,19 @@ export class MenuRenderer {
         const link = isLeaf
             ? (this.leafHref?.(childPath.slice(1)) ?? defaultLeafHref(childPath))
             : ''
-        // 叶子用解析出来的文章标题；目录节点没有文章，仍用清单里的名字。
-        const resolved = (isLeaf ? this.leafTitle?.(childPath.slice(1)) ?? '' : '').trim()
-        const title = resolved || entry.title
-        return this.compiled({ ...entry, title, ul, link, directoryPath: childPath })
+        // 叶子可以用 config.menu_title 覆盖清单名；目录节点没有文章，仍用清单里的名字。
+        const meta = isLeaf ? this.leafMeta?.(childPath.slice(1)) : undefined
+        const menuTitle = (meta?.menuTitle ?? '').trim()
+        const title = menuTitle || entry.title
+        return this.compiled({
+            ...entry,
+            title,
+            ul,
+            link,
+            directoryPath: childPath,
+            articleId: meta?.articleId ?? '',
+            articleTitle: meta?.articleTitle ?? '',
+        })
     }
 }
 

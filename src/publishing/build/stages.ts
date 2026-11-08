@@ -66,14 +66,21 @@ export const prepareCatalog: BuildStage = {
         ctx.stageResults['leaves'] = leaves
         ctx.stageResults['catalog'] = catalog
         const hrefByCatalogPath = new Map(leaves.map((leaf, i) => [leaf, entries[i].publishHref]))
-        const titleByCatalogPath = new Map(leafEntries.map((leaf, i) => [leaf.path, entries[i].title]))
+        const leafMetaByCatalogPath = new Map(leafEntries.map((leaf, i) => {
+            const entry = entries[i]
+            return [leaf.path, {
+                menuTitle: entry.metadata.menuTitle,
+                articleId: entry.id,
+                articleTitle: entry.title,
+            }]
+        }))
         ctx.stageResults['menuHtml'] = new MenuRenderer({
             templateDir: path.join(ctx.projectRoot, 'src', 'ejs'),
             root: ctx.projectRoot,
             leafHref: leaf => hrefByCatalogPath.get(leaf) || `/${leaf}`,
-            // 侧边栏与页面标题同源：都用 config.title → frontmatter → catalog
-            // 的解析结果，避免同一页出现两个名字。
-            leafTitle: leaf => titleByCatalogPath.get(leaf),
+            // 菜单名走 menu_title → catalog 短名；id 与正文标题只进 data-*，
+            // 供侧边栏搜索匹配（菜单栏窄，长标题不显示）。
+            leafMeta: leaf => leafMetaByCatalogPath.get(leaf),
         }).render(catalog)
         console.log(`[prepare-catalog] 叶子文章: ${leaves.length}`)
     },

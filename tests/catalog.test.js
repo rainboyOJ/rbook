@@ -261,3 +261,54 @@ describe('隐藏条目 (catalog hidden)', () => {
         assert.ok(!renderMenu(catalog).includes('g/c'))
     })
 })
+
+describe('侧边栏菜单短名 (config.menu_title)', () => {
+    const PROJECT_ROOT = path.resolve(__dirname, '..')
+    const os = require('os')
+    const fs = require('fs')
+    const { loadCatalog } = require(path.join(PROJECT_ROOT, '.tsbuild/publishing/content/catalog-loader.js'))
+    const { MenuRenderer } = require(path.join(PROJECT_ROOT, '.tsbuild/publishing/domain/menu-renderer.js'))
+
+    function renderWithMeta(meta) {
+        const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'rbook-menu-'))
+        const file = path.join(dir, 'catalog.yaml')
+        fs.writeFileSync(file, '- title: 章节\n  path: s\n  children:\n    - title: 最长上升子序列\n      path: lis\n', 'utf8')
+        return new MenuRenderer({
+            templateDir: path.join(PROJECT_ROOT, 'src', 'ejs'),
+            root: path.join(PROJECT_ROOT, 'src'),
+            leafMeta: () => meta,
+        }).render(loadCatalog(file, []))
+    }
+
+    it('menu_title 覆盖 catalog 里的名字', () => {
+        const html = renderWithMeta({ menuTitle: 'LIS' })
+        assert.ok(html.includes('>LIS<'))
+        assert.ok(!html.includes('最长上升子序列</span>'))
+        // 目录节点没有文章，仍用清单名
+        assert.ok(html.includes('章节'))
+    })
+
+    it('menu_title 为空时回退到 catalog 的 title', () => {
+        const html = renderWithMeta({ menuTitle: '   ' })
+        assert.ok(html.includes('最长上升子序列</span>'))
+    })
+
+    it('叶子带 data-article-id 与 data-article-title，目录节点不带', () => {
+        const html = renderWithMeta({ menuTitle: 'LIS', articleId: 'lis', articleTitle: '最长上长子序列' })
+        assert.ok(html.includes('data-article-id="lis"'))
+        assert.ok(html.includes('data-article-title="最长上长子序列"'))
+        assert.equal((html.match(/data-article-id=/g) || []).length, 1)
+    })
+
+    it('没有 leafMeta 时行为不变', () => {
+        const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'rbook-menu-'))
+        const file = path.join(dir, 'catalog.yaml')
+        fs.writeFileSync(file, '- title: A\n  path: a\n', 'utf8')
+        const html = new MenuRenderer({
+            templateDir: path.join(PROJECT_ROOT, 'src', 'ejs'),
+            root: path.join(PROJECT_ROOT, 'src'),
+        }).render(loadCatalog(file, []))
+        assert.ok(html.includes('>A<'))
+        assert.ok(!html.includes('data-article-id'))
+    })
+})

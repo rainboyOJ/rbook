@@ -58,8 +58,8 @@ rbook build --profile full  # 完整构建 (含动画、论文、third_part)
 - **`id` 必须唯一**。重复会让一个 id 指向两篇文章，所以构建直接失败
   （`tests/catalog-manifest.test.js` 盯这条）。
 - id 来自文章目录的 `config.yaml` 里的 `id`（加载器仍兼容旧的 `config.json`），没写时由目录名/文件名推导；
-  标题按 `config.title → md front matter title → catalog.yaml title` 解析，页面标题、侧边栏、
-  本清单三处同源（见 `docs/adr/0012-single-source-article-titles.md`）。
+  标题按 `config.title → md front matter title → catalog.yaml title` 解析（侧边栏另有短名，
+  见 `docs/adr/0012-dual-track-article-titles.md`）。
 - 只收录**能从 catalog.yaml 解析出真实 URL** 的文章。写了 config 但不在 catalog 里的
   目录会以 warning 列出来，不进入清单（有 id 却点不进去的链接比没有链接更糟）。
 

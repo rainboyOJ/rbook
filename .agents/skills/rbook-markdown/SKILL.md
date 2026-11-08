@@ -47,9 +47,16 @@ book/<章>/<文章目录>/
 
   `id` 是 `[[[rbook: id]]]` 的唯一键；缺省时由路径推导（`index.md` 用目录名，其它用文件名）。
   `copy` 里的文件会在构建时复制到该文章的 dist 目录。
-- 正文顶部 `---\ntitle: …\n---` front matter **只被读取 title**，排在 `config.title` 之后兜底；
-  正常元数据仍写在 config 里。页面标题、侧边栏、`dist/catalog.json` 都按
-  `config.title → front matter title → catalog.yaml title` 解析，三者同源。
+- 标题分两轨，各有唯一出处：
+  - 正文：`config.title`（可长）→ 正文顶部 `---\ntitle: …\n---` front matter → `catalog.yaml` 的 title。
+    页面 `<title>`、正文 H1、`dist/catalog.json` 都用它；front matter **只被读取 title**。
+  - 菜单：`config.menu_title`（可选，要短）→ `catalog.yaml` 的 title。侧边栏只显示这一轨，
+    所以写完长 `title` 想让菜单短一点，就补一个 `menu_title`（超过约 16 个汉字会被
+    `npm run check:catalog` 报 warning）。
+- 不写 `menu_title` 时菜单沿用 `catalog.yaml` 里的短名，两者可以同名也可以不同名——
+  同一页出现短菜单名和长正文标题是预期行为。
+- 侧边栏搜索匹配「菜单名 + 面包屑 + 文章 id + 正文标题」，所以菜单显示 `LIS` 时搜
+  `lis`、`最长上长子序列` 都能命中。
 - **同一目录的 `config.yaml` 只作用于它 `file:` 声明的那篇文章**；同目录的其它 `.md`
   读自己的 front matter（`vscode/deepseek.md` 曾因此被邻居 config 改成了同名文章）。
 - 正文第一行惯例写 `[[TOC]]`（也认 `[TOC]`、`[[toc]]`、`[[Toc]]`），在该位置渲染页内目录

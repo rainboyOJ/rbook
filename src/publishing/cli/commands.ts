@@ -48,12 +48,15 @@ export function createCli(opts: CliOptions): Command {
             root: opts.projectRoot,
             leafHref: leaf => policy.publishHref(resolveArticleSource(leaf, policy.book).source.filePath),
             // 与正式构建同源：config.title → frontmatter title，取不到再用清单名。
-            leafTitle: leaf => {
+            leafMeta: leaf => {
                 const resolved = resolveArticleSource(leaf, policy.book)
-                // 只回 config 与 front matter，空串时让 MenuRenderer 用清单名兜底，
-                // 不要返回 resolveArticleTitle 的「未知」。
-                return (resolved.metadata.title || '').trim()
-                    || frontMatterTitle(resolved.source.raw)
+                // 菜单名空着就回退到清单名；正文标题只进 data-*，别填「未知」。
+                return {
+                    menuTitle: resolved.metadata.menuTitle,
+                    articleId: resolved.metadata.id,
+                    articleTitle: (resolved.metadata.title || '').trim()
+                        || frontMatterTitle(resolved.source.raw),
+                }
             },
         }).render(initialCatalog),
     })

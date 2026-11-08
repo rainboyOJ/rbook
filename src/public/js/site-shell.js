@@ -10,7 +10,9 @@ function filterSidebarEntries(entries, query) {
     const terms = sidebarSearchTerms(query)
     if (!terms.length) return []
     return entries.filter(entry => {
-        const text = `${entry.title} ${entry.breadcrumb}`.toLowerCase()
+        // 菜单名 + 面包屑 + 英文 id + 正文长标题：菜单显示「LIS」时，搜 topsort
+        // 或「最长上升子序列」也要能找到同一篇。
+        const text = `${entry.title} ${entry.breadcrumb} ${entry.articleId || ''} ${entry.articleTitle || ''}`.toLowerCase()
         return terms.every(term => text.includes(term))
     }).sort((a, b) => {
         const score = entry => {
@@ -188,6 +190,8 @@ if (sidebar) {
             return {
                 title: link.querySelector('.rbook-menu-title').textContent.trim(),
                 breadcrumb: names.join(' / '),
+                articleId: (link.dataset.articleId || '').trim(),
+                articleTitle: (link.dataset.articleTitle || '').trim(),
                 href: link.href,
                 current: link === currentLink,
             }
