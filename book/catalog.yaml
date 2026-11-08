@@ -167,6 +167,8 @@
       path: "tarjan/cut"
     - title: "找环"
       path: "tarjan/loop"
+    - title: "tarjan求强连通分量"
+      path: "tarjan/scc"
     - title: "bellman-ford"
       path: "bellman-ford"
     - title: "Spfa"
