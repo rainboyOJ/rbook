@@ -34,7 +34,7 @@ update_time: 2026-10-05
 
 也可以直接打开 [VS Code Marketplace 安装页面](https://marketplace.visualstudio.com/items?itemName=Vizards.deepseek-v4-for-copilot)。
 
-![在扩展面板中安装 DeepSeek V4 for Copilot Chat](./images/SCR-20260925-kfzv.png)
+![在扩展面板中安装 DeepSeek V4 for Copilot Chat](../images/SCR-20260925-kfzv.png)
 
 ## 三、配置 API Key
 
@@ -47,7 +47,7 @@ update_time: 2026-10-05
 
 输入 `deepseek`，选择 **DeepSeek: Set API Key**（中文界面为「DeepSeek: 设置 API Key」）。
 
-![在命令面板中选择 DeepSeek: Set API Key](./images/SCR-20260925-kmaj.png)
+![在命令面板中选择 DeepSeek: Set API Key](../images/SCR-20260925-kmaj.png)
 
 在弹出的输入框中粘贴刚才创建的 Key，按回车确认。粘贴时不要额外添加引号或空格。
 
@@ -60,7 +60,7 @@ update_time: 2026-10-05
 3. 选择 **DeepSeek V4.1 Flash** 或 **DeepSeek V4 Pro**。
 4. 发送一个简单问题，例如「请用中文解释 C++ 中 `int` 和 `long long` 的区别」。
 
-![在聊天面板中选择 DeepSeek 模型并发送消息](./images/SCR-20260925-koef.png)
+![在聊天面板中选择 DeepSeek 模型并发送消息](../images/SCR-20260925-koef.png)
 
 收到正常回复，说明本次调用已成功。确认使用哪个模型时，应查看**模型选择器**；模型在回复中对自身身份的描述不能作为配置成功的依据。
 

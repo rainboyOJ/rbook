@@ -8,7 +8,7 @@ update_time : 2023-04-27
 
 # vscode的使用
 
-- [VS Code 配置 DeepSeek](./deepseek.md)
+- [[[rbook: deepseek]]]
 
 怎么自动格式化
 

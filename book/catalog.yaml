@@ -314,7 +314,7 @@
         - title: "vscode"
           path: "vscode"
         - title: "VS Code 配置 DeepSeek"
-          path: "vscode/deepseek.md"
+          path: "vscode/deepseek"
         - title: "cgdb"
           path: "cgdb"
         - title: "pure-ftpd"
