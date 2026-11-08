@@ -1,61 +1,61 @@
-// 文章 ID 胶囊：标题下按钮组中间那颗可点击复制文章标识的按钮。
-// 结构见 src/ejs/article.html：小标签 + 等宽 ID 值 + 复制图标。
-// 复制反馈复用 formula-copy.scss 的 .rbook-toast，这里只负责按钮自身外观。
+// 文章 ID 按钮：标题下一排 btn-group 里的一颗普通按钮。
+// 结构见 src/ejs/article.html：文章 ID 按钮与访客计数徽章同属一个 .btn-group，
+// 圆角、边框、hover 全部交给 Bootstrap 的 .btn-group > .btn，这里只负责内部排版。
+// 复制反馈复用 formula-copy.scss 的 .rbook-toast。
 
-// 胶囊从 Bootstrap btn-group 里抽出来，与左右两段按钮留 gap；
-// 长 ID 在窄屏上换行时，整排仍然居中而不是被挤压。
+// 徽章组之间留一点缝；窄屏时长 ID 换行也不会把整排挤到左边。
 .rbook-article .badges {
     align-items: center;
     flex-wrap: wrap;
 }
 
+// 与 github / 教学设计按钮一样是 .btn；组内由 align-items: stretch 统一高度，
+// 所以这里不设圆角、不设固定 padding，只把内部排成「标签 | ID | 图标」一行。
 .rbook-article .rbook-article-id {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
-    padding: 3px 10px;
-    border-radius: 999px;
-    line-height: 1.5;
-    text-align: start;
+    padding-inline: 12px;
     cursor: pointer;
     user-select: none;
     -webkit-user-select: none;
-    transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+    text-align: start;
 }
 
-// 「文章 ID」四个字只做说明，颜色与字号都退到次要层，让等宽的 ID 值成为视觉主体。
+// 「文章 ID」四个字只做说明，用一条细竖线与 ID 值分开，颜色跟随按钮（hover 时
+// 随 .btn-outline-light 一起变），所以用 currentColor 而不是写死主题色。
 .rbook-article .rbook-article-id__label {
     padding-inline-end: 8px;
-    border-inline-end: 1px solid var(--rbook-border);
-    color: var(--rbook-muted);
+    border-inline-end: 1px solid color-mix(in srgb, currentColor 35%, transparent);
     font: 11px/1 var(--rbook-font-heading);
     letter-spacing: 0.08em;
     white-space: nowrap;
+    opacity: 0.75;
 }
 
 .rbook-article .rbook-article-id__value {
     padding: 0;
     border: 0;
     background: none;
-    color: var(--rbook-text);
-    font: 600 13px/1.4 var(--rbook-font-mono);
+    color: inherit;
+    font: 600 13px/1.2 var(--rbook-font-mono);
     // 超长 ID（如 continuous_segment_dp）在窄屏上换行，不截断。
     overflow-wrap: anywhere;
 }
 
 .rbook-article .rbook-article-id__copied {
     display: none;
-    color: var(--rbook-accent);
     font: 11px/1 var(--rbook-font-heading);
     letter-spacing: 0.08em;
     white-space: nowrap;
+    opacity: 0.85;
 }
 
 .rbook-article .rbook-article-id__icon {
     display: inline-flex;
     align-items: center;
-    color: var(--rbook-muted);
-    transition: color 0.15s ease;
+    opacity: 0.75;
 }
 
 .rbook-article .rbook-article-id .rbook-article-id__icon svg {
@@ -69,21 +69,11 @@
     display: none;
 }
 
-.rbook-article .rbook-article-id:hover {
-    border-color: var(--rbook-accent);
-    background: var(--rbook-accent-muted);
-    color: var(--rbook-accent);
-}
-
-.rbook-article .rbook-article-id:hover .rbook-article-id__icon,
-.rbook-article .rbook-article-id:hover .rbook-article-id__value {
-    color: var(--rbook-accent);
-}
-
 // 复制成功：标签换成「已复制」，图标换成对勾，1.5s 后由 article.js 移除 is-copied。
+// 组内只换底色与文字色，不动边框，避免在拼接处画出一条彩色分隔线。
 .rbook-article .rbook-article-id.is-copied {
-    border-color: var(--rbook-accent);
     background: var(--rbook-accent-muted);
+    color: var(--rbook-accent);
 }
 
 .rbook-article .rbook-article-id.is-copied .rbook-article-id__label {
@@ -94,11 +84,6 @@
     display: inline;
     // 标签隐去后把「已复制」提到最前，读作「已复制 · presum ✓」。
     order: -1;
-}
-
-.rbook-article .rbook-article-id.is-copied .rbook-article-id__value,
-.rbook-article .rbook-article-id.is-copied .rbook-article-id__icon {
-    color: var(--rbook-accent);
 }
 
 .rbook-article .rbook-article-id.is-copied .rbook-article-id__icon-copy {
@@ -116,16 +101,9 @@
     box-shadow: none;
 }
 
-// 窄屏优先保住 ID 值与图标，「文章 ID」四字隐藏。
+// 窄屏优先保住 ID 值与图标，「文章 ID」四字隐藏（分隔线随之消失）。
 @media (max-width: 640px) {
     .rbook-article .rbook-article-id__label {
         display: none;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .rbook-article .rbook-article-id,
-    .rbook-article .rbook-article-id__icon {
-        transition: none;
     }
 }

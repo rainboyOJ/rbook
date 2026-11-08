@@ -43,6 +43,7 @@
                 <%}%>
             </div>
             <% if( data.id) {%>
+            <div class="btn-group">
                 <button type="button" class="btn btn-outline-light rbook-article-id" data-article-id="<%=data.id%>" aria-label="复制文章 ID：<%=data.id%>">
                     <span class="rbook-article-id__label" aria-hidden="true">文章 ID</span>
                     <code class="rbook-article-id__value" aria-hidden="true"><%=data.id%></code>
@@ -52,11 +53,10 @@
                         <svg class="rbook-article-id__icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
                     </span>
                 </button>
-                <div class="btn-group">
-                    <a class="btn btn-outline-light">
-                        <img style="width:80px;" src="https://visitor-badge.laobi.icu/badge?page_id=rbook_<%=data.id%>">
-                    </a>
-                </div>
+                <a class="btn btn-outline-light">
+                    <img style="width:80px;" src="https://visitor-badge.laobi.icu/badge?page_id=rbook_<%=data.id%>">
+                </a>
+            </div>
             <%}%>
         </div>
     </div>
