@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="684" height="545" viewBox="40 40 540 430" role="img" aria-labelledby="title desc">
+  <title id="title">三个强连通分量：{1,2,3,4}、{5}、{6}</title>
+  <desc id="desc">点 1、2、3、4 互相可达，构成一个强连通分量；点 5 与点 6 各自单独构成一个分量。三色区分三个分量，双圈标出各分量的根 1、5、6。</desc>
+  <defs>
+    <marker id="scc-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 Z" fill="#222222"/>
+    </marker>
+  </defs>
+  <rect x="40" y="40" width="540" height="430" fill="#fff"/>
+  <g stroke-width="1.4" fill-opacity="0.5">
+    <circle cx="500" cy="330" r="52" fill="#d8e6f7" stroke="#2f5fa8"/>
+    <circle cx="500" cy="150" r="52" fill="#dcefe1" stroke="#2f7a4f"/>
+    <circle cx="240" cy="240" r="179.3" fill="#f4e2c8" stroke="#96631d"/>
+  </g>
+  <g fill="none" stroke="#222222" stroke-width="1.6" marker-end="url(#scc-arrow)">
+    <line x1="172" y1="150" x2="308" y2="150"/>
+    <line x1="150" y1="172" x2="150" y2="308"/>
+    <line x1="330" y1="172" x2="330" y2="308"/>
+    <line x1="352" y1="150" x2="478" y2="150"/>
+    <line x1="352" y1="330" x2="478" y2="330"/>
+    <line x1="314.4" y1="314.4" x2="165.6" y2="165.6"/>
+    <line x1="172" y1="330" x2="308" y2="330"/>
+    <line x1="500" y1="172" x2="500" y2="308"/>
+  </g>
+  <g font-family="'Noto Serif SC', 'Source Han Serif SC', serif" text-anchor="middle" dominant-baseline="central">
+    <circle cx="150" cy="150" r="22" fill="#f4e2c8" stroke="#96631d" stroke-width="2"/>
+    <circle cx="150" cy="150" r="18" fill="none" stroke="#96631d" stroke-width="1"/>
+    <circle cx="330" cy="150" r="22" fill="#f4e2c8" stroke="#96631d" stroke-width="2"/>
+    <circle cx="150" cy="330" r="22" fill="#f4e2c8" stroke="#96631d" stroke-width="2"/>
+    <circle cx="330" cy="330" r="22" fill="#f4e2c8" stroke="#96631d" stroke-width="2"/>
+    <circle cx="500" cy="150" r="22" fill="#dcefe1" stroke="#2f7a4f" stroke-width="2"/>
+    <circle cx="500" cy="150" r="18" fill="none" stroke="#2f7a4f" stroke-width="1"/>
+    <circle cx="500" cy="330" r="22" fill="#d8e6f7" stroke="#2f5fa8" stroke-width="2"/>
+    <circle cx="500" cy="330" r="18" fill="none" stroke="#2f5fa8" stroke-width="1"/>
+  </g>
+  <g font-family="'Noto Serif SC', 'Source Han Serif SC', serif" font-size="15" font-weight="700" fill="#172033" text-anchor="middle" dominant-baseline="central">
+    <text x="150" y="150.5">1</text>
+    <text x="330" y="150.5">3</text>
+    <text x="150" y="330.5">2</text>
+    <text x="330" y="330.5">4</text>
+    <text x="500" y="150.5">5</text>
+    <text x="500" y="330.5">6</text>
+  </g>
+</svg>
