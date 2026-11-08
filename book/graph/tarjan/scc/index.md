@@ -52,13 +52,18 @@ digraph G {
 
 ## 朴素做法，以及它为什么慢
 
-要判断 $u,v$ 是否强连通，最直接的办法是从 $u$ 出发做一次 DFS 记下可达集合 $R(u)$，再在反图上从 $u$ 出发做一次 DFS 记下能到达 $u$ 的集合 $R'(u)$。$R(u)\cap R'(u)$ 就是 $u$ 所在的强连通分量。
+要判断 $u,v$ 是否强连通，最直接的办法是逐个点求出它的可达集合：从每个 $u$ 出发 DFS，记下 $u$ 能到达的所有点 $R(u)$。$u$ 所在的强连通分量就是 $\{\,v \mid u\in R(v)\ \text{且}\ v\in R(u)\,\}$——也就是所有和 $u$ 互相可达的点。
 
-每个点都做一次，代价是 $O\bigl(n(n+m)\bigr)$。$n=10^5$ 时完全不可行。
+那么只要把「可达关系」算出来，再按「互相可达」分组，就得到了所有分量。求「可达关系」有两种朴素思路：
 
-::: fold 朴素做法的完整代码
+- **方案一：每个点跑一次 DFS**，得到 $R(u)$。代价 $O\bigl(n(n+m)\bigr)$。
+- **方案二：Floyd 求传递闭包**，一次性把整张可达矩阵算出来。代价 $O(n^3)$。
+
+两者都只在 $n$ 很小时可用（$n=10^5$ 时不可行），是「对拍用暴力」的标准写法。
+
+::: fold 方案一：每个点跑一次 DFS 求可达集合
 ```cpp
-// 朴素做法：每个点都当一次起点，正图求「能到谁」，反图求「谁能到我」
+// 朴素做法（方案一）：每个点都当一次起点，在正图上求「能到谁」
 // 时间复杂度 O(n(n+m))，只在 n 很小（约 1000 以内）时可用。
 // 输入格式与 Tarjan 版模板相同，可以直接拿两份程序对拍。
 #include <bits/stdc++.h>
@@ -67,21 +72,18 @@ using namespace std;
 const int maxn = 1005;
 
 int n, m;
+int start;            // 本轮 DFS 的起点
 vector<int> g[maxn];  // 正图
-vector<int> rg[maxn]; // 反图：每条边反向存一遍
 bool vis[maxn];
 
-// reach[u][v]: u 能不能到 v      back[u][v]: v 能不能到 u
+// reach[u][v]: u 能不能到 v
 bool reach[maxn][maxn];
-bool back[maxn][maxn];
 
-// use_rev = false 走正图，true 走反图
-void dfs(int u, bool use_rev, bool *mark) {
+void dfs(int u) {
     vis[u] = true;
-    mark[u] = true;
-    vector<int> &nxt = use_rev ? rg[u] : g[u];
-    for (int v : nxt) {
-        if (!vis[v]) dfs(v, use_rev, mark);
+    reach[start][u] = true; // u 能被起点 start 到达
+    for (int v : g[u]) {
+        if (!vis[v]) dfs(v);
     }
 }
 
@@ -91,15 +93,13 @@ int main() {
         int u, v;
         cin >> u >> v;
         g[u].push_back(v);
-        rg[v].push_back(u);
     }
 
-    // 每个点各跑两次 DFS
+    // 每个点跑一次 DFS，记下它能到哪些点
     for (int u = 1; u <= n; u++) {
+        start = u; // 这一轮从 u 出发
         memset(vis, 0, sizeof(vis));
-        dfs(u, false, reach[u]); // 从 u 出发能到哪些点
-        memset(vis, 0, sizeof(vis));
-        dfs(u, true, back[u]);   // 哪些点能到 u
+        dfs(u);
     }
 
     // u 与 v 强连通 <=> u 能到 v，且 v 能到 u
@@ -111,7 +111,8 @@ int main() {
         color[u] = cnt;
         for (int v = u + 1; v <= n; v++) {
             if (color[v]) continue;
-            if (reach[u][v] && back[u][v]) color[v] = cnt;
+            // reach[u][v] 表示 u->v；reach[v][u] 表示 v->u，正好凑成互相可达
+            if (reach[u][v] && reach[v][u]) color[v] = cnt;
         }
     }
 
@@ -123,12 +124,74 @@ int main() {
 ```
 :::
 
-读这份代码时有两点值得留意：
+读方案一时有两点值得留意：
 
-- `back[u][v]` 不是「$u$ 到 $v$」的反向，而是**在反图上从 $u$ 出发**能走到的点——也就是原图里能到 $u$ 的点。正反两次 DFS 一拼，才是「互相可达」。
-- `reach` 与 `back` 是 $n^2$ 的 `bool` 数组，$n=1000$ 时约 $2$ MB；$n=10^5$ 时这一步就先炸了。所以朴素做法只能用来**验证**小数据，或者当对拍的暴力。
+- 判断「$u$ 与 $v$ 互相可达」只需要一个 `reach` 矩阵：`reach[u][v]` 表示 $u\rightsquigarrow v$，把下标反过来写成 `reach[v][u]` 就是 $v\rightsquigarrow u$。两个条件同时成立，就是强连通。（有些写法会在反图上再 DFS 一遍存成 `back` 数组，但 `back[u][v]` 恒等于 `reach[v][u]`，是多余的。）
+- `reach` 是 $n^2$ 的 `bool` 数组，$n=1000$ 时约 $1$ MB；$n=10^5$ 时这一步就先炸了。所以朴素做法只能用来**验证**小数据，或者当对拍的暴力。
 
-这份代码和后面的 Tarjan 模板读同样的输入、输出同样的格式，可以直接对拍。但注意两者的**分量划分相同、编号不同**：朴素版按点的编号顺序给新分量编号，Tarjan 版按出栈时刻编号。比较时要看「两点是否同色」，而不是直接比数字。
+::: fold 方案二：Floyd 求传递闭包
+```cpp
+// 朴素做法（方案二）：用 Floyd 求传递闭包，代替逐个点 DFS
+// 时间复杂度 O(n^3)，只在 n 很小（约 500 以内）时可用。
+// 输入格式与 Tarjan 版模板相同，可以直接拿两份程序对拍。
+#include <bits/stdc++.h>
+using namespace std;
+
+const int maxn = 1005;
+
+int n, m;
+// reach[u][v]: u 能不能到 v
+bool reach[maxn][maxn];
+
+int main() {
+    cin >> n >> m;
+
+    // 自反：每个点都能到达自己。分组阶段从不读对角元，所以这行其实可以省；
+    // 加上只是为了让 reach 语义上是「可达（含自身）」的完整闭包，读起来更自然。
+    for (int i = 1; i <= n; i++) reach[i][i] = true;
+
+    for (int i = 0; i < m; i++) {
+        int u, v;
+        cin >> u >> v;
+        reach[u][v] = true; // 一条边就是一个直接可达
+    }
+
+    // Floyd 求传递闭包：枚举中间点 k，能 u->k 且 k->v 则 u->v
+    for (int k = 1; k <= n; k++)
+        for (int u = 1; u <= n; u++)
+            if (reach[u][k])
+                for (int v = 1; v <= n; v++)
+                    if (reach[k][v]) reach[u][v] = true;
+
+    // u 与 v 强连通 <=> u 能到 v，且 v 能到 u
+    int color[maxn] = {0};
+    int cnt = 0;
+    for (int u = 1; u <= n; u++) {
+        if (color[u]) continue; // 已经在某个分量里了
+        cnt++;
+        color[u] = cnt;
+        for (int v = u + 1; v <= n; v++) {
+            if (color[v]) continue;
+            // reach[u][v] 表示 u->v；reach[v][u] 表示 v->u，正好凑成互相可达
+            if (reach[u][v] && reach[v][u]) color[v] = cnt;
+        }
+    }
+
+    for (int u = 1; u <= n; u++) {
+        cout << "node " << u << ": " << color[u] << "\n";
+    }
+    return 0;
+}
+```
+:::
+
+方案二说明：
+
+- 关于 `reach[i][i] = true`：它把 `reach` 补成**传递自反闭包**，语义上是「能到达自己」。不过就本文的分组方式而言，**这行其实不是必需的**：后面只比较 $u<v$ 的点对 `reach[u][v] && reach[v][u]`，从不读对角元；而 Warshall 从纯邻接矩阵出发也能靠环自行推出「自己到自己」，所以去掉它结果不变。保留只是为了语义清晰、不出歧义。
+- Floyd 的三重循环里，`if (reach[u][k])` 已经剪掉了大量无效枚举；再加 `if (reach[u][v]) continue;` 之类也不会改变渐进复杂度，因为主项仍是 $O(n^3)$。
+- 和方案一相比：**代码更短、更不容易写错**（不用写 DFS、不用清 `vis`），但**复杂度更高**。稀疏图上方案一接近 $O(n\cdot m)$，而 Floyd 固定 $O(n^3)$，$n$ 上千时方案一会明显更快。
+
+两种朴素方案读同样的输入、输出同样的格式，可以直接对拍。但注意它们与 Tarjan 的**分量划分相同、编号不同**：朴素版按点的编号顺序给新分量编号，Tarjan 版按出栈时刻编号。比较时要看「两点是否同色」，而不是直接比数字。
 
 更好的方法是 **Kosaraju**（正图、反图各跑一次 DFS，按出栈顺序挑起点）和 **Tarjan**（一次 DFS 用栈和两个数组直接划出分量），都是 $O(n+m)$。Kosaraju 更好想、好写；Tarjan 只要一次 DFS，常数更小，还能顺手处理割点、边双连通分量。下面讲 Tarjan。
 
