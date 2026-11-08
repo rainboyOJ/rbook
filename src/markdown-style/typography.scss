@@ -90,9 +90,12 @@
     del { color: var(--rbook-muted); }
 
     img { max-width: 100%; height: auto; }
+    // 视频与图片同为内嵌媒体：限宽、去首行缩进、居中，避免定宽溢出压到右侧目录。
+    video { max-width: 100%; height: auto; }
     p:has(> img:only-child), p:has(> a:only-child > img:only-child),
-    p:has(.image-wrapper), figure { margin-block: 24px; text-indent: 0; }
-    p > img:only-child, p > a:only-child > img:only-child { display: block; margin-inline: auto; }
+    p:has(> video:only-child), p:has(.image-wrapper), figure { margin-block: 24px; text-indent: 0; }
+    p > img:only-child, p > a:only-child > img:only-child,
+    p > video:only-child { display: block; margin-inline: auto; }
     figure { margin-inline: auto; }
     figcaption {
         margin-block-start: 8px;
