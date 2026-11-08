@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="610" viewBox="0 0 720 610" role="img" aria-labelledby="title desc">
+  <title id="title">从一次绕路到按中间点分阶段求解</title>
+  <desc id="desc">上图中，从 i 直达 j 的费用为 8，经 k 的两段费用为 2 和 1，因此选择费用为 3 的绕路。下图中，本轮新允许 k 作为中间点，经 k 的候选路径分成 i 到 k、k 到 j 两段，两段内部的点均来自之前已开放的集合 1 到 k 减 1。起点 i 和终点 j 不受中间点集合限制。</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 8 6" refX="7.5" refY="3" markerWidth="8" markerHeight="6" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0 0 L8 3 L0 6 Z" fill="#222222"/>
+    </marker>
+    <marker id="arrow-muted" viewBox="0 0 8 6" refX="7.5" refY="3" markerWidth="8" markerHeight="6" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0 0 L8 3 L0 6 Z" fill="#777777"/>
+    </marker>
+    <style>
+      text { fill: #222222; font-family: "Noto Serif CJK SC", "Source Han Serif SC", serif; }
+      .panel { font-size: 20px; }
+      .note { font-size: 17px; }
+      .math { font-family: "STIX Two Text", "Times New Roman", serif; font-size: 22px; }
+      .var { font-style: italic; }
+      .center { text-anchor: middle; }
+      .node { fill: #ffffff; stroke: #222222; stroke-width: 1.5; }
+      .new-node { fill: #eff6ff; stroke: #2563eb; stroke-width: 2; }
+      .edge { fill: none; stroke: #222222; stroke-width: 1.6; marker-end: url(#arrow); }
+      .old-edge { fill: none; stroke: #777777; stroke-width: 1.4; stroke-dasharray: 6 5; marker-end: url(#arrow-muted); }
+      .region { fill: #f4f4f4; stroke: #999999; stroke-width: 1; stroke-dasharray: 4 4; }
+      .muted { fill: #666666; }
+    </style>
+  </defs>
+  <rect width="720" height="610" fill="#ffffff"/>
+
+  <g id="one-detour">
+    <text class="panel" x="30" y="36">(a) 一次绕路：比较直达与经由 k 的走法</text>
+    <path class="old-edge" d="M102 190 L618 190"/>
+    <path class="edge" d="M100.5 181.9 L339.5 88.1"/>
+    <path class="edge" d="M380.5 88.1 L619.5 181.9"/>
+
+    <circle class="node" cx="80" cy="190" r="22"/>
+    <circle class="new-node" cx="360" cy="80" r="22"/>
+    <circle class="node" cx="640" cy="190" r="22"/>
+    <text class="math var center" x="80" y="197">i</text>
+    <text class="math var center" x="360" y="87">k</text>
+    <text class="math var center" x="640" y="197">j</text>
+
+    <text class="math center" x="211" y="119">2</text>
+    <text class="math center" x="509" y="119">1</text>
+    <text class="note center muted" x="360" y="220">直达：8</text>
+    <text class="math center" x="360" y="265">min(8, 2 + 1) = 3</text>
+  </g>
+
+  <line x1="30" y1="293" x2="690" y2="293" stroke="#cccccc" stroke-width="1"/>
+
+  <g id="stage-split">
+    <text class="panel" x="30" y="330">(b) 新开放 k：在 k 处把候选路径分成两段</text>
+    <text class="note center" x="360" y="368">两段内部的中间点均来自 {1, …, k−1}</text>
+
+    <rect class="region" x="130" y="400" width="180" height="88"/>
+    <rect class="region" x="410" y="400" width="180" height="88"/>
+
+    <path class="edge" d="M102 444 L162 444"/>
+    <path class="edge" d="M178 444 L201 444"/>
+    <path class="edge" d="M239 444 L262 444"/>
+    <path class="edge" d="M278 444 L338 444"/>
+    <path class="edge" d="M382 444 L442 444"/>
+    <path class="edge" d="M458 444 L481 444"/>
+    <path class="edge" d="M519 444 L542 444"/>
+    <path class="edge" d="M558 444 L618 444"/>
+
+    <circle class="node" cx="170" cy="444" r="8"/>
+    <circle class="node" cx="270" cy="444" r="8"/>
+    <circle class="node" cx="450" cy="444" r="8"/>
+    <circle class="node" cx="550" cy="444" r="8"/>
+    <text class="math center" x="220" y="449">⋯</text>
+    <text class="math center" x="500" y="449">⋯</text>
+
+    <circle class="node" cx="80" cy="444" r="22"/>
+    <circle class="new-node" cx="360" cy="444" r="22"/>
+    <circle class="node" cx="640" cy="444" r="22"/>
+    <text class="math var center" x="80" y="451">i</text>
+    <text class="math var center" x="360" y="451">k</text>
+    <text class="math var center" x="640" y="451">j</text>
+
+    <text class="note center muted" x="80" y="520">起点</text>
+    <text class="note center" x="360" y="520">本轮新开放</text>
+    <text class="note center muted" x="640" y="520">终点</text>
+    <text class="note center" x="360" y="570">两段可以各含多个中间点；i、j 作为端点不受集合限制。</text>
+  </g>
+</svg>
