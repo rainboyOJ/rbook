@@ -48,6 +48,26 @@ function escapeHtml(s: string): string {
     return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 }
 
+/**
+ * 交叉引用的标记：1em 单色描边 SVG，跟随 currentColor，由 CSS 收到正文墨色。
+ *
+ * - 文章（`article`）：一页带折角，读作“书内另一篇”。
+ * - 题目（`problem`）：右上箭头，读作“离开本书去 OJ 站”。
+ *
+ * 以前这里是 32×32 的彩色 favicon `<img>`：位图与正文宋体打架，还把 18px/30px 的
+ * 行撑高；而且它的 22px 上限被 `.rbook-article .markdown-body img` 的
+ * `height:auto` 压掉从未生效。换成内联 SVG 后不再受 `img` 规则影响。
+ */
+const LINK_MARKS = {
+    // 单笔折角：右上角直接切一刀（z 收尾），比“方框 + 内部折线”在小字号下更干净。
+    article: '<svg class="extra-link__mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6.5A2.5 2.5 0 0 0 4 5.5v13A2.5 2.5 0 0 0 6.5 21h11a2.5 2.5 0 0 0 2.5-2.5V8z"/></svg>',
+    problem: '<svg class="extra-link__mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>',
+} as const
+
+function linkAnchor(kind: keyof typeof LINK_MARKS, href: string, text: string): string {
+    return `<a class="extra-link extra-link--${kind}" target="_blank" href="${href}">${LINK_MARKS[kind]}${text}</a>`
+}
+
 function renderRbookLink(content: string, opts: RbookLinkOptions): string {
     const m = colonSplitReg.exec(content)
     if (!m) return `<span>${content}</span>`
@@ -61,7 +81,7 @@ function renderRbookLink(content: string, opts: RbookLinkOptions): string {
         const info = opts.index.byId.get(id)
         if (info) {
             const title = info.metadata ? info.metadata.title : ((info as unknown as Record<string, unknown>).title as string) || id
-            return `<a class="extra-link" target="_blank" href="${base}${info.publishHref}">[<img src="${base}/rbookIcon/favicon-32x32.png"/> Rbook: ${title}]</a>`
+            return linkAnchor('article', `${base}${info.publishHref}`, escapeHtml(title))
         }
         opts.diagnostics?.push({
             phase: 'rbook-link',
@@ -110,7 +130,7 @@ function renderProblemLink(type: string, body: string, rawType: string, opts: Rb
 
         const r = opts.problemUrl.resolve(ref.oj, ref.pid, ref.inlineTitle)
         const text = r.title ? `${r.normalizedOj} ${r.normalizedPid}: ${escapeHtml(r.title)}` : `${r.normalizedOj} ${r.normalizedPid}`
-        return `<a class="extra-link" target="_blank" href="${r.url}">[${text}]</a>`
+        return linkAnchor('problem', r.url, text)
     }
 
     // 兼容路径：仍走旧 problemProvider（题库未配置时给出明确诊断）
@@ -128,7 +148,7 @@ function renderProblemLink(type: string, body: string, rawType: string, opts: Rb
     if (info) {
         const rojBase = opts.rojBaseUrl || 'https://roj.ac.cn'
         const checkmark = (type === 'pp' || type === 'problem_info_solution') && info.hasSolution ? '&#x2713; ' : ''
-        return `<a class="extra-link" target="_blank" href="${rojBase}${info.link}">${checkmark}[${info.oj} ${info.sid}: ${info.title}]</a>`
+        return linkAnchor('problem', `${rojBase}${info.link}`, `${checkmark}${info.oj} ${info.sid}: ${info.title}`)
     }
     return `<span class="extra-link missing">[problem: ${id}]</span>`
 }

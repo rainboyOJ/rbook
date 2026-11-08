@@ -21,7 +21,10 @@
 - `class="blackboard"` — 黑板
 
 ## 链接与嵌入
-- `class="extra-link"` — `[[[rbook:...]]]` 链接
+- `class="extra-link extra-link--article"` — `[[[rbook:...]]]` 站内文章链接
+- `class="extra-link extra-link--problem"` — `[[[p:...]]]` 题目链接
+- `class="extra-link__mark"` — 两种交叉引用前缀的 1em 内联 SVG 标记（不再有 `<img>` favicon）
+- `class="extra-link missing"` — 找不到目标的灰色方括号标记
 - `class="problem_list_content"` — `+p` 题目列表
 - `class="image-wrapper"` — `.excalidraw.svg` 容器
 - `class="image-extension-badge"` — Excalidraw 按钮

@@ -1,11 +1,64 @@
+// 交叉引用：`[[[rbook: id]]]` 与 `[[[p: oj-pid]]]`。
+//
+// 外形是“1em 单色标记 + 名字”，不再有方括号，也不再有 `Rbook:` 前缀：
+// 标记已经说明了这是引注，方括号是重复的装饰。
+//   文章 → 一页带折角（还在书里）
+//   题目 → 右上箭头（离开本书去 OJ 站）
+//
+// 两个关键取舍：
+// 1. 不用 display:inline-flex。整颗链接做成 flex 容器后，长题目名
+//    （`luogu P1803: 凌乱的yyy / 线段覆盖`）在窄表格单元格里无法折行，会溢出去。
+// 2. 标记走 SVG stroke 而不是位图 <img>。以前的 32×32 favicon 受
+//    `.rbook-article .markdown-body img { height: auto }` 压制，写了 22px 也从没生效。
 
 a.extra-link {
-    text-decoration:none;
-    display:inline-flex;
-    img {
-        align-self:center;
-        //TODO 这里应该有一个 :root { line-height}
-        //来设置markdown所有的line-height
-        height:22px;
+    text-decoration: none;
+    text-underline-offset: 3px;
+
+    // 静态页面保持干净，只靠墨色；hover / 键盘聚焦时才浮出细下划线。
+    // 1px 是宋体正文里能看清又不抢眼的最小值。
+    &:hover,
+    &:focus-visible {
+        text-decoration: underline;
+        text-decoration-thickness: 1px;
     }
+
+    // 默认焦点环是浏览器黑色描边，在正文里过重；换成站点自己的 accent 淡环。
+    &:focus-visible {
+        outline: 2px solid color-mix(in srgb, var(--rbook-accent) 45%, transparent);
+        outline-offset: 2px;
+        border-radius: 2px;
+    }
+}
+
+.extra-link__mark {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    // 让描边盒子与汉字视觉基线对齐：-0.12em 是宋体液下沿的经验值。
+    margin-inline-end: 0.28em;
+    vertical-align: -0.12em;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    // 标记退后一步，不跟正文抢注意力；hover 时回到全不透明。
+    opacity: 0.55;
+    transition: opacity 0.15s ease;
+}
+
+a.extra-link:hover .extra-link__mark,
+a.extra-link:focus-visible .extra-link__mark {
+    opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .extra-link__mark { transition: none; }
+}
+
+// 找不到目标时保留方括号，让它一眼看出是错误标记而不是正常引用。
+.extra-link.missing {
+    color: var(--rbook-muted);
+    font-style: normal;
 }

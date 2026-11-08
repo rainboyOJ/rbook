@@ -88,7 +88,18 @@ describe('发布契约 fixtures', () => {
 
     it('triple-brackets.md 渲染文章链接与题解链接', () => {
         const { html } = runFixture(path.join(FIXTURES, 'triple-brackets.md'))
-        assertMarkers(html, ['class="extra-link"', '/base/presum/index.html'], assert)
+        assertMarkers(html, [
+            // 两种引用各自的类名，以及 1em 描边标记（不再有 favicon 位图）。
+            'class="extra-link extra-link--article"',
+            'class="extra-link extra-link--problem"',
+            'class="extra-link__mark"',
+            '/base/presum/index.html',
+            // 找不到目标时保留灰色方括号标记。
+            'class="extra-link missing"',
+        ], assert)
+        assert.ok(!html.includes('favicon-32x32.png'), '不应再输出 rbook favicon 位图')
+        assert.ok(!html.includes('<img'), '交叉引用不应包含任何 <img>')
+        assert.ok(!html.includes('Rbook:'), '不再输出 Rbook: 前缀')
     })
 
     it('ejs-macros.md 渲染常用宏 (video, dvideo, iframe, pid_to_url)', () => {
