@@ -36,7 +36,9 @@ a.extra-link {
     width: 1em;
     height: 1em;
     // 让描边盒子与汉字视觉基线对齐：-0.12em 是宋体液下沿的经验值。
-    margin-inline-end: 0.28em;
+    // 左右留白不对称：右侧是标记与名字之间的呼吸，左侧只是防“根据我[[[rbook: x]]]里”
+    // 这类紧贴汉字的引用贴死（681 处里 9 处），比手打空格可逆也管新文章。
+    margin-inline: 0.12em 0.28em;
     vertical-align: -0.12em;
     fill: none;
     stroke: currentColor;
