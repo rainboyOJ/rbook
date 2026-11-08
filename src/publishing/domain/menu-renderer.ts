@@ -11,6 +11,15 @@ export interface MenuRendererOptions {
     root?: string
     /** 叶子 catalog 路径对应的发布 URL。 */
     leafHref?: (catalogPath: string) => string
+    /**
+     * 叶子的显示标题。
+     *
+     * 侧边栏与页面标题必须同名，否则同一页会出现两个名字
+     * （见 docs/adr/0012-single-source-article-titles.md）。调用方按
+     * `config.title` → md frontmatter title 解析后传进来；返回空值表示
+     * 回退到 catalog.yaml 里的导航标题。
+     */
+    leafTitle?: (catalogPath: string) => string | undefined
 }
 
 /**
@@ -24,10 +33,12 @@ export class MenuRenderer {
     private readonly templatePath: string
     private readonly compiled: ejs.TemplateFunction
     private readonly leafHref?: (catalogPath: string) => string
+    private readonly leafTitle?: (catalogPath: string) => string | undefined
 
     constructor(opts: MenuRendererOptions) {
         this.templatePath = path.join(opts.templateDir, 'li_item.html')
         this.leafHref = opts.leafHref
+        this.leafTitle = opts.leafTitle
         if (!fs.existsSync(this.templatePath)) {
             throw new Error(`侧边栏模板不存在: ${this.templatePath}`)
         }
@@ -59,10 +70,14 @@ export class MenuRenderer {
         if (entry.children && entry.children.length > 0) {
             ul = this.renderEntries(childPath, entry.children)
         }
-        const link = ul.length === 0
+        const isLeaf = ul.length === 0
+        const link = isLeaf
             ? (this.leafHref?.(childPath.slice(1)) ?? defaultLeafHref(childPath))
             : ''
-        return this.compiled({ ...entry, ul, link, directoryPath: childPath })
+        // 叶子用解析出来的文章标题；目录节点没有文章，仍用清单里的名字。
+        const resolved = (isLeaf ? this.leafTitle?.(childPath.slice(1)) ?? '' : '').trim()
+        const title = resolved || entry.title
+        return this.compiled({ ...entry, title, ul, link, directoryPath: childPath })
     }
 }
 

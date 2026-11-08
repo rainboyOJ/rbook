@@ -47,8 +47,11 @@ book/<章>/<文章目录>/
 
   `id` 是 `[[[rbook: id]]]` 的唯一键；缺省时由路径推导（`index.md` 用目录名，其它用文件名）。
   `copy` 里的文件会在构建时复制到该文章的 dist 目录。
-- 正文顶部 `---\ntitle: …\n---` front matter **只被读取 title**，是标题的兜底；
-  正常元数据仍写在 config 里。
+- 正文顶部 `---\ntitle: …\n---` front matter **只被读取 title**，排在 `config.title` 之后兜底；
+  正常元数据仍写在 config 里。页面标题、侧边栏、`dist/catalog.json` 都按
+  `config.title → front matter title → catalog.yaml title` 解析，三者同源。
+- **同一目录的 `config.yaml` 只作用于它 `file:` 声明的那篇文章**；同目录的其它 `.md`
+  读自己的 front matter（`vscode/deepseek.md` 曾因此被邻居 config 改成了同名文章）。
 - 正文第一行惯例写 `[[TOC]]`（也认 `[TOC]`、`[[toc]]`、`[[Toc]]`），在该位置渲染页内目录
   `<nav class="table-of-contents">`，收 h2、h3。宽屏时在正文右侧跟随阅读高亮，窄屏时在正文内折叠显示。没有这个占位符就没有页内目录
   （侧边栏菜单来自 catalog，与此无关）。

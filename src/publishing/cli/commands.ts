@@ -1,7 +1,7 @@
 import { Command } from 'commander'
 import path from 'path'
 import { loadCatalog } from '../content/catalog-loader'
-import { flattenCatalog } from '../domain/catalog'
+import { flattenCatalog, flattenCatalogLeaves } from '../domain/catalog'
 import { resolveArticleSource } from '../content/source-resolver'
 import { PathPolicy } from '../content/path-policy'
 import { buildArticleIndex } from '../domain/index'
@@ -16,6 +16,7 @@ import { runStages } from '../build/stages'
 import { reportDiagnostics } from '../build/diagnostics-reporter'
 import { ContentMacrosOptions } from '../markdown/plugins/content-macros'
 import { MenuRenderer } from '../domain/menu-renderer'
+import { frontMatterTitle, resolveArticleTitle } from '../domain/article-title'
 
 export interface CliOptions {
     projectRoot: string
@@ -46,17 +47,30 @@ export function createCli(opts: CliOptions): Command {
             templateDir: path.join(opts.projectRoot, 'src', 'ejs'),
             root: opts.projectRoot,
             leafHref: leaf => policy.publishHref(resolveArticleSource(leaf, policy.book).source.filePath),
+            // 与正式构建同源：config.title → frontmatter title，取不到再用清单名。
+            leafTitle: leaf => {
+                const resolved = resolveArticleSource(leaf, policy.book)
+                // 只回 config 与 front matter，空串时让 MenuRenderer 用清单名兜底，
+                // 不要返回 resolveArticleTitle 的「未知」。
+                return (resolved.metadata.title || '').trim()
+                    || frontMatterTitle(resolved.source.raw)
+            },
         }).render(initialCatalog),
     })
 
     function buildSharedContext(diag: Diagnostic[]) {
         const catalog = loadCatalog(catalogPath, diag)
+        const catalogTitleByPath = new Map(flattenCatalogLeaves(catalog).map(leaf => [leaf.path, leaf.title]))
         const leaves = flattenCatalog(catalog)
         const entries = leaves.map(leaf => {
             const resolved = resolveArticleSource(leaf, policy.book, diag)
             return {
                 id: resolved.metadata.id,
-                title: resolved.metadata.title,
+                title: resolveArticleTitle({
+                    metadataTitle: resolved.metadata.title,
+                    headerTitle: frontMatterTitle(resolved.source.raw),
+                    catalogTitle: catalogTitleByPath.get(leaf),
+                }),
                 sourcePath: resolved.source.filePath,
                 publishHref: policy.publishHref(resolved.source.filePath),
                 metadata: resolved.metadata,

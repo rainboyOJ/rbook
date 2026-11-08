@@ -52,8 +52,15 @@ export function resolveArticleSource(entryPath: string, bookDir: string, diagnos
         filePath = normalized
         const config = loadConfig(configDir, diagnostics)
         if (config) {
-            hasConfig = true
-            rawConfig = config.data
+            // 同目录的 config 只描述它自己 `file:` 声明的那篇文章。
+            // 否则 `vscode/deepseek.md` 这种兄弟文件会被 `vscode/config.yaml` 的
+            // title / id / practice 静默覆盖，两篇文章在清单里同名同姓。
+            // 见 docs/adr/0012-single-source-article-titles.md。
+            const declared = path.resolve(configDir, str(config.data.file) || 'index.md')
+            if (declared === normalized) {
+                hasConfig = true
+                rawConfig = config.data
+            }
         }
     }
     else {
