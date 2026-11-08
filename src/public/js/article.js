@@ -126,6 +126,25 @@
             .catch(() => showToast('复制失败'))
     }, true)
 
+    // 文章 ID 胶囊：单击复制文章标识。反馈复用公式复制的 .rbook-toast，
+    // 同时给按钮加 .is-copied 让标签和图标短暂切换到「已复制 ✓」。
+    document.querySelectorAll('.rbook-article-id').forEach(btn => {
+        const id = btn.getAttribute('data-article-id')
+        if (!id) return
+        let timer = 0
+        btn.addEventListener('click', () => {
+            if (btn.classList.contains('is-copied')) return
+            copyText(id)
+                .then(() => {
+                    btn.classList.add('is-copied')
+                    showToast('已复制文章 ID')
+                    clearTimeout(timer)
+                    timer = setTimeout(() => btn.classList.remove('is-copied'), 1500)
+                })
+                .catch(() => showToast('复制失败'))
+        })
+    })
+
     // Optional tooltips must never prevent code-copy initialization.
     document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(element => {
         try {

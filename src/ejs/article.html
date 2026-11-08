@@ -41,16 +41,23 @@
                         <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M78.6 5C69.1-2.4 55.6-1.5 47 7L7 47c-8.5 8.5-9.4 22-2.1 31.6l80 104c4.5 5.9 11.6 9.4 19 9.4h54.1l109 109c-14.7 29-10 65.4 14.3 89.6l112 112c12.5 12.5 32.8 12.5 45.3 0l64-64c12.5-12.5 12.5-32.8 0-45.3l-112-112c-24.2-24.2-60.6-29-89.6-14.3l-109-109V104c0-7.5-3.5-14.5-9.4-19L78.6 5zM19.9 396.1C7.2 408.8 0 426.1 0 444.1C0 481.6 30.4 512 67.9 512c18 0 35.3-7.2 48-19.9L233.7 374.3c-7.8-20.9-9-43.6-3.6-65.1l-61.7-61.7L19.9 396.1zM512 144c0-10.5-1.1-20.7-3.2-30.5c-2.4-11.2-16.1-14.1-24.2-6l-63.9 63.9c-3 3-7.1 4.7-11.3 4.7H352c-8.8 0-16-7.2-16-16V102.6c0-4.2 1.7-8.3 4.7-11.3l63.9-63.9c8.1-8.1 5.2-21.8-6-24.2C388.7 1.1 378.5 0 368 0C288.5 0 224 64.5 224 144l0 .8 85.3 85.3c36-9.1 75.8 .5 104 28.7L429 274.5c49-23 83-72.8 83-130.5zM56 432a24 24 0 1 1 48 0 24 24 0 1 1 -48 0z"/></svg>
                     </a>
                 <%}%>
-                <% if( data.id) {%>
+            </div>
+            <% if( data.id) {%>
+                <button type="button" class="btn btn-outline-light rbook-article-id" data-article-id="<%=data.id%>" aria-label="复制文章 ID：<%=data.id%>">
+                    <span class="rbook-article-id__label" aria-hidden="true">文章 ID</span>
+                    <code class="rbook-article-id__value" aria-hidden="true"><%=data.id%></code>
+                    <span class="rbook-article-id__copied" aria-hidden="true">已复制</span>
+                    <span class="rbook-article-id__icon" aria-hidden="true">
+                        <svg class="rbook-article-id__icon-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                        <svg class="rbook-article-id__icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                    </span>
+                </button>
+                <div class="btn-group">
                     <a class="btn btn-outline-light">
-                        id: <%=data.id%>
-                    </a>
-                    <a class="btn btn-outline-light">
-                        <!-- <img style="width:80px;" src="https://visits.dashroshan.com/rbook_<%=data.id%>?label=VISITS&shadow=1&shadowOpacity=30&swap=0&labelBGColor=484848&countBGColor=2574EA&labelTextColor=FFFFFF&countTextColor=FFFFFF"> -->
                         <img style="width:80px;" src="https://visitor-badge.laobi.icu/badge?page_id=rbook_<%=data.id%>">
                     </a>
-                <%}%>
-            </div>
+                </div>
+            <%}%>
         </div>
     </div>
     <div class="markdown-body">

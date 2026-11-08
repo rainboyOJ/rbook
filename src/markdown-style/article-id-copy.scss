@@ -1,0 +1,131 @@
+// 文章 ID 胶囊：标题下按钮组中间那颗可点击复制文章标识的按钮。
+// 结构见 src/ejs/article.html：小标签 + 等宽 ID 值 + 复制图标。
+// 复制反馈复用 formula-copy.scss 的 .rbook-toast，这里只负责按钮自身外观。
+
+// 胶囊从 Bootstrap btn-group 里抽出来，与左右两段按钮留 gap；
+// 长 ID 在窄屏上换行时，整排仍然居中而不是被挤压。
+.rbook-article .badges {
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.rbook-article .rbook-article-id {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    line-height: 1.5;
+    text-align: start;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+}
+
+// 「文章 ID」四个字只做说明，颜色与字号都退到次要层，让等宽的 ID 值成为视觉主体。
+.rbook-article .rbook-article-id__label {
+    padding-inline-end: 8px;
+    border-inline-end: 1px solid var(--rbook-border);
+    color: var(--rbook-muted);
+    font: 11px/1 var(--rbook-font-heading);
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+}
+
+.rbook-article .rbook-article-id__value {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--rbook-text);
+    font: 600 13px/1.4 var(--rbook-font-mono);
+    // 超长 ID（如 continuous_segment_dp）在窄屏上换行，不截断。
+    overflow-wrap: anywhere;
+}
+
+.rbook-article .rbook-article-id__copied {
+    display: none;
+    color: var(--rbook-accent);
+    font: 11px/1 var(--rbook-font-heading);
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+}
+
+.rbook-article .rbook-article-id__icon {
+    display: inline-flex;
+    align-items: center;
+    color: var(--rbook-muted);
+    transition: color 0.15s ease;
+}
+
+.rbook-article .rbook-article-id .rbook-article-id__icon svg {
+    width: 14px;
+    height: 14px;
+    // .badges svg 统一 fill: currentColor，这两个图标是描边图，必须显式置零。
+    fill: none;
+}
+
+.rbook-article .rbook-article-id__icon-check {
+    display: none;
+}
+
+.rbook-article .rbook-article-id:hover {
+    border-color: var(--rbook-accent);
+    background: var(--rbook-accent-muted);
+    color: var(--rbook-accent);
+}
+
+.rbook-article .rbook-article-id:hover .rbook-article-id__icon,
+.rbook-article .rbook-article-id:hover .rbook-article-id__value {
+    color: var(--rbook-accent);
+}
+
+// 复制成功：标签换成「已复制」，图标换成对勾，1.5s 后由 article.js 移除 is-copied。
+.rbook-article .rbook-article-id.is-copied {
+    border-color: var(--rbook-accent);
+    background: var(--rbook-accent-muted);
+}
+
+.rbook-article .rbook-article-id.is-copied .rbook-article-id__label {
+    display: none;
+}
+
+.rbook-article .rbook-article-id.is-copied .rbook-article-id__copied {
+    display: inline;
+    // 标签隐去后把「已复制」提到最前，读作「已复制 · presum ✓」。
+    order: -1;
+}
+
+.rbook-article .rbook-article-id.is-copied .rbook-article-id__value,
+.rbook-article .rbook-article-id.is-copied .rbook-article-id__icon {
+    color: var(--rbook-accent);
+}
+
+.rbook-article .rbook-article-id.is-copied .rbook-article-id__icon-copy {
+    display: none;
+}
+
+.rbook-article .rbook-article-id.is-copied .rbook-article-id__icon-check {
+    display: block;
+}
+
+// 与 .rbook-tool-button 共用同一套焦点环，Bootstrap 默认的 box-shadow 环让位。
+.rbook-article .rbook-article-id:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--rbook-accent) 42%, transparent);
+    outline-offset: 2px;
+    box-shadow: none;
+}
+
+// 窄屏优先保住 ID 值与图标，「文章 ID」四字隐藏。
+@media (max-width: 640px) {
+    .rbook-article .rbook-article-id__label {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rbook-article .rbook-article-id,
+    .rbook-article .rbook-article-id__icon {
+        transition: none;
+    }
+}
