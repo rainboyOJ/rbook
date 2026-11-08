@@ -1,3 +1,11 @@
+---
+title: 二进制与集合
+rbook:
+  id: binary-set
+  pre:
+    - binary
+---
+
 [[TOC]]
 
 ## 一位二进制，记录一个元素

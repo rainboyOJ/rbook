@@ -1,3 +1,11 @@
+---
+title: 最长上长子序列
+rbook:
+  id: lis
+  pre:
+    - number_pyramid
+---
+
 [[TOC]]
 
 

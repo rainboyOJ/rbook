@@ -1,3 +1,9 @@
+---
+title: 分块思想
+rbook:
+  id: decompose
+---
+
 [[TOC]]
 
 

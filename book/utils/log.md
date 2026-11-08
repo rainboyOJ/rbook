@@ -1,5 +1,7 @@
 ---
 title: log 工具
+rbook:
+  id: log
 ---
 
 [[TOC]]

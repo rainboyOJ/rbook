@@ -1,3 +1,9 @@
+---
+title: 思维方式
+rbook:
+  id: mind_theory
+---
+
 [[TOC]]
 
 # 算法思维方法论

@@ -1,3 +1,11 @@
+---
+title: Neovim 快捷键：移动与跳转
+rbook:
+  id: neovim-shortcuts
+  hiden_in_brain: true
+  practice: false
+---
+
 [[TOC]]
 
 # Neovim 快捷键：不用鼠标的移动与跳转

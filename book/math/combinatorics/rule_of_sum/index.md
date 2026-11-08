@@ -1,3 +1,9 @@
+---
+title: 分类加法计数原理
+rbook:
+  id: rule_of_sum
+---
+
 [[TOC]]
 
 ## 分类加法计数原理

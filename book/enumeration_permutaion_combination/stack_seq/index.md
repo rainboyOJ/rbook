@@ -1,3 +1,11 @@
+---
+title: 出栈顺序
+rbook:
+  copy:
+    - ./svg/baoli.svg
+    - ./svg/state.svg
+---
+
 [[TOC]]
 
 ## 题目

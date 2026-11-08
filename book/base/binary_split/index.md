@@ -1,3 +1,9 @@
+---
+title: 二分分割
+rbook:
+  id: binary_split
+---
+
 [[TOC]]
 
 ## 说明

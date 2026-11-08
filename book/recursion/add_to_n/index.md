@@ -1,3 +1,12 @@
+---
+title: 1加到n
+rbook:
+  teach_plan: teach_plan.md
+  copy:
+    - dfs.svg
+    - child.svg
+---
+
 [[TOC]]
 
 ## 题目引入

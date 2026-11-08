@@ -1,5 +1,7 @@
 ---
 title: 贪心说明
+rbook:
+  id: greedy
 ---
 
 [[TOC]]

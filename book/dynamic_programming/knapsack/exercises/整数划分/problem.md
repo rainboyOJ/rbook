@@ -3,6 +3,8 @@ title: 整数划分
 update: 2023-11-13 09:15
 status: TODO
 commit: 完成多种解法
+rbook:
+  id: knapsack_integer_partition
 ---
 
 [toc]

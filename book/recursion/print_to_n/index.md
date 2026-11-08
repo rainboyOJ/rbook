@@ -1,3 +1,11 @@
+---
+title: 1到n输出
+rbook:
+  teach_plan: teach_plan.md
+  copy:
+    - ./child2.svg
+---
+
 [[TOC]]
 
 ## 教学目标

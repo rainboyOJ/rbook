@@ -1,3 +1,10 @@
+---
+title: 对数
+rbook:
+  id: logarithm
+  attachment: true
+---
+
 [[TOC]]
 
 

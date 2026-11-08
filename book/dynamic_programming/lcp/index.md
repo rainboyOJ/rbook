@@ -1,3 +1,11 @@
+---
+title: LCP 算法（DP）
+rbook:
+  id: lcp_dp
+  pre:
+    - continuous_segment_dp
+---
+
 [[TOC]]
 
 ## LCP：从开头连续匹配多长？

@@ -1,3 +1,9 @@
+---
+title: 区间分组证明
+rbook:
+  id: greedy_interval_grouping
+---
+
 [[TOC]]
 
 ## 区间分组证明（区间图着色）

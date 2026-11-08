@@ -1,3 +1,14 @@
+---
+title: 随机数据生成
+rbook:
+  code_template:
+    - title: 随机数据生成 random
+      tags:
+        - graph
+      desc: 数据生成模板
+      code: ./random_int.cpp
+---
+
 [[TOC]]
 
 随机数据生成

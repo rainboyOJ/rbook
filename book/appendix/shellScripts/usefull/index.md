@@ -1,3 +1,9 @@
+---
+title: 有用的命令
+rbook:
+  practice: false
+---
+
 [[TOC]]
 
 ## `diff`

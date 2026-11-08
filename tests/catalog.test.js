@@ -95,19 +95,39 @@ describe('Phase 2: Catalog 与元数据模型', () => {
         assert.ok(policy.outputPath(source).endsWith('/dist/base/presum/index.html'))
     })
 
-    it('resolveArticleSource 解析目录 + config', () => {
+    it('resolveArticleSource 解析目录 + front matter', () => {
         const resolved = resolveArticleSource('base/presum', path.join(PROJECT_ROOT, 'book'))
         assert.ok(resolved.metadata.id)
         assert.ok(resolved.metadata.title)
         assert.ok(resolved.source.raw.length > 0, '应读到文章正文')
     })
 
+    it('normalizeMetadata 从 rbook: 子键读构建字段', () => {
+        const md = normalizeMetadata(
+            { title: '新标题', menu_title: '短名', rbook: { id: 'myid', pre: ['a'], practice: false } },
+            '/path/to/file.md',
+            [],
+        )
+        assert.equal(md.id, 'myid')
+        assert.equal(md.title, '新标题')
+        assert.equal(md.menuTitle, '短名')
+        assert.deepEqual(md.pre, ['a'])
+        assert.equal(md.practice, false)
+    })
+
     it('normalizeMetadata 处理 hiden_* 别名并发出 warning', () => {
         const diag = []
-        const md = normalizeMetadata({ hiden_id: 'myid', hiden_title: '旧标题' }, '/path/to/file.md', diag)
+        const md = normalizeMetadata({ rbook: { hiden_id: 'myid', hiden_title: '旧标题' } }, '/path/to/file.md', diag)
         assert.equal(md.id, 'myid')
-        assert.equal(md.title, '旧标题')
         assert.ok(diag.some(d => d.level === 'warning'), '应发出弃用警告')
+    })
+
+    it('顶层散落的构建字段只报警告、不生效', () => {
+        const diag = []
+        const md = normalizeMetadata({ title: 'T', id: 'stray', copy: ['a'] }, '/path/to/file.md', diag)
+        assert.equal(md.id, 'file', '顶层 id 应被忽略，回退到路径推导')
+        assert.equal(md.copy, undefined)
+        assert.ok(diag.some(d => /应写在 front matter 的 rbook/.test(d.message)))
     })
 
     it('旧 catalog 所有叶子均可解析，坏 config 仅产生诊断', () => {

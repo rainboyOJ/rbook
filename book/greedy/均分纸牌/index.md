@@ -1,3 +1,14 @@
+---
+title: 均分纸牌
+rbook:
+  id: greedy_equal_card
+  copy:
+    - images/环形均分纸牌.excalidraw.svg
+    - images/环形均分纸牌2.excalidraw.svg
+    - images/环形均分纸牌3.excalidraw.svg
+    - images/环形均分纸牌4.excalidraw.svg
+---
+
 [[TOC]]
 
 # 均分纸牌问题详解

@@ -1,3 +1,9 @@
+---
+title: 数论笔记
+rbook:
+  id: numberTheory_book_note
+---
+
 [[TOC]]
 
 ## 说明

@@ -1,3 +1,16 @@
+---
+title: 栈
+rbook:
+  id: stack
+  code_template:
+    - title: 栈 stack
+      tags:
+        - data_structure
+        - stack
+      desc: 普通栈模板
+      code: ./stack.cpp
+---
+
 [[TOC]]
 
 ## 定义

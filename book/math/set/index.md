@@ -1,3 +1,18 @@
+---
+title: 集合
+rbook:
+  id: set
+  shape: circle
+  icon:
+    face: FontAwesome
+    code: 睷
+  color: '#264653'
+  font:
+    size: 25
+    color: '#E9C46A'
+  size: 30
+---
+
 [[TOC]]
 
 ## 前言

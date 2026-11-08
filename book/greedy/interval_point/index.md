@@ -1,3 +1,13 @@
+---
+title: 区间选点证明
+rbook:
+  id: greedy_interval_point
+  copy:
+    - assets/image-20250812112004-sbln73p.png
+    - assets/image-20250812150904-ux1uf3b.png
+    - assets/image-20250812151517-haw4x0n.png
+---
+
 [[TOC]]
 
 ## 区间选点证明

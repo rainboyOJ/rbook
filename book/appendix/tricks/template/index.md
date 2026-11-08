@@ -1,3 +1,9 @@
+---
+title: 临时模板
+rbook:
+  id: tricks_template
+---
+
 [[TOC]]
 
 

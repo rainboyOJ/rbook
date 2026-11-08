@@ -1,3 +1,11 @@
+---
+title: 最长公共子序列
+rbook:
+  id: lcs
+  pre:
+    - lis
+---
+
 [[TOC]]
 
 ## 题目

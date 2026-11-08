@@ -1,3 +1,13 @@
+---
+title: 诗人小G
+rbook:
+  id: poetG
+  pre:
+    - stone_merger_quadrangle
+    - decision_mono
+  group: problem
+---
+
 [[TOC]]
 
 

@@ -1,3 +1,10 @@
+---
+title: sgt合并
+rbook:
+  id: sgt_merge
+  pre: sgt_update_range
+---
+
 [[TOC]]
 
 雨天的尾巴

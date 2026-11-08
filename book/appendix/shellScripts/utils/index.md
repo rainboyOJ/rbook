@@ -1,3 +1,11 @@
+---
+title: 工具
+rbook:
+  copy:
+    - ./luogu_sample_download.py
+  practice: false
+---
+
 [[TOC]]
 
 ## 说明

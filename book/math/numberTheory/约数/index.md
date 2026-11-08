@@ -1,3 +1,9 @@
+---
+title: 约数
+rbook:
+  status: TODO
+---
+
 
 等待整理
 https://blog.csdn.net/m0_51269961/article/details/124324703

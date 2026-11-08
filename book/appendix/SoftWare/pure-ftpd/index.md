@@ -1,3 +1,8 @@
+---
+title: pure-ftpd的使用
+rbook:
+  practice: false
+---
 
 [[toc]]
 

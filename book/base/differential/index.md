@@ -1,3 +1,10 @@
+---
+title: 差分
+rbook:
+  id: differential
+  copy:
+    - ./matrix.svg
+---
 
 [[TOC]]
 

@@ -1,3 +1,10 @@
+---
+title: 扫描线
+rbook:
+  id: sgt_scanline
+  pre: sgt_update_range
+---
+
 [[TOC]]
 
 ## core thinking

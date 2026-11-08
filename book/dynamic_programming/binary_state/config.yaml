@@ -1,6 +1,0 @@
-id: binary_state
-title: 状态压缩
-file: index.md
-pre:
-  - set
-  - binary

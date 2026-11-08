@@ -1,7 +1,7 @@
 #!/bin/bash
 # 把文章目录里声明的 Typst 源文件编译成同目录 PDF，供正文用 <iframe> 内嵌。
 #
-# 只编译「被声明的」源文件：文章 config.yaml 里写上
+# 只编译「被声明的」源文件：文章的 front matter 里写上
 #
 #   typst: 比赛赛前注意事项.typ
 #
@@ -42,19 +42,14 @@ count=0
 skip=0
 fail=0
 
-# 收集声明了 typst 字段的文章配置（yaml / yml / json 都认）
-while IFS= read -r cfg; do
-	dir=$(dirname "$cfg")
+# 收集声明了 typst 字段的文章：扫 md 的 front matter（rbook: 子键里的 typst:）
+while IFS= read -r doc; do
+	dir=$(dirname "$doc")
 
-	# json 配置：一行搞定，直接取 "typst": "x.typ"
-	# yaml 配置：取 typst: 后面的值，容忍引号与行尾注释
+	# 取 typst: 后面的值，容忍引号与行尾注释
 	value=$(
-		if [[ "$cfg" == *.json ]]; then
-			sed -n 's/.*"typst"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' "$cfg"
-		else
-			sed -n 's/^[[:space:]]*typst[[:space:]]*:[[:space:]]*\(.*\)$/\1/p' "$cfg" \
-				| sed -e 's/[[:space:]]*#.*$//' -e 's/^["'\'']//' -e 's/["'\'']$//'
-		fi | head -n 1
+		sed -n 's/^[[:space:]]*typst[[:space:]]*:[[:space:]]*\(.*\)$/\1/p' "$doc" \
+			| sed -e 's/[[:space:]]*#.*$//' -e 's/^["'\'']//' -e 's/["'\'']$//' | head -n 1
 	)
 
 	[[ -n "$value" ]] || continue
@@ -63,7 +58,7 @@ while IFS= read -r cfg; do
 	pdf="${src%.typ}.pdf"
 
 	if [[ ! -f "$src" ]]; then
-		echo "[typst] 配置指向的源文件不存在: $src（来自 $cfg）" >&2
+		echo "[typst] 配置指向的源文件不存在: $src（来自 $doc）" >&2
 		fail=$((fail + 1))
 		continue
 	fi
@@ -81,7 +76,7 @@ while IFS= read -r cfg; do
 		echo "[typst] 编译失败: $src" >&2
 		fail=$((fail + 1))
 	fi
-done < <(find book -type f \( -name 'config.yaml' -o -name 'config.yml' -o -name 'config.json' \) | sort)
+done < <(grep -rl --include='*.md' -E '^[[:space:]]*typst[[:space:]]*:' book | sort)
 
 if [[ $count -eq 0 && $skip -eq 0 && $fail -eq 0 ]]; then
 	echo "[typst] book/ 下没有声明 typst 源文件，跳过"

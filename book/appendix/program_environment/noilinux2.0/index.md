@@ -1,3 +1,11 @@
+---
+title: noilinux2.0
+rbook:
+  id: noilinux2.0
+  hidden_brain_map: true
+  practice: false
+---
+
 [[TOC]]
 
 ## 笔记本选购

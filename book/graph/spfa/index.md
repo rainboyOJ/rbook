@@ -1,3 +1,18 @@
+---
+title: spfa
+rbook:
+  id: spfa
+  pre:
+    - bellman-ford
+  code_template:
+    - title: SPFA 最短路
+      tags:
+        - graph
+        - shortest_path
+      desc: 基于队列优化的 Bellman-Ford (SPFA) 单源最短路与负环判定模板
+      code: ./spfa.cpp
+---
+
 [[TOC]]
 
 ## 算法背景与直觉

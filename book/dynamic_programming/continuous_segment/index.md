@@ -1,3 +1,11 @@
+---
+title: 连续段 DP
+rbook:
+  id: continuous_segment_dp
+  pre:
+    - dp_intro
+---
+
 [[TOC]]
 
 ## 扫描到一个新元素时，需要知道什么？

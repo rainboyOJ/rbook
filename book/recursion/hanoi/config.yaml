@@ -1,6 +1,0 @@
-id: hanoi
-title: 汉诺塔游戏
-file: index.md
-copy:
-  - ./hanoi.svg
-  - ./hanoi2.svg

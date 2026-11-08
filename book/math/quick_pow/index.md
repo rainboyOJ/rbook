@@ -1,3 +1,12 @@
+---
+title: 快速幂
+rbook:
+  id: quick_pow
+  code_template:
+    - title: 快速幂 quick_pow
+      code: ./template.cpp
+---
+
 [[TOC]]
 ## 解释 
 

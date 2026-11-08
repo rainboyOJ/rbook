@@ -1,5 +1,7 @@
 ---
 title: 题目练习
+rbook:
+  id: practice
 ---
 
 [[TOC]]

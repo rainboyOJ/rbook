@@ -1,3 +1,12 @@
+---
+title: 汉诺塔游戏
+rbook:
+  id: hanoi
+  copy:
+    - ./hanoi.svg
+    - ./hanoi2.svg
+---
+
 [[TOC]]
 
 ## 教学目标

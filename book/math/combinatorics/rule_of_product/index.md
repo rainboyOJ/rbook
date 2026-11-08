@@ -1,3 +1,9 @@
+---
+title: 分步乘法计数原理
+rbook:
+  id: rule_of_product
+---
+
 [[TOC]]
 
 

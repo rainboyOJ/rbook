@@ -1,6 +1,8 @@
 ---
 title: 不重复排列
 status: TODO
+rbook:
+  id: not_repeat_permutation
 ---
 
 [[TOC]]

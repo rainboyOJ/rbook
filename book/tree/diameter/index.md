@@ -1,3 +1,9 @@
+---
+title: 树的直径
+rbook:
+  id: diameter
+---
+
 [[TOC]]
 
 # 树的直径

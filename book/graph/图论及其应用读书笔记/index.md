@@ -1,3 +1,9 @@
+---
+title: 图论及其应用读书笔记
+rbook:
+  id: graph_reading_notes
+---
+
 [[TOC]]
 
 

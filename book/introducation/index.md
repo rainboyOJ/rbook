@@ -1,3 +1,10 @@
+---
+title: 简介
+rbook:
+  id: introduce
+  hiden_brain_map: true
+---
+
 [[TOC]]
 
 - 九尺之臺起於蔂土，百仞之高始於足下

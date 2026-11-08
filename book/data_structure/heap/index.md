@@ -1,3 +1,16 @@
+---
+title: 堆
+rbook:
+  id: heap
+  code_template:
+    - title: 堆 heap
+      tags:
+        - data_structure
+        - heap
+      desc: 二叉堆模板
+      code: ./heap.cpp
+---
+
 [[TOC]]
 
 ## 核心

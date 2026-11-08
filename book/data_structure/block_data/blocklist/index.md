@@ -1,3 +1,10 @@
+---
+title: 块状链表
+rbook:
+  id: block_list
+  pre: decompose
+---
+
 [[TOC]]
 
 

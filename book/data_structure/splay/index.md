@@ -2,6 +2,7 @@
 title: Splay
 status: TODO
 ---
+
 ## 核心1: 旋转
 
 - zig,右旋

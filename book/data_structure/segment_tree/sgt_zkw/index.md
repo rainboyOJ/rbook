@@ -1,3 +1,10 @@
+---
+title: zkw_sgt
+rbook:
+  id: sgt_zkw
+  pre: sgt_update_range
+---
+
 [[TOC]]
 
 zkw线段树

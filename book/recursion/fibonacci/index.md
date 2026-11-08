@@ -1,3 +1,10 @@
+---
+title: 斐波那契数列
+rbook:
+  id: fibonacci
+  copy:
+    - ./tree.svg
+---
 
 [[TOC]]
 

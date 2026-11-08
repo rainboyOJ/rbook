@@ -1,3 +1,14 @@
+---
+title: 二分查找
+rbook:
+  id: binary_search
+  copy:
+    - ./1.svg
+  pre:
+    - binary_split
+  history: history.md
+---
+
 [[TOC]]
 
 ## 问题

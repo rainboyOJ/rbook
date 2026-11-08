@@ -1,5 +1,7 @@
 ---
 title: 图的相关算法
+rbook:
+  id: preface
 ---
 
 [[TOC]]

@@ -1,3 +1,9 @@
+---
+title: 四边形不等式优化
+rbook:
+  id: Quadrangle_Inequality_Optimization
+---
+
 [[TOC]]
 
 ## 四边形不等式定义

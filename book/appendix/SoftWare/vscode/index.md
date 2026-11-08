@@ -1,7 +1,12 @@
 ---
-title : vscode的使用
+title: vscode的使用
 author: rainboy
-update_time : 2023-04-27
+update_time: 2023-04-27T00:00:00.000Z
+rbook:
+  copy:
+    - cpp.json
+    - keyboard-shortcuts-linux.pdf
+  practice: false
 ---
 
 [[TOC]]

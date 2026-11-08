@@ -1,3 +1,12 @@
+---
+title: 编译脚本的使用
+rbook:
+  copy:
+    - ./b.py
+    - ./b.sh
+  practice: false
+---
+
 [[TOC]]
 
 

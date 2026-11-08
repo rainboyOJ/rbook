@@ -1,3 +1,11 @@
+---
+title: 01背包
+rbook:
+  id: 01knapsack
+  pre:
+    - number_pyramid
+---
+
 [[TOC]]
 
 

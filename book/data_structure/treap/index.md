@@ -1,3 +1,20 @@
+---
+title: Treap 平衡树
+rbook:
+  id: treap
+  pre:
+    - binary_search_tree
+    - heap
+  code_template:
+    - title: Treap 平衡树模板
+      tags:
+        - data_structure
+        - treap
+        - 平衡树
+      desc: 插入/删除/排名/第k小/前驱/后继，期望 O(log n)
+      code: ./treap_template.cpp
+---
+
 [[TOC]]
 
 ## 一、Treap 解决什么问题

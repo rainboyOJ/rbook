@@ -1,3 +1,20 @@
+---
+title: 前言
+rbook:
+  id: sgt_preface
+  code_template:
+    - title: sgt单点更新
+      tags:
+        - sgt
+      desc: sgt单点更新
+      code: ../template/sgt_point.cpp
+    - title: sgt区间更新
+      tags:
+        - sgt
+      desc: sgt区间更新
+      code: ../template/sgt_range.cpp
+---
+
 [[TOC]]
 
 ## 前言

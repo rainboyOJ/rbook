@@ -1,6 +1,8 @@
 ---
-title: '找环'
+title: 找环
 status: TODO
+rbook:
+  id: graph_tarjan_loop
 ---
 
 [[TOC]]

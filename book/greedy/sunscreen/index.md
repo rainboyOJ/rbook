@@ -1,3 +1,9 @@
+---
+title: 防晒证明
+rbook:
+  id: greedy_sunscreen
+---
+
 [[TOC]]
 
 ## 贪心算法的严谨证明：区间与点配对问题

@@ -1,3 +1,13 @@
+---
+title: 比赛赛前注意事项
+rbook:
+  id: pre-contest-notes
+  typst: 比赛赛前注意事项.typ
+  copy:
+    - 比赛赛前注意事项.pdf
+  practice: false
+---
+
 [[TOC]]
 
 <style>

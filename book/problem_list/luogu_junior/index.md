@@ -1,3 +1,9 @@
+---
+title: luogu普及组练习场
+rbook:
+  id: luogu_junior
+  hiden_brain_map: true
+---
 
 [[TOC]]
 

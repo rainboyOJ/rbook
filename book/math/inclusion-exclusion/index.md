@@ -1,3 +1,10 @@
+---
+title: 容斥原理
+rbook:
+  copy:
+    - ./1280px-Inclusion-exclusion.svg.png
+---
+
 [[TOC]]
 
 ## 容斥原理

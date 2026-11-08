@@ -1,3 +1,9 @@
+---
+title: 非递归实现排列
+rbook:
+  id: non_recursive_permutation
+---
+
 [[TOC]]
 
 

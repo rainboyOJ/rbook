@@ -21,7 +21,7 @@ const { resolveArticleSource } = require(path.join(PROJECT_ROOT, '.tsbuild/publi
 const { normalizeMetadata } = require(path.join(PROJECT_ROOT, '.tsbuild/publishing/content/metadata-normalizer.js'))
 const { PathPolicy } = require(path.join(PROJECT_ROOT, '.tsbuild/publishing/content/path-policy.js'))
 const { formatDiagnostic } = require(path.join(PROJECT_ROOT, '.tsbuild/publishing/domain/diagnostics.js'))
-const { CONFIG_FILE_NAMES, loadConfig } = require(path.join(PROJECT_ROOT, '.tsbuild/publishing/content/config-loader.js'))
+const { readFrontMatter } = require(path.join(PROJECT_ROOT, '.tsbuild/publishing/content/front-matter.js'))
 const { titleNeedsAuthoring, frontMatterTitle, menuTitleWidth, MENU_TITLE_MAX_WIDTH } = require(path.join(PROJECT_ROOT, '.tsbuild/publishing/domain/article-title.js'))
 
 const catalogPath = path.join(PROJECT_ROOT, 'book', 'catalog.yaml')
@@ -77,9 +77,9 @@ function expandReachable(seed) {
                 const m = FENCE_FILE_RE.exec(line)
                 if (m) targets.push(m[1] || m[2] || m[3])
             }
-            // teach_plan 元数据
+            // teach_plan 元数据（在 front matter 的 rbook: 子键里）
             try {
-                const meta = normalizeMetadata({}, file, [])
+                const meta = normalizeMetadata(readFrontMatter(src, file).data, file, [])
                 if (meta.teachPlan) targets.push(meta.teachPlan)
             }
             catch { /* 忽略元数据解析失败 */ }
@@ -97,29 +97,30 @@ function expandReachable(seed) {
 /**
  * 孤儿按「为什么没发布」分类。分类不是装饰：它决定 allowlist 里能写哪个 reason。
  *
- * - identity  所在目录的 config 把**这个文件**声明为文章（尚未挂进 catalog，P0 债务）
- * - aux       所在目录有 config，但声明的文章是别的文件；本文件是素材
- * - draft     config 里标了 status/state: TODO/draft
- * - triage    纯 md，既不是文章也没被引用，等人判断
+ * - identity  front matter 里有 rbook.id，说明是有意发布却还没挂进 catalog（P0 债务）
+ * - draft     front matter 里标了 status/state: TODO/draft
+ * - triage    其余：既没声明自己是文章，也没标草稿，等人判断
+ *
+ * `aux`（素材）只保留给历史条目：config.yaml 时代还能用「目录 config 声明的不是这个文件」
+ * 判断它是素材，现在没有同等强度的证据，新孤儿一律先进 triage，不冒充已知。
  */
 function classifyOrphan(relPath) {
     const abs = path.join(policy.book, relPath)
-    const dir = path.dirname(abs)
-    const hasConfig = CONFIG_FILE_NAMES.some(name => fs.existsSync(path.join(dir, name)))
-    if (!hasConfig) return 'triage'
+    let raw = ''
+    try { raw = fs.readFileSync(abs, 'utf8') }
+    catch { return 'triage' }
 
-    let config = null
-    try {
-        config = loadConfig(dir, [])
-    }
-    catch { /* 坏 config 由 loadCatalog/渲染阶段报，这里不重复 */ }
-    const data = (config && config.data) || {}
-    const status = String(data.status || data.state || '').toLowerCase()
+    const { data } = readFrontMatter(raw)
+    const rbook = (data.rbook && typeof data.rbook === 'object' && !Array.isArray(data.rbook)) ? data.rbook : {}
+
+    const status = String(rbook.status || rbook.state || data.status || data.state || '').toLowerCase()
     if (status.includes('todo') || status.includes('draft')) return 'draft'
 
-    // 目录里的文章是 config.file 指定的那个文件；其余 md 是素材。
-    const declared = path.normalize(path.join(dir, String(data.file || 'index.md')))
-    return path.normalize(abs) === declared ? 'identity' : 'aux'
+    // 有 rbook.id = 这份 md 自称是文章，只是没挂进 catalog（P0 债务）
+    if (String(rbook.id || '').trim()) return 'identity'
+
+    // 其余没有强证据，一律进 triage，由人判断是文章还是素材
+    return 'triage'
 }
 
 const REASONS = new Set(['aux', 'draft', 'triage'])

@@ -1,6 +1,0 @@
-id: number_base
-title: 进制
-file: index.md
-attachment: true
-copy:
-  - ./short_div.svg

@@ -1,3 +1,9 @@
+---
+title: 随机图
+rbook:
+  id: random_graph
+---
+
 [[TOC]]
 
 随机图生成代码

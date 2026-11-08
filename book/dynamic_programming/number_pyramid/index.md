@@ -1,3 +1,11 @@
+---
+title: 数字金字塔
+rbook:
+  id: number_pyramid
+  pre:
+    - set
+---
+
 [[TOC]]
 
 # 数学金字塔

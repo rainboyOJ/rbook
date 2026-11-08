@@ -1,3 +1,12 @@
+---
+title: 进制
+rbook:
+  id: number_base
+  attachment: true
+  copy:
+    - ./short_div.svg
+---
+
 [[TOC]]
 
 ## 进制

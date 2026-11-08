@@ -1,5 +1,7 @@
 ---
 title: 深度优先搜索
+rbook:
+  id: dfs
 ---
 
 [[TOC]]

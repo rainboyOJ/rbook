@@ -1,3 +1,9 @@
+---
+title: 树的入门
+rbook:
+  id: tree_base
+---
+
 [[TOC]]
 
 # 树的入门

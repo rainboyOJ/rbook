@@ -1,3 +1,10 @@
+---
+title: 有趣的合集
+rbook:
+  copy: []
+  practice: false
+---
+
 [[TOC]]
 
 

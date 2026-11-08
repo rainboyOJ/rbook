@@ -1,3 +1,11 @@
+---
+title: 球与盒子
+rbook:
+  id: ball_and_box
+  pre:
+    - 01_seq
+---
+
 [[TOC]]
 
 

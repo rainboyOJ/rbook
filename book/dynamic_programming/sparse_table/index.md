@@ -1,3 +1,12 @@
+---
+title: st表
+rbook:
+  id: sparse_table
+  pre:
+    - binary_jump
+    - number_pyramid
+---
+
 [[toc]]
 
 ## 学习目标

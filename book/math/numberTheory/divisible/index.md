@@ -1,3 +1,9 @@
+---
+title: 整除
+rbook:
+  attachment: true
+---
+
 [[TOC]]
 
 

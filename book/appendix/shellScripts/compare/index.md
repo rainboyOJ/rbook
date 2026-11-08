@@ -1,3 +1,40 @@
+---
+title: 对拍脚本
+rbook:
+  id: compare_script
+  hiden_brain_map: true
+  copy:
+    - ./compare_complex.sh
+    - ./compare.sh
+    - ./check.sh
+  code_template:
+    - title: 对拍脚本1 compare
+      tags:
+        - template
+        - tool
+        - shell
+      desc: 一个简单的对拍脚本
+      code: ./compare.sh
+      sh: curl -o compare.sh https://rbook.roj.ac.cn/code_template/appendix/shellScripts/compare/compare.sh && chmod +x compare.sh
+    - title: 对拍脚本2 compare
+      tags:
+        - template
+        - tool
+        - shell
+      desc: 一个复杂的对拍脚本
+      code: ./compare_complex.sh
+      sh: curl -o compare.sh https://rbook.roj.ac.cn/code_template/appendix/shellScripts/compare/compare_complex.sh && chmod +x compare.sh
+    - title: check 脚本
+      tags:
+        - check
+        - tool
+        - shell
+      desc: 用来测试data下数据的脚本
+      code: ./check.sh
+      sh: curl -o check.sh https://rbook.roj.ac.cn/code_template/appendix/shellScripts/compare/check.sh && chmod +x check.sh
+  practice: false
+---
+
 [[TOC]]
 
 ## 什么是对拍

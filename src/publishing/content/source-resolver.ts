@@ -1,18 +1,26 @@
 import fs from 'fs'
 import path from 'path'
 import { ArticleSource } from '../domain/article'
-import { loadConfig } from './config-loader'
 import { normalizeMetadata } from './metadata-normalizer'
+import { readFrontMatter } from './front-matter'
 import { ArticleMetadata } from '../domain/metadata'
 import { Diagnostic } from '../domain/diagnostics'
 
 export interface ResolvedArticle {
     source: ArticleSource
     metadata: ArticleMetadata
-    configDir: string
-    hasConfig: boolean
+    /** md 里解析出来的 front matter 原样对象（构建字段在 `rbook:` 子键） */
+    frontMatter: Record<string, unknown>
 }
 
+/**
+ * 把 catalog 里的一条叶子解析成「文件 + 元数据」。
+ *
+ * 目录叶子默认读 `index.md`，.md 叶子读文件本身；两者的元数据都来自该 md 的
+ * front matter，不再有目录级的 `config.yaml`——一份配置只描述一个文件，
+ * 因此「同目录 config 作用到兄弟文件」这类错配从结构上消失
+ * （见 docs/adr/0013-metadata-in-front-matter.md）。
+ */
 export function resolveArticleSource(entryPath: string, bookDir: string, diagnostics: Diagnostic[] = []): ResolvedArticle {
     const abs = path.isAbsolute(entryPath) ? entryPath : path.join(bookDir, entryPath)
     const normalized = path.normalize(abs)
@@ -26,42 +34,13 @@ export function resolveArticleSource(entryPath: string, bookDir: string, diagnos
         throw new Error(`文章源不存在: ${entryPath}`)
     }
 
-    let filePath: string
-    let configDir: string
-    let hasConfig = false
-    let rawConfig: Record<string, unknown> | null = null
-
     const stat = fs.statSync(normalized)
+    let filePath: string
     if (stat.isDirectory()) {
-        const config = loadConfig(normalized, diagnostics)
-        if (!config) {
-            // 目录但没有 config，默认使用 index.md
-            configDir = normalized
-            filePath = path.join(normalized, 'index.md')
-        }
-        else {
-            hasConfig = true
-            configDir = normalized
-            rawConfig = config.data
-            const file = str(config.data.file) || 'index.md'
-            filePath = path.join(normalized, file)
-        }
+        filePath = path.join(normalized, 'index.md')
     }
     else if (normalized.endsWith('.md')) {
-        configDir = path.dirname(normalized)
         filePath = normalized
-        const config = loadConfig(configDir, diagnostics)
-        if (config) {
-            // 同目录的 config 只描述它自己 `file:` 声明的那篇文章。
-            // 否则 `vscode/deepseek.md` 这种兄弟文件会被 `vscode/config.yaml` 的
-            // title / id / practice 静默覆盖，两篇文章在清单里同名同姓。
-            // 见 docs/adr/0012-dual-track-article-titles.md。
-            const declared = path.resolve(configDir, str(config.data.file) || 'index.md')
-            if (declared === normalized) {
-                hasConfig = true
-                rawConfig = config.data
-            }
-        }
     }
     else {
         diagnostics.push({
@@ -77,22 +56,19 @@ export function resolveArticleSource(entryPath: string, bookDir: string, diagnos
             phase: 'source-resolver',
             level: 'error',
             message: `文章文件不存在: ${filePath}`,
+            suggestion: '目录叶子需要一个 index.md，或把 catalog 的 path 直接指向 .md 文件',
         })
         throw new Error(`文章文件不存在: ${filePath}`)
     }
 
-    const metadata = normalizeMetadata(rawConfig ?? {}, filePath, diagnostics)
+    const raw = fs.readFileSync(filePath, 'utf8')
+    const frontMatter = readFrontMatter(raw, filePath, diagnostics)
+    const metadata = normalizeMetadata(frontMatter.data, filePath, diagnostics)
     const source: ArticleSource = {
         filePath,
-        raw: fs.readFileSync(filePath, 'utf8'),
+        raw,
         dir: path.dirname(filePath),
     }
 
-    return { source, metadata, configDir, hasConfig }
-}
-
-function str(v: unknown): string {
-    if (typeof v === 'string') return v
-    if (typeof v === 'number') return String(v)
-    return ''
+    return { source, metadata, frontMatter: frontMatter.data }
 }

@@ -1,5 +1,16 @@
 ---
 title: 广度优先搜索
+rbook:
+  id: bfs
+  pre:
+    - dfs
+  code_template:
+    - title: BFS 最短路模板
+      tags:
+        - search
+        - bfs
+      desc: 队列 + 入队标记，求无权图单源最短路
+      code: ./bfs_template.cpp
 ---
 
 [[TOC]]

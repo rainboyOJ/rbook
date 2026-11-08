@@ -1,3 +1,9 @@
+---
+title: cgdb的安装与使用
+rbook:
+  id: cgdb
+  practice: false
+---
 
 [[toc]]
 

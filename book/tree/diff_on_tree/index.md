@@ -1,3 +1,11 @@
+---
+title: 树上差分
+rbook:
+  id: diff_on_tree
+  pre:
+    - differential
+---
+
 [[TOC]]
 
 

@@ -1,3 +1,9 @@
+---
+title: 二叉查找树
+rbook:
+  id: binary_search_tree
+---
+
 [[TOC]]
 
 ## 定义

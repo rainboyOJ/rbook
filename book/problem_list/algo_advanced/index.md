@@ -1,3 +1,10 @@
+---
+title: 李煜东《算法竞赛进阶指南》【算阶】题目汇总题单
+rbook:
+  id: algo_advanced_book
+  hiden_brain_map: true
+---
+
 [[TOC]]
 
 ## 说明

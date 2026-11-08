@@ -1,3 +1,14 @@
+---
+title: gcd
+rbook:
+  code_template:
+    - tags:
+        - number theory
+      title: gcd
+      desc: 求两个数的最大公约数
+      code: ./gcd.cpp
+---
+
 [[TOC]]
 
 ## 问题引入

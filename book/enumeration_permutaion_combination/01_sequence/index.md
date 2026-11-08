@@ -1,3 +1,17 @@
+---
+title: 01序列
+rbook:
+  id: 01_seq
+  pre:
+    - recursion
+  code_template:
+    - tags:
+        - 枚举
+      title: 01序列 01_seq
+      desc: 枚举每个元素选或不选的所有情况
+      code: ./01_seq.cpp
+---
+
 [[toc]]
 
 

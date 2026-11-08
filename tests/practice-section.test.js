@@ -160,10 +160,9 @@ describe('pcs2 相关题解：文章注入', () => {
         }],
     }
 
-    function renderWithConfig(configYaml) {
+    function renderWithArticle(frontMatter) {
         const dir = makeTmpDir('rbook-practice-article-')
-        fs.writeFileSync(path.join(dir, 'config.yaml'), configYaml)
-        fs.writeFileSync(path.join(dir, 'index.md'), '# 测试文章\n\n正文。\n')
+        fs.writeFileSync(path.join(dir, 'index.md'), `---\n${frontMatter}---\n\n# 测试文章\n\n正文。\n`)
         return renderArticle({
             entryPath: dir,
             policy,
@@ -175,7 +174,7 @@ describe('pcs2 相关题解：文章注入', () => {
     }
 
     it('正式文章末尾自动出现「相关题解」表格', () => {
-        const result = renderWithConfig('id: practice-on\ntitle: 开\nfile: index.md\n')
+        const result = renderWithArticle('title: 开\nrbook:\n  id: practice-on\n')
         assert.ok(result.html.includes('相关题解'))
         assert.ok(result.html.includes('<table>'))
         // 题目链接必须是新标签页打开，且 href 原样保留
@@ -185,7 +184,7 @@ describe('pcs2 相关题解：文章注入', () => {
     })
 
     it('practice: false 时不注入', () => {
-        const result = renderWithConfig('id: practice-off\ntitle: 关\nfile: index.md\npractice: false\n')
+        const result = renderWithArticle('title: 关\nrbook:\n  id: practice-off\n  practice: false\n')
         assert.ok(!result.html.includes('相关题解'))
     })
 })

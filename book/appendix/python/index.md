@@ -1,6 +1,8 @@
 ---
-title: 有用的python
+title: python
 status: TODO
+rbook:
+  practice: false
 ---
 
 [[TOC]]

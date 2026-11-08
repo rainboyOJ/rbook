@@ -1,3 +1,13 @@
+---
+title: 黑白气球
+rbook:
+  id: pair_number
+  teach_plan: teach_plan.md
+  pre:
+    - set
+    - rule_of_sum
+---
+
 [[TOC]]
 
 ## 教学目标

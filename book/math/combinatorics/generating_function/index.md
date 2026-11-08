@@ -1,3 +1,9 @@
+---
+title: 生成函数
+rbook:
+  id: generating_function
+---
+
 [[TOC]]
 
 

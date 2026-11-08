@@ -1,3 +1,19 @@
+---
+title: DFS序
+rbook:
+  id: dfs_order
+  pre:
+    - tree_base
+    - graph_traversal
+  code_template:
+    - title: DFS 序（时间戳与子树区间）
+      tags:
+        - tree
+        - dfs_order
+      desc: 进入记 in、退出记 out，把子树压成连续区间；含 O(1) 祖孙判定、迭代写法与欧拉序
+      code: ./dfs_order.cpp
+---
+
 [[TOC]]
 
 ::: oneWordAlgo

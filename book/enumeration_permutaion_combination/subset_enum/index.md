@@ -1,3 +1,19 @@
+---
+title: 子集枚举
+rbook:
+  id: subset_enum
+  pre:
+    - ball_and_box
+    - 01_seq
+  code_template:
+    - title: 子集枚举 subset_enum
+      tags:
+        - enum
+        - binary
+      desc: 二进制子集枚举
+      code: ./subset_enum.cpp
+---
+
 [[TOC]]
 
 TODO 我以前写的文章

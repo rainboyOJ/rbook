@@ -1,10 +1,13 @@
+import { readFrontMatter } from '../content/front-matter'
+
 /**
  * 文章标题：正文与菜单分两轨。
  *
- * 菜单栏窄，正文标题可以长，所以一篇文章允许两个名字，各有唯一出处：
+ * 菜单栏窄，正文标题可以长，所以一篇文章允许两个名字，各有唯一出处
+ * （元数据写在 md 的 front matter 里，见 docs/adr/0013-metadata-in-front-matter.md）：
  *
- *     正文：config.yaml title  → md front matter title → catalog.yaml title
- *     菜单：config.yaml menu_title（可选）→ catalog.yaml title
+ *     正文：front matter title      → catalog.yaml title
+ *     菜单：front matter menu_title → catalog.yaml title
  *
  * - 页面 `<title>` 与正文 H1、`dist/catalog.json`：`resolveArticleTitle()`
  * - 侧边栏：`resolveMenuTitle()`，由 MenuRenderer 的 `leafMeta` 传进去
@@ -16,10 +19,12 @@
  * 决定见 docs/adr/0012-dual-track-article-titles.md。
  *
  * 注意 `header.title` 不是 md 的第一个 H1，而是 renderMarkdown 从 md 的 YAML
- * frontmatter 里读出来的 `title:`（见 markdown/create-markdown-renderer.ts）。
+ * front matter 里读出来的 `title:`（见 markdown/create-markdown-renderer.ts），
+ * 与 `metadata.title` 同源，`resolveArticleTitle` 保留两个入参只是为了让单文件
+ * 渲染（不经过 catalog）也能拿到标题。
  */
 export interface ArticleTitleInput {
-    /** 文章目录 config.yaml 里的 title */
+    /** 文章元数据里的 title（来自 md front matter） */
     metadataTitle?: string
     /** md frontmatter 里的 title（renderMarkdown 的 header.title） */
     headerTitle?: string
@@ -39,7 +44,7 @@ export function resolveArticleTitle(input: ArticleTitleInput): string {
 }
 
 /**
- * 标题是否靠兜底而来（既没有 config.title，也没有 frontmatter title）。
+ * 标题是否靠兜底而来（md 的 front matter 里没有 title）。
  *
  * 这类文章在页面和侧边栏上都只能用 catalog 导航名，内容作者应当补一个真标题；
  * 这个判定被 `npm run check:catalog` 用来列出待补标题的文章。
@@ -49,21 +54,17 @@ export function titleNeedsAuthoring(input: ArticleTitleInput): boolean {
 }
 
 /**
- * 取 md 文件头 YAML frontmatter 里的 `title`。
+ * 取 md 文件头 YAML front matter 里的 `title`。
  *
- * 与 `renderMarkdown` 的 header.title 同口径（含去引号），这样页面标题、对外清单
- * 和 `npm run check:catalog` 的巡检不会因为解析差异得出不同结论。
- * frontmatter 必须紧贴第一行，否则不认。
+ * 解析交给 content/front-matter.ts，与构建元数据同一套规则（含 BOM、引号、
+ * 多行 YAML），这样页面标题、对外清单和 `npm run check:catalog` 的巡检不会因为
+ * 解析差异得出不同结论。front matter 必须紧贴第一行，否则不认。
  */
 export function frontMatterTitle(raw: string): string {
-    const lines = raw.split('\n')
-    if (!lines[0] || lines[0].trim() !== '---') return ''
-    const endIdx = lines.indexOf('---', 1)
-    if (endIdx <= 1) return ''
-    for (const line of lines.slice(1, endIdx)) {
-        const match = line.match(/^title\s*:\s*(.+)$/i)
-        if (match) return match[1].trim().replace(/^["']|["']$/g, '').trim()
-    }
+    const { data } = readFrontMatter(raw)
+    const value = data.title
+    if (typeof value === 'string') return value.trim()
+    if (typeof value === 'number') return String(value)
     return ''
 }
 
@@ -73,9 +74,9 @@ export function frontMatterTitle(raw: string): string {
  * 菜单栏很窄，塞不下「李煜东《算法竞赛进阶指南》【算阶】题目汇总题单」这种正文标题，
  * 所以菜单名和正文标题分成两轨：
  *
- *     config.yaml menu_title  →  catalog.yaml title
+ *     front matter menu_title  →  catalog.yaml title
  *
- * `menu_title` 是可选的，没写就沿用 catalog 里的短名——144 篇存量文章今天都写在那里，
+ * `menu_title` 是可选的，没写就沿用 catalog 里的短名——145 篇存量文章今天都写在那里，
  * 不需要迁移。正文标题仍然走 `resolveArticleTitle()`，两者互不影响，也不会再出现
  * 「同一页两个名字」的误会：页面和菜单本来就允许叫得不一样。
  */

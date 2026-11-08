@@ -1,3 +1,15 @@
+---
+title: quickSort
+rbook:
+  id: quicksort
+  code_template:
+    - title: 快速排序 quicksort
+      tags:
+        - sort
+      desc: nlogn 的快速排序
+      code: ./code/quick_sort.cpp
+---
+
 [[TOC]]
 
 ## 代码

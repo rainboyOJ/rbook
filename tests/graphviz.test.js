@@ -133,8 +133,10 @@ it('关联教学计划中的 Graphviz 出错也会阻断发布阶段', () => {
         const policy = new PathPolicy(dir)
         const article = path.join(policy.book, 'article')
         fs.mkdirSync(article, { recursive: true })
-        fs.writeFileSync(path.join(article, 'config.json'), JSON.stringify({ id: 'graph-test', title: '测试', file: 'index.md', teach_plan: 'teach_plan.md' }))
-        fs.writeFileSync(path.join(article, 'index.md'), '## 正文\n\n正常文章')
+        fs.writeFileSync(
+            path.join(article, 'index.md'),
+            ['---', 'title: 测试', 'rbook:', '  id: graph-test', '  teach_plan: teach_plan.md', '---', '', '## 正文', '', '正常文章'].join('\n'),
+        )
         fs.writeFileSync(path.join(article, 'teach_plan.md'), fence('viz-dot', 'digraph G { a -> }'))
         const ctx = { projectRoot: ROOT, policy, diagnostics: [], stageResults: { index, leaves: ['article'], menuHtml: '' } }
         assert.throws(() => renderPages.run(ctx), /Graphviz 图形渲染失败/)

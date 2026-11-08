@@ -1,8 +1,0 @@
-id: binary_search
-title: 二分查找
-file: index.md
-copy:
-  - ./1.svg
-pre:
-  - binary_split
-history: history.md

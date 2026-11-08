@@ -1,5 +1,0 @@
-id: continuous_segment_dp
-title: '连续段 DP'
-file: index.md
-pre:
-  - dp_intro

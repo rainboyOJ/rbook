@@ -1,3 +1,25 @@
+---
+title: 负环
+rbook:
+  id: negative_circle
+  pre:
+    - bellman-ford
+    - spfa
+  code_template:
+    - title: SPFA 边数计数判负环 (BFS版)
+      tags:
+        - graph
+        - negative_cycle
+      desc: 基于队列与经过边数计数（全员入队）判定负环
+      code: ./spfa_1.cpp
+    - title: DFS 版 SPFA 判定负环
+      tags:
+        - graph
+        - negative_cycle
+      desc: 基于递归调用栈在松弛链上发现回边判定负环
+      code: ./dfs_spfa.cpp
+---
+
 [[TOC]]
 
 ## 算法背景与问题定义

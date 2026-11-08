@@ -1,3 +1,10 @@
+---
+title: 左侧lower_bound
+rbook:
+  id: sgt_lower_bound
+  pre: sgt_update_range
+---
+
 [[TOC]]
 
 数据n ,m

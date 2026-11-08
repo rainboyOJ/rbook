@@ -1,3 +1,10 @@
+---
+title: 单点更新
+rbook:
+  id: sgt_update_one
+  pre: sparse_table
+---
+
 [[TOC]]
 
 ## 学习点

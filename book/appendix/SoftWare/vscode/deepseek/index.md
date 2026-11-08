@@ -1,7 +1,9 @@
 ---
-title: "VS Code 配置 DeepSeek"
+title: VS Code 配置 DeepSeek
 author: rainboy
-update_time: 2026-10-05
+update_time: 2026-10-05T00:00:00.000Z
+rbook:
+  id: deepseek
 ---
 
 [[TOC]]

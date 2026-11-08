@@ -1,3 +1,43 @@
+---
+title: 树的重心
+rbook:
+  id: tree-centroid
+  pre:
+    - tree_base
+    - dfs_order
+  code_template:
+    - title: 树的重心（C++）
+      tags:
+        - tree
+        - centroid
+        - hld
+      desc: HLD 风格：全局数组 + 递归 dfs1 求 sz 与重儿子，回溯时就地算平衡值，并可沿重链走求重心
+      code: ./tree_centroid.cpp
+    - title: 树的重心（Python）
+      tags:
+        - tree
+        - centroid
+        - python
+      desc: 递归 dfs1 求 sz 与重儿子，回溯时就地算平衡值，返回全部重心
+      code: ./tree_centroid.py
+    - title: 树的重心·倍增跳表下降（C++）
+      tags:
+        - tree
+        - centroid
+        - binary_jump
+        - hld
+      desc: up[u][k] 沿重链跳 2^k 步，把重链下走压成 O(log n)；centroid_of_subtree(u) 可对任意连通块单独查询，供删边/换根类题目复用
+      code: ./tree_centroid_jump.cpp
+    - title: 树的重心·倍增跳表下降（Python）
+      tags:
+        - tree
+        - centroid
+        - binary_jump
+        - python
+      desc: 递归 dfs1 求 sz 与重儿子，按层搭跳表，O(log n) 查出全部重心
+      code: ./tree_centroid_jump.py
+---
+
 [[TOC]]
 
 ::: oneWordAlgo

@@ -1,6 +1,8 @@
 ---
 title: 全排列
 status: TODO
+rbook:
+  id: full_permutation
 ---
 
 [[toc]]

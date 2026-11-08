@@ -1,3 +1,18 @@
+---
+title: dijkstra
+rbook:
+  id: dijkstra
+  pre:
+    - bellman-ford
+  code_template:
+    - title: Dijkstra 最短路
+      tags:
+        - graph
+        - shortest_path
+      desc: 基于小根堆优化的 Dijkstra 单源最短路与路径还原模板
+      code: ./dijkstra.cpp
+---
+
 [[TOC]]
 
 ## 算法背景与核心直觉

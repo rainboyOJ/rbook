@@ -1,3 +1,10 @@
+---
+title: 权值sgt
+rbook:
+  id: sgt_weights
+  pre: sgt_update_range
+---
+
 [[TOC]]
 
 线段树题目

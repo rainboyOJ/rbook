@@ -1,3 +1,9 @@
+---
+title: 前缀和
+rbook:
+  id: presum
+---
+
 [[TOC]]
 
 

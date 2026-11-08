@@ -1,3 +1,11 @@
+---
+title: 偏序与Dilworth定理
+rbook:
+  id: dilworth
+  pre:
+    - set
+---
+
 [[TOC]]
 
 ## 前言

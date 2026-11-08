@@ -1,3 +1,13 @@
+---
+title: neovim
+rbook:
+  id: neovim
+  hiden_in_brain: true
+  copy:
+    - ./vimrc.txt
+  practice: false
+---
+
 [[TOC]]
 
 ## Neovim 简介

@@ -1,3 +1,16 @@
+---
+title: bellman-ford
+rbook:
+  id: bellman-ford
+  code_template:
+    - title: Bellman-Ford 最短路
+      tags:
+        - graph
+        - shortest_path
+      desc: 支持负权边与负环检测的 Bellman-Ford 算法模板
+      code: ./bellman_ford.cpp
+---
+
 [[TOC]]
 
 ## 算法背景与核心直觉

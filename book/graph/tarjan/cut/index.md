@@ -1,6 +1,8 @@
 ---
 title: tarjan求图的割点
 status: TODO
+rbook:
+  id: graph_tarjan_cut
 ---
 
 [[TOC]]

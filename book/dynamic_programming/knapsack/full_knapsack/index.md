@@ -1,3 +1,9 @@
+---
+title: 完全背包
+rbook:
+  id: full_knapsack
+---
+
 [[TOC]]
 
 ## 问题引入

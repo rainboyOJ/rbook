@@ -1,3 +1,10 @@
+---
+title: luogu新手村
+rbook:
+  id: luogu_newbee
+  hiden_brain_map: true
+---
+
 [[TOC]]
 
 ## 洛谷入门

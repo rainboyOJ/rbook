@@ -56,9 +56,13 @@ describe('frontmatter title 解析', () => {
         assert.equal(frontMatterTitle('# 只有 H1\n'), '')
     })
 
-    it('去引号、忽略大小写键名、只取第一个 title', () => {
-        assert.equal(frontMatterTitle('---\nTitle: "离散化"\n---\n'), '离散化')
-        assert.equal(frontMatterTitle("---\ntitle: '图论'\ntitle: 第二个\n---\n"), '图论')
+    it('去引号；键名大小写敏感；重复键属于非法 YAML', () => {
+        assert.equal(frontMatterTitle('---\ntitle: "离散化"\n---\n'), '离散化')
+        assert.equal(frontMatterTitle("---\ntitle: '图论'\n---\n"), '图论')
+        // 标准 YAML 里 Title 与 title 是两个键
+        assert.equal(frontMatterTitle('---\nTitle: "离散化"\n---\n'), '')
+        // 重复键 js-yaml 会抛错，按「没有标题」处理
+        assert.equal(frontMatterTitle('---\ntitle: 图论\ntitle: 第二个\n---\n'), '')
     })
 
     it('frontmatter 没闭合时当作没有标题', () => {

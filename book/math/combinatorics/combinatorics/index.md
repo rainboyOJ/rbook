@@ -1,3 +1,10 @@
+---
+title: 排列与组合
+rbook:
+  history: history.md
+  teach_plan: teach_plan.md
+---
+
 [[TOC]]
 
 > 排列与组合的计数是基本的计数问题,根据从集合中选择元素的有序与无序,是否允许重复等限制条件,可以将这个问题划分成4个子类型

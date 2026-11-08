@@ -1,3 +1,9 @@
+---
+title: 编程常用单词
+rbook:
+  practice: false
+---
+
 [[TOC]]
 
 以下是一些在 ACM/OI 编程中常用的单词以及它们的缩写

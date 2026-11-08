@@ -1,9 +1,0 @@
-title: 存储
-file: index.md
-code_template:
-  - title: 图的存储 linklist
-    tags:
-      - graph
-    desc: 存图的基础数据结构
-    # 代码所在的路径
-    code: ./linklist.cpp

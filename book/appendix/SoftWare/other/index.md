@@ -1,3 +1,11 @@
+---
+title: 其它小工具
+rbook:
+  id: other_software
+  hiden_brain_map: true
+  practice: false
+---
+
 [[TOC]]
 
 

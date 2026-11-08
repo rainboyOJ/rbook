@@ -1,3 +1,17 @@
+---
+title: 平数
+rbook:
+  id: zero_number
+  teach_plan: teach_plan.md
+  group: article
+  next:
+    - id: 积木大赛
+      title: 积木大赛
+      label: 积木大赛
+      href: https://roj.ac.cn/roj/3611/index.html
+      group: problem
+---
+
 [[TOC]]
 
 

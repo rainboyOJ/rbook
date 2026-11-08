@@ -1,3 +1,19 @@
+---
+title: dijkstra求次短路
+rbook:
+  id: dijkstra_second_shortest
+  pre:
+    - dijkstra
+  code_template:
+    - title: Dijkstra 严格次短路
+      tags:
+        - graph
+        - shortest_path
+        - dijkstra
+      desc: 基于状态拆分（最短路与次短路）的小根堆优化 Dijkstra 求解严格次短路模板
+      code: ./second_shortest.cpp
+---
+
 [[TOC]]
 
 ## 算法背景与问题模型

@@ -1,3 +1,9 @@
+---
+title: 卢卡斯定理
+rbook:
+  id: lucas
+---
+
 [[TOC]]
 
 

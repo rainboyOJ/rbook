@@ -1,3 +1,9 @@
+---
+title: 余数
+rbook:
+  attachment: true
+---
+
 [[TOC]]
 
 ## 理解

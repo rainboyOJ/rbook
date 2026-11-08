@@ -1,3 +1,16 @@
+---
+title: 队列
+rbook:
+  id: queue
+  code_template:
+    - title: 队列,queue
+      tags:
+        - data_structure
+        - queue
+      desc: 普通队列模板
+      code: ./queue.cpp
+---
+
 [[TOC]]
 
 ## 定义

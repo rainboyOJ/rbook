@@ -1,3 +1,10 @@
+---
+title: 持久化sgt
+rbook:
+  id: sgt_persistent
+  pre: sgt_update_range
+---
+
 [[TOC]]
 
 

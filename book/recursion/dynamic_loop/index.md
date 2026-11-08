@@ -1,3 +1,9 @@
+---
+title: 动态层数循环
+rbook:
+  teach_plan: teach_plan.md
+---
+
 [[TOC]]
 
 

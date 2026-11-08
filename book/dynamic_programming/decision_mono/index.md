@@ -1,3 +1,14 @@
+---
+title: 决策单调性
+rbook:
+  id: decision_mono
+  TODO: ' template code'
+  next:
+    - id: luogoP3195
+      label: '[HNOI2008] 玩具装箱'
+      href: https://roj.ac.cn/luogu/3195/index.html
+      group: problem
+---
 
 [[TOC]]
 

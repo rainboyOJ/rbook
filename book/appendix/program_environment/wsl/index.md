@@ -1,3 +1,10 @@
+---
+title: window10下wsl编程环境的配置
+rbook:
+  id: wsl
+  hidden_brain_map: true
+  practice: false
+---
 
 [[TOC]]
 

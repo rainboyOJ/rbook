@@ -1,3 +1,12 @@
+---
+title: binary jump
+rbook:
+  id: binary_jump
+  pre:
+    - number_base
+    - binary_search
+---
+
 [[toc]]
 
 ## 前提说明

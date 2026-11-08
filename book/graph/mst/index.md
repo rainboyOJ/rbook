@@ -1,3 +1,9 @@
+---
+title: 最小生成树
+rbook:
+  id: graph_mst
+---
+
 [[TOC]]
 
 证明1: 最小生成树必然存在

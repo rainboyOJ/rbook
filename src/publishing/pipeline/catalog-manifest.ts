@@ -65,7 +65,7 @@ export function buildCatalogManifest(
                 sourcePath: entry.sourcePath,
                 level: 'error',
                 message: '文章缺少 id，无法进入 catalog.json',
-                suggestion: '在该文章目录的 config.yaml 里写 id',
+                suggestion: '在该文章 md 的 front matter 里写 rbook.id',
             })
             continue
         }
@@ -91,7 +91,7 @@ export function buildCatalogManifest(
                 sourcePath: entry.sourcePath,
                 level: 'error',
                 message: `文章缺少标题，catalog.json 里会出现没有文字可点的链接`,
-                suggestion: '在该文章目录的 config.yaml 写 title，或给 md 加一个 H1',
+                suggestion: '在该文章 md 的 front matter 里写 title',
             })
             continue
         }

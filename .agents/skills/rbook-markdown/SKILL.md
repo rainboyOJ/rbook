@@ -1,7 +1,7 @@
 ---
 name: rbook-markdown
 description: >-
-  编写或修改 /home/rainboy/mycode/newRbook_ejs 这本 rbook 电子书里的 Markdown 时必须遵守的方言说明（站内链接 [[[rbook:]]]、题目链接 [[[p:]]]、include 与 file=、animate 与 dsa 动画卡片、数学、::: 容器、伪代码、自动生成的「相关题解」、catalog/config 元数据，以及哪些"通用 Markdown 语法"在本项目其实会静默失效）。当你在 book/ 下新建或编辑任何 .md（index.md、practice.md、teach_plan.md、problem.md…）、调整 book/catalog.yaml 或文章的 config.json/config.yaml、修一个链接/代码块/图片/公式/折叠框渲染不对、把别处的 Markdown 搬进来、或者要判断"这段写法本项目支持吗"时，都应先读这个 skill，不要凭 GitHub / Obsidian / VuePress 的语法直觉下手。
+  编写或修改 /home/rainboy/mycode/newRbook_ejs 这本 rbook 电子书里的 Markdown 时必须遵守的方言说明（站内链接 [[[rbook:]]]、题目链接 [[[p:]]]、include 与 file=、animate 与 dsa 动画卡片、数学、::: 容器、伪代码、自动生成的「相关题解」、catalog 与 front matter 里的 `rbook:` 元数据，以及哪些"通用 Markdown 语法"在本项目其实会静默失效）。当你在 book/ 下新建或编辑任何 .md（index.md、practice.md、teach_plan.md、problem.md…）、调整 book/catalog.yaml 或文章 front matter 的 `rbook:`、修一个链接/代码块/图片/公式/折叠框渲染不对、把别处的 Markdown 搬进来、或者要判断"这段写法本项目支持吗"时，都应先读这个 skill，不要凭 GitHub / Obsidian / VuePress 的语法直觉下手。
 ---
 
 # rbook 的 Markdown 方言
@@ -23,42 +23,45 @@ description: >-
 
 ```
 book/<章>/<文章目录>/
-├── index.md          # 正文；文件名由 config 的 file 字段指定
-├── config.yaml       # 或 config.json / config.jsonc / config.yml（按 json → yaml 的优先级取一个）
+├── index.md          # 正文 + 元数据（front matter 的 rbook: 子键）
 ├── images/           # 相对 index.md 引用的图片
 └── xxx.animation.ts  # 可选：交互动画入口
 ```
 
-- **菜单与 id 的唯一真相是 `book/catalog.yaml`**。文章目录必须在那里登记，
-  否则 `npm run check:catalog` 会判为孤儿（写了但永远不会发布）。
-- `config.yaml` 关键字段（2026-11 起 `book/` 已全部统一为 yaml；加载器仍兼容 json/jsonc）：
+- **菜单的唯一真相是 `book/catalog.yaml`**。文章必须在那里登记，否则
+  `npm run check:catalog` 会判为孤儿（写了但永远不会发布）。
+- **元数据写在 md 自己的 front matter 里，没有 `config.yaml`**（2026-11 起；
+  见 `docs/adr/0013-metadata-in-front-matter.md`）。一份元数据只描述一个文件，
+  所以扁平 `.md` 也能当文章，不会再有「目录 config 作用到兄弟文件」的错配。
 
-  ```yaml
-  id: bellman-ford
-  file: index.md
-  title: bellman-ford
-  pre: [dijkstra]
-  teach_plan: teach_plan.md
-  copy: [assets/a.png]
-  code_template:
-    - title: Bellman-Ford 最短路
-      code: ./bellman_ford.cpp
+  ```markdown
+  ---
+  title: Bellman-Ford 最短路      # 正文标题，可以长
+  menu_title: Bellman-Ford        # 菜单短名，可选
+  rbook:                          # 其余构建字段
+    id: bellman-ford
+    pre: [dijkstra]
+    teach_plan: teach_plan.md
+    copy: [assets/a.png]
+    code_template:
+      - title: Bellman-Ford 最短路
+        code: ./bellman_ford.cpp
+  ---
   ```
 
-  `id` 是 `[[[rbook: id]]]` 的唯一键；缺省时由路径推导（`index.md` 用目录名，其它用文件名）。
-  `copy` 里的文件会在构建时复制到该文章的 dist 目录。
+  `rbook.id` 是 `[[[rbook: id]]]` 的唯一键；缺省时由路径推导（`index.md` 用目录名，
+  其它用文件名）。`rbook.copy` 里的文件会在构建时复制到该文章的 dist 目录。
+  **构建字段写在顶层会被忽略并报警告**，只认 `rbook:` 子键；`title` / `menu_title` 例外。
 - 标题分两轨，各有唯一出处：
-  - 正文：`config.title`（可长）→ 正文顶部 `---\ntitle: …\n---` front matter → `catalog.yaml` 的 title。
-    页面 `<title>`、正文 H1、`dist/catalog.json` 都用它；front matter **只被读取 title**。
-  - 菜单：`config.menu_title`（可选，要短）→ `catalog.yaml` 的 title。侧边栏只显示这一轨，
-    所以写完长 `title` 想让菜单短一点，就补一个 `menu_title`（超过约 16 个汉字会被
-    `npm run check:catalog` 报 warning）。
+  - 正文：front matter 的 `title`（可长）→ `catalog.yaml` 的 title。
+    页面 `<title>`、正文 H1、`dist/catalog.json` 都用它。
+  - 菜单：front matter 的 `menu_title`（可选，要短）→ `catalog.yaml` 的 title。
+    侧边栏只显示这一轨，写完长 `title` 想让菜单短一点就补 `menu_title`
+    （超过约 16 个汉字会被 `npm run check:catalog` 报 warning）。
 - 不写 `menu_title` 时菜单沿用 `catalog.yaml` 里的短名，两者可以同名也可以不同名——
   同一页出现短菜单名和长正文标题是预期行为。
 - 侧边栏搜索匹配「菜单名 + 面包屑 + 文章 id + 正文标题」，所以菜单显示 `LIS` 时搜
   `lis`、`最长上长子序列` 都能命中。
-- **同一目录的 `config.yaml` 只作用于它 `file:` 声明的那篇文章**；同目录的其它 `.md`
-  读自己的 front matter（`vscode/deepseek.md` 曾因此被邻居 config 改成了同名文章）。
 - 正文第一行惯例写 `[[TOC]]`（也认 `[TOC]`、`[[toc]]`、`[[Toc]]`），在该位置渲染页内目录
   `<nav class="table-of-contents">`，收 h2、h3。宽屏时在正文右侧跟随阅读高亮，窄屏时在正文内折叠显示。没有这个占位符就没有页内目录
   （侧边栏菜单来自 catalog，与此无关）。
@@ -247,7 +250,7 @@ book/<章>/<文章目录>/
   `rbook_new_problem_solutions/.agents/skills/oj-show-at-rbook`。
 - 排序按 pcs2 的 `lib/difficulty.json`（由易到难，未知排最后）。
 - 没有任何关联题解时，仍会显示标题和「暂无相关题解」。
-- 不想出现在某篇文章里：在该文章 `config.yaml` 写 `practice: false`
+- 不想出现在某篇文章里：在该文章 front matter 的 `rbook:` 下写 `practice: false`
   （附录类、与 OJ 无关的文章适合关掉）。
 - **`+p THIS_ID` 方言已删除**，不要再写；写了会当普通文字输出。
 
