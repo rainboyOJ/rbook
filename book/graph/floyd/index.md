@@ -292,24 +292,43 @@ $$
 
 因此，如果只需要最终最短距离，就不必保留全部历史。先做一步容易确认正确的压缩：用 `prev` 保存上一层，用 `cur` 保存当前层，算完一层后交换它们。
 
-假设已经把初始矩阵 $D_0$ 存在 `vector<vector<long long>> prev` 中，转移核心可以写成：
+假设已经把初始矩阵 $D_0$ 写进 `int g[2][maxn][maxn]` 的第 $0$ 层（即 `g[0]`），转移核心可以写成：
 
 ```cpp
-vector<vector<long long>> cur;
+const int maxn = 410;       // 点数上限，按题目数据范围调整
+const int INF = 0x3f3f3f3f; // 两个 INF 相加仍在 int 范围内
+
+int g[2][maxn][maxn];       // g[0] 存 D_0，两层轮流使用
+
+int prev = 0, cur = 1;      // 这两个是“层号”，不是矩阵
 for (int k = 1; k <= n; k++) {
-    cur = prev; // 当前层先完整继承上一层
+    memcpy(g[cur], g[prev], sizeof(g[cur])); // 当前层先完整继承上一层
     for (int i = 1; i <= n; i++) {
         for (int j = 1; j <= n; j++) {
-            if (prev[i][k] != INF && prev[k][j] != INF) {
-                cur[i][j] = min(cur[i][j], prev[i][k] + prev[k][j]);
+            if (g[prev][i][k] != INF && g[prev][k][j] != INF) {
+                g[cur][i][j] = min(g[cur][i][j], g[prev][i][k] + g[prev][k][j]);
             }
         }
     }
-    prev.swap(cur); // 本轮结果成为下一轮的“上一层”
+    swap(prev, cur);        // 本轮结果成为下一轮的“上一层”
 }
+// 循环结束，最终答案在 g[prev]
 ```
 
-这时仍然严格区分读、写两个阶段，只是把 $n+1$ 张矩阵缩减成两张，空间已经降为 $O(n^2)$。循环结束后，`prev` 保存 $D_n$。
+这时仍然严格区分读、写两个阶段，只是把 $n+1$ 张矩阵缩减成两张，空间降为 $O(n^2)$（准确说是 $2\cdot\text{maxn}^2$）。
+
+换成分层数组之后有三处值得留意：
+
+- **`prev` / `cur` 从矩阵变成了层号。** 它们只是 `g` 第一维的下标，`swap(prev, cur)` 交换两个 `int`，$O(1)$；真正 $O(n^2)$ 的搬动是那句 `memcpy`。读的时候写 `g[prev][i][j]`，写的时候写 `g[cur][i][j]`，读写分离靠名字表达，不再靠两张独立的变量。
+- **`memcpy` 抄的是整块 `maxn × maxn`。** 当 $n$ 明显小于 `maxn` 时，按行只抄 $1\sim n$ 列更划算：
+
+  ```cpp
+  for (int i = 1; i <= n; i++) {
+      memcpy(g[cur][i], g[prev][i], sizeof(int) * (n + 1));
+  }
+  ```
+
+- **为什么可以放心用 `int`。** `INF = 0x3f3f3f3f` 两倍仍小于 `INT_MAX`，而转移里已经先用 `!= INF` 挡住了“不可达 + 任何数”的情形，所以不会溢出。代价是真实的最短距离必须小于 `INF`：如果边权可能到 $10^9$、路径又要拼很多段，就换回 `long long` 版本，并把 `INF` 改成 `1e18`。
 
 三维教学版为了观察过程而输出每一层；如果题目本身要求保留历史状态，就要按需求保存。下面讨论只需要最终矩阵的情形。
 
