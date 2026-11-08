@@ -1,5 +1,5 @@
 ---
-title: 不重复循环
+title: 不重复排列
 status: TODO
 ---
 
