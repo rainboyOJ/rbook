@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="684" height="550" viewBox="0 0 684 550" role="img" aria-labelledby="title desc">
+  <title id="title">Tarjan 的 DFS 树、非树边与三个强连通分量</title>
+  <desc id="desc">从 1 开始，按 1、3、4、6、5、2 的顺序访问。树边为 1 到 3、3 到 4、4 到 6、3 到 5、1 到 2。非树边 4 到 1、2 到 4 的终点仍在栈中，5 到 6 的终点已经出栈。三个分量是 A 等于 1、2、3、4，B 等于 5，C 等于 6；各分量的根用双圈表示。</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 Z" fill="#222"/>
+    </marker>
+    <marker id="arrow-muted" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 Z" fill="#777"/>
+    </marker>
+  </defs>
+  <rect width="684" height="550" fill="#fff"/>
+  <g fill="#f4f4f4" stroke="#aaa" stroke-width="1">
+    <path d="M 346 26 C 460 26 582 100 574 192 C 567 259 423 343 346 336 C 277 329 166 237 171 173 C 176 94 197 26 346 26 Z"/>
+    <ellipse cx="100" cy="295" rx="58" ry="54"/>
+    <ellipse cx="346" cy="430" rx="58" ry="54"/>
+  </g>
+  <g font-family="'Noto Serif SC', 'Source Han Serif SC', serif" font-size="18" fill="#222">
+    <g font-style="italic">
+      <text x="502" y="50">A</text>
+      <text x="47" y="250">B</text>
+      <text x="292" y="385">C</text>
+    </g>
+    <g fill="none" stroke="#222" stroke-width="1.6" marker-end="url(#arrow)">
+      <path d="M 330 80 L 235 165"/>
+      <path d="M 365 77 L 511 168"/>
+      <path d="M 234 195 L 329 280"/>
+      <path d="M 202 196 L 116 279"/>
+      <path d="M 346 317 L 346 406"/>
+    </g>
+    <g fill="none" stroke="#222" stroke-width="1.6" stroke-dasharray="7 5" marker-end="url(#arrow)">
+      <path d="M 353 274 C 398 211 398 135 357 88"/>
+      <path d="M 511 192 C 470 231 410 263 366 285"/>
+    </g>
+    <path d="M 110 319 C 154 385 235 432 322 430" fill="none" stroke="#777" stroke-width="1.6" stroke-dasharray="2 5" marker-end="url(#arrow-muted)"/>
+    <g fill="#fff" stroke="#222" stroke-width="1.5">
+      <circle cx="346" cy="65" r="22"/>
+      <circle cx="218" cy="180" r="22"/>
+      <circle cx="530" cy="180" r="22"/>
+      <circle cx="346" cy="295" r="22"/>
+      <circle cx="100" cy="295" r="22"/>
+      <circle cx="346" cy="430" r="22"/>
+      <g fill="none" stroke-width="1">
+        <circle cx="346" cy="65" r="18"/>
+        <circle cx="100" cy="295" r="18"/>
+        <circle cx="346" cy="430" r="18"/>
+      </g>
+    </g>
+    <g text-anchor="middle" dominant-baseline="central" font-size="21">
+      <text x="346" y="65">1</text>
+      <text x="218" y="180">3</text>
+      <text x="530" y="180">2</text>
+      <text x="346" y="295">4</text>
+      <text x="100" y="295">5</text>
+      <text x="346" y="430">6</text>
+    </g>
+    <g font-family="'Noto Sans', 'Noto Sans CJK SC', sans-serif" font-size="16" fill="#444">
+      <text x="311" y="57" text-anchor="end">dfn = 1<tspan x="311" dy="22">low = 1</tspan></text>
+      <text x="151" y="172" text-anchor="end">dfn = 2<tspan x="151" dy="22">low = 1</tspan></text>
+      <text x="492" y="174" text-anchor="end">dfn = 6<tspan x="492" dy="22">low = 3</tspan></text>
+      <text x="385" y="292">dfn = 3<tspan x="385" dy="22">low = 1</tspan></text>
+      <text x="100" y="370" text-anchor="middle">dfn = 5<tspan x="100" dy="22">low = 5</tspan></text>
+      <text x="420" y="423">dfn = 4<tspan x="420" dy="22">low = 4</tspan></text>
+    </g>
+    <g font-size="16" fill="#555">
+      <text x="465" y="254">仍在栈中</text>
+      <text x="184" y="377">已出栈</text>
+    </g>
+    <g font-size="16">
+      <path d="M 34 503 H 77" fill="none" stroke="#222" stroke-width="1.6" marker-end="url(#arrow)"/>
+      <text x="88" y="509">DFS 树边</text>
+      <path d="M 225 503 H 268" fill="none" stroke="#222" stroke-width="1.6" stroke-dasharray="7 5" marker-end="url(#arrow)"/>
+      <text x="279" y="509">终点仍在栈中</text>
+      <path d="M 465 503 H 508" fill="none" stroke="#777" stroke-width="1.6" stroke-dasharray="2 5" marker-end="url(#arrow-muted)"/>
+      <text x="519" y="509">终点已出栈</text>
+      <text x="342" y="538" text-anchor="middle" fill="#555">浅灰区域表示强连通分量；双圈表示分量的根。</text>
+    </g>
+  </g>
+</svg>
