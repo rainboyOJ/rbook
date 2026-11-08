@@ -1,7 +1,7 @@
 ---
 title: 基环树
 rbook:
-  id: spanning-tree
+  id: functional-graph
   pre:
     - graph_tarjan_loop
     - topsort
