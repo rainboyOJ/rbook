@@ -164,16 +164,22 @@
 // 行内代码（Phase 3）
 // 统一覆盖段落、列表、引用、表格和标题中的行内代码；
 // 不继承代码块的 white-space / padding / token 颜色。
+//
+// 论文风格（2026-11-08 修订）：与正文同号、继承正文颜色、无边框、直角、
+// 极紧的内边距，只用极浅背景界定。等宽字形本身就是区分信号，
+// 不再用 accent 蓝色或圆角卡片。
 // ----------------------------------------------------------------------------
 .rbook-article .markdown-body :not(pre) > code {
     font-family: var(--rbook-font-mono);
     font-size: var(--rbook-inline-code-size);
     line-height: inherit;
-    color: var(--rbook-accent);
-    background: var(--rbook-code-bg);
-    border: 1px solid var(--rbook-code-border);
-    border-radius: 4px;
-    padding: 1px 5px;
+    color: inherit;
+    background: var(--rbook-inline-code-bg);
+    border: 0;
+    border-radius: 0;
+    padding: 0 2px;
+    // 代码串多出的一点字宽由左右内边距抵消，不破坏行距。
+    margin: 0 1px;
     white-space: normal;
     word-break: break-word;
     box-shadow: none;

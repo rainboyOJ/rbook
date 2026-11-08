@@ -11,7 +11,8 @@
     --rbook-body-lh: 30px;
     --rbook-code-size: 14px;
     --rbook-code-lh: 22px;
-    --rbook-inline-code-size: 0.875em;
+    // 行内代码与正文同号（论文 \texttt 惯例，等宽字形已足够辨识）。
+    --rbook-inline-code-size: 1em;
     // 约 38 个汉字宽，窄屏由可用宽度约束。
     --rbook-article-width: 684px;
     --rbook-paragraph-gap: 8px;
@@ -31,6 +32,8 @@
     // 浅色代码背景与页面背景（#f8fafc）拉开小幅差异，保证代码块边界可辨。
     --rbook-code-bg: #eef2f7;
     --rbook-code-border: #cbd5e1;
+    // 行内代码背景：比页面底（#f8fafc）只低一档的极浅灰，界定代码又不喧宾夺主。
+    --rbook-inline-code-bg: #f2f2f3;
     --rbook-warning-bg: #fffbeb;
     --rbook-warning-border: #b45309;
     --rbook-danger-bg: #fef2f2;
@@ -65,6 +68,8 @@ html[data-theme="dark"] {
     // 暗色代码背景与正文背景分层。
     --rbook-code-bg: #182235;
     --rbook-code-border: #475569;
+    // 深色行内代码背景：在正文底（#111827）上极浅提亮一档。
+    --rbook-inline-code-bg: #1c2534;
     --rbook-warning-bg: #422006;
     --rbook-warning-border: #fbbf24;
     --rbook-danger-bg: #451a1a;
@@ -219,9 +224,10 @@ html[data-theme="dark"] .theme-toggle__sun { display: block; }
 .markdown-body h1 code, .markdown-body h2 code, .markdown-body h3 code,
 .markdown-body h4 code, .markdown-body h5 code, .markdown-body h6 code,
 .markdown-body p code, .markdown-body li code {
-    color: var(--rbook-accent);
-    background: var(--rbook-code-bg);
-    box-shadow: 0 0 0 1px var(--rbook-code-border);
+    // 兑底（主页未加载 typography.scss 时）：与正文同色、无边框、无圆角。
+    color: inherit;
+    background: var(--rbook-inline-code-bg);
+    box-shadow: none;
 }
 
 // 行内代码的统一外观（字号/边框/内边距）由 typography.scss 的
