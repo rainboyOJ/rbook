@@ -243,9 +243,6 @@ html[data-theme="dark"] .theme-toggle__sun { display: block; }
     color: var(--rbook-accent);
 }
 
-.colorfulbox,
-.colorfulbox.bg-light { border-color: var(--rbook-border); background: var(--rbook-surface-muted) !important; color: var(--rbook-text); }
-.colorfulbox > p:first-child { border-color: var(--rbook-border); background: var(--rbook-accent-muted); color: var(--rbook-accent); }
 .code-tabs, .code-tabs ul { border-color: var(--rbook-border); }
 .code-tabs label { color: var(--rbook-muted); }
 .code-tabs input:checked + label { color: var(--rbook-text); }

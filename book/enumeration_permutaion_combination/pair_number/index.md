@@ -217,9 +217,8 @@ for (int color = 0; color < 2; color++)
 
 ## 总结
 
-::: colorfulbox
+::: definition 对数问题
 
-定义: 对数问题
 
 有条件的一对组合(任取两个元素)问题,我们称为对数类问题.
 

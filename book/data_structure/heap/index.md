@@ -15,7 +15,7 @@ rbook:
 
 ## 核心
 
-::: oneWordAlgo
+::: algorithm
 x以根的子树,除了x不满足,其它的结点都满足,对于整个tree都是满足的,那么就要调整x
 :::
 

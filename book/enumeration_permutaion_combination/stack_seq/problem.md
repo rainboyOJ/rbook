@@ -46,7 +46,7 @@
 
 输入/输出 # 1
 
-::: colorfulbox
+::: note
 ```
 3
 

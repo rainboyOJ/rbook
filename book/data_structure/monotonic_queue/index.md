@@ -52,7 +52,7 @@ rbook:
 - 单调栈是单调队列的特殊形式
 
 
-::: oneWordAlgo
+::: algorithm
 如果状态$A$与状态$B$与的前置决策空间$P_A,P_B$
 
 - $P_A,P_B$有重叠
@@ -61,6 +61,6 @@ rbook:
 那么从$A$到$B$可以使用单调队列优化.
 :::
 
-::: oneWordAlgo
+::: algorithm
 动态的维护滑动区间的**投影队列**
 :::

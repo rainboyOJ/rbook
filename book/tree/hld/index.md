@@ -25,7 +25,7 @@ rbook:
 
 [[TOC]]
 
-::: oneWordAlgo
+::: algorithm
 
 树链剖分先让重儿子连续编号，把树上路径拆成 $O(\log n)$ 段数组区间，再交给线段树处理。
 

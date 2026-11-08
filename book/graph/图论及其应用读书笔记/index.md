@@ -8,9 +8,8 @@ rbook:
 
 
 
-::: colorfulbox
+::: definition 支配集
 
-支配集
 
 定义:
 

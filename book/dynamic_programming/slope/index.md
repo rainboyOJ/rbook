@@ -34,9 +34,8 @@ $y_B = d$
 我们把这个距离称为**截距**.也就是说:直线$l$上的所有点$y_l - k \cdot x_l$的值就是这个截距.
 
 
-::: colorfulbox
+::: note 截距的性质
 
-截距的性质
 
 直线上的任意一个点的$(y,x)$的差值$y-x$的值就是截距
 
@@ -62,7 +61,7 @@ $y_B = d$
 1. $x_a < x_b < x_c$
 2. $K(a,b) = k_1 > k_2 =K(b,c)$
 
-::: colorfulbox
+::: note
 
 ![figure3_1](./asymptote/figure3_1.svg "figure-3_1")
 
@@ -73,9 +72,8 @@ $y_B = d$
 
 
 
-::: colorfulbox
+::: theorem $1$: $k_3 = K(a,c)$,$k_2 < k_3 < k_1$
 
-定理$1$: $k_3 = K(a,c)$,$k_2 < k_3 < k_1$
 
 先证明$k_3 < k_1$.延长直线$a,b$到达与$y=x_c$的交点$e$.$k_1 = K(a,b)= K(b,e) = \frac{y_e - y_b}{x_e - x_b}$.又因为$k_1 > k_2$,所以$\frac{y_e-y_b}{x_e - x_b} > \frac{y_c-y_b}{x_c-x_b} = k_2$.由定义可知:$x_e = x_c$,所以$y_e - y_b > y_c -y_b \Rightarrow y_e > y_c$.由上得到:
 
@@ -93,9 +91,8 @@ $$
 
 :::
 
-::: colorfulbox
+::: corollary $1$: 截距大小与斜率之间的关系
 
-推论$1$: 截距大小与斜率之间的关系
 
 ![figure_4](./asymptote/figure4.svg "figure_4")
 
@@ -123,8 +120,8 @@ $$
 :::
 
 
-::: colorfulbox
-定理$2$: $b$不可能成为答案.
+::: theorem $2$: $b$不可能成为答案.
+
 
 设
 - $k$表示直线$line1$的斜率
@@ -145,9 +142,8 @@ $$
 :::
 
 
-::: colorfulbox
+::: corollary $2$: 可能为答案的点集形成下凸壳
 
-推论$2$: 可能为答案的点集形成下凸壳
 
 在后选点集(例如figure_2)里排除不可能点后形成一个$k$单调增加的序列,也就是下凸壳.
 
@@ -159,9 +155,8 @@ $$
 :::
 
 
-::: colorfulbox
+::: corollary $3$: 第一个$k_i>k$的起点就是最小截距
 
-推论$3$: 第一个$k_i>k$的起点就是最小截距
 
 当直线$l$的斜率为$k$的时,经过下凸壳的哪个点时截距最小?
 

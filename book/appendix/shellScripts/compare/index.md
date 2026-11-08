@@ -44,7 +44,7 @@ rbook:
 ```bash file=./compare.sh
 ```
 
-::: info
+::: note
 比较用 `diff -b`：忽略行末空格、行内空格数量差异，以及“少一个结尾换行 / CRLF 换行”这类差异。
 这三种都是对拍里的常见假报错，`sed`/粘贴/Windows 编辑器都会意外造出来。
 它仍然能认出 `1 2` 变成 `12` 这种 token 边界变化，所以不是把格式检查关掉了。
@@ -62,7 +62,7 @@ rbook:
 bash dp.sh
 ```
 
-::: warning
+::: warn
 为什么要把 `#!/bin/bash` 删掉？因为在 Windows 编辑器里复制粘贴时，这一行很容易变成 CRLF 换行（末尾多个 `\r`），
 一旦你习惯性地写 `./dp.sh` 去执行，就会报 `/bin/bash^M: bad interpreter: No such file or directory`。
 既然统一用 `bash dp.sh` 显式调用解释器，shebang 就只是普通一行注释，留着只会误导，不如删掉。

@@ -110,7 +110,7 @@ void pushup(int rt){
 }
 ```
 
-::: info
+::: note
 [为什么开4倍空间](https://blog.csdn.net/mmww1994/article/details/104206072#commentBox)
 :::
 

@@ -59,7 +59,10 @@ export function registerPlugins(md: MarkdownIt, opts: PluginRegistryOptions): vo
         problemUrl: opts.rbookLink.problemUrl,
         diagnostics: opts.rbookLink.diagnostics,
     })
-    md.use(containersPlugin)
+    md.use(containersPlugin, {
+        diagnostics: opts.rbookLink.diagnostics,
+        currentSourcePath: opts.rbookLink.currentSourcePath,
+    })
     md.use(pseudocodePlugin, {
         ...opts.pseudocode,
         diagnostics: opts.rbookLink.diagnostics,

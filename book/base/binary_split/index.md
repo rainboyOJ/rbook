@@ -31,9 +31,8 @@ TODO
 现有分割方法如下: `m=(l+r)/2 -> new_left = [l,m],new_right = [m+1,r]`
 
 
-:::colorfulbox
+::: proof 1:
 
-证明1:
 
 任意长度为$n(n \geslant 1)$的区间按上面的分法
 
@@ -44,9 +43,8 @@ TODO
 :::
 
 
-::: colorfulbox
+::: corollary
 
-推论
 
 
 任意长度为$n(n \geslant 1)$的区间按上面的分法

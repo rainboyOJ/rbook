@@ -12,13 +12,14 @@
 - `class="line-number"` — 行号元素
 - `.token.keyword` / `.token.punctuation` / `.token.operator` — 语法高亮
 
-## 容器
-- `class="oneWordAlgo"` — 一句话算法
-- `class="colorfulbox bg-light"` — 彩色盒子
-- `class="warning"` — 警告
-- `class="info"` — 信息
-- `class="error"` — 错误
-- `class="blackboard"` — 黑板
+## 容器（`:::` 带类型的方框，见 ADR 0014）
+- `class="rbook-box rbook-box--theorem"` — 方框本体，后缀是 kind
+- `class="rbook-box--hue-accent"` / `--hue-muted` / `--hue-warning` — 三组色相
+- `class="rbook-box__head"` — 标签与标题同一行
+- `class="rbook-box__kind"` — 类型标签（定义 / 定理 / 注意 …）
+- `class="rbook-box__title"` — 位置标题，走 inline markdown
+- `class="rbook-box__icon"` — 1em 内联 SVG，只有 `warn` 默认带
+- `<details><summary>…</summary>` — `::: fold 标题`
 
 ## 链接与嵌入
 - `class="extra-link extra-link--article"` — `[[[rbook:...]]]` 站内文章链接

@@ -80,7 +80,7 @@ https://www.luogu.com.cn/problem/P5788
 
 时间负责度: 每个点最后入栈一次,出栈一次,所以时间为$O(n)$
 
-::: oneWordAlgo
+::: algorithm
 核心思想: 去除那些已经得到答案的点,自然形成单调.
 :::
 

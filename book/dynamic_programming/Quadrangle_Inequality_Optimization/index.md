@@ -12,9 +12,8 @@ rbook:
 ![firgure_1](./asymptote/figure1.svg "figure-1")
 
 
-::: colorfulbox 
+::: definition $1$: 四边形不等式
 
-定义$1$: 四边形不等式 
 
 设$w(i,j)$是整数集合上的二元函数.如果对于定义域上的任意整数$a,b,c,d$,其中$a \leqslant b \leqslant c \leqslant d$,都满足$w(a,b) + w(c,d) \leqslant w(a,c) + w(b,d)$,则称$w(i,j)$满足四边形不等式.
 
@@ -27,9 +26,8 @@ rbook:
 
 
 
-::: colorfulbox 
+::: theorem $1$: 四边形不等式等价定义
 
-定理$1$: 四边形不等式等价定义
 
 :::
 
@@ -39,9 +37,8 @@ f(i,j) = \min\{f(i,k)+f(k+1,j) + w(i,j) \}  \quad (1 \leqslant i  \leqslant k < 
 \tag a
 $$
 
-::: colorfulbox 
+::: theorem $2$: 一维四边形不等式具有决策单调性
 
-定理$2$: 一维四边形不等式具有决策单调性 
 
 在状态转移方程$f(i) = \min\{f(j) + w(j,i) \}  \quad (0 \leqslant j < i)$中,如果$w(i,j)$满足四边形不等式,则$f(i)$具有[[[rbook: decision_mono]]].
 
@@ -79,9 +76,8 @@ $$
 
 满足决策单调性的定义,证明完毕.
 
-::: colorfulbox 
+::: theorem $3$: 二维决策单调性
 
-定理$3$: 二维决策单调性 
 
 在满足四边形不等式的条件下,状态转换方程$(a)$中,记$P[i,j]$表示$f(i,j)$取最小值的$k$值,即$f(i,j)$的最优决策点,则有对于任意的$i<j$,有:
 

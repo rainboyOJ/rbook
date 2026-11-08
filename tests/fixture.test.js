@@ -11,20 +11,41 @@ describe('发布契约 fixtures', () => {
         assertMarkers(html, ['<h2', '<ul>', '<table>', '<pre', 'class="katex"'], assert)
     })
 
-    it('containers.md 渲染容器', () => {
-        const { html } = runFixture(path.join(FIXTURES, 'containers.md'))
+    it('containers.md 渲染带类型的方框', () => {
+        const { html, diagnostics } = runFixture(path.join(FIXTURES, 'containers.md'))
         assertMarkers(html, [
-            'class="oneWordAlgo"',
-            'class="colorfulbox bg-light"',
-            'class="warning"',
-            'class="info"',
-            'class="error"',
-            'class="blackboard"',
-            '<details>',
-            'class="rbook-callout-label">说明',
-            'class="rbook-callout-label">注意',
-            'class="rbook-callout-label">错误',
+            'class="rbook-box rbook-box--definition rbook-box--hue-accent"',
+            'class="rbook-box rbook-box--theorem rbook-box--hue-accent" id="thm-1"',
+            'class="rbook-box rbook-box--proof rbook-box--hue-muted"',
+            'class="rbook-box rbook-box--warn rbook-box--hue-warning"',
+            'class="rbook-box__head"',
+            'class="rbook-box__kind">定义',
+            'class="rbook-box__kind">定理',
+            // 中文 kind 名与英文等价
+            'class="rbook-box__title">欧拉函数',
+            // 位置标题走 inline markdown
+            'class="rbook-box__title">这里的 <code>k</code> 必须最外层',
+            // label= 覆盖默认标签
+            'class="rbook-box__kind">口诀',
+            // 只有 warn 默认带图标，icon= 可改
+            'class="rbook-box__icon"',
+            '<summary>展开看推导</summary>',
+            'class="pseudocode"',
         ], assert)
+        // 旧容器一律下线：残留说明迁移漏了一块
+        for (const gone of ['colorfulbox', 'oneWordAlgo', 'rbook-callout-label', 'blackboard', 'class="warning"']) {
+            assert.ok(!html.includes(gone), `旧容器残留: ${gone}`)
+        }
+        assert.equal(diagnostics.filter(d => d.phase === 'containers').length, 0, '不应有容器诊断')
+    })
+
+    it('未知 ::: 容器名给出诊断而不是静默变成正文', () => {
+        const { html, diagnostics } = runFixture(path.join(FIXTURES, 'unknown-container.md'))
+        assert.ok(html.includes('::: tehorem'), '未注册的容器名按普通段落输出')
+        const hits = diagnostics.filter(d => d.phase === 'containers')
+        assert.equal(hits.length, 1, '应有一条容器诊断')
+        assert.match(hits[0].message, /未注册的 ::: 容器名/)
+        assert.equal(hits[0].level, 'warning')
     })
 
     it('fences.md 渲染各种代码块及伪代码', () => {
@@ -78,7 +99,7 @@ describe('发布契约 fixtures', () => {
         assertMarkers(html, ['<ul>', '<ol>', '<blockquote>', '<table>'], assert)
 
         // 容器组件。
-        assertMarkers(html, ['class="oneWordAlgo"', 'class="info"', 'class="colorfulbox bg-light"'], assert)
+        assertMarkers(html, ['class="rbook-box rbook-box--algorithm', 'rbook-box--definition', 'rbook-box--note'], assert)
     })
 
     it('excalidraw.md 渲染相对路径图片及交互按钮', () => {

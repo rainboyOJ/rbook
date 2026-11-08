@@ -43,9 +43,8 @@ $$
 ```
 
 
-::: colorfulbox
+::: note label=口诀
 
-口诀
 
 > 是1就乘,base增增(倍之)
 

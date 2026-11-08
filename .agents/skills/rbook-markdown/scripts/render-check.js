@@ -218,7 +218,8 @@ if (dbHits.length) {
 // --- A3) 其余“看起来能写、其实不支持”的写法 -------------------------------
 const SOURCE_CHECKS = [
     {
-        re: /^[ \t]*:::[ \t]*(?!fold\b|colorfulbox\b|blackboard\b|info\b|warning\b|error\b|oneWordAlgo\b|pseudocode\b|$)[A-Za-z]\w*/gm,
+        // 方框 kind（含中文别名）+ fold + pseudocode 是仅有的合法容器名，见 ADR 0014。
+        re: /^[ \t]*:::[ \t]*(?!definition\b|theorem\b|lemma\b|corollary\b|algorithm\b|note\b|proof\b|example\b|summary\b|warn\b|fold\b|pseudocode\b|定义|定理|引理|推论|算法|说明|证明|例|总结|注意|警告|$)[^\s:]/gm,
         why: '未注册的 ::: 容器名，会原样输出成普通文字',
     },
     { re: /\+\+[^+\n]{1,60}\+\+/g, why: '++插入++ 不是本项目方言，请用 <ins>' },

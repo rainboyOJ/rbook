@@ -25,8 +25,7 @@
 // Omit the .css extension so Sass inlines this local stylesheet. Keeping the
 // extension makes Sass emit a browser-side import to a source-only path.
 @import "./markdown_perfect.scss";
-@import "./markdownPlugin/oneWordAlgo.scss";
-@import "./markdownPlugin/colorfulbox.scss";
+@import "./markdownPlugin/rbook-box.scss";
 @import "../../bin/triple-square-brackets/extra_link.scss";
 @import "./codetabs.scss";
 @import "./formula-copy.scss";

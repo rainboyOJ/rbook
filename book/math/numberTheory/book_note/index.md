@@ -18,9 +18,8 @@ rbook:
 
 ## 第一讲 整数的整除
 
-::: colorfulbox
+::: definition 整除的定义
 
-整除的定义
 
 设$a,b \in \mathbb{Z}$，若存在整数$k \neq 0$使得$a=bk$，则称$b$是$a$的**因子**，记作$b \mid a$,否则记做$b \nmid a$。
 
@@ -60,9 +59,8 @@ $$
 
 ### 1.2 带余除法
 
-::: colorfulbox
+::: theorem 带余除法
 
-带余除法
 
 对于任意一对整数$a,b$,其中$b \neq 0$，**存在唯一一对整数$q,r$，使得
 
@@ -182,9 +180,8 @@ int gcd(int a,int b)
 所以$(a,b) = (b,r_1)$,得证. 你可以写一个暴力的代码验证二者的集合是不是一样.
 
 
-::: colorfulbox
+::: note label=重要性质
 
-重要性质
 
 $$
 gcd(a,b) = ax + by
@@ -198,7 +195,7 @@ a,b的最大公因数可以通过最a,b各乘以一个整数后相加凑出来
 证明: 辗转相除法加上数学归纳法.这个算法叫做$exgcd$算法.
 
 
-::: colorfulbox
+::: note
 
 $$
 a \mid bc \land gcd(a,b) = 1 \to a \mid c
@@ -208,7 +205,7 @@ $$
 证明见书P11
 
 
-::: colorfulbox
+::: theorem
 
 设p是素数,若$p \mid ab$,则 $p \mid a \lor p \mid b$
 
@@ -242,7 +239,7 @@ gcd_lcm.py
 
 ### 三 算术基本定理
 
-::: colorfulbox
+::: theorem
 
 任何大于1的整数都可以唯一分解成素因数乘积的形式
 
@@ -400,9 +397,8 @@ ac \equiv bc \pmod{n} &\Leftrightarrow n \mid c(b-a)  \\
 ```
 
 
-::: colorfulbox
+::: theorem 费马小定理
 
-费马小定理
 
 若$p$是素数,则$a^{p-1} \equiv 1 \pmod{p}$
 
@@ -431,8 +427,8 @@ $$
 
 ### 欧拉定理
 
-::: colorfulbox
-欧拉函数
+::: definition 欧拉函数
+
 
 $\psi(n)$表示$1,2,\cdots,n-1$中与n互质的个数,称为欧拉函数
 
@@ -447,9 +443,8 @@ gcd(m_1,m_2) = 1 \to \psi(m_1m_2) = \psi(m_1) \cdot \psi(m_2)
 $$
 
 
-::: colorfulbox
+::: theorem 欧拉定理
 
-欧拉定理
 
 $$
 m> 1 \land gcd(a,m) = 1 \to a^{\psi(m)} \equiv 1 \pmod{m}
@@ -474,9 +469,8 @@ $$
 ## 威尔逊定理
 
 
-::: colorfulbox
+::: theorem 威尔逊定理
 
-威尔逊定理
 
 在初等数论中，威尔逊定理给出了判定一个自然数是否为质数的充分必要条件。即：当且仅当
 ${\displaystyle p}$为质数时：
@@ -542,9 +536,8 @@ $$
 
 ## 二元一次方程
 
-::: colorfulbox
+::: theorem 有解的充要条件
 
-有解的充要条件
 
 
 $$
@@ -579,18 +572,16 @@ $$
 
 ## 剩余系
 
-::: colorfulbox
+::: definition 完全剩余系
 
-完全剩余系
 
 模$m$的每个剩余类中各取一个数组成的一个集合
 
 :::
 
 
-::: colorfulbox
+::: definition 简化剩余系
 
-简化剩余系
 
 模$m$的互素类中各取一个数组成的一个集合
 
@@ -603,9 +594,8 @@ $$
 证明欧拉函数需要先证明这几个定理
 
 
-::: colorfulbox
+::: theorem 1: 剩余系集合相等
 
-定理1: 剩余系集合相等
 
 设$m\in \mathbb{z}$,$k,l$是固定的值,也是整数,且$(k,m) = 1$
 
@@ -646,9 +636,8 @@ $$
 2. 我们知道$D \subset A$,这里只需要证明D满足C从A中选元素的条件即可,即$(kx_i,m) = 1$,根据算术基本定理,我们知道$(kx_i,m) = (k,m)(x_i,m) = 1$,所以D满足条件,所以$D \subset C$,所以$C = D$
 
 
-::: colorfulbox
+::: theorem 2:
 
-定理2: 
 
 设$(m_1,m_2) = 1$
 
