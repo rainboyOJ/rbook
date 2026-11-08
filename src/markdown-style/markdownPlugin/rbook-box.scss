@@ -1,45 +1,42 @@
 // 带类型的方框（`::: 定义 …`）。设计见 docs/adr/0014-typed-boxes.md。
 //
-// 三条度量意图：
+// 版式意图：
 // 1. 标题在文档流里。标签与标题同处一行 flex，标题可以换行、可以撑长——旧实现把
 //    容器第一段用 position:absolute 拔出来做胶囊，长标题会被省略号吃掉，首节点是
 //    图片/公式/代码时整段还会脱离文档流。
-// 2. 色相只承担层次，不承担“好看”：蓝 = 这一段在陈述某件事，灰 = 依附于前文的附属
-//    内容（证明、例、总结），琥珀 = 读者容易错。三组色全部由主题变量 color-mix 出来，
-//    深色模式不需要新 token。
-// 3. 左侧 3px 竖条是唯一的“边框”。底色只比页面深一档，整块的视觉重量低于 h3。
+// 2. 沿用论文中的直角线框：透明底、细中性边线，不以彩色卡片区分类型。
+// 3. 类型标签和标题使用相同度量，以字重建立层次；正文保持文章的宋体与行距。
 .markdown-body .rbook-box {
-    // 通过 --rbook-hue 间接取值：色组修饰类只改 --rbook-hue，不必和基础规则比特异度。
-    --rbook-box-accent: var(--rbook-hue, var(--rbook-accent));
+    --rbook-box-rule: color-mix(in srgb, var(--rbook-text) 38%, transparent);
 
-    margin-block: 26px;
-    padding: 16px 20px 16px 18px;
-    border-inline-start: 3px solid var(--rbook-box-accent);
-    // 5% 的类型色混进表面色：浅色主题下是极淡的一层，深色主题下自动跟着变暗。
-    background: color-mix(in srgb, var(--rbook-box-accent) 5%, var(--rbook-surface));
-    border-radius: 6px;
+    margin-block: 28px;
+    padding: 18px 20px;
+    border: 1px solid var(--rbook-box-rule);
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
     color: var(--rbook-text);
 }
 
-.rbook-box--hue-muted { --rbook-hue: var(--rbook-muted); }
-.rbook-box--hue-warning { --rbook-hue: var(--rbook-warning-border); }
+// 注意事项只加重一侧的线条，仍保持中性色。
+.markdown-body .rbook-box--warn { border-inline-start-width: 2px; }
 
 // 标签 + 标题同一行；baseline 对齐让标签文字与标题首行坐在同一条线上。
 .markdown-body .rbook-box__head {
     display: flex;
     align-items: baseline;
     column-gap: 10px;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
 }
 
 .markdown-body .rbook-box__kind {
     flex: 0 0 auto;
     font-family: var(--rbook-font-heading);
-    font-size: 13px;
-    line-height: 20px;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    color: var(--rbook-box-accent);
+    font-size: 18px;
+    line-height: 30px;
+    font-weight: 600;
+    letter-spacing: normal;
+    color: var(--rbook-text);
 }
 
 // flex:1 + min-width:0 是长标题能换行的前提；单个长词也不会把盒子撑破。
@@ -47,10 +44,11 @@
     flex: 1 1 auto;
     min-width: 0;
     font-family: var(--rbook-font-heading);
-    font-size: 16px;
-    line-height: 26px;
+    font-size: 18px;
+    line-height: 30px;
     font-weight: 600;
     color: var(--rbook-text);
+    overflow-wrap: anywhere;
     // 标题里的行内数学与代码不应比标题本身更抢眼。
     .katex { font-size: 1em; }
 }
@@ -61,16 +59,17 @@
     width: 1em;
     height: 1em;
     margin-inline-end: 2px;
-    // 1em 相对标签字号（13px），描边宽度用非缩放单位才不会在缩小时消失。
+    // 图标随正文取色，保持单色细描边。
     stroke: currentColor;
     stroke-width: 1.6;
     stroke-linecap: round;
     stroke-linejoin: round;
     fill: none;
-    color: var(--rbook-box-accent);
+    color: var(--rbook-text);
 }
 
 .markdown-body .rbook-box__body {
+    min-width: 0;
     > :first-child { margin-block-start: 0; }
     > :last-child { margin-block-end: 0; }
     pre, .markdown-it-code-copy { margin-block: 12px; }
@@ -78,8 +77,8 @@
 
 @media (max-width: 640px) {
     .markdown-body .rbook-box {
-        margin-block: 20px;
-        padding: 14px 16px 14px 14px;
+        margin-block: 24px;
+        padding: 14px 16px;
     }
     .markdown-body .rbook-box__head {
         column-gap: 8px;

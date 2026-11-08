@@ -24,8 +24,8 @@
 | 表格 | `16px / 26px`，三线表，宽表内部横向滚动 |
 | 块公式 | KaTeX 字体，上下间距 20px，超宽公式内部滚动 |
 | 代码块 | 系统等宽 `14px / 22px`，保留行号、复制按钮和内部滚动 |
-| 提示框 | 淡语义底色、2px 左边线、明确的“说明／注意／错误”标签 |
-| 一句话算法 | 普通正文字号，轻量底色与细边线 |
+| 定义、定理、算法等类型方框 | 透明底、直角、1px 中性细边框，类型与标题统一为黑体 `18px / 30px`、600 |
+| 注意事项 | 沿用中性线框，左边线加至 2px，以“注意”标签和线条区分 |
 | 折叠答案 | 克制的展开入口，保留键盘焦点及展开操作 |
 
 字体、字号和留白共同区分层次，标题不加装饰横线。文章开头与连续标题减少多余间距，标题靠近其下方正文。首行缩进只作用于普通叙述段落；列表、引用、图注、表格、代码、提示框、独立图片与独立公式不缩进。
@@ -58,7 +58,7 @@ Markdown 渲染器先按原文建立锚点，再生成正文与目录共享的�
 - `src/markdown-style/typography.scss`：局限于文章区域的排版规则。
 - `src/publishing/markdown/plugins/toc.ts`：共享标题编号与目录，保留原有锚点。
 - `src/publishing/markdown/plugins/containers.ts`：可读的提示框标签。
-- `src/markdown-style/vendor/markdown-r.scss`、`markdownPlugin/oneWordAlgo.scss`：提示框与一句话算法样式。
+- `src/markdown-style/markdownPlugin/rbook-box.scss`：定义、定理、算法与注意事项等类型方框的论文式线框排版。
 - `src/ejs/article.html`：本地字体样式表入口。
 - `tests/fixtures/markdown/typography.md`：标题、正文、宽表、公式、图注、代码和容器的综合验证样例。
 
