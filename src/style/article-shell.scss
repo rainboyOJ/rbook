@@ -37,6 +37,10 @@
     --rbook-danger-border: #fca5a5;
     --rbook-danger-text: #991b1b;
     --rbook-shadow: rgba(15, 23, 42, 0.14);
+    // 带类型方框的底色强度（见 ADR 0014）。深色主题要用更高的百分比，
+    // 否则同样比例在深色底上几乎看不出层次。
+    --rbook-box-tint-base: 10%;
+    --rbook-box-tint-soft: 8%;
 
     // Compatibility variables used by the existing Markdown theme.
     --text-color: var(--rbook-text);
@@ -67,6 +71,8 @@ html[data-theme="dark"] {
     --rbook-danger-border: #7f1d1d;
     --rbook-danger-text: #fecaca;
     --rbook-shadow: rgba(0, 0, 0, 0.42);
+    --rbook-box-tint-base: 15%;
+    --rbook-box-tint-soft: 12%;
 }
 
 html, body {

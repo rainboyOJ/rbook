@@ -14,7 +14,7 @@
 
 ## 容器（`:::` 带类型的方框，见 ADR 0014）
 - `class="rbook-box rbook-box--theorem"` — 方框本体，后缀是 kind
-- `class="rbook-box--hue-accent"` / `--hue-muted` / `--hue-warning` — 三组色相
+- `class="rbook-box--hue-accent"` / `--hue-muted` / `--hue-warning` — 三组色相，同时决定左竖条与标签角标的颜色
 - `class="rbook-box__head"` — 标签与标题同一行
 - `class="rbook-box__kind"` — 类型标签（定义 / 定理 / 注意 …）
 - `class="rbook-box__title"` — 位置标题，走 inline markdown

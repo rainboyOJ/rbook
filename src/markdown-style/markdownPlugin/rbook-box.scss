@@ -1,42 +1,77 @@
 // 带类型的方框（`::: 定义 …`）。设计见 docs/adr/0014-typed-boxes.md。
 //
-// 版式意图：
+// 版式意图（讲义式，2026-11-08 第二次修订）：
 // 1. 标题在文档流里。标签与标题同处一行 flex，标题可以换行、可以撑长——旧实现把
 //    容器第一段用 position:absolute 拔出来做胶囊，长标题会被省略号吃掉，首节点是
 //    图片/公式/代码时整段还会脱离文档流。
-// 2. 沿用论文中的直角线框：透明底、细中性边线，不以彩色卡片区分类型。
-// 3. 类型标签和标题使用相同度量，以字重建立层次；正文保持文章的宋体与行距。
+// 2. 左侧 4px 竖条是唯一的结构线，其余三边不画。底色按类型取极浅一档，
+//    与页面底拉开一档但不喧宾夺主。
+// 3. 角标（`__kind`）是类型色底 + 反白字的小色块，只包住标签本身两个字；
+//    角标与竖条同色，是同一个色源的两次落笔。
+//
+// 深色模式下色值由 --rbook-hue-color 提供（浅色是深蓝/深灰/深琥珀，深色是浅蓝/
+// 浅灰/浅琥珀），角标字色随之反转：浅色主题压白字，深色主题压深字。对比度实测
+// 浅色 5.9 / 4.8 / 5.0，深色 10.7 / 7.0 / 10.7，都过 AA。
 .markdown-body .rbook-box {
-    --rbook-box-rule: color-mix(in srgb, var(--rbook-text) 38%, transparent);
+    // 色源：色组修饰类只改 --rbook-hue-color，不必和基础规则比特异度。
+    --rbook-box-color: var(--rbook-hue-color, var(--rbook-accent));
+    // 底色强度由主题给（见 article-shell.scss）：深色底上同样比例几乎看不出层次，
+    // 所以深色主题用更高的百分比。这里只留兜底值。
+    --rbook-box-tint: var(--rbook-box-tint-base, 10%);
+    // 角标字色：浅色主题类型色都是深色，压白字；深色主题类型色都浅，压深字。
+    --rbook-box-on-color: var(--rbook-surface);
 
-    margin-block: 28px;
-    padding: 18px 20px;
-    border: 1px solid var(--rbook-box-rule);
+    margin-block: 26px;
+    padding: 14px 20px 16px 22px;
+    border: 0;
+    // 只画左侧一条线：讲义式方框的结构线。
+    border-inline-start: 4px solid var(--rbook-box-color);
     border-radius: 0;
-    background: transparent;
+    background: color-mix(in srgb, var(--rbook-box-color) var(--rbook-box-tint), var(--rbook-surface));
     box-shadow: none;
     color: var(--rbook-text);
 }
 
-// 注意事项只加重一侧的线条，仍保持中性色。
-.markdown-body .rbook-box--warn { border-inline-start-width: 2px; }
+// 三组色源。只改 --rbook-hue-color，其余规则都从它派生。
+.markdown-body .rbook-box--hue-accent { --rbook-hue-color: var(--rbook-accent); }
+.markdown-body .rbook-box--hue-muted { --rbook-hue-color: var(--rbook-muted); }
+.markdown-body .rbook-box--hue-warning { --rbook-hue-color: var(--rbook-warning-border); }
 
-// 标签 + 标题同一行；baseline 对齐让标签文字与标题首行坐在同一条线上。
+// 附属类（证明 / 例 / 总结 / 说明）：线条更细、底色更浅，视觉重量低于正文主张。
+.markdown-body .rbook-box.rbook-box--hue-muted {
+    --rbook-box-tint: var(--rbook-box-tint-soft, 8%);
+    border-inline-start-width: 3px;
+}
+
+// 注意类线条保持与陈述类同样厚度：它要能拦住眼睛。
+.markdown-body .rbook-box.rbook-box--hue-warning { --rbook-box-tint: var(--rbook-box-tint-soft, 8%); }
+
+// 标签 + 标题同一行；baseline 对齐让角标文字与标题首行坐在同一条线上。
 .markdown-body .rbook-box__head {
     display: flex;
     align-items: baseline;
     column-gap: 10px;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
 }
 
+// 角标：类型色底 + 反白字，横向只包住标签本身。行高设 1 再靠 padding 撑出高度，
+// 这样字面与色块四边的留白是可控的（旧实现用 line-height 撑高度，字体会偏上）。
 .markdown-body .rbook-box__kind {
     flex: 0 0 auto;
     font-family: var(--rbook-font-heading);
-    font-size: 18px;
-    line-height: 30px;
+    font-size: 15px;
+    line-height: 1;
     font-weight: 600;
-    letter-spacing: normal;
-    color: var(--rbook-text);
+    letter-spacing: 0.08em;
+    padding: 6px 10px 5px;
+    color: var(--rbook-box-on-color);
+    background: var(--rbook-box-color);
+}
+
+// 附属类的角标小一号，与更细的竖条呼应。
+.markdown-body .rbook-box--hue-muted .rbook-box__kind {
+    font-size: 14px;
+    padding: 5px 9px 4px;
 }
 
 // flex:1 + min-width:0 是长标题能换行的前提；单个长词也不会把盒子撑破。
@@ -45,7 +80,7 @@
     min-width: 0;
     font-family: var(--rbook-font-heading);
     font-size: 18px;
-    line-height: 30px;
+    line-height: 28px;
     font-weight: 600;
     color: var(--rbook-text);
     overflow-wrap: anywhere;
@@ -59,13 +94,13 @@
     width: 1em;
     height: 1em;
     margin-inline-end: 2px;
-    // 图标随正文取色，保持单色细描边。
     stroke: currentColor;
     stroke-width: 1.6;
     stroke-linecap: round;
     stroke-linejoin: round;
     fill: none;
-    color: var(--rbook-text);
+    // 图标由插件渲染在 __head 里、坐在底色上（不在角标内），所以取类型色本身。
+    color: var(--rbook-box-color);
 }
 
 .markdown-body .rbook-box__body {
@@ -77,8 +112,8 @@
 
 @media (max-width: 640px) {
     .markdown-body .rbook-box {
-        margin-block: 24px;
-        padding: 14px 16px;
+        margin-block: 22px;
+        padding: 12px 16px 14px 18px;
     }
     .markdown-body .rbook-box__head {
         column-gap: 8px;

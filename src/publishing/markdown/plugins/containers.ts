@@ -34,7 +34,7 @@ const KINDS: Record<string, KindSpec> = {
     lemma: { label: '引理', hue: 'accent' },
     corollary: { label: '推论', hue: 'accent' },
     algorithm: { label: '算法', hue: 'accent' },
-    note: { label: '说明', hue: 'accent' },
+    note: { label: '说明', hue: 'muted' },
     proof: { label: '证明', hue: 'muted' },
     example: { label: '例', hue: 'muted' },
     summary: { label: '总结', hue: 'muted' },

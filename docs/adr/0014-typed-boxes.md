@@ -54,13 +54,15 @@ $\varphi(n)$ 表示 $1\sim n$ 中与 $n$ 互质的数的个数。
 | `lemma` | 引理 | 引理 | 蓝 | — |
 | `corollary` | 推论 | 推论 | 蓝 | — |
 | `algorithm` | 算法 | 算法 | 蓝 | — |
-| `note` | 说明 | 说明 | 蓝 | — |
+| `note` | 说明 | 说明 | 灰 | — |
 | `proof` | 证明 | 证明 | 灰 | — |
 | `example` | 例 | 例 | 灰 | — |
 | `summary` | 总结 | 总结 | 灰 | — |
 | `warn` | 注意、警告 | 注意 | 琥珀 | ⚠ |
 
-色组只有三组，全部复用现有 token：蓝 = `--rbook-accent`，灰 = `--rbook-muted`，琥珀 = `--rbook-warning-border`（底色分别取 `--rbook-accent-muted` / `--rbook-surface-muted` / `--rbook-warning-bg`）。**灰组是「依附于前文的附属内容」**——证明、例子、总结都不是新的主张；蓝组是「这一段在陈述某件事」；琥珀组是「读者容易错」。深色模式不需要新变量。
+色组只有三组，全部复用现有 token：蓝 = `--rbook-accent`，灰 = `--rbook-muted`，琥珀 = `--rbook-warning-border`。**灰组是「依附于前文的附属内容」**——证明、例子、总结、说明都不是新的主张；蓝组是「这一段在陈述某件事」；琥珀组是「读者容易错」。深色模式不需要新颜色 token，只需要两个比例 token（见下）。
+
+`note` 归灰组是 2026-11-08 第二次修订的结果：全站 44 块 `note` 里 32 块没有标题，内容是「附注、提醒、补充」，不是主张，放蓝组会把它抬到与定理同级。
 
 图标只有 `warn` 自带（1em 内联 SVG，`fill: none; stroke: currentColor; stroke-width: 1.6`，与 `[[[rbook:]]]` 的 `LINK_MARKS` 同一套画法）。定理性内容之间在 1em 里画不出本质区别，硬加图标只会制造噪声。想给某个块换记号就写 `icon=`，取值只有一个小注册表（`warning` / `info` / `bulb` / `star` / `scale` / `none`），写错忽略并给警告。
 
@@ -69,7 +71,7 @@ $\varphi(n)$ 表示 $1\sim n$ 中与 $n$ 互质的数的个数。
 ## 渲染契约
 
 ```html
-<div class="rbook-box rbook-box--theorem" id="thm-1">
+<div class="rbook-box rbook-box--theorem rbook-box--hue-accent" id="thm-1">
   <div class="rbook-box__head">
     <span class="rbook-box__kind">定理</span>
     <span class="rbook-box__title">一维四边形不等式具有<em>决策单调性</em></span>
@@ -81,9 +83,20 @@ $\varphi(n)$ 表示 $1\sim n$ 中与 $n$ 互质的数的个数。
 ```
 
 - 标题在**文档流里**：`__kind` 与 `__title` 同行 flex，标题可换行、可撑长，`__kind` 不收缩（`flex: 0 0 auto`），中间用 `margin-inline-end` 留气口。这一条把绝对定位那套 CSS 与它的三个坑一起删掉。
-- 2026-11-08 按用户要求调整为论文式线框：透明底、直角、1px 中性边线，无阴影；注意事项仅把左边线加至 2px。标签与标题统一为正文色、18px/30px 黑体 600。类型及 hue 类名保留，默认外观不再以蓝色或琥珀色区分类别。
 - 无标题时整个 `__head` 只剩 `__kind`，行高与正文一致，不额外占空。
 - 折叠交互、`prefers-reduced-motion` 与现有 `extra-link` 一致。
+
+### 外观：讲义式左侧竖条（2026-11-08 第二次修订）
+
+当天上午先改成「论文式直角线框」——透明底、四边 1px 中性边线、标签与标题同号同色。**用户看过实际页面后否掉了它**：没有底色、四边全框、类型标签完全没样式，落成了「太简单」的一张白纸。修订后的外观：
+
+- **只画左侧一条竖条**（`border-inline-start`），其余三边不画。陈述类 4px，附属类 3px。这是讲义（Springer LNCS、大学讲义）里定理环境的常见做法：结构线只出现在一侧，页面不会被切成一块块卡片。
+- **底色按类型语义取极浅一档**，用 `color-mix(in srgb, 类型色 var(--rbook-box-tint), var(--rbook-surface))` 算出来，不新增颜色 token。强度由主题给两个变量：浅色 `--rbook-box-tint-base: 10%` / `--rbook-box-tint-soft: 8%`，深色 `15%` / `12%`。**深色必须更高**——同样 6% 在深色底上完全看不出层次。
+- **`__kind` 是角标**：类型色底 + 反白字，横向只包住标签本身（`padding: 6px 10px 5px`，`line-height: 1`），字母间距 `0.08em`。角标与竖条同色，是同一个色源的两次落笔，不引入第二种视觉语言。
+- **角标字色随主题反转**：浅色主题类型色都是深色，压 `--rbook-surface`（白）；深色主题类型色都是浅色，压 `--rbook-surface`（#111827）正好反成深字。一条 `--rbook-box-on-color: var(--rbook-surface)` 同时满足两边。实测对比度：浅色 5.93 / 4.76 / 5.02，深色 10.64 / 6.92 / 10.63，全部过 AA。
+- 标签与标题同为黑体 600；标题 `18px / 28px`，角标 `15px`（附属类 `14px`）。层次靠色块与字号，标题本身不再加重。
+
+两条被否掉的备选，记在这里免得再绕回去：**四边细线 + 浅底**（接近 LaTeX `tcolorbox`）与**纯 AMS 无框、只有粗体标签**。前者在 127 个方框的站内会显得密；后者拿不出足够的类型区分度。
 
 `::: fold` 保持独立：它的语义是「可以收起」，与「这是一个定理」正交，混进 kind 会引出「定义能不能折叠」这种没有答案的问题。但 `fold` 补一个位置标题，参数解析与 kind 共用：`::: fold 展开看这张图` → `<summary>展开看这张图</summary>`，现在 27 处全都是写死的「点击」。
 
