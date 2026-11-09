@@ -134,10 +134,6 @@
       "reason": "triage"
     },
     {
-      "path": "dynamic_programming/knapsack/grouped_knapsack/index.md",
-      "reason": "triage"
-    },
-    {
       "path": "enumeration_permutaion_combination/ball_and_box/stirling_number.md",
       "reason": "aux"
     },
