@@ -77,7 +77,6 @@
 | 43 | `ReadingNotes/近世代数/preface.md` | 73B | 只有书目/视频链接 |
 | 44 | `base/number_dis/start.md` | 783B | 「数字距离」，2 张 `asym/*.svg` 图缺失 |
 | 45 | `recursion/dynamic_loop/index.md` | 99B | 递归实现多重循环；引用了不存在的绝对路径 `/algo_template/enumerate/递归实现多重循环.cpp` |
-| 46 | `string/minimal-string/index.md` | 307B | 只有参考链接 |
 | 47 | `string/Boyer-Moore/index.md` | 50B | 只有一个参考链接 |
 | 48 | `appendix/math/数学小故事-根号是无理数.md` | 810B | **语音转文字产物**，通篇「呃…这个…」，语句不通，需重写 |
 | 49 | `appendix/program_environment/readme.md` | 95B | 环境配置总览（只有 bullet 清单） |

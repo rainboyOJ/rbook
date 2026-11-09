@@ -251,8 +251,6 @@
       path: "manacher"
     - title: "最小表示法"
       path: "最小表示法"
-    - title: "最小表示法（旧入口）"
-      path: "minimal-string"
     - title: "Boyer–Moore"
       path: "Boyer-Moore"
 - title: "排序"
