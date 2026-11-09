@@ -154,3 +154,10 @@ problems
 tmp_to_do/
 newRbook_ejs/
 *.zip
+
+# code_template_filter 的 public/ 是构建产物：
+# third_part/build.sh → code_template_filter/build.sh → vite build，
+# 由 load_data.js 把每篇带 code_template 的文章源码复制进来，并生成 template.zip。
+# favicon 是手写源文件，单独放行。
+third_part/code_template_filter/public/*
+!third_part/code_template_filter/public/vite.svg
