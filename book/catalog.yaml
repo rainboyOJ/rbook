@@ -235,6 +235,8 @@
 - title: "字符串"
   path: "string"
   children:
+    - title: "朴素匹配"
+      path: "brute-force"
     - title: "概览"
       path: "index.md"
     - title: "Trie 字典树"

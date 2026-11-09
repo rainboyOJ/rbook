@@ -230,10 +230,6 @@
       "reason": "triage"
     },
     {
-      "path": "string/brute-force/index.md",
-      "reason": "triage"
-    },
-    {
       "path": "string/kmp/index.md",
       "reason": "triage"
     },
