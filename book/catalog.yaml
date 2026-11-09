@@ -235,6 +235,8 @@
 - title: "字符串"
   path: "string"
   children:
+    - title: "字符串哈希"
+      path: "进制hash"
     - title: "Manacher"
       path: "manacher"
     - title: "AC 自动机"
