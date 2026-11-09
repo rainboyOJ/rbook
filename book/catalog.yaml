@@ -232,6 +232,11 @@
           path: "sgt_zkw/"
         - title: "持久化"
           path: "sgt_persistent/"
+- title: "字符串"
+  path: "string"
+  children:
+    - title: "Trie 字典树"
+      path: "trie"
 - title: "排序"
   path: "sort"
   children:

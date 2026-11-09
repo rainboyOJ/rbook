@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="624" viewBox="0 0 560 624" role="img" aria-labelledby="trie-title trie-desc">
+  <title id="trie-title">app、apple、apply、apt、bat 构成的 Trie</title>
+  <desc id="trie-desc">编号节点之间由带字符标签的箭头连接。加粗路径 a、p、p 是 app、apple、apply 的公共前缀；双圈节点表示一个字符串在此结束。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 0 0 L 7 3.5 L 0 7 Z" fill="#777777" />
+    </marker>
+    <marker id="arrow-focus" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 0 0 L 7 3.5 L 0 7 Z" fill="#222222" />
+    </marker>
+  </defs>
+  <style>
+    .canvas { fill: #ffffff; }
+    .edge { stroke: #777777; stroke-width: 1.5; stroke-linecap: round; marker-end: url(#arrow); }
+    .edge.focus { stroke: #222222; stroke-width: 2.4; marker-end: url(#arrow-focus); }
+    .node { fill: #ffffff; stroke: #555555; stroke-width: 1.5; }
+    .node.focus { fill: #f4f4f4; stroke: #222222; stroke-width: 1.5; }
+    .node.end { fill: #ffffff; stroke: #222222; stroke-width: 1.5; }
+    .end-ring { fill: none; stroke: #222222; stroke-width: 1; }
+    text { text-anchor: middle; dominant-baseline: central; }
+    .number { fill: #222222; font: 400 20px system-ui, -apple-system, "Segoe UI", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; }
+    .character { fill: #222222; font: italic 26px Georgia, "Times New Roman", serif; }
+    .caption { fill: #555555; font: 400 18px system-ui, -apple-system, "Segoe UI", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; text-anchor: start; }
+  </style>
+  <rect class="canvas" width="560" height="624" />
+  <g id="trie-edges">
+    <line class="edge focus" x1="324.44" y1="79.56" x2="259.09" y2="144.91" />
+    <line class="edge" x1="356.28" y1="78.80" x2="430.02" y2="145.84" />
+    <line class="edge focus" x1="240.00" y1="186.00" x2="240.00" y2="237.00" />
+    <line class="edge" x1="450.00" y1="186.00" x2="450.00" y2="237.00" />
+    <line class="edge focus" x1="227.38" y1="282.02" x2="187.78" y2="338.60" />
+    <line class="edge" x1="252.62" y1="282.02" x2="292.22" y2="338.60" />
+    <line class="edge" x1="450.00" y1="286.00" x2="450.00" y2="333.00" />
+    <line class="edge" x1="170.00" y1="390.00" x2="170.00" y2="437.00" />
+    <line class="edge" x1="158.68" y1="482.86" x2="125.95" y2="537.42" />
+    <line class="edge" x1="181.32" y1="482.86" x2="214.05" y2="537.42" />
+  </g>
+  <g id="trie-nodes">
+    <g id="node-0">
+      <circle class="node focus" cx="340" cy="64" r="22" />
+      <text class="number" x="340" y="64">0</text>
+    </g>
+    <g id="node-1">
+      <circle class="node focus" cx="240" cy="164" r="22" />
+      <text class="number" x="240" y="164">1</text>
+    </g>
+    <g id="node-2">
+      <circle class="node" cx="450" cy="164" r="22" />
+      <text class="number" x="450" y="164">2</text>
+    </g>
+    <g id="node-3">
+      <circle class="node focus" cx="240" cy="264" r="22" />
+      <text class="number" x="240" y="264">3</text>
+    </g>
+    <g id="node-4">
+      <circle class="node" cx="450" cy="264" r="22" />
+      <text class="number" x="450" y="264">4</text>
+    </g>
+    <g id="node-5">
+      <circle class="node end" cx="170" cy="364" r="26" />
+      <circle class="end-ring" cx="170" cy="364" r="21" />
+      <text class="number" x="170" y="364">5</text>
+    </g>
+    <g id="node-6">
+      <circle class="node end" cx="310" cy="364" r="26" />
+      <circle class="end-ring" cx="310" cy="364" r="21" />
+      <text class="number" x="310" y="364">6</text>
+    </g>
+    <g id="node-7">
+      <circle class="node end" cx="450" cy="364" r="26" />
+      <circle class="end-ring" cx="450" cy="364" r="21" />
+      <text class="number" x="450" y="364">7</text>
+    </g>
+    <g id="node-8">
+      <circle class="node" cx="170" cy="464" r="22" />
+      <text class="number" x="170" y="464">8</text>
+    </g>
+    <g id="node-9">
+      <circle class="node end" cx="110" cy="564" r="26" />
+      <circle class="end-ring" cx="110" cy="564" r="21" />
+      <text class="number" x="110" y="564">9</text>
+    </g>
+    <g id="node-10">
+      <circle class="node end" cx="230" cy="564" r="26" />
+      <circle class="end-ring" cx="230" cy="564" r="21" />
+      <text class="number" x="230" y="564">10</text>
+    </g>
+  </g>
+  <g id="trie-labels">
+    <text class="caption" x="376" y="64">root</text>
+    <text class="character" x="268" y="114">a</text>
+    <text class="character" x="417" y="114">b</text>
+    <text class="character" x="262" y="214">p</text>
+    <text class="character" x="472" y="214">a</text>
+    <text class="character" x="183" y="314">p</text>
+    <text class="character" x="297" y="314">t</text>
+    <text class="character" x="472" y="314">t</text>
+    <text class="character" x="192" y="414">l</text>
+    <text class="character" x="118" y="514">e</text>
+    <text class="character" x="222" y="514">y</text>
+  </g>
+</svg>
