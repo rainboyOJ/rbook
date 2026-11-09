@@ -235,6 +235,8 @@
 - title: "字符串"
   path: "string"
   children:
+    - title: "最小表示法（旧入口）"
+      path: "minimal-string"
     - title: "最小表示法"
       path: "最小表示法"
     - title: "字符串哈希"
