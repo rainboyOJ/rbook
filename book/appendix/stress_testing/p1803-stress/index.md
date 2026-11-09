@@ -244,6 +244,6 @@ sort(id, id + n, cmp_end);
 - [[[rbook: 01_seq]]]：`brute.cpp` 直接用的模板（`b[dep] = 0 / 1` 递归枚举）
 - [[[rbook: subset_enum]]]：同一件事的二进制写法（`mask` 从 `0` 枚举到 $2^n-1$），可互相替代
 - [[[rbook: compare_script]]]：本文 `check.sh` 的模板出处
-- [[[rbook: greedy_interval_point]]]：区间选点，同一套交换论证
-- [[[rbook: greedy_interval_grouping]]]：区间分组，同一套相交模型
+- [[[rbook: greedy_radar]]]：区间选点，同一套交换论证
+- [[[rbook: greedy_cattle]]]：区间分组，同一套相交模型
 - [[[rbook: dfs]]]：把 01 序列暴力改写成 DFS 的练习
