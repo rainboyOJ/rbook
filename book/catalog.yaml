@@ -235,6 +235,8 @@
 - title: "字符串"
   path: "string"
   children:
+    - title: "Manacher"
+      path: "manacher"
     - title: "AC 自动机"
       path: "ac-automaton"
     - title: "KMP"
