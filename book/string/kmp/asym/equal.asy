@@ -39,4 +39,3 @@ draw((len2-len1+1,0) -- (len2-len1+1,height));
 draw((len2,0) -- (len2,height));
 draw((tot-len2+1,0) -- (tot-len2+1,height));
 draw((tot,0) -- (tot,height));
-
