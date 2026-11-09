@@ -102,6 +102,17 @@ npx rbook build --profile full
 # 排除它以免 --delete 每次报 "Operation not permitted"。
 rsync -avp --delete --exclude='.user.ini' ./dist/ bohai:/www/wwwroot/rbook.roj.ac.cn
 
+# /papers/ 的 nginx location 不在宝塔托管的主配置里，而是 extension 目录下的
+# papers.conf（主配置会 include 它）。这样在面板里改「伪静态」或保存站点设置时，
+# 手写的 location 不会被重写掉。脚本幂等：内容没变就不动文件、不 reload；
+# 写了会先 nginx -t，语法错就回滚。失败不阻断发布，只警告。
+if [[ -f scripts/install-nginx-papers.sh ]]; then
+  bash scripts/install-nginx-papers.sh || \
+    echo "[deploy] 警告：/papers/ 的 nginx 配置安装失败，但发布已继续" >&2
+else
+  echo "[deploy] 未找到 scripts/install-nginx-papers.sh，跳过 /papers/ 配置" >&2
+fi
+
 # sync back
 #rsync -avzP --delete --exclude=dist/ . pro13:~/mycode/new_rbook_ejs
 
