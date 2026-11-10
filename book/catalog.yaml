@@ -43,6 +43,8 @@
       path: "dynamic_loop"
     - title: "二分查找"
       path: "binary_search/"
+    - title: "二分记账法"
+      path: "binary_search_ans/"
     - title: "题目"
       path: "practice.md"
 - title: "枚举与排列组合"
