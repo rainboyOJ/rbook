@@ -92,6 +92,8 @@
       path: "king_game"
     - title: "给树染色"
       path: "tree_dyeing"
+    - title: "双机流水调度"
+      path: "johnson"
     - title: "均分纸牌"
       path: "均分纸牌"
     - title: "删数字"
