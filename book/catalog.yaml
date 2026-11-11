@@ -3,6 +3,11 @@
   home: true
 - title: "思维方式"
   path: "mind_theory"
+  children:
+    - title: "思维方式概览"
+      path: "index.md"
+    - title: "反证法：从逻辑基础到算法证明"
+      path: "proof_by_contradiction"
 - title: "基础"
   path: "base"
   children:
