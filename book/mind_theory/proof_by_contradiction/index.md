@@ -1,3 +1,10 @@
+---
+title: 反证法：从逻辑基础到算法证明
+menu_title: 反证法
+rbook:
+  id: proof_by_contradiction
+---
+
 [[TOC]]
 
 ## 一、为什么要先假设结论不成立
