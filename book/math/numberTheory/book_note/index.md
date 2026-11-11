@@ -38,7 +38,17 @@ rbook:
 
 (1): $a \mid b \to \exists k_1 \neq 0: a = b k_1$. 同理 $b \mid a \to \exists k_2 \neq 0: b = a k_2$. 得到$b \cdot k_1 \cdot k_2 = b \to k_1 \cdot k_2 = 1 \to k_1 = k_2 = \pm 1$.于是$a = b \lor a  = -b$
 
-(2): 根据前件得到:$a \cdot k_1 = b, b \cdot k_2 = c \to a \cdot k_1 \cdot k_2 = c$. 于是$a \mid c$
+(2): 根据前件得到:$a \cdot k_1 = b, b \cdot k_2 = c \to a \cdot k_1 \cdot k_2 = c$. 于是$a \mid c$.
+
+::: theorem 推论（传递性的逆否命题 / 一票否决性）
+若 $a \mid b$，但 $a \nmid c$，则必有 $b \nmid c$。
+
+**证明（反证法）**：
+假设结论不成立，即假设 $b \mid c$。又已知前提 $a \mid b$，由整除的传递性可直接推出 $a \mid c$。这与已知条件 $a \nmid c$ 发生直接矛盾。因此反设不成立，必有 $b \nmid c$。
+
+**直观理解**：
+若一个数连较小的因数 $a$ 都无法整除，则它绝对不可能被包含因数 $a$ 的更大倍数 $b$ 整除（例如：一个奇数既然连 $2$ 都除不尽，它就绝无可能被 $4, 6, 8$ 整除）。在算法竞赛中，当目标模数 $b$（如 $x!$）极其庞大难以直接取模时，常通过寻找其某个关键低阶因子 $a$（如 $(i+1)!$），利用此推论在出现余数时实现逻辑上的“一票否决”（例如 CF 1753B Factorial Divisibility）。
+:::
 
 (3): 是这里最难证明的.
 
