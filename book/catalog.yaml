@@ -346,6 +346,8 @@
       children:
         - title: "整除"
           path: "divisible"
+        - title: "约数"
+          path: "约数"
         - title: "余数"
           path: "remainder"
         - title: "素数"
