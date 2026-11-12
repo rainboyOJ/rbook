@@ -1,23 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rbook-brain_net_map</title>
-    <%- include("../../src/component/head.html")%>
-    <style>
-        #mynetwork {
-            width: 100vw;
-            height: 100vh;
-        }
-    </style>
-</head>
-
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>文章关系 · Rbook</title></head>
 <body>
-    <div id="mynetwork"></div>
-
-    <script type="module" src="./app.js"></script>
-</body>
-
-</html>
+<header class="masthead"><a href="/" class="brand">RBOOK <span>算法电子书</span></a><a href="/">返回阅读 ↗</a></header>
+<main>
+  <div class="heading"><div><p class="eyebrow">KNOWLEDGE MAP / 知识地图</p><h1>文章关系<span class="title-dot">.</span></h1><p class="intro">沿着知识之间的联系，找到下一步。</p></div><p class="direction">前置知识 <span>⟶</span> 后续文章</p></div>
+  <section class="toolbar" aria-label="关系图工具">
+    <label class="chapter-label">浏览章节<select id="chapter"></select></label>
+    <div class="search-wrap"><label for="search">查找文章</label><input id="search" type="search" placeholder="搜索标题、章节或文章 ID…" autocomplete="off" aria-controls="results"><div id="results" class="results" hidden></div></div>
+    <div class="zoom-tools"><button id="zoom-out" aria-label="缩小">−</button><output id="zoom">100%</output><button id="zoom-in" aria-label="放大">＋</button><button id="fit">适应画布</button><button id="reset">恢复视图</button></div>
+  </section>
+  <div class="workspace">
+    <section class="map-panel" aria-label="章节关系图"><div class="map-meta"><h2 id="chapter-title"></h2><span id="counts"></span></div><div id="viewport" tabindex="0" aria-label="关系图画布，可滚动或拖动，使用顶部按钮缩放"><svg id="graph" xmlns="http://www.w3.org/2000/svg" aria-label="文章前置关系"></svg><div id="empty" hidden><strong>这一章还没有配置关系</strong><p>展开下方文章列表，选择一篇开始阅读。</p></div></div><div class="map-footer"><span><i class="legend-node"></i>本章文章 <i class="legend-external"></i>跨章节</span><span id="map-hint">点击文章查看关系 · 拖动画布浏览</span></div></section>
+    <aside id="detail" aria-label="文章详情"></aside>
+  </div>
+  <details id="unconnected"><summary>尚未配置关系 <span id="isolated-count"></span></summary><p class="muted">这里的文章尚无已声明的连线，不代表没有前置知识。</p><div id="isolated-list"></div></details>
+  <p class="footnote">关系依据文章作者声明的前置知识。跨章节仅展示直接关联文章，可按需展开完整前置链。</p>
+  <p id="announcement" class="sr-only" aria-live="polite"></p>
+</main><script type="module" src="./app.js"></script>
+</body></html>

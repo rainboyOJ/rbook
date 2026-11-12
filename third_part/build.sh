@@ -5,10 +5,8 @@ cd ./third_part/brain_net_map/
 bash ./build.sh
 cd ../../
 
-# brain_map_dagre
-cd ./third_part/brain_map_dagre/
-bash ./build.sh
-cd ../../
+# 清理已移除的旧关系图页面
+rm -rf ./dist/brain_map_dagre
 
 # code_template
 cd ./third_part/code_template_filter/

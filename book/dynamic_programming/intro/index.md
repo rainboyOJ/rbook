@@ -2,7 +2,6 @@
 title: DP前言
 rbook:
   id: dp_intro
-  hiden_brain_map: true
 ---
 
 [[TOC]]

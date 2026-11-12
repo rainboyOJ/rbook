@@ -1,28 +1,12 @@
-load_data.js 是一个vite的插件,它可以得到一些数据,并把这些数据传递给后续的js文件
+# 文章关系
 
-它是如何实现的呢?
+页面路径为 `/brain_net_map/`。从项目根目录先运行 `npm run prepare`，再在本目录运行 `bash build.sh`，产物写入 `dist/brain_net_map/`。
 
+- `load_data.js` 使用发布管线的目录和元数据解析器，将可见文章、顶层章节和声明的 `pre` 关系注入 Vite 构建。未知前置引用给出警告，不创建虚假节点。
+- `model.mjs` 提供章节邻域、完整前置链和确定性的分层布局。循环依赖先收缩为强连通分量，页面保留提示。
+- `app.js` 管理搜索、选择、详情、缩放及拖动。普通选择不改变已有节点的位置；切换章节、显式展开或恢复视图才重新布局。
+- `style.css` 管理论文风格和移动端上下布局，不加载远程字体或绘图库。
 
-```js
-module.exports = function nodejsPlugin() {
-    return {
-        name: 'nodejs-plugin',
-        config() {
-            // 在 Vite 构建过程中执行 Node.js 代码
-            // const data = fs.readFileSync('yourNodeJsFile.js', 'utf-8');
+章节默认只包含本章有关系的文章和直接跨章节邻居。没有连线的文章在下方列表展示，仍参与全书搜索。箭头方向为前置文章到后续文章；不推测或补充作者没有声明的依赖。
 
-            load_data();
-            // console.log(Nodes)
-            // console.log(Edges)
-            return {
-                define: {
-                    // 将计算得到的数据传递给前端
-                    // !!! 那么后面的app.js 也就是在index.html 引用的js文件
-                    // 可以直接使用 Nodes 与 Edges
-                    Nodes,Edges
-                }
-            };
-        }
-    };
-}
-```
+在项目根目录运行 `node --test tests/article-relations.test.js` 验证图数据和布局规则。

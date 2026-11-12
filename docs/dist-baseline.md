@@ -42,7 +42,6 @@
 - `base/two-pointer/index.html`
 - `base/zero_number/index.html`
 - `base/zero_number/teach_plan.html`
-- `brain_map_dagre/index.html`
 - `brain_net_map/index.html`
 - `canvas/01_knapsack/fill_up.html`
 - `canvas/binary_jump/index.html`
