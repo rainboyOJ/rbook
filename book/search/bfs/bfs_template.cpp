@@ -1,44 +1,52 @@
-// BFS 求无权图最短路：dist[i] = 从起点 s 到 i 的最少边数，-1 表示不可达
-#include <bits/stdc++.h>
+// 输入 n m，接着 m 条无向边；从 1 出发，逐行输出各点的最少边数。
+#include <algorithm>
+#include <iostream>
+#include <queue>
+#include <vector>
 using namespace std;
 
-const int maxn = 1e5 + 5;
-
 int n, m;
-vector<int> g[maxn];
-int dist[maxn];
+vector<vector<int>> g;
+vector<int> dist, parent;
 
 void bfs(int s) {
-    // 每跑一次 BFS 都要重置距离
-    memset(dist, -1, sizeof(dist));
-
+    dist.assign(n + 1, -1);
+    parent.assign(n + 1, -1);
     queue<int> q;
     dist[s] = 0;
-    q.push(s);                             // 入队的同时就确定距离
-
+    q.push(s);
     while (!q.empty()) {
         int u = q.front();
         q.pop();
-
         for (int v : g[u]) {
-            if (dist[v] != -1) continue;   // 已经入过队，不再是第一次到达
-            dist[v] = dist[u] + 1;         // BFS 保证这是最短距离
+            if (dist[v] != -1) continue;
+            dist[v] = dist[u] + 1;
+            parent[v] = u; // 第一次发现 v 时，记录从谁走来
             q.push(v);
         }
     }
 }
 
+vector<int> get_path(int t) {
+    if (dist[t] == -1) return {};
+    vector<int> path;
+    for (int v = t; v != -1; v = parent[v]) path.push_back(v);
+    reverse(path.begin(), path.end());
+    return path;
+}
+
 int main() {
-    scanf("%d%d", &n, &m);
-    for (int i = 0; i < m; i++) {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    if (!(cin >> n >> m)) return 0;
+    g.resize(n + 1);
+    for (int i = 0; i < m; ++i) {
         int u, v;
-        scanf("%d%d", &u, &v);
+        cin >> u >> v;
         g[u].push_back(v);
-        g[v].push_back(u);                 // 有向图删掉这一行
+        g[v].push_back(u); // 有向图删掉这一行
     }
-
     bfs(1);
-
-    for (int i = 1; i <= n; i++) printf("%d\n", dist[i]);
+    for (int i = 1; i <= n; ++i) cout << dist[i] << '\n';
     return 0;
 }

@@ -84,6 +84,8 @@
           path: "index.md"
     - title: "广度优先搜索"
       path: "bfs"
+    - title: "0-1 BFS"
+      path: "zero_one_bfs"
 - title: "贪心"
   path: "greedy"
   children:
@@ -99,6 +101,8 @@
       path: "interval_scheduling"
     - title: "区间覆盖"
       path: "interval_cover"
+    - title: "反悔贪心"
+      path: "regret"
     - title: "国王游戏"
       path: "king_game"
     - title: "给树染色"
