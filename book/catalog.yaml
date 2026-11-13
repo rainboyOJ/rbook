@@ -86,6 +86,8 @@
       path: "bfs"
     - title: "0-1 BFS"
       path: "zero_one_bfs"
+    - title: "折半搜索"
+      path: "meet_in_the_middle"
 - title: "贪心"
   path: "greedy"
   children:
