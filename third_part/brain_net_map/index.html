@@ -2,20 +2,21 @@
 <html lang="zh-CN">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>文章关系 · Rbook</title></head>
 <body>
-<header class="masthead"><a href="/" class="brand">RBOOK <span>算法电子书</span></a><a href="/">返回阅读 ↗</a></header>
-<main>
-  <div class="heading"><div><p class="eyebrow">KNOWLEDGE MAP / 知识地图</p><h1>文章关系<span class="title-dot">.</span></h1><p class="intro">沿着知识之间的联系，找到下一步。</p></div><p class="direction">前置知识 <span>⟶</span> 后续文章</p></div>
-  <section class="toolbar" aria-label="关系图工具">
-    <label class="chapter-label">浏览章节<select id="chapter"></select></label>
-    <div class="search-wrap"><label for="search">查找文章</label><input id="search" type="search" placeholder="搜索标题、章节或文章 ID…" autocomplete="off" aria-controls="results"><div id="results" class="results" hidden></div></div>
-    <div class="zoom-tools"><button id="zoom-out" aria-label="缩小">−</button><output id="zoom">100%</output><button id="zoom-in" aria-label="放大">＋</button><button id="fit">适应画布</button><button id="reset">恢复视图</button></div>
+<header class="masthead"><a href="/" class="brand">RBOOK<span>算法电子书</span></a><h1>文章关系<span class="dot">.</span></h1><a class="back" href="/">返回阅读 ↗</a></header>
+<main id="workspace" aria-label="文章知识地图">
+  <div id="graph" tabindex="0" role="region" aria-label="知识地图画布。拖动平移，滚轮或双指缩放；也可使用搜索和右下角按钮。"></div>
+  <section class="toolbar" aria-label="地图工具">
+    <label>范围<select id="chapter"><option value="all">全书</option></select></label>
+    <label>视图<select id="layout"></select></label>
+    <div class="search-wrap"><label for="search" class="sr-only">查找文章</label><input id="search" type="search" placeholder="查找文章…" autocomplete="off" aria-controls="results" aria-expanded="false"><div id="results" hidden></div></div>
   </section>
-  <div class="workspace">
-    <section class="map-panel" aria-label="章节关系图"><div class="map-meta"><h2 id="chapter-title"></h2><span id="counts"></span></div><div id="viewport" tabindex="0" aria-label="关系图画布，可滚动或拖动，使用顶部按钮缩放"><svg id="graph" xmlns="http://www.w3.org/2000/svg" aria-label="文章前置关系"></svg><div id="empty" hidden><strong>这一章还没有配置关系</strong><p>展开下方文章列表，选择一篇开始阅读。</p></div></div><div class="map-footer"><span><i class="legend-node"></i>本章文章 <i class="legend-external"></i>跨章节</span><span id="map-hint">点击文章查看关系 · 拖动画布浏览</span></div></section>
-    <aside id="detail" aria-label="文章详情"></aside>
-  </div>
-  <details id="unconnected"><summary>尚未配置关系 <span id="isolated-count"></span></summary><p class="muted">这里的文章尚无已声明的连线，不代表没有前置知识。</p><div id="isolated-list"></div></details>
-  <p class="footnote">关系依据文章作者声明的前置知识。跨章节仅展示直接关联文章，可按需展开完整前置链。</p>
+  <div class="map-caption"><span id="kind" class="mode-badge">前置关系</span><h2 id="view-title">知识网络</h2><p id="view-description">自由探索文章之间的联系</p><p id="counts"></p></div>
+  <aside id="detail" hidden aria-label="文章详情"><button id="close-detail" class="close" aria-label="关闭详情">×</button><div id="detail-content"></div></aside>
+  <div id="tooltip" hidden role="tooltip"></div>
+  <div class="canvas-footer"><span class="hint">拖动平移 · 滚轮缩放 · 单击查看 · 双击阅读</span><span id="legend">箭头：前置知识 → 后续文章</span></div>
+  <nav class="zoom-tools" aria-label="画布缩放"><button id="zoom-out" aria-label="缩小">−</button><output id="zoom" aria-label="缩放比例">100%</output><button id="zoom-in" aria-label="放大">＋</button><span class="divider"></span><button id="fit" title="适应画布">适应</button><button id="reset" title="恢复当前视图">重置</button></nav>
+  <div id="loading" role="status"><span class="loading-mark"></span><p>正在展开知识地图…</p></div>
+  <div id="error" hidden role="alert"><strong>画布加载失败</strong><p>请重试，或返回文章继续阅读。</p><button id="retry">重新加载</button></div>
   <p id="announcement" class="sr-only" aria-live="polite"></p>
 </main><script type="module" src="./app.js"></script>
 </body></html>

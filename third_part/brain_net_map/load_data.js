@@ -9,15 +9,22 @@ function loadRelations() {
     const diagnostics = []
     const catalog = loadCatalog(path.join(policy.book, 'catalog.yaml'), diagnostics)
     const nodes = [], chapters = [], edges = []
-    function walk(entries, parent, chapter, hidden = false) {
+    const directories = [{ id: '@book', title: '算法电子书', parent: null }]
+    function walk(entries, parent, chapter, hidden = false, directory = '@book') {
         for (const entry of entries) {
             const relative = path.posix.join(parent, entry.path || '')
             const excluded = hidden || entry.hidden === true
-            if (entry.children) { walk(entry.children, relative, chapter, excluded); continue }
+            if (entry.children) {
+                if (excluded) continue
+                const id = `@directory:${relative}`
+                directories.push({ id, title: entry.title, parent: directory, chapter })
+                walk(entry.children, relative, chapter, excluded, id)
+                continue
+            }
             const { metadata: m, source } = resolveArticleSource(relative, policy.book, diagnostics)
             if (excluded || m.hiden_brain_map || m.hidden_brain_map) continue
             nodes.push({ id: m.id, title: m.title || entry.title, label: m.menuTitle || entry.title,
-                chapter, href: policy.publishHref(source.filePath),
+                chapter, directory, href: policy.publishHref(source.filePath),
                 pre: typeof m.pre === 'string' ? [m.pre] : Array.isArray(m.pre) ? m.pre : [] })
         }
     }
@@ -33,7 +40,7 @@ function loadRelations() {
         if (!seen.has(key)) { edges.push({ from, to: n.id }); seen.add(key) }
     }
     if (diagnostics.some(d => d.level === 'error')) throw new Error(JSON.stringify(diagnostics))
-    return { nodes, edges, chapters: chapters.filter(c => nodes.some(n => n.chapter === c.id)) }
+    return { nodes, edges, directories, chapters: chapters.filter(c => nodes.some(n => n.chapter === c.id)) }
 }
 module.exports = () => ({ name: 'article-relations-data', config: () => ({ define: { RELATION_DATA: JSON.stringify(loadRelations()) } }) })
 module.exports.loadRelations = loadRelations
