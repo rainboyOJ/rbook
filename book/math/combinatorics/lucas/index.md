@@ -2,9 +2,19 @@
 title: 卢卡斯定理
 rbook:
   id: lucas
+  pre:
+    - combinatorics
+    - remainder
+    - prime
 ---
 
 [[TOC]]
+
+## 阅读路线
+
+先用 [[[rbook: combinatorics]]] 理解组合数，再通过 [[[rbook: remainder]]] 和 [[[rbook: prime]]] 理解同余运算与素数条件。Lucas 定理处理组合数对素数取模的问题，不能把素数条件直接略去。
+
+本文保留了对证明中“比较系数”步骤的疑问。多项式系数与计数之间的联系，可以结合 [[[rbook: generating_function]]] 的主题继续学习；这是一条理解证明的补充路线，不是要求先学完生成函数才能接触 Lucas 定理。
 
 
 ## 证明

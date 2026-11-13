@@ -3,9 +3,17 @@ title: 不重复排列
 status: TODO
 rbook:
   id: not_repeat_permutation
+  pre:
+    - full_permutation
 ---
 
 [[TOC]]
+
+## 阅读路线
+
+先写熟 [[[rbook: full_permutation]]]，再考虑相同数值的元素能否继续按编号区分。本文按数值分类，只记录每类剩余数量，避免交换同值元素产生重复输出。
+
+若只想计算不同排列的数量，可以对照 [[[rbook: combinatorics]]] 中的多重集排列；两者分别从“怎样生成一次”与“怎样数出总数”处理同一个重复问题。
 
 
 ## 题目

@@ -1,11 +1,20 @@
 ---
 title: 容斥原理
 rbook:
+  id: inclusion-exclusion
+  pre:
+    - rule_of_sum
   copy:
     - ./1280px-Inclusion-exclusion.svg.png
 ---
 
 [[TOC]]
+
+## 阅读路线
+
+先理解 [[[rbook: rule_of_sum]]] 中为什么要求各类互不重叠。本文继续处理“一个对象同时属于多类”的情况：先计入各类，再修正重复统计的次数。集合的并、交、补等记号可以回看 [[[rbook: set]]]。
+
+[[[rbook: pair_number]]] 中“所有对数减去同色对数”可以用来熟悉总数减去坏方案；当坏性质相互重叠时，还必须计算交集，才能使用容斥修正。具体交集里若需要计算组合数，再查阅 [[[rbook: combinatorics]]]，不必先学完全部排列组合公式才开始理解容斥。
 
 ## 容斥原理
 

@@ -4,6 +4,7 @@ rbook:
   id: 01_seq
   pre:
     - recursion
+    - rule_of_product
   code_template:
     - tags:
         - 枚举
@@ -13,6 +14,12 @@ rbook:
 ---
 
 [[toc]]
+
+## 阅读路线
+
+先通过 [[[rbook: recursion]]] 理解“当前这一层做一次选择，再让下一层继续”，通过 [[[rbook: rule_of_product]]] 理解每个位置有两种选择时，为什么共有 $2^n$ 个序列。本文把这个计数过程变成逐个输出方案的程序。
+
+把每个位置的选项改成可用的球，就走向 [[[rbook: ball_and_box]]]；把第 $i$ 位的 $0/1$ 理解为第 $i$ 个元素“不选/选”，就得到 [[[rbook: subset_enum]]]。
 
 
 ## 教学目标

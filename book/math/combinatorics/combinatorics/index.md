@@ -1,11 +1,23 @@
 ---
 title: 排列与组合
 rbook:
+  id: combinatorics
+  pre:
+    - rule_of_sum
+    - rule_of_product
   history: history.md
   teach_plan: teach_plan.md
 ---
 
 [[TOC]]
+
+## 阅读路线
+
+先掌握 [[[rbook: rule_of_sum]]] 和 [[[rbook: rule_of_product]]]，再判断元素是否有区别、顺序是否重要、是否允许重复。本文据此整理排列、组合和多重集的计数公式。
+
+如果更习惯从程序观察方案，可以与 [[[rbook: ball_and_box]]] 对照；从具体计数走向组合数的例子见 [[[rbook: pair_number]]]。这两篇提供模型与例子，可以按需要穿插阅读。
+
+基础公式之后有几条不同的延伸路线：分配相同物品见 [[[rbook: combinatorics_tricks]]]，计数合法括号等结构见 [[[rbook: catalan_number]]]，用系数组织计数见 [[[rbook: generating_function]]]，组合数对素数取模见 [[[rbook: lucas]]]。若难点是多个条件之间的重叠，转向 [[[rbook: inclusion-exclusion]]]。
 
 > 排列与组合的计数是基本的计数问题,根据从集合中选择元素的有序与无序,是否允许重复等限制条件,可以将这个问题划分成4个子类型
 > 1. 集合的排列
@@ -13,11 +25,6 @@ rbook:
 > 3. 多重集的排列
 > 4. 多重集的组合
 
-
-需要的前置的知识
-
-- 集合
-- 计数原理
 
 ## 集合的排列
 

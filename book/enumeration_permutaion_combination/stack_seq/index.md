@@ -1,12 +1,22 @@
 ---
 title: 出栈顺序
 rbook:
+  id: stack_seq
+  pre:
+    - stack
+    - recursion
   copy:
     - ./svg/baoli.svg
     - ./svg/state.svg
 ---
 
 [[TOC]]
+
+## 阅读路线
+
+先通过 [[[rbook: stack]]] 理解入栈、出栈和先进后出，再通过 [[[rbook: recursion]]] 理解如何递归尝试每一步合法操作。本文从枚举入手，逐步合并具有相同后续选择的状态来计数。
+
+把入栈记为左括号、出栈记为右括号，就得到任意前缀中右括号不多于左括号的序列。这个对应关系会把问题带到 [[[rbook: catalan_number]]]；可以先理解操作与状态，再读公式，因此不把 Catalan 数列为本文的入门前置。
 
 ## 题目
 
@@ -225,10 +235,7 @@ $$
 看这个视频: https://www.bilibili.com/video/BV14P411T7TZ/
 
 
-TODO, 这里要改成跳转`< jump_to() >` 语法
-
-
-公式具体见 本书的`math/catlan`
+公式具体见 [[[rbook: catalan_number]]]。
 
 
 根据公式,直接写代码.

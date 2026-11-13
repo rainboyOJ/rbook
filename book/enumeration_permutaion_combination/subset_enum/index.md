@@ -4,7 +4,7 @@ rbook:
   id: subset_enum
   pre:
     - ball_and_box
-    - 01_seq
+    - binary
   code_template:
     - title: 子集枚举 subset_enum
       tags:
@@ -15,6 +15,12 @@ rbook:
 ---
 
 [[TOC]]
+
+## 阅读路线
+
+先在 [[[rbook: ball_and_box]]] 中理解“固定选取个数”和“允许任意个数”的区别，再用 [[[rbook: binary]]] 理解掩码中每一位的含义。
+
+子集与 [[[rbook: 01_seq]]] 一一对应：第 $i$ 位表示第 $i$ 个元素是否被选中。若固定选 $k$ 个元素，方案数可以对照 [[[rbook: combinatorics]]] 中的组合数；若全部 $2^n$ 个选择已经太多，可以继续学习 [[[rbook: meet_in_the_middle]]]。
 
 TODO 我以前写的文章
 

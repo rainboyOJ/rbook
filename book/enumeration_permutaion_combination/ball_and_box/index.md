@@ -8,6 +8,12 @@ rbook:
 
 [[TOC]]
 
+## 阅读路线
+
+先完成 [[[rbook: 01_seq]]]，理解每一层负责一个位置、枚举当前可选项并回溯。本文继续改变球与盒子的区别、数量和放置限制，观察这些条件怎样改变选择过程。
+
+想专门练习不同元素的排列，可以接着看 [[[rbook: full_permutation]]]；想枚举任意大小的子集，可以看 [[[rbook: subset_enum]]]。对应的计数公式汇总在 [[[rbook: combinatorics]]]，相同球放入不同盒子的计数也可以与 [[[rbook: combinatorics_tricks]]] 中的隔板法对照。
+
 
 
 ## 摘要:

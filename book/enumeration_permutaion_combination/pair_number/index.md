@@ -4,11 +4,16 @@ rbook:
   id: pair_number
   teach_plan: teach_plan.md
   pre:
-    - set
     - rule_of_sum
 ---
 
 [[TOC]]
+
+## 阅读路线
+
+先理解 [[[rbook: rule_of_sum]]] 中“不重不漏地分类”。本文先按右端点统计每一类的贡献，不需要先掌握整套排列组合公式。
+
+后半部分会把逐个结尾的贡献合并为组合数，可以与 [[[rbook: combinatorics]]] 对照；结尾得到的 $wb$ 则对应 [[[rbook: rule_of_product]]]。这里的“总对数减去同色对数”是在数补集，同色的两类本身不重叠；多种坏性质相互重叠时，再看 [[[rbook: inclusion-exclusion]]]。
 
 ## 教学目标
 

@@ -1,8 +1,18 @@
 ---
 title: Catalan数
+rbook:
+  id: catalan_number
+  pre:
+    - combinatorics
 ---
 
 [[TOC]]
+
+## 阅读路线
+
+先用 [[[rbook: combinatorics]]] 理解“从 $2n$ 个位置选出 $n$ 个左括号位置”的计数。接下来要加入前缀合法性限制，区分所有括号序列与合法括号序列。
+
+[[[rbook: stack_seq]]] 提供了一个可以先手工模拟、再递归计数的具体模型：入栈对应左括号，出栈对应右括号。这是理解 Catalan 数的应用入口，可以与本文来回对照。
 
 
 
