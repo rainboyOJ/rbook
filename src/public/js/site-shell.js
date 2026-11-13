@@ -107,7 +107,24 @@ if (sidebar) {
         searchBox.hidden = false
         sidebar.classList.add('has-search')
     }
+    const showInMenu = document.getElementById('show-in-menu')
+    // 首页由前言文章复制而来；用模板提供的发布地址识别这种别名。
+    const currentPath = new URL(showInMenu?.dataset?.articleHref || location.href, location.href).pathname.replace(/\/index\.html$/, '/')
     let currentLink
+    let resetSidebarSearch = () => {}
+
+    function expandCurrentPath() {
+        let parent = currentLink?.closest('li')?.parentElement?.closest('li')
+        while (parent) {
+            const button = parent.querySelector(':scope > .directory')
+            const directory = button?.dataset.directory
+            parent.classList.add('active')
+            button?.setAttribute('aria-expanded', 'true')
+            if (directory) expanded.add(directory)
+            parent = parent.parentElement?.closest('li')
+        }
+    }
+
     sidebar.querySelectorAll('[data-directory]').forEach(button => {
         const directory = button.dataset.directory
         const item = button.closest('li')
@@ -126,20 +143,13 @@ if (sidebar) {
 
     sidebar.querySelectorAll('a.document').forEach(link => {
         const href = new URL(link.href, location.href)
-        if (href.pathname === location.pathname && href.search === location.search) {
+        // 查询参数和锚点不改变文章身份；目录 URL 和 index.html 也指向同一篇。
+        if (href.pathname.replace(/\/index\.html$/, '/') === currentPath) {
             currentLink = link
             link.classList.add('active')
             link.setAttribute('aria-current', 'page')
             // 搜索期间保持原目录的展开状态，清空后可原样返回。
-            let parent = restoringSearch ? null : link.closest('li')?.parentElement?.closest('li')
-            while (parent) {
-                const button = parent.querySelector(':scope > .directory')
-                const directory = button?.dataset.directory
-                parent.classList.add('active')
-                button?.setAttribute('aria-expanded', 'true')
-                if (directory) expanded.add(directory)
-                parent = parent.parentElement?.closest('li')
-            }
+            if (!restoringSearch) expandCurrentPath()
         }
     })
     writeExpanded(expanded)
@@ -255,9 +265,14 @@ if (sidebar) {
             saveScroll()
         }
 
-        function resetSearch() {
+        resetSidebarSearch = () => {
             searchInput.value = ''
+            composing = false
             renderSearch()
+        }
+
+        function resetSearch() {
+            resetSidebarSearch()
             searchInput.focus({ preventScroll: true })
         }
 
@@ -305,6 +320,39 @@ if (sidebar) {
             searchInput.value = restoredSearch.query
             renderSearch(restoredSearch.top)
         }
+    }
+
+    if (showInMenu && currentLink) {
+        showInMenu.hidden = false
+        let emphasisTimer = 0
+        showInMenu.addEventListener('click', () => {
+            resetSidebarSearch()
+            expandCurrentPath()
+            writeExpanded(expanded)
+
+            const main = document.querySelector('.rbook-main')
+            if (main?.classList.contains('full-article')) {
+                const readingTop = main.scrollTop
+                main.classList.remove('full-article')
+                // 全屏容器和普通页面各自滚动；退出时沿用正在阅读的位置。
+                window.scrollTo({ top: window.scrollY + main.getBoundingClientRect().top + readingTop, left: window.scrollX, behavior: 'instant' })
+            }
+            if (window.matchMedia('(max-width: 1023px)').matches) {
+                sidebar.classList.add('active')
+                document.getElementById('menu-toggle')?.setAttribute('aria-expanded', 'true')
+            }
+
+            // 只滚动侧栏，避开吸顶搜索框；不使用会连带滚动正文的 scrollIntoView。
+            const viewport = sidebar.getBoundingClientRect()
+            const visibleTop = hasSearch ? searchBox.getBoundingClientRect().bottom : viewport.top
+            const item = currentLink.getBoundingClientRect()
+            sidebar.scrollTop += (item.top + item.bottom - visibleTop - viewport.bottom) / 2
+            currentLink.focus({ preventScroll: true })
+            currentLink.classList.add('is-located')
+            clearTimeout(emphasisTimer)
+            emphasisTimer = setTimeout(() => currentLink.classList.remove('is-located'), 1600)
+            saveScroll()
+        })
     }
 }
 

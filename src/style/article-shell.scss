@@ -119,6 +119,7 @@ html, body {
 .rbook-sidebar .directory[aria-expanded="true"] .open { display: block; }
 .rbook-sidebar .directory[aria-expanded="true"] .close { display: none; }
 .rbook-sidebar .item:hover, .rbook-sidebar .item.active { background: var(--rbook-accent-muted); color: var(--rbook-accent); }
+.rbook-sidebar .item.is-located { outline: 2px solid var(--rbook-accent); outline-offset: -2px; }
 .rbook-sidebar li > ul { display: none; }
 .rbook-sidebar li.active > ul { display: block; }
 .rbook-sidebar [hidden] { display: none !important; }
@@ -242,6 +243,9 @@ html[data-theme="dark"] .theme-toggle__sun { display: block; }
     color: var(--rbook-text);
 }
 .rbook-article .btn-outline-light:hover { border-color: var(--rbook-accent); background: var(--rbook-accent-muted); color: var(--rbook-accent); }
+.rbook-article .badges { flex-wrap: wrap; }
+.rbook-article .rbook-show-in-menu { white-space: nowrap; }
+.rbook-article .rbook-show-in-menu[hidden] { display: none; }
 .rbook-article .badges svg { fill: currentColor; }
 
 .rbook-article .markdown-body .app-icon-list a {
