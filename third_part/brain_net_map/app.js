@@ -8,7 +8,6 @@ const chapters = new Map(data.chapters.map(c => [c.id, c.title]))
 const $ = id => document.getElementById(id)
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches
 const motion = reduced ? false : { duration: 380 }
-const accent = '#24695c'
 const collapsed = new Set()
 let chapter = 'all', mode = 'network', selected = null, shown, scope, busy = false
 let graph, queue = Promise.resolve(), directoryInitialized = false
@@ -50,16 +49,25 @@ function layoutOptions() {
         case 'outline': return { ...common, type: 'indented', direction: 'LR', indent: 240, getHeight: () => 70, dropCap: false }
     }
 }
+function graphColors() {
+    const style = getComputedStyle(document.documentElement)
+    const tokens = ['canvas', 'surface', 'accent', 'node-fill', 'external-fill', 'node-border',
+        'external-border', 'node-label', 'external-label', 'selected-fill', 'edge',
+        'combo-fill', 'combo-border', 'combo-label', 'node-dim-opacity', 'edge-dim-opacity']
+    return Object.fromEntries(tokens.map(token => [token.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase()), style.getPropertyValue(`--${token}`).trim()]))
+}
 function graphOptions() {
+    const colors = graphColors(), accent = colors.accent
     return {
+        theme: document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light',
         layout: layoutOptions(),
         node: {
             type: () => cards() ? 'rect' : 'circle',
             style: {
                 size: d => cards() ? [176, 48] : mode === 'mindmap' ? (d.data.kind === 'directory' ? 6 : 3) : 13,
                 radius: 2,
-                fill: d => cards() ? '#ffffff' : d.data.external ? '#c6d1c9' : d.data.kind === 'directory' ? accent : '#607a69',
-                stroke: d => d.data.external ? '#bac9be' : cards() ? '#bac9bf' : '#f7f8f6',
+                fill: d => cards() ? colors.surface : d.data.external ? colors.externalFill : d.data.kind === 'directory' ? accent : colors.nodeFill,
+                stroke: d => d.data.external ? colors.externalBorder : cards() ? colors.nodeBorder : colors.canvas,
                 lineWidth: cards() ? 1 : 2,
                 lineDash: d => d.data.external && cards() ? [4, 3] : undefined,
                 labelText: d => `${d.data.kind === 'directory' ? (d.data.collapsed ? '▸ ' : '▾ ') : ''}${d.data.label || d.data.title}${d.data.kind === 'directory' ? `  ${d.data.childCount}` : ''}${d.data.external ? ' · 跨章' : ''}`,
@@ -67,31 +75,31 @@ function graphOptions() {
                 labelOffsetY: cards() ? 0 : 7,
                 labelFontSize: () => 11 / Math.min(1, graph?.rendered ? graph.getZoom() : 1),
                 labelFontFamily: 'system-ui, sans-serif',
-                labelFill: d => d.data.external ? '#7d8c82' : '#3e5346',
+                labelFill: d => d.data.external ? colors.externalLabel : colors.nodeLabel,
                 labelFontWeight: d => d.data.kind === 'directory' ? 600 : 400,
                 labelWordWrap: true,
                 labelMaxWidth: () => cards() ? 155 : 145 / Math.min(1, graph?.rendered ? graph.getZoom() : 1),
                 labelMaxLines: 2,
                 labelTextOverflow: 'ellipsis',
                 labelBackground: !cards(),
-                labelBackgroundFill: '#f7f8f6',
+                labelBackgroundFill: colors.canvas,
                 labelBackgroundFillOpacity: .9,
                 cursor: 'pointer',
             },
             state: {
-                selected: { stroke: accent, lineWidth: 2, fill: cards() ? '#edf5ef' : accent, labelFill: accent, labelFontWeight: 650, labelVisibility: 'visible', halo: true, haloStroke: accent, haloLineWidth: 7, haloStrokeOpacity: .12 },
-                related: { stroke: accent, labelFill: accent, labelVisibility: 'visible' },
-                dim: { opacity: .18 },
+                selected: { stroke: accent, lineWidth: 2, fill: cards() ? colors.selectedFill : accent, labelFill: accent, labelFontSize: 11 / Math.min(1, graph?.rendered ? graph.getZoom() : 1), labelFontWeight: 650, labelVisibility: 'visible', halo: true, haloStroke: accent, haloLineWidth: 7, haloStrokeOpacity: .12 },
+                related: { stroke: accent, labelFill: accent, labelFontSize: 11 / Math.min(1, graph?.rendered ? graph.getZoom() : 1), labelVisibility: 'visible' },
+                dim: { opacity: Number(colors.nodeDimOpacity) },
             },
         },
         edge: {
             type: mode === 'dagre' ? 'polyline' : directoryMode() ? 'cubic-horizontal' : 'line',
-            style: { stroke: '#a8bbae', lineWidth: 1.2, opacity: .85, endArrow: !directoryMode(), endArrowSize: 5, radius: 8,
+            style: { stroke: colors.edge, lineWidth: 1.2, opacity: .85, endArrow: !directoryMode(), endArrowSize: 5, radius: 8,
                 router: mode === 'dagre' ? { type: 'orth', padding: 18 } : false, controlPoints: [] },
-            state: { active: { stroke: accent, lineWidth: 1.8, opacity: 1 }, dim: { opacity: .1 } },
+            state: { active: { stroke: accent, lineWidth: 1.8, opacity: 1 }, dim: { opacity: Number(colors.edgeDimOpacity) } },
         },
-        combo: { type: 'rect', style: { padding: [38, 24, 24, 24], radius: 5, fill: '#eaf0e9', fillOpacity: .35, stroke: '#cdd9ce', lineWidth: 1,
-            labelText: d => d.data.title, labelPlacement: 'top', labelFontSize: () => 12 / Math.min(1, graph?.rendered ? graph.getZoom() : 1), labelFontWeight: 550, labelFill: '#506f59' } },
+        combo: { type: 'rect', style: { padding: [38, 24, 24, 24], radius: 5, fill: colors.comboFill, fillOpacity: .35, stroke: colors.comboBorder, lineWidth: 1,
+            labelText: d => d.data.title, labelPlacement: 'top', labelFontSize: () => 12 / Math.min(1, graph?.rendered ? graph.getZoom() : 1), labelFontWeight: 550, labelFill: colors.comboLabel } },
         behaviors: ['drag-canvas', { type: 'zoom-canvas', sensitivity: .8, animation: reduced ? false : { duration: 120 } },
             { type: 'drag-element', dropEffect: 'none', animation: false },
             ...(!cards() ? [{ type: 'auto-adapt-label', key: 'labels', padding: 5, throttle: 64, sortNode: (a, b) => a?.id === selected ? -1 : b?.id === selected ? 1 : 0 }] : [])],
@@ -279,6 +287,19 @@ function bindGraph() {
         labelTimer = setTimeout(() => { if (!busy) run(refreshLabels) }, 100)
     })
 }
+// Repaint in place: no render(), layout(), fitView() or data replacement here.
+// Positions, camera, selection and directory folding all remain intact.
+document.addEventListener('rbook:themechange', () => run(async () => {
+    if (!graph?.rendered) return
+    const options = graphOptions()
+    graph.setTheme(options.theme)
+    graph.setNode(options.node)
+    graph.setEdge(options.edge)
+    graph.setCombo(options.combo)
+    await graph.draw()
+    await highlight()
+    await refreshLabels()
+}))
 $('chapter').onchange = () => run(async () => {
     chapter = $('chapter').value
     if (byId.has(selected) && !chapterView(data, chapter).nodes.some(n => n.id === selected)) selected = null

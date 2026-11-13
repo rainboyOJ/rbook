@@ -1,7 +1,7 @@
 :root {
     font-family:system-ui,-apple-system,"Noto Sans CJK SC",sans-serif;
-    color:#26322e;
-    background:#f7f8f6;
+    color:var(--ink);
+    background:var(--canvas);
     font-synthesis:none;
     --ink:#26322e;
     --muted:#6e7b73;
@@ -9,7 +9,64 @@
     --accent:#24695c;
     --paper:#fffffff5;
     --wash:#edf4ef;
+    --canvas:#f7f8f6;
+    --surface:#fff;
+    --grid:#d9e1da;
+    --shadow:#20392c12;
+    --result-line:#eef1ed;
+    --caption-start:#f7f8f6ee;
+    --caption-end:#f7f8f680;
+    --footer-background:#f7f8f6dd;
+    --loading-background:#f7f8f6d9;
+    --hint:#53645b;
+    --button-ink:#fff;
+    --node-fill:#607a69;
+    --external-fill:#c6d1c9;
+    --node-border:#bac9bf;
+    --external-border:#bac9be;
+    --node-label:#3e5346;
+    --external-label:#7d8c82;
+    --selected-fill:#edf5ef;
+    --edge:#a8bbae;
+    --combo-fill:#eaf0e9;
+    --combo-border:#cdd9ce;
+    --combo-label:#506f59;
+    --node-dim-opacity:.18;
+    --edge-dim-opacity:.1;
     color-scheme:light
+}
+:root[data-theme="dark"] {
+    --ink:#e2e9e3;
+    --muted:#a0afa5;
+    --line:#3b4840;
+    --accent:#83b9a3;
+    --paper:#232b27f5;
+    --wash:#2a3d33;
+    --canvas:#191e1c;
+    --surface:#232b27;
+    --grid:#303a34;
+    --shadow:#00000038;
+    --result-line:#333f37;
+    --caption-start:#191e1cee;
+    --caption-end:#191e1c80;
+    --footer-background:#191e1cdd;
+    --loading-background:#191e1ce8;
+    --hint:#aebfb2;
+    --button-ink:#191e1c;
+    --node-fill:#8da99a;
+    --external-fill:#536b5d;
+    --node-border:#596c60;
+    --external-border:#485d50;
+    --node-label:#d0ddd3;
+    --external-label:#9eafa3;
+    --selected-fill:#2a4335;
+    --edge:#687f71;
+    --combo-fill:#26362c;
+    --combo-border:#465b4c;
+    --combo-label:#b1c9b7;
+    --node-dim-opacity:.3;
+    --edge-dim-opacity:.22;
+    color-scheme:dark
 }
 * {
     box-sizing:border-box
@@ -52,7 +109,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,#g
     gap:32px;
     padding:0 28px;
     border-bottom:1px solid var(--line);
-    background:#fff
+    background:var(--surface)
 }
 .brand {
     font-size:17px;
@@ -81,7 +138,6 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,#g
     margin-left:4px
 }
 .back {
-    margin-left:auto;
     font-size:12px;
     white-space:nowrap
 }
@@ -89,7 +145,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,#g
     position:relative;
     height:calc(100dvh - 62px);
     overflow:hidden;
-    background-image:radial-gradient(#d9e1da .7px,transparent .7px);
+    background-image:radial-gradient(var(--grid) .7px,transparent .7px);
     background-size:22px 22px
 }
 #graph {
@@ -112,7 +168,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,#g
     max-width:calc(100% - 48px);
     background:var(--paper);
     border:1px solid var(--line);
-    box-shadow:0 4px 20px #20392c06;
+    box-shadow:0 4px 20px var(--shadow);
     z-index:3
 }
 .toolbar>label {
@@ -158,9 +214,9 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,#g
     width:310px;
     max-height:min(420px,60vh);
     overflow:auto;
-    background:#fff;
+    background:var(--surface);
     border:1px solid var(--line);
-    box-shadow:0 10px 32px #243a2d12
+    box-shadow:0 10px 32px var(--shadow)
 }
 #results p {
     font-size:11px;
@@ -192,7 +248,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,#g
 }
 #results .article-choice {
     padding:11px 16px;
-    border-bottom:1px solid #eef1ed
+    border-bottom:1px solid var(--result-line)
 }
 .map-caption {
     position:absolute;
@@ -201,7 +257,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,#g
     pointer-events:none;
     max-width:270px;
     z-index:1;
-    background:linear-gradient(90deg,#f7f8f6ee,#f7f8f680);
+    background:linear-gradient(90deg,var(--caption-start),var(--caption-end));
     padding:0 16px 10px 0
 }
 .mode-badge {
@@ -239,7 +295,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,#g
     padding:26px 24px;
     background:var(--paper);
     border:1px solid var(--line);
-    box-shadow:0 6px 30px #20392c09;
+    box-shadow:0 6px 30px var(--shadow);
     z-index:2;
     overscroll-behavior:contain
 }
@@ -279,7 +335,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,#g
     margin:20px 0 24px;
     text-align:center;
     font-size:12px;
-    color:white;
+    color:var(--button-ink);
     background:var(--ink)
 }
 .detail-section {
@@ -308,9 +364,9 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,#g
     pointer-events:none;
     padding:10px 13px;
     max-width:300px;
-    background:#fff;
+    background:var(--surface);
     border:1px solid var(--line);
-    box-shadow:0 4px 18px #20392c0d;
+    box-shadow:0 4px 18px var(--shadow);
     font-size:12px;
     line-height:1.6
 }
@@ -329,11 +385,11 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,#g
     font-size:10px;
     color:var(--muted);
     pointer-events:none;
-    background:#f7f8f6dd;
+    background:var(--footer-background);
     padding:4px 8px 4px 0
 }
 .hint {
-    color:#53645b
+    color:var(--hint)
 }
 .zoom-tools {
     position:absolute;
@@ -345,7 +401,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,#g
     border:1px solid var(--line);
     padding:4px;
     z-index:3;
-    box-shadow:0 3px 15px #20392c06
+    box-shadow:0 3px 15px var(--shadow)
 }
 .zoom-tools button {
     height:34px;
@@ -375,7 +431,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,#g
     position:absolute;
     inset:0;
     z-index:5;
-    background:#f7f8f6d9;
+    background:var(--loading-background);
     display:flex;
     flex-direction:column;
     justify-content:center;
@@ -397,7 +453,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,#g
 #error button {
     padding:10px 20px;
     border:1px solid var(--line);
-    background:white;
+    background:var(--surface);
     color:var(--accent)
 }
 @keyframes spin {
@@ -558,4 +614,47 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,#g
         animation:none!important;
         transition:none!important
     }
+}
+
+.header-actions {
+    margin-left:auto;
+    display:flex;
+    align-items:center;
+    gap:16px
+}
+.theme-toggle {
+    display:grid;
+    place-items:center;
+    width:40px;
+    height:40px;
+    padding:0;
+    border:1px solid transparent;
+    background:transparent;
+    color:var(--muted)
+}
+.theme-toggle:hover {
+    background:var(--wash);
+    border-color:var(--line);
+    color:var(--ink)
+}
+.theme-toggle svg {
+    width:19px;
+    height:19px;
+    grid-area:1/1
+}
+.theme-sun, :root[data-theme="dark"] .theme-moon {
+    display:none
+}
+:root[data-theme="dark"] .theme-sun {
+    display:block
+}
+.toolbar option {
+    color:var(--ink);
+    background:var(--surface)
+}
+@media(max-width:560px) {
+    .header-actions { gap:6px }
+    .theme-toggle { width:44px;height:44px }
+    .masthead { gap:12px }
+    .masthead h1 { padding-left:12px }
 }
