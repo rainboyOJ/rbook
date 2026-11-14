@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="382" viewBox="0 0 760 382" role="img" aria-labelledby="title desc">
+  <title id="title">一次免费机会对应两个状态层</title>
+  <desc id="desc">原图 S 到 U 权值 1，U 到 T 权值 10。每个顶点拆成已用 0 次和已用 1 次两个状态。同层付费，免费沿原边进入下一层。粗线表示 S0 到 U0 再到 T1，总费用为 1。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0 0 L8 3 L0 6 Z" fill="#333"/></marker>
+  </defs>
+  <rect width="760" height="382" fill="#fff"/>
+  <g font-family="Noto Sans CJK SC, sans-serif" fill="#222" font-size="18">
+    <text x="34" y="53">已用 0 次</text><text x="34" y="224">已用 1 次</text>
+    <g stroke="#777" stroke-width="1.5" fill="none" marker-end="url(#arrow)">
+      <path d="M241 88 H407" stroke="#222" stroke-width="2.5"/>
+      <path d="M481 88 H647"/>
+      <path d="M241 259 H407"/>
+      <path d="M481 259 H647"/>
+      <path d="M232 112 L416 238" stroke-dasharray="6 5"/>
+      <path d="M472 112 L656 238" stroke="#222" stroke-width="2.5" stroke-dasharray="6 5"/>
+    </g>
+    <g text-anchor="middle" font-size="18">
+      <text x="324" y="69">1</text><text x="564" y="69">10</text>
+      <text x="324" y="295">1</text><text x="564" y="295">10</text>
+      <text x="311" y="189">0</text><text x="551" y="189">0</text>
+    </g>
+    <g fill="#fff" stroke="#222" stroke-width="1.5">
+      <circle cx="204" cy="88" r="34" stroke-width="2.5"/>
+      <circle cx="444" cy="88" r="34" stroke-width="2.5"/>
+      <circle cx="684" cy="88" r="34"/>
+      <circle cx="204" cy="259" r="34"/>
+      <circle cx="444" cy="259" r="34"/>
+      <circle cx="684" cy="259" r="34" stroke-width="2.5"/>
+    </g>
+    <g text-anchor="middle" dominant-baseline="central" font-family="serif" font-size="20">
+      <text x="204" y="88">(S, 0)</text><text x="444" y="88">(U, 0)</text><text x="684" y="88">(T, 0)</text>
+      <text x="204" y="259">(S, 1)</text><text x="444" y="259">(U, 1)</text><text x="684" y="259">(T, 1)</text>
+    </g>
+    <text x="34" y="335" font-size="17">实线：付费留在本层　　虚线：免费通行，进入下一层</text>
+    <text x="34" y="364" font-size="17">粗线走法：(S, 0) → (U, 0) → (T, 1)，总费用 1</text>
+  </g>
+</svg>

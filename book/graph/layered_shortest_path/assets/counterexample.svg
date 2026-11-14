@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="292" viewBox="0 0 720 292" role="img" aria-labelledby="title desc">
+  <title id="title">便宜地到达中间点，可能已经用掉免费机会</title>
+  <desc id="desc">有向边 S 到 U 的费用为 1，U 到 T 的费用为 10，最多免费一次。到 U 付费 1 并保留机会，最终只需 1；到 U 免费却用掉机会，最终需要 10。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0 0 L8 3 L0 6 Z" fill="#222"/></marker>
+  </defs>
+  <rect width="720" height="292" fill="#fff"/>
+  <g font-family="Noto Sans CJK SC, sans-serif" fill="#222" font-size="18">
+    <g stroke="#222" stroke-width="1.6" fill="none" marker-end="url(#arrow)">
+      <path d="M145 74 H327"/>
+      <path d="M387 74 H569"/>
+    </g>
+    <g fill="#fff" stroke="#222" stroke-width="1.6">
+      <circle cx="115" cy="74" r="27"/><circle cx="357" cy="74" r="27"/><circle cx="599" cy="74" r="27"/>
+    </g>
+    <g text-anchor="middle" dominant-baseline="central" font-family="serif" font-size="23">
+      <text x="115" y="74">S</text><text x="357" y="74">U</text><text x="599" y="74">T</text>
+      <text x="236" y="49" font-size="20">1</text><text x="478" y="49" font-size="20">10</text>
+    </g>
+    <text x="46" y="140">最多免费 1 次；到 U 时，有两种不同的处境：</text>
+    <path d="M46 157 H674" stroke="#aaa" stroke-width="1"/>
+    <text x="46" y="187">已用 0 次</text><text x="225" y="187">到 U 花费 1</text><text x="442" y="187">剩余边免费，总费用 1</text>
+    <text x="46" y="226">已用 1 次</text><text x="225" y="226">到 U 花费 0</text><text x="442" y="226">剩余边付费，总费用 10</text>
+    <text x="46" y="270" fill="#666" font-size="17">只保留费用更小的到达记录，会丢掉真正的最优解。</text>
+  </g>
+</svg>

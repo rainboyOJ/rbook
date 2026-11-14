@@ -216,6 +216,8 @@
       path: "spfa"
     - title: "Dijkstra"
       path: "dijkstra"
+    - title: "分层图最短路"
+      path: "layered_shortest_path"
     - title: "Dijkstra求次短路"
       path: "dijkstra_second_shortest"
     - title: "负圈"
