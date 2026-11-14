@@ -124,6 +124,8 @@
       path: "number_pyramid"
     - title: "连续段DP"
       path: "continuous_segment"
+    - title: "状态机 DP"
+      path: "state_machine"
     - title: "LCP"
       path: "lcp"
     - title: "LIS"
