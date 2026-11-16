@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="670" height="185" viewBox="0 0 670 185" role="img" aria-labelledby="title desc">
+<title id="title">前缀最大值的块分解</title>
+<desc id="desc">前缀七项拆成 c4、c6、c7，分别为 -2、-3、-8，合并最大值为 -2。</desc>
+<rect width="670" height="185" fill="white"/>
+<g font-family="Georgia, serif" font-size="18" text-anchor="middle" fill="#222222">
+<text x="133" y="25">1</text>
+<rect x="95" y="40" width="76" height="34" fill="white" stroke="#777777"/>
+<text x="133" y="64">-5</text>
+<text x="209" y="25">2</text>
+<rect x="171" y="40" width="76" height="34" fill="white" stroke="#777777"/>
+<text x="209" y="64">-2</text>
+<text x="285" y="25">3</text>
+<rect x="247" y="40" width="76" height="34" fill="white" stroke="#777777"/>
+<text x="285" y="64">-7</text>
+<text x="361" y="25">4</text>
+<rect x="323" y="40" width="76" height="34" fill="white" stroke="#777777"/>
+<text x="361" y="64">-4</text>
+<text x="437" y="25">5</text>
+<rect x="399" y="40" width="76" height="34" fill="white" stroke="#777777"/>
+<text x="437" y="64">-9</text>
+<text x="513" y="25">6</text>
+<rect x="475" y="40" width="76" height="34" fill="white" stroke="#777777"/>
+<text x="513" y="64">-3</text>
+<text x="589" y="25">7</text>
+<rect x="551" y="40" width="76" height="34" fill="white" stroke="#777777"/>
+<text x="589" y="64">-8</text>
+<path d="M98 88V99H396V88" fill="none" stroke="#222222"/>
+<text x="247.0" y="126">-2</text>
+<path d="M402 88V99H548V88" fill="none" stroke="#222222"/>
+<text x="475.0" y="126">-3</text>
+<path d="M554 88V99H624V88" fill="none" stroke="#222222"/>
+<text x="589.0" y="126">-8</text>
+<text x="365" y="166">max(-2, -3, -8) = -2</text>
+</g></svg>

@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="570" height="300" viewBox="0 0 570 300" role="img" aria-labelledby="title desc">
+<title id="title">差分在前缀和中的贡献次数</title>
+<desc id="desc">将 a1 到 a4 展开为差分，按列统计 d1 到 d4 分别出现 4、3、2、1 次。</desc>
+<rect width="570" height="300" fill="white"/>
+<g font-family="Georgia, serif" font-size="18" text-anchor="middle" fill="#222222">
+<text x="70" y="57">a[1] =</text>
+<rect x="150" y="32" width="78" height="38" fill="#f4f4f4" stroke="#777777"/>
+<text x="189" y="57">d[1]</text>
+<text x="70" y="105">a[2] =</text>
+<rect x="150" y="80" width="78" height="38" fill="#f4f4f4" stroke="#777777"/>
+<text x="189" y="105">d[1]</text>
+<rect x="240" y="80" width="78" height="38" fill="#f4f4f4" stroke="#777777"/>
+<text x="279" y="105">d[2]</text>
+<text x="70" y="153">a[3] =</text>
+<rect x="150" y="128" width="78" height="38" fill="#f4f4f4" stroke="#777777"/>
+<text x="189" y="153">d[1]</text>
+<rect x="240" y="128" width="78" height="38" fill="#f4f4f4" stroke="#777777"/>
+<text x="279" y="153">d[2]</text>
+<rect x="330" y="128" width="78" height="38" fill="#f4f4f4" stroke="#777777"/>
+<text x="369" y="153">d[3]</text>
+<text x="70" y="201">a[4] =</text>
+<rect x="150" y="176" width="78" height="38" fill="#f4f4f4" stroke="#777777"/>
+<text x="189" y="201">d[1]</text>
+<rect x="240" y="176" width="78" height="38" fill="#f4f4f4" stroke="#777777"/>
+<text x="279" y="201">d[2]</text>
+<rect x="330" y="176" width="78" height="38" fill="#f4f4f4" stroke="#777777"/>
+<text x="369" y="201">d[3]</text>
+<rect x="420" y="176" width="78" height="38" fill="#f4f4f4" stroke="#777777"/>
+<text x="459" y="201">d[4]</text>
+<path d="M130 240H520" stroke="#555555"/><text x="70" y="276">count</text>
+<text x="189" y="276">4</text>
+<text x="279" y="276">3</text>
+<text x="369" y="276">2</text>
+<text x="459" y="276">1</text>
+</g></svg>

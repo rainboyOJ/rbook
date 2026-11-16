@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="250" viewBox="0 0 720 250" role="img" aria-labelledby="title desc">
+<title id="title">区间最大值的块拆分</title>
+<desc id="desc">数组为 3,1,4,1,5,9,2,6。区间 2 到 8 从右向左取 a8、c7、c6、a4、c3、a2。c4 跨过左边界，不能取。</desc>
+<rect width="720" height="250" fill="white"/>
+<g font-family="Georgia, serif" font-size="17" text-anchor="middle" fill="#222222">
+<text x="167" y="24">1</text>
+<rect x="135" y="40" width="64" height="35" fill="white" stroke="#777777"/>
+<text x="167" y="64">3</text>
+<text x="231" y="24">2</text>
+<rect x="199" y="40" width="64" height="35" fill="white" stroke="#777777"/>
+<text x="231" y="64">1</text>
+<text x="295" y="24">3</text>
+<rect x="263" y="40" width="64" height="35" fill="white" stroke="#777777"/>
+<text x="295" y="64">4</text>
+<text x="359" y="24">4</text>
+<rect x="327" y="40" width="64" height="35" fill="white" stroke="#777777"/>
+<text x="359" y="64">1</text>
+<text x="423" y="24">5</text>
+<rect x="391" y="40" width="64" height="35" fill="white" stroke="#777777"/>
+<text x="423" y="64">5</text>
+<text x="487" y="24">6</text>
+<rect x="455" y="40" width="64" height="35" fill="white" stroke="#777777"/>
+<text x="487" y="64">9</text>
+<text x="551" y="24">7</text>
+<rect x="519" y="40" width="64" height="35" fill="white" stroke="#777777"/>
+<text x="551" y="64">2</text>
+<text x="615" y="24">8</text>
+<rect x="583" y="40" width="64" height="35" fill="white" stroke="#777777"/>
+<text x="615" y="64">6</text>
+<rect x="199" y="110" width="64" height="34" fill="#f4f4f4" stroke="#333333"/>
+<text x="231.0" y="133">a[2]</text>
+<rect x="263" y="110" width="64" height="34" fill="#f4f4f4" stroke="#333333"/>
+<text x="295.0" y="133">c[3]</text>
+<rect x="327" y="110" width="64" height="34" fill="#f4f4f4" stroke="#333333"/>
+<text x="359.0" y="133">a[4]</text>
+<rect x="391" y="110" width="128" height="34" fill="#f4f4f4" stroke="#333333"/>
+<text x="455.0" y="133">c[6]</text>
+<rect x="519" y="110" width="64" height="34" fill="#f4f4f4" stroke="#333333"/>
+<text x="551.0" y="133">c[7]</text>
+<rect x="583" y="110" width="64" height="34" fill="#f4f4f4" stroke="#333333"/>
+<text x="615.0" y="133">a[8]</text>
+<rect x="135" y="174" width="256" height="32" fill="white" stroke="#777777" stroke-dasharray="5 4"/>
+<text x="263" y="196">c[4]</text>
+<path d="M199 33V218" stroke="#777777" stroke-dasharray="4 4"/>
+<text x="199" y="240">l = 2</text>
+</g></svg>

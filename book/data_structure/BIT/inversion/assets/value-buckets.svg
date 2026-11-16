@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="650" height="260" viewBox="0 0 650 260" role="img" aria-labelledby="title desc">
+<title id="title">按值统计已出现元素</title>
+<desc id="desc">扫描到最后一个 2 之前，前面的 3、1、4、5 在值域上各出现一次，大于 2 的频次为三。</desc>
+<rect width="650" height="260" fill="white"/>
+<g font-family="Georgia, serif" font-size="18" text-anchor="middle" fill="#222222">
+<text x="70" y="50">seen</text>
+<rect x="145" y="26" width="58" height="36" fill="white" stroke="#555555"/>
+<text x="174" y="50">3</text>
+<rect x="213" y="26" width="58" height="36" fill="white" stroke="#555555"/>
+<text x="242" y="50">1</text>
+<rect x="281" y="26" width="58" height="36" fill="white" stroke="#555555"/>
+<text x="310" y="50">4</text>
+<rect x="349" y="26" width="58" height="36" fill="white" stroke="#555555"/>
+<text x="378" y="50">5</text>
+<path d="M430 15V75" stroke="#777777" stroke-dasharray="4 4"/>
+<text x="490" y="23">current</text>
+<rect x="461" y="32" width="58" height="36" fill="#eeeeee" stroke="#222222"/>
+<text x="490" y="56">2</text>
+<text x="70" y="133">value</text>
+<text x="70" y="179">freq</text>
+<text x="184" y="133">1</text>
+<rect x="145" y="151" width="78" height="38" fill="white" stroke="#555555"/>
+<text x="184" y="177">1</text>
+<text x="262" y="133">2</text>
+<rect x="223" y="151" width="78" height="38" fill="white" stroke="#555555"/>
+<text x="262" y="177">0</text>
+<text x="340" y="133">3</text>
+<rect x="301" y="151" width="78" height="38" fill="#eeeeee" stroke="#555555"/>
+<text x="340" y="177">1</text>
+<text x="418" y="133">4</text>
+<rect x="379" y="151" width="78" height="38" fill="#eeeeee" stroke="#555555"/>
+<text x="418" y="177">1</text>
+<text x="496" y="133">5</text>
+<rect x="457" y="151" width="78" height="38" fill="#eeeeee" stroke="#555555"/>
+<text x="496" y="177">1</text>
+<path d="M301 201V209H535V201" fill="none" stroke="#222222"/>
+<text x="418" y="239">&gt; 2 : 3</text>
+</g></svg>

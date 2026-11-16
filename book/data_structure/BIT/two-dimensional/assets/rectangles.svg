@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="355" viewBox="0 0 750 355" role="img" aria-labelledby="title desc">
+<title id="title">二维树状数组的管辖与前缀拆分</title>
+<desc id="desc">左图 c6,6 覆盖行 5 到 6、列 5 到 6。右图 sum5,7 由两段行区间与三段列区间的组合构成六个矩形。</desc>
+<rect width="750" height="355" fill="white"/>
+<text x="180" y="26" fill="#222222" font-family="Georgia, serif" font-size="19" text-anchor="middle">c[6][6]</text>
+<rect x="180" y="180" width="60" height="60" fill="#eeeeee"/>
+<path d="M60 60V300" stroke="#bbbbbb" stroke-width="0.8"/>
+<path d="M60 60H300" stroke="#bbbbbb" stroke-width="0.8"/>
+<path d="M90 60V300" stroke="#bbbbbb" stroke-width="0.8"/>
+<path d="M60 90H300" stroke="#bbbbbb" stroke-width="0.8"/>
+<path d="M120 60V300" stroke="#bbbbbb" stroke-width="0.8"/>
+<path d="M60 120H300" stroke="#bbbbbb" stroke-width="0.8"/>
+<path d="M150 60V300" stroke="#bbbbbb" stroke-width="0.8"/>
+<path d="M60 150H300" stroke="#bbbbbb" stroke-width="0.8"/>
+<path d="M180 60V300" stroke="#bbbbbb" stroke-width="0.8"/>
+<path d="M60 180H300" stroke="#bbbbbb" stroke-width="0.8"/>
+<path d="M210 60V300" stroke="#bbbbbb" stroke-width="0.8"/>
+<path d="M60 210H300" stroke="#bbbbbb" stroke-width="0.8"/>
+<path d="M240 60V300" stroke="#bbbbbb" stroke-width="0.8"/>
+<path d="M60 240H300" stroke="#bbbbbb" stroke-width="0.8"/>
+<path d="M270 60V300" stroke="#bbbbbb" stroke-width="0.8"/>
+<path d="M60 270H300" stroke="#bbbbbb" stroke-width="0.8"/>
+<path d="M300 60V300" stroke="#bbbbbb" stroke-width="0.8"/>
+<path d="M60 300H300" stroke="#bbbbbb" stroke-width="0.8"/>
+<text x="75" y="50" font-family="Georgia, serif" font-size="15" text-anchor="middle" fill="#333333">1</text>
+<text x="44" y="80" font-family="Georgia, serif" font-size="15" text-anchor="middle" fill="#333333">1</text>
+<text x="105" y="50" font-family="Georgia, serif" font-size="15" text-anchor="middle" fill="#333333">2</text>
+<text x="44" y="110" font-family="Georgia, serif" font-size="15" text-anchor="middle" fill="#333333">2</text>
+<text x="135" y="50" font-family="Georgia, serif" font-size="15" text-anchor="middle" fill="#333333">3</text>
+<text x="44" y="140" font-family="Georgia, serif" font-size="15" text-anchor="middle" fill="#333333">3</text>
+<text x="165" y="50" font-family="Georgia, serif" font-size="15" text-anchor="middle" fill="#333333">4</text>
+<text x="44" y="170" font-family="Georgia, serif" font-size="15" text-anchor="middle" fill="#333333">4</text>
+<text x="195" y="50" font-family="Georgia, serif" font-size="15" text-anchor="middle" fill="#333333">5</text>
+<text x="44" y="200" font-family="Georgia, serif" font-size="15" text-anchor="middle" fill="#333333">5</text>
+<text x="225" y="50" font-family="Georgia, serif" font-size="15" text-anchor="middle" fill="#333333">6</text>
+<text x="44" y="230" font-family="Georgia, serif" font-size="15" text-anchor="middle" fill="#333333">6</text>
+<text x="255" y="50" font-family="Georgia, serif" font-size="15" text-anchor="middle" fill="#333333">7</text>
+<text x="44" y="260" font-family="Georgia, serif" font-size="15" text-anchor="middle" fill="#333333">7</text>
+<text x="285" y="50" font-family="Georgia, serif" font-size="15" text-anchor="middle" fill="#333333">8</text>
+<text x="44" y="290" font-family="Georgia, serif" font-size="15" text-anchor="middle" fill="#333333">8</text>
+<rect x="180" y="180" width="60" height="60" fill="none" stroke="#222222" stroke-width="1.7"/>
+<text x="180" y="335" font-family="Georgia, serif" font-size="16" fill="#222222" text-anchor="middle">rows [5,6], cols [5,6]</text>
+<text x="550" y="26" fill="#222222" font-family="Georgia, serif" font-size="19" text-anchor="middle">sum(5,7)</text>
+<rect x="430" y="60" width="120" height="120" fill="#eeeeee"/>
+<rect x="550" y="60" width="60" height="120" fill="#eeeeee"/>
+<rect x="610" y="60" width="30" height="120" fill="#eeeeee"/>
+<rect x="430" y="180" width="120" height="30" fill="#eeeeee"/>
+<rect x="550" y="180" width="60" height="30" fill="#eeeeee"/>
+<rect x="610" y="180" width="30" height="30" fill="#eeeeee"/>
+<path d="M430 60V300" stroke="#bbbbbb" stroke-width="0.8"/>
+<path d="M430 60H670" stroke="#bbbbbb" stroke-width="0.8"/>
+<path d="M460 60V300" stroke="#bbbbbb" stroke-width="0.8"/>
+<path d="M430 90H670" stroke="#bbbbbb" stroke-width="0.8"/>
+<path d="M490 60V300" stroke="#bbbbbb" stroke-width="0.8"/>
+<path d="M430 120H670" stroke="#bbbbbb" stroke-width="0.8"/>
+<path d="M520 60V300" stroke="#bbbbbb" stroke-width="0.8"/>
+<path d="M430 150H670" stroke="#bbbbbb" stroke-width="0.8"/>
+<path d="M550 60V300" stroke="#bbbbbb" stroke-width="0.8"/>
+<path d="M430 180H670" stroke="#bbbbbb" stroke-width="0.8"/>
+<path d="M580 60V300" stroke="#bbbbbb" stroke-width="0.8"/>
+<path d="M430 210H670" stroke="#bbbbbb" stroke-width="0.8"/>
+<path d="M610 60V300" stroke="#bbbbbb" stroke-width="0.8"/>
+<path d="M430 240H670" stroke="#bbbbbb" stroke-width="0.8"/>
+<path d="M640 60V300" stroke="#bbbbbb" stroke-width="0.8"/>
+<path d="M430 270H670" stroke="#bbbbbb" stroke-width="0.8"/>
+<path d="M670 60V300" stroke="#bbbbbb" stroke-width="0.8"/>
+<path d="M430 300H670" stroke="#bbbbbb" stroke-width="0.8"/>
+<text x="445" y="50" font-family="Georgia, serif" font-size="15" text-anchor="middle" fill="#333333">1</text>
+<text x="414" y="80" font-family="Georgia, serif" font-size="15" text-anchor="middle" fill="#333333">1</text>
+<text x="475" y="50" font-family="Georgia, serif" font-size="15" text-anchor="middle" fill="#333333">2</text>
+<text x="414" y="110" font-family="Georgia, serif" font-size="15" text-anchor="middle" fill="#333333">2</text>
+<text x="505" y="50" font-family="Georgia, serif" font-size="15" text-anchor="middle" fill="#333333">3</text>
+<text x="414" y="140" font-family="Georgia, serif" font-size="15" text-anchor="middle" fill="#333333">3</text>
+<text x="535" y="50" font-family="Georgia, serif" font-size="15" text-anchor="middle" fill="#333333">4</text>
+<text x="414" y="170" font-family="Georgia, serif" font-size="15" text-anchor="middle" fill="#333333">4</text>
+<text x="565" y="50" font-family="Georgia, serif" font-size="15" text-anchor="middle" fill="#333333">5</text>
+<text x="414" y="200" font-family="Georgia, serif" font-size="15" text-anchor="middle" fill="#333333">5</text>
+<text x="595" y="50" font-family="Georgia, serif" font-size="15" text-anchor="middle" fill="#333333">6</text>
+<text x="414" y="230" font-family="Georgia, serif" font-size="15" text-anchor="middle" fill="#333333">6</text>
+<text x="625" y="50" font-family="Georgia, serif" font-size="15" text-anchor="middle" fill="#333333">7</text>
+<text x="414" y="260" font-family="Georgia, serif" font-size="15" text-anchor="middle" fill="#333333">7</text>
+<text x="655" y="50" font-family="Georgia, serif" font-size="15" text-anchor="middle" fill="#333333">8</text>
+<text x="414" y="290" font-family="Georgia, serif" font-size="15" text-anchor="middle" fill="#333333">8</text>
+<rect x="430" y="60" width="120" height="120" fill="none" stroke="#222222" stroke-width="1.7"/>
+<rect x="550" y="60" width="60" height="120" fill="none" stroke="#222222" stroke-width="1.7"/>
+<rect x="610" y="60" width="30" height="120" fill="none" stroke="#222222" stroke-width="1.7"/>
+<rect x="430" y="180" width="120" height="30" fill="none" stroke="#222222" stroke-width="1.7"/>
+<rect x="550" y="180" width="60" height="30" fill="none" stroke="#222222" stroke-width="1.7"/>
+<rect x="610" y="180" width="30" height="30" fill="none" stroke="#222222" stroke-width="1.7"/>
+<text x="550" y="335" font-family="Georgia, serif" font-size="16" fill="#222222" text-anchor="middle">rows [1,5], cols [1,7]</text>
+</svg>
