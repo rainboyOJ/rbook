@@ -3,6 +3,9 @@ using namespace std;
 
 typedef long long ll;
 
+int ls(int p) { return p << 1; }      // 左孩子 2p
+int rs(int p) { return p << 1 | 1; }  // 右孩子 2p+1
+
 const int maxn = 100000 + 5;
 int n, q;
 ll mod, a[maxn], tr[maxn * 4];
@@ -15,7 +18,7 @@ ll norm(ll x) {
 }
 
 void pushup(int p) {
-    tr[p] = (tr[p * 2] + tr[p * 2 + 1]) % mod;
+    tr[p] = (tr[ls(p)] + tr[rs(p)]) % mod;
 }
 
 void build(int p, int l, int r) {
@@ -25,8 +28,8 @@ void build(int p, int l, int r) {
         return;
     }
     int mid = l + (r - l) / 2;
-    build(p * 2, l, mid);
-    build(p * 2 + 1, mid + 1, r);
+    build(ls(p), l, mid);
+    build(rs(p), mid + 1, r);
     pushup(p);
 }
 
@@ -40,8 +43,8 @@ void apply(int p, int l, int r, ll A, ll B) {
 void pushdown(int p, int l, int r) {
     if (mul[p] == 1 % mod && inc[p] == 0) return;
     int mid = l + (r - l) / 2;
-    apply(p * 2, l, mid, mul[p], inc[p]);
-    apply(p * 2 + 1, mid + 1, r, mul[p], inc[p]);
+    apply(ls(p), l, mid, mul[p], inc[p]);
+    apply(rs(p), mid + 1, r, mul[p], inc[p]);
     mul[p] = 1 % mod;
     inc[p] = 0;
 }
@@ -53,8 +56,8 @@ void update(int p, int l, int r, int L, int R, ll A, ll B) {
     }
     pushdown(p, l, r);
     int mid = l + (r - l) / 2;
-    if (L <= mid) update(p * 2, l, mid, L, R, A, B);
-    if (R > mid) update(p * 2 + 1, mid + 1, r, L, R, A, B);
+    if (L <= mid) update(ls(p), l, mid, L, R, A, B);
+    if (R > mid) update(rs(p), mid + 1, r, L, R, A, B);
     pushup(p);
 }
 
@@ -63,8 +66,8 @@ ll query(int p, int l, int r, int L, int R) {
     pushdown(p, l, r);
     int mid = l + (r - l) / 2;
     ll answer = 0;
-    if (L <= mid) answer += query(p * 2, l, mid, L, R);
-    if (R > mid) answer += query(p * 2 + 1, mid + 1, r, L, R);
+    if (L <= mid) answer += query(ls(p), l, mid, L, R);
+    if (R > mid) answer += query(rs(p), mid + 1, r, L, R);
     return answer % mod;
 }
 

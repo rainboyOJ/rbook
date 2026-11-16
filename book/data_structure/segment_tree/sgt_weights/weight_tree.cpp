@@ -3,6 +3,9 @@ using namespace std;
 
 typedef long long ll;
 
+int ls(int p) { return p << 1; }      // 左孩子 2p
+int rs(int p) { return p << 1 | 1; }  // 右孩子 2p+1
+
 const int maxn = 200000 + 5;
 int q, kinds, op[maxn], cnt[maxn * 4];
 ll operand[maxn], values[maxn];
@@ -11,23 +14,23 @@ void change(int p, int l, int r, int pos, int delta) {
     cnt[p] += delta;
     if (l == r) return;
     int mid = l + (r - l) / 2;
-    if (pos <= mid) change(p * 2, l, mid, pos, delta);
-    else change(p * 2 + 1, mid + 1, r, pos, delta);
+    if (pos <= mid) change(ls(p), l, mid, pos, delta);
+    else change(rs(p), mid + 1, r, pos, delta);
 }
 
 int prefix_count(int p, int l, int r, int pos) {
     if (pos < l) return 0;
     if (r <= pos) return cnt[p];
     int mid = l + (r - l) / 2;
-    if (pos <= mid) return prefix_count(p * 2, l, mid, pos);
-    return cnt[p * 2] + prefix_count(p * 2 + 1, mid + 1, r, pos);
+    if (pos <= mid) return prefix_count(ls(p), l, mid, pos);
+    return cnt[ls(p)] + prefix_count(rs(p), mid + 1, r, pos);
 }
 
 int kth(int p, int l, int r, int k) {
     if (l == r) return l;
     int mid = l + (r - l) / 2;
-    if (k <= cnt[p * 2]) return kth(p * 2, l, mid, k);
-    return kth(p * 2 + 1, mid + 1, r, k - cnt[p * 2]);
+    if (k <= cnt[ls(p)]) return kth(ls(p), l, mid, k);
+    return kth(rs(p), mid + 1, r, k - cnt[ls(p)]);
 }
 
 int main() {

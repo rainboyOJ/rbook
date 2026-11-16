@@ -3,6 +3,9 @@ using namespace std;
 
 typedef long long ll;
 
+int ls(int p) { return p << 1; }      // 左孩子 2p
+int rs(int p) { return p << 1 | 1; }  // 右孩子 2p+1
+
 const int maxn = 100000 + 5;
 struct Event {
     ll y, x1, x2;
@@ -15,7 +18,7 @@ Event events[maxn * 2];
 void pushup(int p, int l, int r) {
     if (cover[p] > 0) len[p] = xs[r + 1] - xs[l];
     else if (l == r) len[p] = 0;
-    else len[p] = len[p * 2] + len[p * 2 + 1];
+    else len[p] = len[ls(p)] + len[rs(p)];
 }
 
 void update(int p, int l, int r, int L, int R, int delta) {
@@ -25,8 +28,8 @@ void update(int p, int l, int r, int L, int R, int delta) {
         return;
     }
     int mid = l + (r - l) / 2;
-    if (L <= mid) update(p * 2, l, mid, L, R, delta);
-    if (R > mid) update(p * 2 + 1, mid + 1, r, L, R, delta);
+    if (L <= mid) update(ls(p), l, mid, L, R, delta);
+    if (R > mid) update(rs(p), mid + 1, r, L, R, delta);
     pushup(p, l, r);
 }
 

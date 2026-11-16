@@ -4,13 +4,16 @@ using namespace std;
 
 typedef long long ll;
 
+int ls(int p) { return p << 1; }      // 左孩子 2p
+int rs(int p) { return p << 1 | 1; }  // 右孩子 2p+1
+
 const int maxn = 100000 + 5;
 int n;
 ll a[maxn], tr[maxn * 4];
 
 // 由两个孩子重新算出父亲
 void pushup(int p) {
-    tr[p] = tr[p * 2] + tr[p * 2 + 1];
+    tr[p] = tr[ls(p)] + tr[rs(p)];
 }
 
 // 建立区间 [l,r]、编号为 p 的节点
@@ -20,8 +23,8 @@ void build(int p, int l, int r) {
         return;
     }
     int mid = l + (r - l) / 2;
-    build(p * 2, l, mid);          // 左孩子
-    build(p * 2 + 1, mid + 1, r);  // 右孩子
+    build(ls(p), l, mid);          // 左孩子
+    build(rs(p), mid + 1, r);  // 右孩子
     pushup(p);                     // 回溯时合并
 }
 
@@ -31,8 +34,8 @@ void print(int p, int l, int r, int depth) {
          << "node " << p << " [" << l << "," << r << "] sum=" << tr[p] << '\n';
     if (l == r) return;
     int mid = l + (r - l) / 2;
-    print(p * 2, l, mid, depth + 1);
-    print(p * 2 + 1, mid + 1, r, depth + 1);
+    print(ls(p), l, mid, depth + 1);
+    print(rs(p), mid + 1, r, depth + 1);
 }
 
 int main() {

@@ -24,8 +24,11 @@ rbook:
 若 $l=r$，令 `tr[p] = a[l]`；否则递归建立左右孩子，再执行：
 
 ```cpp
+int ls(int p) { return p << 1; }      // 左孩子 2p
+int rs(int p) { return p << 1 | 1; }  // 右孩子 2p+1
+
 void pushup(int p) {
-    tr[p] = tr[p * 2] + tr[p * 2 + 1];
+    tr[p] = tr[ls(p)] + tr[rs(p)];
 }
 ```
 

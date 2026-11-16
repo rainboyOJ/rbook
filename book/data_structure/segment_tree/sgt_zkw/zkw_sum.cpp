@@ -3,6 +3,9 @@ using namespace std;
 
 typedef long long ll;
 
+int ls(int p) { return p << 1; }      // 左孩子 2p
+int rs(int p) { return p << 1 | 1; }  // 右孩子 2p+1
+
 const int maxn = 500000 + 5;
 int n, m, base;
 ll tr[maxn * 4];
@@ -10,7 +13,7 @@ ll tr[maxn * 4];
 void add(int pos, ll v) {
     int p = base + pos;
     tr[p] += v;
-    for (p /= 2; p; p /= 2) tr[p] = tr[p * 2] + tr[p * 2 + 1];
+    for (p /= 2; p; p /= 2) tr[p] = tr[ls(p)] + tr[rs(p)];
 }
 
 ll query(int l, int r) {
@@ -32,7 +35,7 @@ int main() {
     base = 1;
     while (base < n + 2) base *= 2;
     for (int i = 1; i <= n; ++i) cin >> tr[base + i];
-    for (int p = base - 1; p >= 1; --p) tr[p] = tr[p * 2] + tr[p * 2 + 1];
+    for (int p = base - 1; p >= 1; --p) tr[p] = tr[ls(p)] + tr[rs(p)];
     while (m--) {
         int op;
         cin >> op;

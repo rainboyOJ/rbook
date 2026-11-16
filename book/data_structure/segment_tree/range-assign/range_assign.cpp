@@ -3,13 +3,16 @@ using namespace std;
 
 typedef long long ll;
 
+int ls(int p) { return p << 1; }      // 左孩子 2p
+int rs(int p) { return p << 1 | 1; }  // 右孩子 2p+1
+
 const int maxn = 100000 + 5;
 int n, m;
 ll a[maxn], tr[maxn * 4], lazy[maxn * 4];
 bool has[maxn * 4];
 
 void pushup(int p) {
-    tr[p] = tr[p * 2] + tr[p * 2 + 1];
+    tr[p] = tr[ls(p)] + tr[rs(p)];
 }
 
 void build(int p, int l, int r) {
@@ -18,8 +21,8 @@ void build(int p, int l, int r) {
         return;
     }
     int mid = l + (r - l) / 2;
-    build(p * 2, l, mid);
-    build(p * 2 + 1, mid + 1, r);
+    build(ls(p), l, mid);
+    build(rs(p), mid + 1, r);
     pushup(p);
 }
 
@@ -32,8 +35,8 @@ void apply(int p, int l, int r, ll v) {
 void pushdown(int p, int l, int r) {
     if (!has[p]) return;
     int mid = l + (r - l) / 2;
-    apply(p * 2, l, mid, lazy[p]);
-    apply(p * 2 + 1, mid + 1, r, lazy[p]);
+    apply(ls(p), l, mid, lazy[p]);
+    apply(rs(p), mid + 1, r, lazy[p]);
     has[p] = false;
 }
 
@@ -44,8 +47,8 @@ void assign_range(int p, int l, int r, int L, int R, ll v) {
     }
     pushdown(p, l, r);
     int mid = l + (r - l) / 2;
-    if (L <= mid) assign_range(p * 2, l, mid, L, R, v);
-    if (R > mid) assign_range(p * 2 + 1, mid + 1, r, L, R, v);
+    if (L <= mid) assign_range(ls(p), l, mid, L, R, v);
+    if (R > mid) assign_range(rs(p), mid + 1, r, L, R, v);
     pushup(p);
 }
 
@@ -54,8 +57,8 @@ ll query(int p, int l, int r, int L, int R) {
     pushdown(p, l, r);
     int mid = l + (r - l) / 2;
     ll answer = 0;
-    if (L <= mid) answer += query(p * 2, l, mid, L, R);
-    if (R > mid) answer += query(p * 2 + 1, mid + 1, r, L, R);
+    if (L <= mid) answer += query(ls(p), l, mid, L, R);
+    if (R > mid) answer += query(rs(p), mid + 1, r, L, R);
     return answer;
 }
 

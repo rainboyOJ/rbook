@@ -3,12 +3,15 @@ using namespace std;
 
 typedef long long ll;
 
+int ls(int p) { return p << 1; }      // 左孩子 2p
+int rs(int p) { return p << 1 | 1; }  // 右孩子 2p+1
+
 const int maxn = 500000 + 5;
 int n, m;
 ll a[maxn], tr[maxn * 4];
 
 void pushup(int p) {
-    tr[p] = tr[p * 2] + tr[p * 2 + 1];
+    tr[p] = tr[ls(p)] + tr[rs(p)];
 }
 
 void build(int p, int l, int r) {
@@ -17,8 +20,8 @@ void build(int p, int l, int r) {
         return;
     }
     int mid = l + (r - l) / 2;
-    build(p * 2, l, mid);
-    build(p * 2 + 1, mid + 1, r);
+    build(ls(p), l, mid);
+    build(rs(p), mid + 1, r);
     pushup(p);
 }
 
@@ -28,8 +31,8 @@ void add(int p, int l, int r, int pos, ll v) {
         return;
     }
     int mid = l + (r - l) / 2;
-    if (pos <= mid) add(p * 2, l, mid, pos, v);
-    else add(p * 2 + 1, mid + 1, r, pos, v);
+    if (pos <= mid) add(ls(p), l, mid, pos, v);
+    else add(rs(p), mid + 1, r, pos, v);
     pushup(p);
 }
 
@@ -37,8 +40,8 @@ ll query(int p, int l, int r, int L, int R) {
     if (L <= l && r <= R) return tr[p];
     int mid = l + (r - l) / 2;
     ll answer = 0;
-    if (L <= mid) answer += query(p * 2, l, mid, L, R);
-    if (R > mid) answer += query(p * 2 + 1, mid + 1, r, L, R);
+    if (L <= mid) answer += query(ls(p), l, mid, L, R);
+    if (R > mid) answer += query(rs(p), mid + 1, r, L, R);
     return answer;
 }
 

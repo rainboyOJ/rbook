@@ -3,12 +3,15 @@ using namespace std;
 
 typedef long long ll;
 
+int ls(int p) { return p << 1; }      // 左孩子 2p
+int rs(int p) { return p << 1 | 1; }  // 右孩子 2p+1
+
 const int maxn = 200000 + 5;
 int n, m;
 ll a[maxn], tr[maxn * 4];
 
 void pushup(int p) {
-    tr[p] = min(tr[p * 2], tr[p * 2 + 1]);
+    tr[p] = min(tr[ls(p)], tr[rs(p)]);
 }
 
 void build(int p, int l, int r) {
@@ -17,8 +20,8 @@ void build(int p, int l, int r) {
         return;
     }
     int mid = l + (r - l) / 2;
-    build(p * 2, l, mid);
-    build(p * 2 + 1, mid + 1, r);
+    build(ls(p), l, mid);
+    build(rs(p), mid + 1, r);
     pushup(p);
 }
 
@@ -28,8 +31,8 @@ void assign_point(int p, int l, int r, int pos, ll v) {
         return;
     }
     int mid = l + (r - l) / 2;
-    if (pos <= mid) assign_point(p * 2, l, mid, pos, v);
-    else assign_point(p * 2 + 1, mid + 1, r, pos, v);
+    if (pos <= mid) assign_point(ls(p), l, mid, pos, v);
+    else assign_point(rs(p), mid + 1, r, pos, v);
     pushup(p);
 }
 
@@ -37,9 +40,9 @@ int first_less(int p, int l, int r, int L, int R, ll x) {
     if (r < L || R < l || tr[p] >= x) return n + 1;
     if (l == r) return l;
     int mid = l + (r - l) / 2;
-    int answer = first_less(p * 2, l, mid, L, R, x);
+    int answer = first_less(ls(p), l, mid, L, R, x);
     if (answer != n + 1) return answer;
-    return first_less(p * 2 + 1, mid + 1, r, L, R, x);
+    return first_less(rs(p), mid + 1, r, L, R, x);
 }
 
 int main() {
