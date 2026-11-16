@@ -23,7 +23,7 @@ void build(int p, int l, int r) {
         tr[p] = a[l];
         return;
     }
-    int mid = l + (r - l) / 2;
+    int mid = (l + r) / 2;
     build(ls(p), l, mid);
     build(rs(p), mid + 1, r);
     pushup(p);
@@ -39,7 +39,7 @@ void apply(int p, int l, int r, ll v) {
 // 需要进入孩子时，把较新的父赋值覆盖到两个孩子。
 void pushdown(int p, int l, int r) {
     if (!has[p]) return;
-    int mid = l + (r - l) / 2;
+    int mid = (l + r) / 2;
     apply(ls(p), l, mid, lazy[p]);
     apply(rs(p), mid + 1, r, lazy[p]);
     has[p] = false;  // 父标记已传完；lazy[p] 的旧内容不再有效
@@ -47,14 +47,15 @@ void pushdown(int p, int l, int r) {
 
 // 把目标区间 [L,R] 赋为 v；完整覆盖直接更新，否则先下传。
 void assign_range(int p, int l, int r, int L, int R, ll v) {
+    if (r < L || R < l) return;  // 空交集直接返回，不修改节点
     if (L <= l && r <= R) {
         apply(p, l, r, v);
         return;
     }
     pushdown(p, l, r);
-    int mid = l + (r - l) / 2;
-    if (L <= mid) assign_range(ls(p), l, mid, L, R, v);
-    if (R > mid) assign_range(rs(p), mid + 1, r, L, R, v);
+    int mid = (l + r) / 2;
+    assign_range(ls(p), l, mid, L, R, v);
+    assign_range(rs(p), mid + 1, r, L, R, v);
     pushup(p);
 }
 
@@ -63,7 +64,7 @@ ll query(int p, int l, int r, int L, int R) {
     if (r < L || R < l) return 0;  // 0 是求和的单位元
     if (L <= l && r <= R) return tr[p];
     pushdown(p, l, r);
-    int mid = l + (r - l) / 2;
+    int mid = (l + r) / 2;
     return query(ls(p), l, mid, L, R)
          + query(rs(p), mid + 1, r, L, R);
 }

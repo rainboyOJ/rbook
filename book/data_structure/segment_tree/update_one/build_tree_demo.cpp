@@ -23,7 +23,7 @@ void build(int p, int l, int r) {
         tr[p] = a[l];
         return;
     }
-    int mid = l + (r - l) / 2;
+    int mid = (l + r) / 2;
     build(ls(p), l, mid);          // 左孩子
     build(rs(p), mid + 1, r);  // 右孩子
     pushup(p);                     // 回溯时合并
@@ -35,7 +35,7 @@ void print(int p, int l, int r, int depth) {
     cout << string(depth * 2, ' ')
          << "node " << p << " [" << l << "," << r << "] sum=" << tr[p] << '\n';
     if (l == r) return;
-    int mid = l + (r - l) / 2;
+    int mid = (l + r) / 2;
     print(ls(p), l, mid, depth + 1);
     print(rs(p), mid + 1, r, depth + 1);
 }

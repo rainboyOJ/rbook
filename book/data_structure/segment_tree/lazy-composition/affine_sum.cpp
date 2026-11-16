@@ -32,7 +32,7 @@ void build(int p, int l, int r) {
         tr[p] = norm(a[l]);
         return;
     }
-    int mid = l + (r - l) / 2;
+    int mid = (l + r) / 2;
     build(ls(p), l, mid);
     build(rs(p), mid + 1, r);
     pushup(p);
@@ -49,7 +49,7 @@ void apply(int p, int l, int r, ll A, ll B) {
 // 进入孩子前，将父标记作为较新的变换复合到孩子，再恢复单位标记。
 void pushdown(int p, int l, int r) {
     if (mul[p] == 1 % mod && inc[p] == 0) return;
-    int mid = l + (r - l) / 2;
+    int mid = (l + r) / 2;
     apply(ls(p), l, mid, mul[p], inc[p]);
     apply(rs(p), mid + 1, r, mul[p], inc[p]);
     mul[p] = 1 % mod;
@@ -58,14 +58,15 @@ void pushdown(int p, int l, int r) {
 
 // 对 [L,R] 中每个数执行 A*x+B；完整覆盖时不再向下递归。
 void update(int p, int l, int r, int L, int R, ll A, ll B) {
+    if (r < L || R < l) return;  // 空交集直接返回，不修改节点
     if (L <= l && r <= R) {
         apply(p, l, r, A, B);
         return;
     }
     pushdown(p, l, r);
-    int mid = l + (r - l) / 2;
-    if (L <= mid) update(ls(p), l, mid, L, R, A, B);
-    if (R > mid) update(rs(p), mid + 1, r, L, R, A, B);
+    int mid = (l + r) / 2;
+    update(ls(p), l, mid, L, R, A, B);
+    update(rs(p), mid + 1, r, L, R, A, B);
     pushup(p);
 }
 
@@ -74,7 +75,7 @@ ll query(int p, int l, int r, int L, int R) {
     if (r < L || R < l) return 0;
     if (L <= l && r <= R) return tr[p];
     pushdown(p, l, r);
-    int mid = l + (r - l) / 2;
+    int mid = (l + r) / 2;
     return (query(ls(p), l, mid, L, R)
           + query(rs(p), mid + 1, r, L, R)) % mod;
 }

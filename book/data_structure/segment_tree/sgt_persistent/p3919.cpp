@@ -24,7 +24,7 @@ int build(int l, int r) {
         value[p] = a[l];
         return p;
     }
-    int mid = l + (r - l) / 2;
+    int mid = (l + r) / 2;
     lc[p] = build(l, mid);
     rc[p] = build(mid + 1, r);
     return p;
@@ -41,7 +41,7 @@ int modify(int old, int l, int r, int pos, int v) {
         value[p] = v;  // 只修改新路径上的叶子
         return p;
     }
-    int mid = l + (r - l) / 2;
+    int mid = (l + r) / 2;
     if (pos <= mid) lc[p] = modify(lc[old], l, mid, pos, v);
     else rc[p] = modify(rc[old], mid + 1, r, pos, v);
     return p;
@@ -50,7 +50,7 @@ int modify(int old, int l, int r, int pos, int v) {
 // 从指定版本的根出发，只沿 pos 所在的一条路径读取，不创建节点。
 int query(int p, int l, int r, int pos) {
     if (l == r) return value[p];
-    int mid = l + (r - l) / 2;
+    int mid = (l + r) / 2;
     if (pos <= mid) return query(lc[p], l, mid, pos);
     return query(rc[p], mid + 1, r, pos);
 }

@@ -30,7 +30,7 @@ void insert(int &p, int l, int r, int x) {
         best[p] = l;
         return;
     }
-    int mid = l + (r - l) / 2;
+    int mid = (l + r) / 2;
     if (x <= mid) insert(lc[p], l, mid, x);
     else insert(rc[p], mid + 1, r, x);
     pushup(p);
@@ -45,7 +45,7 @@ int merge_tree(int a, int b, int l, int r) {
         best[a] = l;
         return a;
     }
-    int mid = l + (r - l) / 2;
+    int mid = (l + r) / 2;
     // 分别合并对应的左右值域，再由孩子重新选出众数。
     lc[a] = merge_tree(lc[a], lc[b], l, mid);
     rc[a] = merge_tree(rc[a], rc[b], mid + 1, r);

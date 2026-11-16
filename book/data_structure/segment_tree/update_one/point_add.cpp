@@ -23,7 +23,7 @@ void build(int p, int l, int r) {
         tr[p] = a[l];  // l == r：叶子对应一个原数组元素
         return;
     }
-    int mid = l + (r - l) / 2;
+    int mid = (l + r) / 2;
     build(ls(p), l, mid);
     build(rs(p), mid + 1, r);
     pushup(p);
@@ -35,7 +35,7 @@ void add(int p, int l, int r, int pos, ll v) {
         tr[p] += v;
         return;
     }
-    int mid = l + (r - l) / 2;
+    int mid = (l + r) / 2;
     if (pos <= mid) add(ls(p), l, mid, pos, v);
     else add(rs(p), mid + 1, r, pos, v);
     pushup(p);
@@ -45,7 +45,7 @@ void add(int p, int l, int r, int pos, ll v) {
 ll query(int p, int l, int r, int L, int R) {
     if (r < L || R < l) return 0;  // 空交集对求和没有贡献
     if (L <= l && r <= R) return tr[p];  // 完整覆盖，直接使用预存的和
-    int mid = l + (r - l) / 2;
+    int mid = (l + r) / 2;
     // 部分相交：交给两个孩子判断，各自返回的区间互不重叠。
     return query(ls(p), l, mid, L, R)
          + query(rs(p), mid + 1, r, L, R);

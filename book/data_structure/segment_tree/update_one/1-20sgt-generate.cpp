@@ -10,7 +10,7 @@ struct sgt_point {
     T tr[N*4+5];
     inline int lp(int p){return p<<1;}
     inline int rp(int p){return (p<<1)|1;}
-    inline int mid(int l,int r){return (l+r)>>1;}
+    inline int mid(int l,int r){return (l + r) / 2;}
 
     inline void pushup(int p){
         tr[p] = tr[lp(p)] + tr[rp(p)];
@@ -42,14 +42,10 @@ struct sgt_point {
     }
 
     T query(int L,int R,int l,int r,int p){
-        if( L <=l && r<=R ) {
-            return tr[p];
-        }
+        if (r < L || R < l) return 0;
+        if (L <= l && r <= R) return tr[p];
         int m = mid(l,r);
-        T ret = 0;
-        if( L <= m ) ret+=query(L,R,l,m,lp(p));
-        if( R >=m+1) ret+=query(L,R,m+1,r,rp(p));
-        //pushup(p);
+        T ret = query(L,R,l,m,lp(p)) + query(L,R,m+1,r,rp(p));
         return ret;
     }
 

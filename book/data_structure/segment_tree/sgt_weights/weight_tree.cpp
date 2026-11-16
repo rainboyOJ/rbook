@@ -18,7 +18,7 @@ ll operand[maxn], values[maxn];
 void change(int p, int l, int r, int pos, int delta) {
     cnt[p] += delta;
     if (l == r) return;
-    int mid = l + (r - l) / 2;
+    int mid = (l + r) / 2;
     if (pos <= mid) change(ls(p), l, mid, pos, delta);
     else change(rs(p), mid + 1, r, pos, delta);
 }
@@ -27,7 +27,7 @@ void change(int p, int l, int r, int pos, int delta) {
 int prefix_count(int p, int l, int r, int pos) {
     if (pos < l) return 0;  // 整个当前区间都在前缀右侧
     if (r <= pos) return cnt[p];  // 当前值域被前缀完整包含
-    int mid = l + (r - l) / 2;
+    int mid = (l + r) / 2;
     return prefix_count(ls(p), l, mid, pos)
          + prefix_count(rs(p), mid + 1, r, pos);
 }
@@ -35,7 +35,7 @@ int prefix_count(int p, int l, int r, int pos) {
 // 查询第 k 小的值域编号，要求 1≤k≤cnt[p]。
 int kth(int p, int l, int r, int k) {
     if (l == r) return l;
-    int mid = l + (r - l) / 2;
+    int mid = (l + r) / 2;
     // 左边有 s 个数：k≤s 就向左，否则跳过左边，向右找第 k-s 小。
     if (k <= cnt[ls(p)]) return kth(ls(p), l, mid, k);
     return kth(rs(p), mid + 1, r, k - cnt[ls(p)]);

@@ -26,7 +26,7 @@ struct _sgt {
     int tr[maxn*4+5];
     int flag[maxn*4+5];
 
-    int mid(int l,int r) { return (l+r)>>1;}
+    int mid(int l,int r) { return (l + r) / 2;}
 
     int lson(int rt) { return rt<<1;}
     int rson(int rt) { return (rt<<1)|1;}
@@ -47,6 +47,7 @@ struct _sgt {
     }
 
     void update_range(int L,int R,int add,int l = set_range_start,int r = set_range_end,int rt=1) {
+        if (r < L || R < l) return;
         if( L <= l && r <=R) {
             flag[rt] += add;
             pushup(l,r,rt);
@@ -54,8 +55,8 @@ struct _sgt {
         }
 
         int m = mid(l,r);
-        if( L <= m) update_range(L,R,add,l,m,lson(rt));
-        if( R>=m+1) update_range(L,R,add,m+1,r,rson(rt));
+        update_range(L,R,add,l,m,lson(rt));
+        update_range(L,R,add,m+1,r,rson(rt));
         pushup(l,r,rt);
     }
 

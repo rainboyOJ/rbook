@@ -22,7 +22,7 @@ int insert(int old, int l, int r, int pos) {
     rc[p] = rc[old];
     cnt[p] = cnt[old] + 1;  // 插入值属于当前值域，总次数增加 1
     if (l == r) return p;
-    int mid = l + (r - l) / 2;
+    int mid = (l + r) / 2;
     if (pos <= mid) lc[p] = insert(lc[old], l, mid, pos);
     else rc[p] = insert(rc[old], mid + 1, r, pos);
     return p;
@@ -32,7 +32,7 @@ int insert(int old, int l, int r, int pos) {
 // [l,r] 是当前值域；两棵树同步向下，用频次之差统计目标区间。
 int kth(int before, int now, int l, int r, int k) {
     if (l == r) return l;  // 得到值域编号，还需用 values 还原数值
-    int mid = l + (r - l) / 2;
+    int mid = (l + r) / 2;
     int left_count = cnt[lc[now]] - cnt[lc[before]];  // 目标区间落在左半值域的次数
     if (k <= left_count) return kth(lc[before], lc[now], l, mid, k);
     // 跳过左边的 left_count 个数，在右边继续找剩余排名。

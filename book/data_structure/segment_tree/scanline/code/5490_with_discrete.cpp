@@ -62,7 +62,7 @@ struct sgt_range {
     // flag = x 表示这段区间全部加上x
     inline int lp(int p){return p<<1;}
     inline int rp(int p){return (p<<1)|1;}
-    inline int mid(int l,int r){return (l+r)>>1;}
+    inline int mid(int l,int r){return (l + r) / 2;}
 
     inline void pushup(int l,int r,int p){  //向上合并
         if( flag[p] ) {
@@ -108,29 +108,25 @@ struct sgt_range {
     }
 
     // 区间更新
-    void update(int L,int R,T v,int l,int r,int p){ 
+    void update(int L,int R,T v,int l,int r,int p){
+        if (r < L || R < l) return;
         if(L <= l && r <= R) {
             flag[p] += v;
             pushup(l,r,p);
             return;
         }
         int m = mid(l,r);
-        if( L<=m) 
-            update(L,R,v,l,m,lp(p));
-        if( R>=m+1)
-            update(L,R,v,m+1,r,rp(p));
+        update(L,R,v,l,m,lp(p));
+        update(L,R,v,m+1,r,rp(p));
         pushup(l,r,p);
     }
 
     //区间查询
     T query(int L,int R,int l,int r,int p){
-        if( L <=l && r<=R ) {
-            return tr[p];
-        }
+        if (r < L || R < l) return 0;
+        if (L <= l && r <= R) return tr[p];
         int m = mid(l,r);
-        T ret = 0;
-        if( L <= m ) ret+=query(L,R,l,m,lp(p));
-        if( R >=m+1) ret+=query(L,R,m+1,r,rp(p));
+        T ret = query(L,R,l,m,lp(p)) + query(L,R,m+1,r,rp(p));
         pushup(l,r,p);
         return ret;
     }

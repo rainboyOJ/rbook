@@ -28,15 +28,16 @@ void pushup(int p, int l, int r) {
 
 // [L,R] 是坐标段编号范围；同一矩形加入、撤销时停在相同节点。
 void update(int p, int l, int r, int L, int R, int delta) {
+    if (r < L || R < l) return;  // 空交集直接返回，不修改节点
     if (L <= l && r <= R) {
         cover[p] += delta;
         pushup(p, l, r);
         return;
     }
     // 不下传 cover，局部覆盖仍在孩子中独立保留。
-    int mid = l + (r - l) / 2;
-    if (L <= mid) update(ls(p), l, mid, L, R, delta);
-    if (R > mid) update(rs(p), mid + 1, r, L, R, delta);
+    int mid = (l + r) / 2;
+    update(ls(p), l, mid, L, R, delta);
+    update(rs(p), mid + 1, r, L, R, delta);
     pushup(p, l, r);
 }
 

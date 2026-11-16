@@ -19,12 +19,13 @@ int new_node() {
     return ++tot;
 }
 
+// l、r、pos 均为平移后的非负坐标。
 // 引用参数 p 把新编号写回 root 或孩子数组；只创建修改经过的路径。
 void add(int &p, ll l, ll r, ll pos, ll v) {
     if (!p) p = new_node();
     tr[p] += v;  // 当前区间包含 pos，其总和也增加 v
     if (l == r) return;
-    ll mid = l + (r - l) / 2;
+    ll mid = (l + r) / 2;
     if (pos <= mid) add(lc[p], l, mid, pos, v);
     else add(rc[p], mid + 1, r, pos, v);
 }
@@ -33,7 +34,7 @@ void add(int &p, ll l, ll r, ll pos, ll v) {
 ll query(int p, ll l, ll r, ll L, ll R) {
     if (!p || r < L || R < l) return 0;  // 空子树仍为全零，或没有交集
     if (L <= l && r <= R) return tr[p];
-    ll mid = l + (r - l) / 2;
+    ll mid = (l + r) / 2;
     return query(lc[p], l, mid, L, R) + query(rc[p], mid + 1, r, L, R);
 }
 
@@ -47,8 +48,9 @@ int main() {
         ll x, y;
         cin >> op >> x >> y;
         // 1 x v：坐标 x 加 v；2 l r：查询坐标区间和。
-        if (op == 1) add(root, minx, maxx, x, y);
-        else cout << query(root, minx, maxx, x, y) << '\n';
+        // 将原坐标减去 minx，内部值域为 [0,2*10^9]，查询端点也同样平移。
+        if (op == 1) add(root, 0, maxx - minx, x - minx, y);
+        else cout << query(root, 0, maxx - minx, x - minx, y - minx) << '\n';
     }
     return 0;
 }

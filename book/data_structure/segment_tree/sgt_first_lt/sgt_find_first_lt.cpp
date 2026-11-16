@@ -22,7 +22,7 @@ void build(int p, int l, int r) {
         tr[p] = a[l];
         return;
     }
-    int mid = l + (r - l) / 2;
+    int mid = (l + r) / 2;
     build(ls(p), l, mid);
     build(rs(p), mid + 1, r);
     pushup(p);
@@ -34,7 +34,7 @@ void assign_point(int p, int l, int r, int pos, ll v) {
         tr[p] = v;
         return;
     }
-    int mid = l + (r - l) / 2;
+    int mid = (l + r) / 2;
     if (pos <= mid) assign_point(ls(p), l, mid, pos, v);
     else assign_point(rs(p), mid + 1, r, pos, v);
     pushup(p);
@@ -45,7 +45,7 @@ int first_less(int p, int l, int r, int L, int R, ll x) {
     // 不相交，或整段最小值仍不小于 x，都不可能提供答案。
     if (r < L || R < l || tr[p] >= x) return n + 1;
     if (l == r) return l;  // 通过剪枝的叶子一定满足 a[l]<x
-    int mid = l + (r - l) / 2;
+    int mid = (l + r) / 2;
     // 先查较小下标；左边有解即可停止，不必再访问右边。
     int answer = first_less(ls(p), l, mid, L, R, x);
     if (answer != n + 1) return answer;
