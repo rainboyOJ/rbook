@@ -298,7 +298,7 @@
     "segment_tree_range_update": {
       "site": "anima1",
       "path": "/segment_tree_range_update/",
-      "title": "线段树：区间更新",
+      "title": "线段树：区间加法",
       "icon": "icon-niuyouguo"
     },
     "segment_tree_single_update": {
