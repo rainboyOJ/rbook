@@ -1,0 +1,50 @@
+// <gallery> 图组的样式。
+//
+// 背景：`<gallery>` 不是 HTML 标准元素，浏览器默认按 `display: inline` 处理。
+// 它内部的 `<img>` 各自是块级图片，于是会垂直紧贴堆叠 —— 相邻两张的
+// bottom 与 top 完全相等（实测间隙 0）。图本身又是白底，视觉上就糊成一片。
+//
+// 这里把它变成一个纵向排列的图组：图与图之间有间距，每张图有边框和圆角，
+// 边界清楚；`title` 属性渲染成图组标题。
+//
+// 注意 `title` 同时是浏览器原生 tooltip，用 ::before 显示后悬停仍会出现
+// 原生提示。这是有意接受的：`::before` 生成的文字不可选中、不进无障碍树，
+// 所以保留 title 属性反而对「悬停能读到」有一点帮助。
+
+gallery {
+    // 未知元素默认 inline，先恢复成块级容器。
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin: 24px 0;
+
+    // 图组标题：取自 title 属性。
+    // 没有 title 时 attr(title) 求值为空串，不会留下空行。
+    &[title]::before {
+        color: var(--rbook-muted);
+        content: attr(title);
+        display: block;
+        font-family: var(--rbook-font-heading);
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: .02em;
+        margin-bottom: 2px; // 与第一张图的间距由父级 gap 补足
+        text-align: center;
+    }
+
+    img {
+        background: #fff; // 图片自带白底，这里兜底防止透明图穿透
+        border: 1px solid var(--rbook-border);
+        border-radius: 6px;
+        display: block;
+        height: auto;
+        margin: 0; // 覆盖正文里 img 的默认外边距，间距统一交给 gap
+        max-width: 100%;
+        width: 100%;
+    }
+
+    // 深色主题下边框要更亮一点，否则白底图与深色页面的分界太弱。
+    html[data-theme="dark"] & img {
+        border-color: #475569;
+    }
+}
