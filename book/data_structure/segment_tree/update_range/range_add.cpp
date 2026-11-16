@@ -1,9 +1,11 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+typedef long long ll;
+
 const int maxn = 100000 + 5;
 int n, m;
-long long a[maxn], tr[maxn * 4], lazy[maxn * 4];
+ll a[maxn], tr[maxn * 4], lazy[maxn * 4];
 
 void pushup(int p) {
     tr[p] = tr[p * 2] + tr[p * 2 + 1];
@@ -20,7 +22,7 @@ void build(int p, int l, int r) {
     pushup(p);
 }
 
-void apply(int p, int l, int r, long long v) {
+void apply(int p, int l, int r, ll v) {
     tr[p] += v * (r - l + 1);
     lazy[p] += v;
 }
@@ -33,7 +35,7 @@ void pushdown(int p, int l, int r) {
     lazy[p] = 0;
 }
 
-void add(int p, int l, int r, int L, int R, long long v) {
+void add(int p, int l, int r, int L, int R, ll v) {
     if (L <= l && r <= R) {
         apply(p, l, r, v);
         return;
@@ -45,11 +47,11 @@ void add(int p, int l, int r, int L, int R, long long v) {
     pushup(p);
 }
 
-long long query(int p, int l, int r, int L, int R) {
+ll query(int p, int l, int r, int L, int R) {
     if (L <= l && r <= R) return tr[p];
     pushdown(p, l, r);
     int mid = l + (r - l) / 2;
-    long long answer = 0;
+    ll answer = 0;
     if (L <= mid) answer += query(p * 2, l, mid, L, R);
     if (R > mid) answer += query(p * 2 + 1, mid + 1, r, L, R);
     return answer;
@@ -66,7 +68,7 @@ int main() {
         cin >> op;
         if (op == 1) {
             int l, r;
-            long long v;
+            ll v;
             cin >> l >> r >> v;
             add(1, 1, n, l, r, v);
         } else {

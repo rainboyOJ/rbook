@@ -1,19 +1,21 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+typedef long long ll;
+
 const int maxn = 500000 + 5;
 int n, m, base;
-long long tr[maxn * 4];
+ll tr[maxn * 4];
 
-void add(int pos, long long v) {
+void add(int pos, ll v) {
     int p = base + pos;
     tr[p] += v;
     for (p /= 2; p; p /= 2) tr[p] = tr[p * 2] + tr[p * 2 + 1];
 }
 
-long long query(int l, int r) {
+ll query(int l, int r) {
     int L = base + l - 1, R = base + r + 1;
-    long long answer = 0;
+    ll answer = 0;
     while (L / 2 != R / 2) {
         if (L % 2 == 0) answer += tr[L + 1];
         if (R % 2 == 1) answer += tr[R - 1];
@@ -36,7 +38,7 @@ int main() {
         cin >> op;
         if (op == 1) {
             int pos;
-            long long v;
+            ll v;
             cin >> pos >> v;
             add(pos, v);
         } else {

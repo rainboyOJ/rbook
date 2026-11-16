@@ -1,12 +1,14 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+typedef long long ll;
+
 const int maxn = 100000 + 5;
 int n, q;
-long long mod, a[maxn], tr[maxn * 4];
-long long mul[maxn * 4], inc[maxn * 4];
+ll mod, a[maxn], tr[maxn * 4];
+ll mul[maxn * 4], inc[maxn * 4];
 
-long long norm(long long x) {
+ll norm(ll x) {
     x %= mod;
     if (x < 0) x += mod;
     return x;
@@ -29,7 +31,7 @@ void build(int p, int l, int r) {
 }
 
 // 在已有变换之后，执行 x -> A*x+B；A、B 已归一化。
-void apply(int p, int l, int r, long long A, long long B) {
+void apply(int p, int l, int r, ll A, ll B) {
     tr[p] = (tr[p] * A % mod + B * (r - l + 1) % mod) % mod;
     mul[p] = mul[p] * A % mod;
     inc[p] = (inc[p] * A % mod + B) % mod;
@@ -44,7 +46,7 @@ void pushdown(int p, int l, int r) {
     inc[p] = 0;
 }
 
-void update(int p, int l, int r, int L, int R, long long A, long long B) {
+void update(int p, int l, int r, int L, int R, ll A, ll B) {
     if (L <= l && r <= R) {
         apply(p, l, r, A, B);
         return;
@@ -56,11 +58,11 @@ void update(int p, int l, int r, int L, int R, long long A, long long B) {
     pushup(p);
 }
 
-long long query(int p, int l, int r, int L, int R) {
+ll query(int p, int l, int r, int L, int R) {
     if (L <= l && r <= R) return tr[p];
     pushdown(p, l, r);
     int mid = l + (r - l) / 2;
-    long long answer = 0;
+    ll answer = 0;
     if (L <= mid) answer += query(p * 2, l, mid, L, R);
     if (R > mid) answer += query(p * 2 + 1, mid + 1, r, L, R);
     return answer % mod;
@@ -78,7 +80,7 @@ int main() {
         if (op == 3) {
             cout << query(1, 1, n, l, r) << '\n';
         } else {
-            long long v;
+            ll v;
             cin >> v;
             if (op == 1) update(1, 1, n, l, r, norm(v), 0);
             else update(1, 1, n, l, r, 1 % mod, norm(v));

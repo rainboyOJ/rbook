@@ -1,13 +1,15 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+typedef long long ll;
+
 const int maxn = 100000 + 5;
 struct Event {
-    long long y, x1, x2;
+    ll y, x1, x2;
     int delta;
 };
 int n, kinds, cover[maxn * 8];
-long long xs[maxn * 2], len[maxn * 8];
+ll xs[maxn * 2], len[maxn * 8];
 Event events[maxn * 2];
 
 void pushup(int p, int l, int r) {
@@ -34,7 +36,7 @@ int main() {
     cin >> n;
     int count = 0;
     for (int i = 1; i <= n; ++i) {
-        long long x1, y1, x2, y2;
+        ll x1, y1, x2, y2;
         cin >> x1 >> y1 >> x2 >> y2;
         events[++count] = {y1, x1, x2, 1};
         xs[count] = x1;
@@ -46,10 +48,10 @@ int main() {
     sort(events + 1, events + count + 1, [](const Event &a, const Event &b) {
         return a.y < b.y;
     });
-    long long answer = 0, previous_y = events[1].y;
+    ll answer = 0, previous_y = events[1].y;
     int i = 1;
     while (i <= count) {
-        long long y = events[i].y;
+        ll y = events[i].y;
         answer += len[1] * (y - previous_y);
         while (i <= count && events[i].y == y) {
             int L = int(lower_bound(xs + 1, xs + kinds + 1, events[i].x1) - xs);

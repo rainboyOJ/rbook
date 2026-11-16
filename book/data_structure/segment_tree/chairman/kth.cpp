@@ -2,10 +2,12 @@
 #include <cassert>
 using namespace std;
 
+typedef long long ll;
+
 const int maxn = 200000 + 5;
 const int maxnode = maxn * 20;
 int n, m, kinds, tot;
-long long a[maxn], values[maxn];
+ll a[maxn], values[maxn];
 int root[maxn], lc[maxnode], rc[maxnode], cnt[maxnode];
 
 int insert(int old, int l, int r, int pos) {

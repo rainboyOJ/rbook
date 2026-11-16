@@ -1,9 +1,11 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+typedef long long ll;
+
 const int maxn = 200000 + 5;
 int n, m;
-long long a[maxn], tr[maxn * 4];
+ll a[maxn], tr[maxn * 4];
 
 void pushup(int p) {
     tr[p] = min(tr[p * 2], tr[p * 2 + 1]);
@@ -20,7 +22,7 @@ void build(int p, int l, int r) {
     pushup(p);
 }
 
-void assign_point(int p, int l, int r, int pos, long long v) {
+void assign_point(int p, int l, int r, int pos, ll v) {
     if (l == r) {
         tr[p] = v;
         return;
@@ -31,7 +33,7 @@ void assign_point(int p, int l, int r, int pos, long long v) {
     pushup(p);
 }
 
-int first_less(int p, int l, int r, int L, int R, long long x) {
+int first_less(int p, int l, int r, int L, int R, ll x) {
     if (r < L || R < l || tr[p] >= x) return n + 1;
     if (l == r) return l;
     int mid = l + (r - l) / 2;
@@ -51,12 +53,12 @@ int main() {
         cin >> op;
         if (op == 1) {
             int pos;
-            long long v;
+            ll v;
             cin >> pos >> v;
             assign_point(1, 1, n, pos, v);
         } else {
             int l, r;
-            long long x;
+            ll x;
             cin >> l >> r >> x;
             cout << first_less(1, 1, n, l, r, x) << '\n';
         }

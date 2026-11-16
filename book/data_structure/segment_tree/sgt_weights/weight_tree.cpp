@@ -1,9 +1,11 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+typedef long long ll;
+
 const int maxn = 200000 + 5;
 int q, kinds, op[maxn], cnt[maxn * 4];
-long long operand[maxn], values[maxn];
+ll operand[maxn], values[maxn];
 
 void change(int p, int l, int r, int pos, int delta) {
     cnt[p] += delta;
