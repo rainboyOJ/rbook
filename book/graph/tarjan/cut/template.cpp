@@ -1,59 +1,64 @@
+#include <bits/stdc++.h>
+using namespace std;
 
-template<typename T>
-inline void min_upd(T & a , const T & b) {
-    if( a < b ) a = b;
+struct Edge {
+    int to, id;
+};
+
+vector<vector<Edge>> g;
+vector<int> dfn, low;
+vector<bool> cut;
+int timer = 0;
+
+void dfs(int u, int in_edge) {
+    dfn[u] = low[u] = ++timer;
+    int children = 0;
+
+    for (auto [v, id] : g[u]) {
+        if (id == in_edge) continue;  // 只跳过进入 u 的那条边
+        if (!dfn[v]) {
+            ++children;
+            dfs(v, id);
+            low[u] = min(low[u], low[v]);
+            if (in_edge != -1 && low[v] >= dfn[u]) {
+                cut[u] = true;
+            }
+        } else if (dfn[v] < dfn[u]) {  // 回边指向祖先
+            low[u] = min(low[u], dfn[v]);
+        }
+    }
+
+    if (in_edge == -1) cut[u] = (children >= 2);
 }
 
-template<int N>
-struct trajan_cut {
-    int dfn[N],low[N];
-    bool cut[N];
-    int _rt; // root 点的编号
-    linkList * _e; //linklist的指针
-    int idx = 0;
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
 
-    void init() {
-        idx = 0;
-        memset(dfn,0,sizeof(dfn));
-        memset(low,0,sizeof(low));
-        memset(cut,0,sizeof(cut));
+    int n, m;
+    cin >> n >> m;
+    g.resize(n + 1);
+    dfn.assign(n + 1, 0);
+    low.assign(n + 1, 0);
+    cut.assign(n + 1, false);
+
+    for (int id = 0; id < m; ++id) {
+        int u, v;
+        cin >> u >> v;
+        g[u].push_back({v, id});
+        g[v].push_back({u, id});
     }
 
-    bool is_cut(int u) const {
-        return cut[u];
+    for (int u = 1; u <= n; ++u) {
+        if (!dfn[u]) dfs(u, -1);
     }
 
-    void dfs(int u,int fa) {
-        int ch = 0; // 孩子的数量
-        low[u] = dfn[u] = ++idx;
-
-        //非叶子结点会进入下面的循环
-        for(int i = e.h[u] ; ~i ;i = e[i].next) {
-            int v = e[i].v;
-            if( v == fa) continue; //不走父子边
-            if( !dfn[v] ) { //没有访问过
-                dfs(v,u);
-                min_upd(low[u], low[v]); //用孩子边来更新自己
-                if( u== _rt) ch++; //更新孩子
-
-                //有一个孩子无法"超越"自己
-                if(u != _rt && low[v] >= dfn[u])
-                    cut[u] = 1;
-            }
-            else // 访问过的点
-                min_upd(low[u], low[v]) ; //通过回边更新自己
-
-        }
-
-        //退出这个点
-        if( u == _rt && ch > 1)
-            cut[u] = 1;
-
+    vector<int> answer;
+    for (int u = 1; u <= n; ++u) {
+        if (cut[u]) answer.push_back(u);
     }
-
-    void work(int root,linkList & arg = e) {
-        _e = &args;
-        _rt = root;
-        dfs(root,-1);
-    }
-};
+    cout << answer.size() << '\n';
+    for (int u : answer) cout << u << ' ';
+    cout << '\n';
+    return 0;
+}

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="400" viewBox="0 0 500 400" role="img" aria-labelledby="title desc">
+  <title id="title">割点 2 与 DFS 树</title>
+  <desc id="desc">实线树边依次为 1-4、4-2、2-3、2-5、5-6；虚线回边为 3-1、6-2。点 2 用双圈标记，删除后图分成两部分。</desc>
+  <rect width="500" height="400" fill="#ffffff"/>
+  <g fill="none" stroke="#222222" stroke-width="1.5">
+    <path d="M240 40V200 M240 200L150 280 M240 200L350 280V360"/>
+    <g stroke="#777777" stroke-dasharray="6 5">
+      <path d="M222 40C65 40 65 280 132 280"/>
+      <path d="M262 200C465 200 465 360 368 360"/>
+    </g>
+  </g>
+  <g fill="#ffffff" stroke="#222222" stroke-width="1.5">
+    <circle cx="240" cy="40" r="18"/>
+    <circle cx="240" cy="120" r="18"/>
+    <circle cx="240" cy="200" r="22"/>
+    <circle cx="240" cy="200" r="18"/>
+    <circle cx="150" cy="280" r="18"/>
+    <circle cx="350" cy="280" r="18"/>
+    <circle cx="350" cy="360" r="18"/>
+  </g>
+  <g fill="#222222" font-family="Georgia, 'Times New Roman', serif" font-size="19" text-anchor="middle">
+    <text x="240" y="46">1</text>
+    <text x="240" y="126">4</text>
+    <text x="240" y="206">2</text>
+    <text x="150" y="286">3</text>
+    <text x="350" y="286">5</text>
+    <text x="350" y="366">6</text>
+  </g>
+</svg>

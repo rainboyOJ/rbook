@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="660" height="210" viewBox="0 0 660 210" role="img" aria-labelledby="title desc">
+  <title id="title">割边与环</title>
+  <desc id="desc">三角形 1-2-3 与三角形 4-5-6 由粗线边 3-4 连接，点 7 通过粗线边 6-7 接入。虚线 3-1、6-4 是回边，粗线 3-4 与 6-7 是割边。</desc>
+  <rect width="660" height="210" fill="#ffffff"/>
+  <g fill="none" stroke="#222222" stroke-width="1.5">
+    <path d="M60 100L140 40V160 M300 160L380 40L460 160"/>
+    <path d="M140 160H300 M460 160H600" stroke-width="3"/>
+    <g stroke="#777777" stroke-dasharray="6 5">
+      <path d="M140 160L60 100 M460 160H300"/>
+    </g>
+  </g>
+  <g fill="#ffffff" stroke="#222222" stroke-width="1.5">
+    <circle cx="60" cy="100" r="20"/>
+    <circle cx="140" cy="40" r="20"/>
+    <circle cx="140" cy="160" r="20"/>
+    <circle cx="300" cy="160" r="20"/>
+    <circle cx="380" cy="40" r="20"/>
+    <circle cx="460" cy="160" r="20"/>
+    <circle cx="600" cy="160" r="20"/>
+  </g>
+  <g fill="#222222" font-family="Georgia, 'Times New Roman', serif" font-size="20" text-anchor="middle">
+    <text x="60" y="107">1</text>
+    <text x="140" y="47">2</text>
+    <text x="140" y="167">3</text>
+    <text x="300" y="167">4</text>
+    <text x="380" y="47">5</text>
+    <text x="460" y="167">6</text>
+    <text x="600" y="167">7</text>
+  </g>
+</svg>
