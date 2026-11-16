@@ -9,6 +9,7 @@ int rs(int p) { return p << 1 | 1; }  // 右孩子 2p+1
 
 const int maxn = 100000 + 5;
 int n;
+// a 的下标是数组位置；tr 的下标是树节点编号，两者不能混用。
 ll a[maxn], tr[maxn * 4];
 
 // 由两个孩子重新算出父亲
@@ -30,6 +31,7 @@ void build(int p, int l, int r) {
 
 // 先序输出整棵树：编号 p、区间 [l,r]、区间和 tr[p]
 void print(int p, int l, int r, int depth) {
+    // 每层增加两个空格，先打印当前节点，再打印左右子树。
     cout << string(depth * 2, ' ')
          << "node " << p << " [" << l << "," << r << "] sum=" << tr[p] << '\n';
     if (l == r) return;
