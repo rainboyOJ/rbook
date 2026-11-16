@@ -231,7 +231,8 @@ $$
 下面这段接在 DFS 预处理之后使用；`n` 和从下标 $1$ 开始的点权数组 `w` 已经读入，点权及其总和能用 `long long` 保存：
 
 ```cpp
-vector<long long> a(n + 1), prefix(n + 1);
+static long long a[maxn], prefix[maxn];
+prefix[0] = 0;
 for (int u = 1; u <= n; u++) a[in_[u]] = w[u];
 for (int i = 1; i <= n; i++) prefix[i] = prefix[i - 1] + a[i];
 

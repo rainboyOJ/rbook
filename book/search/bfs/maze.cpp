@@ -1,22 +1,25 @@
+#include <algorithm>
 #include <iostream>
 #include <queue>
 #include <string>
 #include <utility>
-#include <vector>
 using namespace std;
+
+const int maxn = 1000 + 5; // 地图边长上限，按题目范围调整
+string grid[maxn];
+int dist[maxn][maxn];
 
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
     int n;
     if (!(cin >> n)) return 0;
-    vector<string> grid(n);
-    for (auto &row : grid) cin >> row;
+    for (int i = 0; i < n; ++i) cin >> grid[i];
     int sx, sy, tx, ty;
     cin >> sx >> sy >> tx >> ty;
     --sx; --sy; --tx; --ty; // 题面从 1 编号，数组从 0 编号
 
-    vector<vector<int>> dist(n, vector<int>(n, -1));
+    for (int i = 0; i < n; ++i) fill(dist[i], dist[i] + n, -1);
     queue<pair<int, int>> q;
     dist[sx][sy] = 0;
     q.push({sx, sy});

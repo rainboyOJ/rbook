@@ -9,16 +9,22 @@ using namespace std;
 using ll = long long;
 using State = tuple<ll, int, int>; // (当前费用, 顶点, 已用免费次数)
 const ll INF = 1LL << 62;
+const int maxn = 10000 + 5; // P4568：n <= 10000
+const int maxk = 10 + 1;    // 免费次数为 0..10
 
 struct Edge {
     int to;
     ll w;
 };
 
+vector<Edge> g[maxn];
+ll dis[maxk][maxn];
+
 // dis[used][u]：从 s 到 u，恰好使用 used 次免费机会的最小费用。
-vector<vector<ll>> layered_dijkstra(const vector<vector<Edge>>& g, int s, int k) {
-    int n = static_cast<int>(g.size());
-    vector<vector<ll>> dis(k + 1, vector<ll>(n, INF));
+void layered_dijkstra(int n, int s, int k) {
+    for (int used = 0; used <= k; ++used) {
+        fill(dis[used], dis[used] + n, INF);
+    }
     priority_queue<State, vector<State>, greater<State>> q;
 
     dis[0][s] = 0;
@@ -46,8 +52,6 @@ vector<vector<ll>> layered_dijkstra(const vector<vector<Edge>>& g, int s, int k)
             }
         }
     }
-
-    return dis;
 }
 
 int main() {
@@ -61,7 +65,6 @@ int main() {
     cin >> s >> t;
 
     // 本例沿用 P4568 的输入：顶点编号为 0..n-1，航线为无向边。
-    vector<vector<Edge>> g(n);
     for (int i = 0; i < m; ++i) {
         int u, v;
         ll w;
@@ -70,7 +73,7 @@ int main() {
         g[v].push_back({u, w});
     }
 
-    auto dis = layered_dijkstra(g, s, k);
+    layered_dijkstra(n, s, k);
     ll ans = INF;
     for (int used = 0; used <= k; ++used) {
         ans = min(ans, dis[used][t]);

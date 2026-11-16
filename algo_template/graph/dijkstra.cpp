@@ -7,26 +7,32 @@
 struct Dijkstra {
     using ll = long long;
     static constexpr ll INF = (1LL << 62);
+    static constexpr int maxn = 100000 + 5; // 按题目点数上限设置
 
     struct Edge {
         int to;
         ll w;
     };
 
-    std::vector<std::vector<Edge>> g;
-    std::vector<ll> dis;
-    std::vector<int> pre;
+    int n;
+    std::vector<Edge> g[maxn];
+    ll dis[maxn];
+    int pre[maxn];
 
     // 点编号 1..n；所有边权非负，有限最短距离必须小于 INF。
-    explicit Dijkstra(int n) : g(n + 1), dis(n + 1, INF), pre(n + 1, -1) {}
+    // 数组较大，实例宜放在全局或声明为 static。
+    explicit Dijkstra(int node_count) : n(node_count) {
+        std::fill(dis, dis + n + 1, INF);
+        std::fill(pre, pre + n + 1, -1);
+    }
 
     void add_edge(int u, int v, ll w) {
         g[u].push_back({v, w}); // 无向边需要再添加 v -> u
     }
 
     void run(int s) {
-        std::fill(dis.begin(), dis.end(), INF);
-        std::fill(pre.begin(), pre.end(), -1);
+        std::fill(dis, dis + n + 1, INF);
+        std::fill(pre, pre + n + 1, -1);
         using State = std::pair<ll, int>; // 距离在前，点编号在后
         std::priority_queue<State, std::vector<State>, std::greater<State>> q;
         dis[s] = 0;

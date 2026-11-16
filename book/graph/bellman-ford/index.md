@@ -119,6 +119,8 @@ Bellman-Ford 算法的核心在于：**按轮次对图中的所有边进行整�
 
 ## 模板代码
 
+边列表保存在 `vector<Edge> edges` 中，距离使用全局数组 `long long dis[maxn]`。调用 `bellman_ford(n, edges, s)`，返回 `true` 时读取 `dis`；返回 `false` 表示存在从源点可达的负环。点数须小于 `maxn`。
+
 ```cpp file=./bellman_ford.cpp
 ```
 

@@ -1,12 +1,14 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+const int maxn = 100000 + 5;  // 按题目点数上限设置
+
 struct Edge {
     int to, id;
 };
 
-vector<vector<Edge>> g;
-vector<int> dfn, low;
+vector<Edge> g[maxn];
+int dfn[maxn], low[maxn];
 vector<pair<int, int>> bridges;
 int timer = 0;
 
@@ -33,9 +35,6 @@ int main() {
 
     int n, m;
     cin >> n >> m;
-    g.resize(n + 1);
-    dfn.assign(n + 1, 0);
-    low.assign(n + 1, 0);
 
     for (int id = 0; id < m; ++id) {
         int u, v;

@@ -1,13 +1,15 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+const int maxn = 20000 + 5;  // 按题目点数上限设置
+
 struct Edge {
     int to, id;
 };
 
-vector<vector<Edge>> g;
-vector<int> dfn, low;
-vector<bool> cut;
+vector<Edge> g[maxn];
+int dfn[maxn], low[maxn];
+bool cut[maxn];
 int timer = 0;
 
 void dfs(int u, int in_edge) {
@@ -37,10 +39,6 @@ int main() {
 
     int n, m;
     cin >> n >> m;
-    g.resize(n + 1);
-    dfn.assign(n + 1, 0);
-    low.assign(n + 1, 0);
-    cut.assign(n + 1, false);
 
     for (int id = 0; id < m; ++id) {
         int u, v;

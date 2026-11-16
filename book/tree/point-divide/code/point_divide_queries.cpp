@@ -7,6 +7,8 @@ using namespace std;
 //   本文件            边收集边标记，用一个带时间戳的桶，天然不需要容斥。
 // 约定：连通无环带权树，边权非负，节点编号 1..n。
 const int maxn = 100000 + 5;
+const int maxm = 100 + 5;          // P3806：询问数 <= 100
+const int max_distance = 10000000 + 5; // P3806：询问距离 <= 10^7
 
 int n, m;
 
@@ -25,11 +27,11 @@ int root, total;
 
 int dis[maxn], cnt; // 当前子树内各点到分治中心的距离
 
-vector<int> qs;   // m 个询问的 K
-vector<char> ok;  // ok[i]：第 i 个询问是否已有答案
-vector<int> used; // used[d] == stamp 表示"距离 d 已被占用"
+int qs[maxm];           // m 个询问的 K
+bool ok[maxm];          // ok[i]：第 i 个询问是否已有答案
+int used[max_distance]; // used[d] == stamp 表示"距离 d 已被占用"
 int stamp;        // 时间戳，用来免掉 memset
-int maxk;         // 询问里最大的 K，决定桶的大小
+int maxk;         // 本次询问中最大的 K，限制桶的有效下标
 
 void init(int node_count) {
     n = node_count;
@@ -141,15 +143,14 @@ int main() {
         add_edge(u, v, w);
     }
 
-    qs.resize(m);
     maxk = 0;
     for (int i = 0; i < m; ++i) {
         cin >> qs[i];
         maxk = max(maxk, qs[i]);
     }
 
-    used.assign(maxk + 1, 0); // 桶的下标是"距离"，只需覆盖到最大询问
-    ok.assign(m, 0);
+    fill(used, used + maxk + 1, 0); // 只初始化本次会访问的桶区间
+    fill(ok, ok + m, false);
     stamp = 0;
 
     divide();

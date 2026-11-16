@@ -8,6 +8,7 @@
 struct SecondShortestDijkstra {
     using ll = long long;
     static constexpr ll INF = (1LL << 62);
+    static constexpr int maxn = 100000 + 5; // 按题目点数上限设置
 
     struct Edge {
         int to;
@@ -15,12 +16,15 @@ struct SecondShortestDijkstra {
     };
 
     int n;
-    std::vector<std::vector<Edge>> g;
-    std::vector<ll> dis1; // 最短距离
-    std::vector<ll> dis2; // 严格次短距离
+    std::vector<Edge> g[maxn];
+    ll dis1[maxn]; // 最短距离
+    ll dis2[maxn]; // 严格次短距离
 
-    explicit SecondShortestDijkstra(int n)
-        : n(n), g(n + 1), dis1(n + 1, INF), dis2(n + 1, INF) {}
+    // 数组较大，实例宜放在全局或声明为 static。
+    explicit SecondShortestDijkstra(int node_count) : n(node_count) {
+        std::fill(dis1, dis1 + n + 1, INF);
+        std::fill(dis2, dis2 + n + 1, INF);
+    }
 
     void add_edge(int u, int v, ll w) {
         g[u].push_back({v, w});
@@ -32,8 +36,8 @@ struct SecondShortestDijkstra {
     }
 
     void run(int s) {
-        std::fill(dis1.begin(), dis1.end(), INF);
-        std::fill(dis2.begin(), dis2.end(), INF);
+        std::fill(dis1, dis1 + n + 1, INF);
+        std::fill(dis2, dis2 + n + 1, INF);
 
         // State: (当前候选距离, 目标点)
         using State = std::pair<ll, int>;

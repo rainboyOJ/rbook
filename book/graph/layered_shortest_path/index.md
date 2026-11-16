@@ -229,7 +229,7 @@ if (du != dis[used][u]) {
 
 下面采用 [[[p: luogu-P4568 | P4568「飞行路线」]]] 的输入形式：顶点编号为 $0\sim n-1$，航线是无向边，至多免费 $k$ 次。其约束为 $n\le10^4$、$m\le5\times10^4$、$k\le10$，价格非负。[原题面](https://www.luogu.com.cn/problem/P4568)
 
-函数返回每个状态的距离，主程序按“至多”取终点各层的最小值；本实现约定不可达时输出 `-1`。
+邻接表使用 `vector<Edge> g[maxn]`，距离使用 `long long dis[maxk][maxn]`。调用 `layered_dijkstra(n, s, k)` 后，结果保存在 `dis` 中，主程序按“至多”取终点各层的最小值；本实现约定不可达时输出 `-1`。`maxn` 与 `maxk` 分别按顶点数和层数上限设置。
 
 ```cpp file=./layered_dijkstra.cpp
 ```

@@ -112,7 +112,7 @@ test('four C++ programs compile and match independent shortest-path answers; pat
             assert.deepEqual(run('maze', `${side}\n${rows.join('\n')}\n1 1 ${side} ${side}\n`), [mazeExpected])
         }
         const sourcePath = path.resolve(sources.bfs).replaceAll('\\', '/')
-        const harness = `#define main lesson_main\n#include "${sourcePath}"\n#undef main\nint main(){n=5;g.assign(6,{});g[1]={2};g[2]={1,3};g[3]={2};bfs(1);for(int v:get_path(3))cout<<v<<' ';cout<<'\\n';cout<<get_path(5).size()<<'\\n';for(int v:get_path(1))cout<<v<<' ';}`
+        const harness = `#define main lesson_main\n#include "${sourcePath}"\n#undef main\nint main(){n=5;for(int u=1;u<=n;++u)g[u].clear();g[1]={2};g[2]={1,3};g[3]={2};bfs(1);for(int v:get_path(3))cout<<v<<' ';cout<<'\\n';cout<<get_path(5).size()<<'\\n';for(int v:get_path(1))cout<<v<<' ';}`
         writeFileSync(path.join(directory, 'path.cpp'), harness)
         execFileSync('g++', ['-std=c++17', '-O2', path.join(directory, 'path.cpp'), '-o', path.join(directory, 'path')])
         assert.deepEqual(run('path', ''), [1, 2, 3, 0, 1])

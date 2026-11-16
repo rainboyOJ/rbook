@@ -5,13 +5,15 @@
 #include <vector>
 using namespace std;
 
+const int maxn = 100000 + 5; // 按题目点数上限设置
+
 int n, m;
-vector<vector<int>> g;
-vector<int> dist, parent;
+vector<int> g[maxn];
+int dist[maxn], parent[maxn];
 
 void bfs(int s) {
-    dist.assign(n + 1, -1);
-    parent.assign(n + 1, -1);
+    fill(dist, dist + n + 1, -1);
+    fill(parent, parent + n + 1, -1);
     queue<int> q;
     dist[s] = 0;
     q.push(s);
@@ -39,7 +41,6 @@ int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
     if (!(cin >> n >> m)) return 0;
-    g.resize(n + 1);
     for (int i = 0; i < m; ++i) {
         int u, v;
         cin >> u >> v;

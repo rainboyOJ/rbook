@@ -3,15 +3,17 @@
 #include <vector>
 
 const long long INF = (1LL << 60);
+const int maxn = 100000 + 5; // 按题目点数上限设置
+long long dis[maxn];
 
 struct Edge {
     int u, v;
     long long w;
 };
 
-// 点编号为 1..n；返回 true 表示成功求得最短路，false 表示存在从源点可达的负环
-bool bellman_ford(int n, const std::vector<Edge>& edges, int s, std::vector<long long>& dis) {
-    dis.assign(n + 1, INF);
+// 点编号为 1..n，结果写入 dis；false 表示存在从源点可达的负环。
+bool bellman_ford(int n, const std::vector<Edge>& edges, int s) {
+    std::fill(dis, dis + n + 1, INF);
     dis[s] = 0;
 
     // 运行至多 n - 1 轮松弛

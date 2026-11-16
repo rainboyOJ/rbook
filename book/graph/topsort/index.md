@@ -236,12 +236,14 @@ $$
 
 每条到 $v$ 的非空路径都有确定的最后一条边。按最后一条边分类，可以覆盖所有路径而不重复计数。若图中有重边，下面的程序会把经过不同边的路径视为不同路径。
 
-下面的函数与前面的模板共用 `n`、邻接表 `g` 和拓扑序 `ta`，**必须在 `topsort()` 成功后调用**：
+下面的函数与前面的模板共用 `n`、邻接表 `g` 和拓扑序 `ta`，结果写入数组 `dp`，**必须在 `topsort()` 成功后调用**：
 
 ```cpp
-vector<int> count_paths(int s) {
+int dp[maxn];
+
+void count_paths(int s) {
     const int MOD = 1000000007;
-    vector<int> dp(n + 1, 0);
+    fill(dp, dp + n + 1, 0);
     dp[s] = 1;
 
     for (int u : ta) {
@@ -250,7 +252,6 @@ vector<int> count_paths(int s) {
             if (dp[v] >= MOD) dp[v] -= MOD;
         }
     }
-    return dp;
 }
 ```
 
@@ -278,7 +279,8 @@ $$
 
 ```cpp
 const long long NEG_INF = -(1LL << 60);
-vector<long long> dis(n + 1, NEG_INF);
+static long long dis[maxn];
+fill(dis, dis + n + 1, NEG_INF);
 dis[s] = 0;
 
 for (int u : ta) {
