@@ -1,0 +1,263 @@
+// 正文图片放大查看（lightbox）的样式。
+//
+// 结构见 src/public/js/image-zoom.js：
+//   .rbook-image-zoom                固定遮罩（[hidden] 时不占位）
+//     .rbook-image-zoom__stage       居中舞台，负责裁剪与平移边界
+//       .rbook-image-zoom__figure    图片 + 白色底板，缩放靠 transform
+//     .rbook-image-zoom__caption     图说明（alt / title / figcaption）
+//     .rbook-image-zoom__scale       右下角百分比，短暂显示后淡出
+//     .rbook-image-zoom__pager       ‹ 3 / 5 › 只在 <gallery> 内出现
+//     .rbook-image-zoom__close       右上角 ✕
+//
+// 几条硬约束（都是本项目语料逼出来的，不是审美偏好）：
+//   1. 图片必须垫白色底板。书里大量图是 asymptote / graphviz 导出的透明背景
+//      SVG，深色主题下直接浮在暗遮罩上等于看不见。
+//   2. 遮罩层级要压过 #full-button(99999) 与侧栏(9999)，否则全屏阅读模式下
+//      按钮会浮在遮罩上面。
+//   3. 缩放用 transform，不改 layout：拖动时不会因重排掉帧，也不会触发
+//      正文容器重新计算换行。
+
+.rbook-article .markdown-body img.rbook-zoomin {
+    cursor: zoom-in;
+}
+
+.rbook-image-zoom {
+    position: fixed;
+    inset: 0;
+    z-index: 100000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    background: rgba(15, 23, 42, 0.88);
+    backdrop-filter: blur(2px);
+    opacity: 0;
+    transition: opacity 0.12s ease;
+}
+
+// [hidden] 的默认 display:none 会被上面的 display:flex 覆盖，必须显式还原。
+.rbook-image-zoom[hidden] {
+    display: none;
+}
+
+.rbook-image-zoom.is-open {
+    opacity: 1;
+}
+
+.rbook-image-zoom__stage {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    // 与 image-zoom.js 的 STAGE_PADDING 保持一致：脚本按这个值算可用区域。
+    padding: 24px;
+    overflow: hidden;
+    overscroll-behavior: contain;
+    touch-action: none;
+}
+
+.rbook-image-zoom__figure {
+    margin: 0;
+    // 内边距是白底板的留白；缩放以中心为原点，双击点哪放大哪靠脚本换算。
+    padding: 12px;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+    transform-origin: center center;
+    will-change: transform;
+    // flex 子项默认 min-width:auto，会被图片原始宽度撑开而拒绝收缩。
+    min-width: 0;
+    min-height: 0;
+    // 行内图片默认按基线排版，会在底板底部留下一条空隙。
+    line-height: 0;
+    // 白底板只包住图片本身：自适应内容宽度，不跟着 stage 铺满整屏。
+    width: fit-content;
+    height: fit-content;
+    max-width: 100%;
+    max-height: 100%;
+    box-sizing: border-box;
+    cursor: grab;
+}
+
+.rbook-image-zoom__image {
+    display: block;
+    // 尺寸由脚本按原始像素写死，再靠 transform 缩放；
+    // 这里兜住默认样式里的 max-width:100%，否则 100% 会失去意义。
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    user-select: none;
+    -webkit-user-drag: none;
+    // 脚本量到尺寸后才置 1（见 resetFit）：避免大图先画出原始尺寸再跳成
+    // 适应窗口。用 opacity 而不是 visibility/display，图片仍然照常加载解码。
+    opacity: 0;
+    transition: opacity 0.12s ease;
+}
+
+.rbook-image-zoom__caption {
+    position: absolute;
+    right: 24px;
+    bottom: 20px;
+    left: 24px;
+    overflow: hidden;
+    color: rgba(255, 255, 255, 0.82);
+    font: 14px/22px var(--rbook-font-heading);
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+// 图组时底部还有 ‹ 3 / 5 › 翻页条（占 40px 高、底部 20px）。
+// 说明文字必须让位，否则两者在同一行叠字。这个类由脚本在 render() 里维护。
+.rbook-image-zoom.has-pager .rbook-image-zoom__caption {
+    bottom: 68px;
+}
+
+.rbook-image-zoom__scale {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.55);
+    color: #fff;
+    font: 12px/18px var(--rbook-font-mono);
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    pointer-events: none;
+}
+
+.rbook-image-zoom__scale.is-visible {
+    opacity: 1;
+}
+
+.rbook-image-zoom__pager {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transform: translateX(-50%);
+}
+
+.rbook-image-zoom__pager[hidden] {
+    display: none;
+}
+
+.rbook-image-zoom__prev,
+.rbook-image-zoom__next,
+.rbook-image-zoom__close {
+    box-sizing: border-box;
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.6);
+    color: #fff;
+    cursor: pointer;
+    font-family: var(--rbook-font-heading);
+    line-height: 1;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+    &:hover,
+    &:focus-visible {
+        background: rgba(15, 23, 42, 0.9);
+        border-color: rgba(255, 255, 255, 0.6);
+        outline: none;
+    }
+}
+
+// 触控目标不小于 40px：手指点 ‹ › 的命中率和 ✕ 一样重要。
+.rbook-image-zoom__prev,
+.rbook-image-zoom__next {
+    width: 40px;
+    height: 40px;
+    font-size: 22px;
+}
+
+.rbook-image-zoom__count {
+    padding: 0 6px;
+    color: rgba(255, 255, 255, 0.82);
+    font: 13px/18px var(--rbook-font-mono);
+}
+
+.rbook-image-zoom__close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+}
+
+// 缩放后允许拖动：指针在图片上时给抓手，拖动过程中脚本不换类，
+// 用 :active 表达“正在拖”已经足够。
+.rbook-image-zoom__figure:active {
+    cursor: grabbing;
+}
+
+// 打开预览时锁住背景滚动。文章页有两种滚动容器：普通页面滚 document，
+// 全屏阅读模式滚 .rbook-main，这里一并锁掉。
+html.rbook-image-zoom-open,
+html.rbook-image-zoom-open body {
+    overflow: hidden;
+}
+
+html.rbook-image-zoom-open .rbook-main.full-article {
+    overflow: hidden;
+}
+
+// 触屏：隐藏翻页文字计数以外的装饰都保留，但把关闭按钮挪进安全区，
+// 避免全面屏手机的圆角与手势条挡住 ✕。
+@media (max-width: 640px) {
+    .rbook-image-zoom__stage {
+        padding: 12px;
+    }
+
+    .rbook-image-zoom__caption {
+        right: 12px;
+        bottom: 72px;
+        left: 12px;
+        white-space: normal;
+    }
+
+    .rbook-image-zoom__close {
+        top: calc(12px + env(safe-area-inset-top, 0px));
+    }
+
+    .rbook-image-zoom__pager {
+        bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    }
+}
+
+// 窄屏图组：窄屏下说明文字要换行，占用高度不确定，再往上抬一格避免压住翻页条。
+@media (max-width: 640px) {
+    .rbook-image-zoom.has-pager .rbook-image-zoom__caption {
+        bottom: 116px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rbook-image-zoom,
+    .rbook-image-zoom__image,
+    .rbook-image-zoom__scale,
+    .rbook-image-zoom__prev,
+    .rbook-image-zoom__next,
+    .rbook-image-zoom__close {
+        transition: none;
+    }
+}
+
+// 打印时遮罩本身不该出现在纸上；正文图片照旧按原样式排版。
+@media print {
+    .rbook-image-zoom {
+        display: none !important;
+    }
+
+    .rbook-article .markdown-body img.rbook-zoomin {
+        cursor: auto;
+    }
+}
