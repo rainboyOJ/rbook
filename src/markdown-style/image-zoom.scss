@@ -17,7 +17,8 @@
 //   3. 缩放用 transform，不改 layout：拖动时不会因重排掉帧，也不会触发
 //      正文容器重新计算换行。
 
-.rbook-article .markdown-body img.rbook-zoomin {
+.rbook-article .markdown-body img.rbook-zoomin,
+.rbook-article .markdown-body svg.rbook-zoomin {
     cursor: zoom-in;
 }
 
@@ -96,6 +97,20 @@
     // 适应窗口。用 opacity 而不是 visibility/display，图片仍然照常加载解码。
     opacity: 0;
     transition: opacity 0.12s ease;
+}
+
+// 内联 <svg> 的克隆体：尺寸和透明度同样由脚本接管，这里只兜住正文里
+// 图表样式的干扰和浏览器默认的 inline 排版。
+.rbook-image-zoom__figure > svg {
+    display: block;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    overflow: visible;
+    // 关键：父级 figure 的 line-height:0 是为了消掉 <img> 的基线空隙，
+    // 但 SVG 内部的 foreignObject 装的是真 HTML 文本（mermaid 的节点标签），
+    // 它们会继承这个 0 行高，于是文字被压成一条。这里恢复成正文行高。
+    line-height: normal;
 }
 
 .rbook-image-zoom__caption {
@@ -243,6 +258,7 @@ html.rbook-image-zoom-open .rbook-main.full-article {
 @media (prefers-reduced-motion: reduce) {
     .rbook-image-zoom,
     .rbook-image-zoom__image,
+    .rbook-image-zoom__figure > svg,
     .rbook-image-zoom__scale,
     .rbook-image-zoom__prev,
     .rbook-image-zoom__next,
@@ -257,7 +273,8 @@ html.rbook-image-zoom-open .rbook-main.full-article {
         display: none !important;
     }
 
-    .rbook-article .markdown-body img.rbook-zoomin {
+    .rbook-article .markdown-body img.rbook-zoomin,
+    .rbook-article .markdown-body svg.rbook-zoomin {
         cursor: auto;
     }
 }

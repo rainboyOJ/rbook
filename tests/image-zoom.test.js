@@ -74,10 +74,23 @@ function element(tagName, options = {}) {
         },
         getAttribute: name => (attributes.has(name) ? attributes.get(name) : null),
         setAttribute: (name, value) => attributes.set(name, String(value)),
+        removeAttribute: name => attributes.delete(name),
         appendChild(child) {
             child.parentNode = el
             el.childNodes.push(child)
             return child
+        },
+        removeChild(child) {
+            const index = el.childNodes.indexOf(child)
+            if (index >= 0) el.childNodes.splice(index, 1)
+            child.parentNode = null
+            return child
+        },
+        // 只支持本脚本用到的浅克隆场景：SVG 克隆体需要保留 viewBox。
+        cloneNode() {
+            const copy = element(tagName, { classes: [...classes], attrs: Object.fromEntries(attributes) })
+            copy.viewBox = el.viewBox
+            return copy
         },
         contains(node) {
             for (let current = node; current; current = current.parentNode) {
@@ -101,10 +114,10 @@ function element(tagName, options = {}) {
         },
         getBoundingClientRect() {
             if (el.rect) return el.rect
-            const width = el.tagName === 'IMG' ? el.width : 0
+            // <img> 与 <svg> 都用构造时给的 width 当作渲染宽度。
+            const width = el.tagName === 'IMG' || el.tagName === 'SVG' ? el.width : 0
             return { top: 0, left: 0, width, height: width ? width * 0.75 : 0, right: width, bottom: 0 }
-        },
-        addEventListener(name, handler) {
+        },        addEventListener(name, handler) {
             if (!listeners.has(name)) listeners.set(name, [])
             listeners.get(name).push(handler)
         },
@@ -122,6 +135,11 @@ function element(tagName, options = {}) {
             enumerable: true,
         })
     }
+    // 浏览器里 viewBox 是 SVGAnimatedRect，脚本读的是 viewBox.baseVal.{width,height}。
+    // 真实的 SVG 元素即使没有 viewBox 属性，viewBox.baseVal 也存在，只是宽高为 0。
+    if (tagName.toLowerCase() === 'svg') {
+        el.viewBox = { baseVal: options.viewBox || { width: 0, height: 0 } }
+    }
     return el
 }
 
@@ -130,7 +148,8 @@ function text(value) {
 }
 
 // 组装一棵 <div class="markdown-body"> 下的假 DOM。
-// blocks: [{parent: 'p'|'figure'|'gallery'|'wrapper'|'link', images: [...]}]
+// blocks: [{parent: 'p'|'figure'|'gallery'|'wrapper'|'link'|'graphviz'|'mermaid', images: [...]}]
+// 每个 image spec 里带 viewBox 就造一个内联 <svg>，否则造 <img>。
 function page({ blocks = [], stage = { width: 1000, height: 800 } } = {}) {
     const documentListeners = new Map()
     const body = element('body')
@@ -144,6 +163,8 @@ function page({ blocks = [], stage = { width: 1000, height: 800 } } = {}) {
         if (block.parent === 'figure') host = element('figure')
         else if (block.parent === 'gallery') host = element('gallery')
         else if (block.parent === 'wrapper') host = element('div', { classes: ['image-wrapper'] })
+        else if (block.parent === 'graphviz') host = element('div', { classes: ['rbook-graphviz__canvas'] })
+        else if (block.parent === 'mermaid') host = element('pre', { classes: ['mermaid'] })
         else if (block.parent === 'link') host = element('a', { attrs: { href: '/x' } })
         else host = element('p')
         markdown.appendChild(host)
@@ -161,12 +182,25 @@ function page({ blocks = [], stage = { width: 1000, height: 800 } } = {}) {
         }
 
         for (const spec of block.images) {
-            const img = element('img', {
-                attrs: { src: spec.src, alt: spec.alt || '', ...(spec.title ? { title: spec.title } : {}) },
-                naturalWidth: spec.naturalWidth === undefined ? 800 : spec.naturalWidth,
-                naturalHeight: spec.naturalHeight === undefined ? 600 : spec.naturalHeight,
-                width: spec.width === undefined ? 600 : spec.width,
-            })
+            // 用 'svg' 标记区分：viewBox 值为 null 也表示“是个 svg，但没有 viewBox”，
+            // 这种场景用来验证退回 width/height 属性的分支。
+            const isSvgSpec = 'viewBox' in spec
+            const img = isSvgSpec
+                ? element('svg', {
+                    attrs: {
+                        ...(spec.ariaLabel ? { 'aria-label': spec.ariaLabel } : {}),
+                        ...(spec.attrWidth ? { width: spec.attrWidth } : {}),
+                        ...(spec.attrHeight ? { height: spec.attrHeight } : {}),
+                    },
+                    viewBox: spec.viewBox || null,
+                    width: spec.width === undefined ? 600 : spec.width,
+                })
+                : element('img', {
+                    attrs: { src: spec.src, alt: spec.alt || '', ...(spec.title ? { title: spec.title } : {}) },
+                    naturalWidth: spec.naturalWidth === undefined ? 800 : spec.naturalWidth,
+                    naturalHeight: spec.naturalHeight === undefined ? 600 : spec.naturalHeight,
+                    width: spec.width === undefined ? 600 : spec.width,
+                })
             container.appendChild(img)
             images.push(img)
         }
@@ -175,15 +209,18 @@ function page({ blocks = [], stage = { width: 1000, height: 800 } } = {}) {
     const created = []
     const timers = new Map()
     let timerId = 0
+    // 脚本现在会查 'img, svg' 两种选择器，这里按元素类型过滤。
+    function selectAll(selector) {
+        if (selector === '.markdown-body img, .markdown-body svg') return images
+        if (selector === '.markdown-body img') return images.filter(el => el.tagName === 'IMG')
+        throw new Error('unexpected selector: ' + selector)
+    }
     const document = {
         readyState: 'complete',
         documentElement: root,
         body,
         activeElement: null,
-        querySelectorAll(selector) {
-            assert.equal(selector, '.markdown-body img')
-            return images
-        },
+        querySelectorAll: selectAll,
         createElement(tagName) {
             // 放大层里的 <img> 靠 naturalWidth 算缩放比例，先给个可写的空值。
             const el = element(tagName, { rect: stage })
@@ -381,4 +418,125 @@ it('滚轮缩放不越过原始尺寸，缩回适应窗口后归零平移', () =
     p.document.dispatch('keydown', { key: '0', preventDefault() {} })
     assert.match(figure.style.transform, /scale\(1\)/)
     assert.match(figure.style.transform, /translate\(0px, 0px\)/)
+})
+
+// ---- 内联 SVG（graphviz / mermaid） ----
+
+it('graphviz 的内联 SVG 也能接管，其 100% 取声明的绘制尺寸（pt 换算成 px）', () => {
+    const p = page({
+        blocks: [{
+            parent: 'graphviz',
+            images: [{ viewBox: { width: 155, height: 231 }, attrWidth: '155pt', attrHeight: '231pt' }],
+        }],
+    })
+    const svg = p.images[0]
+    assert.equal(svg.classList.contains('rbook-zoomin'), true)
+    assert.equal(svg.getAttribute('tabindex'), '0')
+
+    p.document.dispatch('click', { target: svg, clientX: 10, clientY: 10, preventDefault() {} })
+    const clone = p.node('rbook-image-zoom__figure').childNodes[0]
+    assert.equal(clone.tagName, 'SVG')
+    // 155pt = 155 * 4/3 ≈ 206.67px，这正是浏览器在正文里渲染它的尺寸。
+    // 若按 viewBox 的 155 算，预览里的图会比正文里还小 —— 放大功能反而缩小了图。
+    assert.ok(Math.abs(parseFloat(clone.style.width) - 155 * 4 / 3) < 0.01, clone.style.width)
+    assert.ok(Math.abs(parseFloat(clone.style.height) - 231 * 4 / 3) < 0.01, clone.style.height)
+})
+
+it('小 SVG 会放大到填满窗口，而不是缩在中间比正文还小', () => {
+    const p = page({
+        blocks: [{ parent: 'graphviz', images: [{ viewBox: { width: 155, height: 231 }, attrWidth: '155', attrHeight: '231' }] }],
+    })
+    p.document.dispatch('click', { target: p.images[0], clientX: 10, clientY: 10, preventDefault() {} })
+    const figure = p.node('rbook-image-zoom__figure')
+    // 舞台 952×752，155×231 的矢量图适应窗口应该是 min(952/155, 752/231) ≈ 3.25，
+    // 而不是被 min(1, …) 压回 1。
+    const scale = Number(figure.style.transform.match(/scale\(([\d.]+)\)/)[1])
+    assert.ok(scale > 1, `scale=${scale}`)
+    assert.ok(Math.abs(scale - Math.min(952 / 155, 752 / 231)) < 0.02, `scale=${scale}`)
+})
+
+it('SVG 是矢量，缩放上限比 <img> 更高', () => {
+    // 用一张够大的 SVG（800×600，与 <img> 同一量级），避免「适应窗口」本身
+    // 就超过基准上限，把要测的 3 倍 vs 6 倍对比搅混。
+    const p = page({
+        blocks: [{ parent: 'graphviz', images: [{ viewBox: { width: 800, height: 600 }, attrWidth: '800', attrHeight: '600' }] }],
+    })
+    p.document.dispatch('click', { target: p.images[0], clientX: 10, clientY: 10, preventDefault() {} })
+    const figure = p.node('rbook-image-zoom__figure')
+    for (let i = 0; i < 60; i++) figure.dispatch('wheel', { deltaY: -100, clientX: 500, clientY: 400 })
+
+    // <img> 上限是 3，SVG 放到 6；这条区分是刻意的：矢量放大不糊，
+    // 用位图的 3 倍上限去限制它没有道理。
+    const scale = Number(figure.style.transform.match(/scale\(([\d.]+)\)/)[1])
+    assert.ok(scale > 3 && scale <= 6.0001, `scale=${scale}`)
+})
+
+it('点击 SVG 内部的子节点仍然打开预览，并克隆整个 svg', () => {
+    const p = page({
+        blocks: [{ parent: 'graphviz', images: [{ viewBox: { width: 200, height: 100 }, ariaLabel: 'Graphviz 图形' }] }],
+    })
+    const svg = p.images[0]
+    const child = element('text')
+    svg.appendChild(child)
+
+    // 真实点击落在 <text>/<path> 上，必须向上找到 <svg> 本体。
+    p.document.dispatch('click', { target: child, clientX: 10, clientY: 10, preventDefault() {} })
+    assert.equal(p.overlay().classList.contains('is-open'), true)
+    assert.equal(p.node('rbook-image-zoom__caption').textContent, 'Graphviz 图形')
+})
+
+it('mermaid 的 svg 在 <pre class="mermaid"> 里也能接管', () => {
+    const p = page({
+        blocks: [{ parent: 'mermaid', images: [{ viewBox: { width: 300, height: 150 } }] }],
+    })
+    assert.equal(p.images[0].classList.contains('rbook-zoomin'), true)
+})
+
+it('没有 viewBox 的 svg 仍按 width/height 属性定尺寸，并换算单位', () => {
+    const p = page({
+        blocks: [{ parent: 'graphviz', images: [{ viewBox: null, attrWidth: '96pt', attrHeight: '100px' }] }],
+    })
+    // 渲染宽度要够大才不会被当成图标跳过。
+    p.images[0].width = 600
+    p.document.dispatch('click', { target: p.images[0], clientX: 10, clientY: 10, preventDefault() {} })
+    const clone = p.node('rbook-image-zoom__figure').childNodes[0]
+    assert.ok(Math.abs(parseFloat(clone.style.width) - 128) < 0.01, clone.style.width)
+    assert.equal(parseFloat(clone.style.height), 100)
+})
+
+it('SVG 克隆体清掉 width/height 属性，避免 pt 单位与 style 里的 px 打架', () => {
+    const p = page({
+        blocks: [{ parent: 'graphviz', images: [{ viewBox: { width: 155, height: 231 }, attrWidth: '155pt', attrHeight: '231pt' }] }],
+    })
+    p.document.dispatch('click', { target: p.images[0], clientX: 10, clientY: 10, preventDefault() {} })
+    const clone = p.node('rbook-image-zoom__figure').childNodes[0]
+    assert.equal(clone.getAttribute('width'), null)
+    assert.equal(clone.getAttribute('height'), null)
+    // 但 id 必须保留：graphviz 加了唯一前缀，mermaid 的 <style> 靠 #id 命中节点。
+    assert.equal(clone.style.display, 'block')
+})
+
+it('切换主题时关掉预览，避免展示旧配色的克隆体', () => {
+    const p = page({
+        blocks: [{ parent: 'mermaid', images: [{ viewBox: { width: 300, height: 150 } }] }],
+    })
+    p.document.dispatch('click', { target: p.images[0], clientX: 10, clientY: 10, preventDefault() {} })
+    assert.equal(p.overlay().classList.contains('is-open'), true)
+
+    p.document.dispatch('rbook:themechange', { detail: { theme: 'dark' } })
+    assert.equal(p.overlay().classList.contains('is-open'), false)
+})
+
+it('mermaid 的 width="100%" 不能当成 100px，应退回 viewBox 尺寸', () => {
+    const p = page({
+        blocks: [{
+            parent: 'mermaid',
+            images: [{ viewBox: { width: 589.765625, height: 61 }, attrWidth: '100%' }],
+        }],
+    })
+    p.document.dispatch('click', { target: p.images[0], clientX: 10, clientY: 10, preventDefault() {} })
+    const clone = p.node('rbook-image-zoom__figure').childNodes[0]
+    // 若把 100% 当 100px，图会被压成一条（实测正是这个 bug）。
+    assert.ok(Math.abs(parseFloat(clone.style.width) - 589.765625) < 0.01, clone.style.width)
+    assert.ok(Math.abs(parseFloat(clone.style.height) - 61) < 0.01, clone.style.height)
 })
