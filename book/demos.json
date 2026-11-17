@@ -295,6 +295,12 @@
       "title": "线段树：建树",
       "icon": "icon-lizi1"
     },
+    "segment_tree_range_assign": {
+      "site": "anima1",
+      "path": "/segment_tree_range_assign/",
+      "title": "线段树：区间赋值",
+      "icon": "icon-qingning"
+    },
     "segment_tree_range_update": {
       "site": "anima1",
       "path": "/segment_tree_range_update/",
