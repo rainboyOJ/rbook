@@ -114,14 +114,6 @@
       "reason": "triage"
     },
     {
-      "path": "data_structure/disjoint_set/index.md",
-      "reason": "triage"
-    },
-    {
-      "path": "data_structure/disjoint_set/种类并查集.md",
-      "reason": "triage"
-    },
-    {
       "path": "data_structure/segment_tree/other.md",
       "reason": "triage"
     },
