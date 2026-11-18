@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="405" viewBox="0 0 720 405" role="img" aria-labelledby="title desc">
+  <title id="title">向孩子传递时排除它自身的贡献</title>
+  <desc id="desc">1 连接 2、5，2 下接链 3、4，5 下接 6。计算 up[2]，不能利用 1 向 2 的最长贡献 3，须改用来自孩子 5 的次大贡献 2。路径 2-1-5-6 长为 3。</desc>
+  <rect width="720" height="405" fill="#ffffff"/>
+  <path d="M210 150 L350 55 L510 150 L510 245" stroke="#222222" stroke-width="2.3" fill="none"/>
+  <path d="M210 150 L210 340" stroke="#777777" stroke-width="1.5" stroke-dasharray="5 4" fill="none"/>
+  <g stroke="#222222" stroke-width="1.6" fill="#ffffff"><circle cx="350" cy="55" r="23"/><circle cx="210" cy="150" r="23"/><circle cx="210" cy="245" r="23"/><circle cx="210" cy="340" r="23"/><circle cx="510" cy="150" r="23"/><circle cx="510" cy="245" r="23"/></g>
+  <g font-family="Noto Serif CJK SC, Source Han Serif SC, serif" fill="#222222" text-anchor="middle">
+    <g font-size="22"><text x="350" y="63">1</text><text x="210" y="158">2</text><text x="210" y="253">3</text><text x="210" y="348">4</text><text x="510" y="158">5</text><text x="510" y="253">6</text></g>
+    <g font-size="20"><text x="115" y="216" fill="#555555">排除 2 的子树</text><text x="490" y="326">可用路径：2 → 1 → 5 → 6</text><text x="490" y="362">长度为 3</text></g>
+  </g>
+</svg>

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="360" viewBox="0 0 760 360" role="img" aria-labelledby="title desc">
+<title id="title">虚拟根连接课程森林</title>
+<desc id="desc">虚拟根 0 连接课程 1 和 4。1 的后续课是 2、3，4 的后续课是 5。各真实课程学分为 2、8、5、6、9，实心节点 1、4、5 总学分为 17。</desc>
+<rect width="760" height="360" fill="#ffffff"/>
+<path d="M380 55 L200 155" stroke="#777777" stroke-width="1.5" fill="none" stroke-dasharray="5 4"/>
+<path d="M380 55 L560 155" stroke="#777777" stroke-width="1.5" fill="none" stroke-dasharray="5 4"/>
+<path d="M200 155 L100 270" stroke="#777777" stroke-width="1.5" fill="none"/>
+<path d="M200 155 L300 270" stroke="#777777" stroke-width="1.5" fill="none"/>
+<path d="M560 155 L560 270" stroke="#777777" stroke-width="1.5" fill="none"/>
+<rect x="357" y="32" width="46" height="46" stroke="#777777" stroke-width="1.5" fill="#f4f4f4"/>
+<text x="380" y="62" font-family="serif" font-size="22" text-anchor="middle" fill="#222222">0</text>
+<circle cx="200" cy="155" r="23" stroke="#222222" stroke-width="1.5" fill="#222222"/>
+<text x="200" y="162" font-family="serif" font-size="22" text-anchor="middle" fill="#ffffff">1</text>
+<circle cx="560" cy="155" r="23" stroke="#222222" stroke-width="1.5" fill="#222222"/>
+<text x="560" y="162" font-family="serif" font-size="22" text-anchor="middle" fill="#ffffff">4</text>
+<circle cx="100" cy="270" r="23" stroke="#222222" stroke-width="1.5" fill="#ffffff"/>
+<text x="100" y="277" font-family="serif" font-size="22" text-anchor="middle" fill="#222222">2</text>
+<circle cx="300" cy="270" r="23" stroke="#222222" stroke-width="1.5" fill="#ffffff"/>
+<text x="300" y="277" font-family="serif" font-size="22" text-anchor="middle" fill="#222222">3</text>
+<circle cx="560" cy="270" r="23" stroke="#222222" stroke-width="1.5" fill="#222222"/>
+<text x="560" y="277" font-family="serif" font-size="22" text-anchor="middle" fill="#ffffff">5</text>
+<text x="470" y="57" font-family="Noto Serif CJK SC, serif" font-size="20" text-anchor="middle" fill="#555555">虚拟根</text>
+<text x="125" y="155" font-family="Noto Serif CJK SC, serif" font-size="20" text-anchor="middle" fill="#555555">学分 2</text>
+<text x="635" y="155" font-family="Noto Serif CJK SC, serif" font-size="20" text-anchor="middle" fill="#555555">学分 6</text>
+<text x="100" y="321" font-family="Noto Serif CJK SC, serif" font-size="20" text-anchor="middle" fill="#555555">学分 8</text>
+<text x="300" y="321" font-family="Noto Serif CJK SC, serif" font-size="20" text-anchor="middle" fill="#555555">学分 5</text>
+<text x="560" y="321" font-family="Noto Serif CJK SC, serif" font-size="20" text-anchor="middle" fill="#555555">学分 9</text>
+</svg>

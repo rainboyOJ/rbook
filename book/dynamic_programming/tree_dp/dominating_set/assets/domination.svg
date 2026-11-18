@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="330" viewBox="0 0 640 330" role="img" aria-labelledby="title desc">
+  <title id="title">树上最小权支配集示例</title>
+  <desc id="desc">1 的孩子为 2、3，2 的孩子为 4。费用分别为 10、2、3、1。选择 3 和 4，可以覆盖所有节点，总费用为 4。</desc>
+  <rect width="640" height="330" fill="#ffffff"/>
+  <g stroke="#777777" stroke-width="1.5" fill="none"><path d="M320 55 L180 160 L180 270 M320 55 L460 160"/></g>
+  <g stroke="#222222" stroke-width="1.6">
+    <circle cx="320" cy="55" r="24" fill="#ffffff"/><circle cx="180" cy="160" r="24" fill="#ffffff"/>
+    <circle cx="460" cy="160" r="24" fill="#222222"/><circle cx="180" cy="270" r="24" fill="#222222"/>
+  </g>
+  <g font-family="Noto Serif CJK SC, Source Han Serif SC, serif" font-size="22" text-anchor="middle">
+    <g fill="#222222"><text x="320" y="63">1</text><text x="180" y="168">2</text></g>
+    <g fill="#ffffff"><text x="460" y="168">3</text><text x="180" y="278">4</text></g>
+    <g fill="#555555" font-size="20"><text x="410" y="57">费用 10</text><text x="100" y="161">费用 2</text><text x="540" y="161">费用 3</text><text x="100" y="272">费用 1</text></g>
+  </g>
+</svg>

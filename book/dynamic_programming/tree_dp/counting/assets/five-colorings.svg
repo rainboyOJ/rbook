@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="200" viewBox="0 0 760 200" role="img" aria-labelledby="title desc">
+<title id="title">三节点树的五种合法染色</title>
+<desc id="desc">1 连接叶子 2 和 3。可选黑色点集为空集、1、2、3、2与3，共五种。</desc>
+<rect width="760" height="200" fill="#ffffff"/>
+<path d="M80 45 L45 120 M80 45 L115 120" stroke="#777777" stroke-width="1.5" fill="none"/>
+<circle cx="80" cy="45" r="18" stroke="#222222" stroke-width="1.5" fill="#ffffff"/><text x="80" y="51" font-family="serif" font-size="19" text-anchor="middle" fill="#222222">1</text>
+<circle cx="45" cy="120" r="18" stroke="#222222" stroke-width="1.5" fill="#ffffff"/><text x="45" y="126" font-family="serif" font-size="19" text-anchor="middle" fill="#222222">2</text>
+<circle cx="115" cy="120" r="18" stroke="#222222" stroke-width="1.5" fill="#ffffff"/><text x="115" y="126" font-family="serif" font-size="19" text-anchor="middle" fill="#222222">3</text>
+<text x="80" y="180" font-family="Noto Serif CJK SC, serif" font-size="20" text-anchor="middle" fill="#222222">空集</text>
+<path d="M230 45 L195 120 M230 45 L265 120" stroke="#777777" stroke-width="1.5" fill="none"/>
+<circle cx="230" cy="45" r="18" stroke="#222222" stroke-width="1.5" fill="#222222"/><text x="230" y="51" font-family="serif" font-size="19" text-anchor="middle" fill="#ffffff">1</text>
+<circle cx="195" cy="120" r="18" stroke="#222222" stroke-width="1.5" fill="#ffffff"/><text x="195" y="126" font-family="serif" font-size="19" text-anchor="middle" fill="#222222">2</text>
+<circle cx="265" cy="120" r="18" stroke="#222222" stroke-width="1.5" fill="#ffffff"/><text x="265" y="126" font-family="serif" font-size="19" text-anchor="middle" fill="#222222">3</text>
+<text x="230" y="180" font-family="Noto Serif CJK SC, serif" font-size="20" text-anchor="middle" fill="#222222">{1}</text>
+<path d="M380 45 L345 120 M380 45 L415 120" stroke="#777777" stroke-width="1.5" fill="none"/>
+<circle cx="380" cy="45" r="18" stroke="#222222" stroke-width="1.5" fill="#ffffff"/><text x="380" y="51" font-family="serif" font-size="19" text-anchor="middle" fill="#222222">1</text>
+<circle cx="345" cy="120" r="18" stroke="#222222" stroke-width="1.5" fill="#222222"/><text x="345" y="126" font-family="serif" font-size="19" text-anchor="middle" fill="#ffffff">2</text>
+<circle cx="415" cy="120" r="18" stroke="#222222" stroke-width="1.5" fill="#ffffff"/><text x="415" y="126" font-family="serif" font-size="19" text-anchor="middle" fill="#222222">3</text>
+<text x="380" y="180" font-family="Noto Serif CJK SC, serif" font-size="20" text-anchor="middle" fill="#222222">{2}</text>
+<path d="M530 45 L495 120 M530 45 L565 120" stroke="#777777" stroke-width="1.5" fill="none"/>
+<circle cx="530" cy="45" r="18" stroke="#222222" stroke-width="1.5" fill="#ffffff"/><text x="530" y="51" font-family="serif" font-size="19" text-anchor="middle" fill="#222222">1</text>
+<circle cx="495" cy="120" r="18" stroke="#222222" stroke-width="1.5" fill="#ffffff"/><text x="495" y="126" font-family="serif" font-size="19" text-anchor="middle" fill="#222222">2</text>
+<circle cx="565" cy="120" r="18" stroke="#222222" stroke-width="1.5" fill="#222222"/><text x="565" y="126" font-family="serif" font-size="19" text-anchor="middle" fill="#ffffff">3</text>
+<text x="530" y="180" font-family="Noto Serif CJK SC, serif" font-size="20" text-anchor="middle" fill="#222222">{3}</text>
+<path d="M680 45 L645 120 M680 45 L715 120" stroke="#777777" stroke-width="1.5" fill="none"/>
+<circle cx="680" cy="45" r="18" stroke="#222222" stroke-width="1.5" fill="#ffffff"/><text x="680" y="51" font-family="serif" font-size="19" text-anchor="middle" fill="#222222">1</text>
+<circle cx="645" cy="120" r="18" stroke="#222222" stroke-width="1.5" fill="#222222"/><text x="645" y="126" font-family="serif" font-size="19" text-anchor="middle" fill="#ffffff">2</text>
+<circle cx="715" cy="120" r="18" stroke="#222222" stroke-width="1.5" fill="#222222"/><text x="715" y="126" font-family="serif" font-size="19" text-anchor="middle" fill="#ffffff">3</text>
+<text x="680" y="180" font-family="Noto Serif CJK SC, serif" font-size="20" text-anchor="middle" fill="#222222">{2,3}</text>
+</svg>

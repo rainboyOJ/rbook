@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="350" viewBox="0 0 760 350" role="img" aria-labelledby="title desc">
+  <title id="title">没有上司的舞会：七节点示例</title>
+  <desc id="desc">7 的孩子是 1、2，1 的孩子是 3、4，2 的孩子是 5、6。节点 7、1、2、3、4、5、6 的快乐值分别为 6、4、5、7、负 2、3、8。实心节点 7、3、5、6 构成快乐值为 24 的最优选择。</desc>
+  <rect width="760" height="350" fill="#ffffff"/>
+  <g stroke="#777777" stroke-width="1.5" fill="none">
+    <path d="M380 57 L220 160 L100 270 M220 160 L310 270 M380 57 L540 160 L450 270 M540 160 L660 270"/>
+  </g>
+  <g stroke="#222222" stroke-width="1.6">
+    <circle cx="380" cy="57" r="24" fill="#222222"/>
+    <circle cx="220" cy="160" r="24" fill="#ffffff"/>
+    <circle cx="540" cy="160" r="24" fill="#ffffff"/>
+    <circle cx="100" cy="270" r="24" fill="#222222"/>
+    <circle cx="310" cy="270" r="24" fill="#ffffff"/>
+    <circle cx="450" cy="270" r="24" fill="#222222"/>
+    <circle cx="660" cy="270" r="24" fill="#222222"/>
+  </g>
+  <g font-family="Noto Serif CJK SC, Source Han Serif SC, serif" font-size="22" text-anchor="middle">
+    <g fill="#ffffff">
+      <text x="380" y="65">7</text>
+      <text x="100" y="278">3</text>
+      <text x="450" y="278">5</text>
+      <text x="660" y="278">6</text>
+    </g>
+    <g fill="#222222">
+      <text x="220" y="168">1</text>
+      <text x="540" y="168">2</text>
+      <text x="310" y="278">4</text>
+    </g>
+    <g fill="#555555" font-size="20">
+      <text x="444" y="54">h = 6</text>
+      <text x="160" y="153">h = 4</text>
+      <text x="605" y="153">h = 5</text>
+      <text x="100" y="326">h = 7</text>
+      <text x="310" y="326">h = −2</text>
+      <text x="450" y="326">h = 3</text>
+      <text x="660" y="326">h = 8</text>
+    </g>
+  </g>
+</svg>

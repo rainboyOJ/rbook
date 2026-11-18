@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="350" viewBox="0 0 760 350" role="img" aria-labelledby="title desc">
+  <title id="title">相邻的两个中心同时选择</title>
+  <desc id="desc">节点 0 连接 1、2、3，节点 1 连接 4、5。在节点 0、1 各放一名士兵即可覆盖全部边，只放一人无法覆盖全部边，因此最优值为 2。</desc>
+  <rect width="760" height="350" fill="#ffffff"/>
+  <g stroke="#777777" stroke-width="1.5" fill="none">
+    <path d="M400 58 L200 158 L100 265 M200 158 L300 265 M400 58 L420 158 M400 58 L620 158"/>
+  </g>
+  <g stroke="#222222" stroke-width="1.6">
+    <circle cx="400" cy="58" r="24" fill="#222222"/>
+    <circle cx="200" cy="158" r="24" fill="#222222"/>
+    <circle cx="420" cy="158" r="24" fill="#ffffff"/>
+    <circle cx="620" cy="158" r="24" fill="#ffffff"/>
+    <circle cx="100" cy="265" r="24" fill="#ffffff"/>
+    <circle cx="300" cy="265" r="24" fill="#ffffff"/>
+  </g>
+  <g font-family="Noto Serif CJK SC, Source Han Serif SC, serif" font-size="22" text-anchor="middle">
+    <g fill="#ffffff">
+      <text x="400" y="66">0</text>
+      <text x="200" y="166">1</text>
+    </g>
+    <g fill="#222222">
+      <text x="420" y="166">2</text>
+      <text x="620" y="166">3</text>
+      <text x="100" y="273">4</text>
+      <text x="300" y="273">5</text>
+      <text x="380" y="329" font-size="20">实心节点放置士兵，共 2 人</text>
+    </g>
+  </g>
+</svg>
