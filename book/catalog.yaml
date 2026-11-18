@@ -429,6 +429,8 @@
 - title: "附录"
   path: "appendix"
   children:
+    - title: "NOIP 考纲参考"
+      path: "noi-syllabus"
     - title: "比赛赛前注意事项"
       path: "pre_contest_notes/"
     - title: "软件"
