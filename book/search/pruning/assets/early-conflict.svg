@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="330" viewBox="0 0 760 330" role="img" aria-labelledby="title desc">
+  <title id="title">对角线冲突后停止扩展</title>
+  <desc id="desc">四皇后中第一行选择第二列。第二行第一列与第三列均产生对角线冲突，后续子树不再搜索；第二行第四列可以继续。第二列已占用，没有画出该候选。</desc>
+  <rect width="760" height="330" fill="white"/>
+  <g font-family="Noto Sans CJK SC, Source Han Sans SC, sans-serif" fill="#222222" font-size="18" text-anchor="middle">
+    <path d="M380,69 L130,133 M380,69 V133 M380,69 L630,133" fill="none" stroke="#222222" stroke-width="1.4"/>
+    <g fill="white" stroke="#222222" stroke-width="1.3">
+      <rect x="275" y="27" width="210" height="42"/>
+      <rect x="25" y="133" width="210" height="42"/>
+      <rect x="275" y="133" width="210" height="42"/>
+      <rect x="525" y="133" width="210" height="42"/>
+    </g>
+    <text x="380" y="55">第 1 行：第 2 列</text>
+    <text x="130" y="161">第 2 行：第 1 列</text><text x="380" y="161">第 2 行：第 3 列</text><text x="630" y="161">第 2 行：第 4 列</text>
+    <path d="M130,175 V216 M380,175 V216 M630,175 V240" fill="none" stroke="#777777" stroke-width="1.3"/>
+    <path d="M121,202 L139,220 M139,202 L121,220 M371,202 L389,220 M389,202 L371,220" stroke="#222222" stroke-width="1.6"/>
+    <text x="130" y="259">对角线冲突</text><text x="380" y="259">对角线冲突</text><text x="630" y="268">继续搜索</text>
+    <text x="380" y="313" fill="#777777" font-size="16">只画列不重复的候选；冲突分支不再生成后续行</text>
+  </g>
+</svg>

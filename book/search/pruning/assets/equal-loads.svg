@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="300" viewBox="0 0 760 300" role="img" aria-labelledby="title desc">
+  <title id="title">相同载重车辆的等价分支</title>
+  <desc id="desc">两辆容量十的车当前载重均为六，下一只猫重量三。放进第一辆后载重是九和六，放进第二辆后是六和九。两种状态只差车辆编号，因此求最少车数时只需保留一个分支。</desc>
+  <rect width="760" height="300" fill="white"/>
+  <g font-family="Noto Sans CJK SC, Source Han Sans SC, sans-serif" fill="#222222" font-size="18" text-anchor="middle">
+    <text x="380" y="28">容量 W = 10，当前猫重 3</text>
+    <g fill="#f4f4f4" stroke="#222222" stroke-width="1.3"><rect x="318" y="48" width="124" height="42"/></g>
+    <path d="M380,48 V90" stroke="#777777" stroke-width="1.2"/>
+    <text x="349" y="76">6</text><text x="411" y="76">6</text>
+    <path d="M380,90 L180,110 M380,90 L580,110" fill="none" stroke="#777777" stroke-width="1.3"/>
+    <text x="180" y="136">放入车 1</text><text x="580" y="136">放入车 2</text>
+    <g fill="white" stroke="#222222" stroke-width="1.3"><rect x="118" y="157" width="124" height="42"/><rect x="518" y="157" width="124" height="42"/></g>
+    <path d="M180,157 V199 M580,157 V199" stroke="#777777" stroke-width="1.2"/>
+    <text x="149" y="185">9</text><text x="211" y="185">6</text><text x="549" y="185">6</text><text x="611" y="185">9</text>
+    <text x="380" y="245">交换车辆编号后相同</text>
+    <text x="380" y="278" fill="#777777" font-size="16">后续装法一一对应，求最优值只需搜索一支</text>
+  </g>
+</svg>

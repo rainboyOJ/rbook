@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="390" viewBox="0 0 760 390" role="img" aria-labelledby="title desc">
+  <title id="title">空格不能单独计入错位数下界</title>
+  <desc id="desc">左棋盘由目标棋盘交换第一行第二列与第三行第三列得到。两格符合骑士走法，一次交换即可恢复。错位非空棋子只有一枚；若把空格也计入，错位数二会高估真实距离一。</desc>
+  <defs><marker id="arrow" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><path d="M0 0L8 3.5L0 7" fill="none" stroke="#222"/></marker></defs>
+  <rect width="760" height="390" fill="white"/>
+  <g font-family="Noto Sans CJK SC, sans-serif" font-size="19" fill="#222" text-anchor="middle"><text x="160" y="33">当前棋盘</text><text x="600" y="33">目标棋盘</text></g>
+  <g fill="white" stroke="#777" stroke-width="1"><path d="M50 60H270V280H50Z M94 60V280 M138 60V280 M182 60V280 M226 60V280 M50 104H270 M50 148H270 M50 192H270 M50 236H270"/><path d="M490 60H710V280H490Z M534 60V280 M578 60V280 M622 60V280 M666 60V280 M490 104H710 M490 148H710 M490 192H710 M490 236H710"/></g>
+  <g fill="#f4f4f4" stroke="#222" stroke-width="2"><rect x="94" y="60" width="44" height="44"/><rect x="138" y="148" width="44" height="44"/><rect x="534" y="60" width="44" height="44"/><rect x="578" y="148" width="44" height="44"/></g>
+  <g font-family="monospace" font-size="24" fill="#222" text-anchor="middle">
+    <text x="72" y="90">1</text><text x="116" y="90">*</text><text x="160" y="90">1</text><text x="204" y="90">1</text><text x="248" y="90">1</text>
+    <text x="72" y="134">0</text><text x="116" y="134">1</text><text x="160" y="134">1</text><text x="204" y="134">1</text><text x="248" y="134">1</text>
+    <text x="72" y="178">0</text><text x="116" y="178">0</text><text x="160" y="178">1</text><text x="204" y="178">1</text><text x="248" y="178">1</text>
+    <text x="72" y="222">0</text><text x="116" y="222">0</text><text x="160" y="222">0</text><text x="204" y="222">0</text><text x="248" y="222">1</text>
+    <text x="72" y="266">0</text><text x="116" y="266">0</text><text x="160" y="266">0</text><text x="204" y="266">0</text><text x="248" y="266">0</text>
+    <text x="512" y="90">1</text><text x="556" y="90">1</text><text x="600" y="90">1</text><text x="644" y="90">1</text><text x="688" y="90">1</text>
+    <text x="512" y="134">0</text><text x="556" y="134">1</text><text x="600" y="134">1</text><text x="644" y="134">1</text><text x="688" y="134">1</text>
+    <text x="512" y="178">0</text><text x="556" y="178">0</text><text x="600" y="178">*</text><text x="644" y="178">1</text><text x="688" y="178">1</text>
+    <text x="512" y="222">0</text><text x="556" y="222">0</text><text x="600" y="222">0</text><text x="644" y="222">0</text><text x="688" y="222">1</text>
+    <text x="512" y="266">0</text><text x="556" y="266">0</text><text x="600" y="266">0</text><text x="644" y="266">0</text><text x="688" y="266">0</text>
+  </g>
+  <path d="M306 170H454" stroke="#222" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <g font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#222" text-anchor="middle"><text x="380" y="151">一次合法交换</text><text x="380" y="201">真实距离 = 1</text><text x="160" y="320">错位非空棋子：1</text><text x="160" y="351">若包含空格：2</text><text x="600" y="320">错位非空棋子：0</text><text x="600" y="351">棋子与空格同时归位</text></g>
+</svg>

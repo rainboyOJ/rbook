@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="350" viewBox="0 0 760 350" role="img" aria-labelledby="title desc">
+  <title id="title">加成序列的迭代加深</title>
+  <desc id="desc">目标是十五。依次完整搜索加法次数上限零到四，均无解；上限五时找到一、二、三、六、十二、十五，共六项五次加法。</desc>
+  <defs><marker id="arrow" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><path d="M0 0L8 3.5L0 7" fill="none" stroke="#222"/></marker></defs>
+  <rect width="760" height="350" fill="white"/>
+  <g font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#222" text-anchor="middle">
+    <text x="380" y="35">每轮从 1 重新搜索，只增加加法次数上限</text>
+  </g>
+  <g fill="#f4f4f4" stroke="#777"><rect x="40" y="60" width="100" height="70"/><rect x="156" y="60" width="100" height="70"/><rect x="272" y="60" width="100" height="70"/><rect x="388" y="60" width="100" height="70"/><rect x="504" y="60" width="100" height="70"/></g>
+  <rect x="620" y="60" width="100" height="70" fill="white" stroke="#222" stroke-width="2"/>
+  <g font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#222" text-anchor="middle">
+    <text x="90" y="87">上限 0</text><text x="206" y="87">上限 1</text><text x="322" y="87">上限 2</text><text x="438" y="87">上限 3</text><text x="554" y="87">上限 4</text><text x="670" y="87">上限 5</text>
+    <text x="90" y="115">无解</text><text x="206" y="115">无解</text><text x="322" y="115">无解</text><text x="438" y="115">无解</text><text x="554" y="115">无解</text><text x="670" y="115">有解</text>
+  </g>
+  <g stroke="#222" stroke-width="1.5" marker-end="url(#arrow)"><path d="M114 222H181"/><path d="M230 222H297"/><path d="M346 222H413"/><path d="M462 222H529"/><path d="M578 222H645"/></g>
+  <g fill="white" stroke="#222" stroke-width="1.5"><circle cx="90" cy="222" r="24"/><circle cx="206" cy="222" r="24"/><circle cx="322" cy="222" r="24"/><circle cx="438" cy="222" r="24"/><circle cx="554" cy="222" r="24"/><circle cx="670" cy="222" r="24"/></g>
+  <g font-family="Noto Sans CJK SC, sans-serif" font-size="20" fill="#222" text-anchor="middle"><text x="90" y="229">1</text><text x="206" y="229">2</text><text x="322" y="229">3</text><text x="438" y="229">6</text><text x="554" y="229">12</text><text x="670" y="229">15</text></g>
+  <g font-family="Noto Sans CJK SC, sans-serif" font-size="17" fill="#222" text-anchor="middle"><text x="206" y="275">1 + 1</text><text x="322" y="275">1 + 2</text><text x="438" y="275">3 + 3</text><text x="554" y="275">6 + 6</text><text x="670" y="275">3 + 12</text><text x="380" y="325">第一轮有解：5 次加法，6 个序列项</text></g>
+</svg>
