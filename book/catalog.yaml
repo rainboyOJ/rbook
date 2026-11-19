@@ -289,6 +289,8 @@
       path: "queue"
     - title: "单调栈"
       path: "monotonic_stack"
+    - title: "笛卡尔树"
+      path: "cartesian_tree"
     - title: "单调队列"
       path: "monotonic_queue"
     - title: "堆"

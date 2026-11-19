@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="420" viewBox="0 0 760 420" role="img" aria-labelledby="title desc">
+<title id="title">子树大小对应矩形宽度</title><desc id="desc">高度三、一、四、五、二，各柱宽度一。选取下标三和四，高度最小值四，对应笛卡尔树节点三的子树。阴影矩形高四、宽二，面积八。</desc>
+<rect width="760" height="420" fill="white"/>
+<text x="95" y="55" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#222">高度</text>
+<path d="M125 65L125 340" fill="none" stroke="#777" stroke-width="1.5"/>
+<path d="M125 340L635 340" fill="none" stroke="#777" stroke-width="1.5"/>
+<path d="M119 340L125 340" fill="none" stroke="#777" stroke-width="1.5"/>
+<text x="108" y="346" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="17" fill="#222">0</text>
+<path d="M119 290L125 290" fill="none" stroke="#777" stroke-width="1.5"/>
+<text x="108" y="296" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="17" fill="#222">1</text>
+<path d="M119 240L125 240" fill="none" stroke="#777" stroke-width="1.5"/>
+<text x="108" y="246" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="17" fill="#222">2</text>
+<path d="M119 190L125 190" fill="none" stroke="#777" stroke-width="1.5"/>
+<text x="108" y="196" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="17" fill="#222">3</text>
+<path d="M119 140L125 140" fill="none" stroke="#777" stroke-width="1.5"/>
+<text x="108" y="146" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="17" fill="#222">4</text>
+<path d="M119 90L125 90" fill="none" stroke="#777" stroke-width="1.5"/>
+<text x="108" y="96" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="17" fill="#222">5</text>
+<rect x="140" y="190" width="90" height="150" fill="white" stroke="#222"/>
+<rect x="230" y="290" width="90" height="50" fill="white" stroke="#222"/>
+<rect x="320" y="140" width="90" height="200" fill="white" stroke="#222"/>
+<rect x="410" y="90" width="90" height="250" fill="white" stroke="#222"/>
+<rect x="500" y="240" width="90" height="100" fill="white" stroke="#222"/>
+<rect x="320" y="140" width="180" height="200" fill="#f4f4f4" stroke="#222" stroke-dasharray="5 4"/>
+<path d="M410 140L410 340" fill="none" stroke="#777" stroke-width="1"/>
+<text x="185" y="177" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#222">3</text>
+<text x="185" y="370" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#222">1</text>
+<text x="275" y="277" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#222">1</text>
+<text x="275" y="370" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#222">2</text>
+<text x="365" y="127" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#222">4</text>
+<text x="365" y="370" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#222">3</text>
+<text x="455" y="77" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#222">5</text>
+<text x="455" y="370" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#222">4</text>
+<text x="545" y="227" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#222">2</text>
+<text x="545" y="370" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#222">5</text>
+<text x="380" y="405" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#222">柱子下标</text>
+<text x="650" y="180" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#222">高 4</text>
+<text x="650" y="211" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#222">宽 2</text>
+<text x="650" y="242" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="18" fill="#222">面积 8</text>
+</svg>
