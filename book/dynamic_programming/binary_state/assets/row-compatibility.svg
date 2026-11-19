@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="280" viewBox="0 0 760 280" role="img" aria-labelledby="title desc">
+  <title id="title">行内合法与行间兼容</title>
+  <desc id="desc">五列网格中，上一行种在第二、四列，当前行种在第一、三、五列。行内没有相邻种植，行间没有同列种植，二者的按位与为零；对角相邻在玉米田中允许。</desc>
+  <rect width="760" height="280" fill="white"/>
+  <g font-family="Noto Sans CJK SC, Source Han Sans SC, sans-serif" fill="#222222" font-size="18">
+    <g text-anchor="middle" fill="#777777" font-size="16">
+      <text x="271" y="30">列 1</text><text x="333" y="30">列 2</text><text x="395" y="30">列 3</text><text x="457" y="30">列 4</text><text x="519" y="30">列 5</text>
+    </g>
+    <text x="35" y="83">上一行 t</text><text x="35" y="145">当前行 s</text>
+    <rect x="240" y="45" width="310" height="124" fill="white" stroke="#777777" stroke-width="1.3"/>
+    <g fill="#f4f4f4">
+      <rect x="303" y="46" width="60" height="60"/><rect x="427" y="46" width="60" height="60"/>
+      <rect x="241" y="108" width="60" height="60"/><rect x="365" y="108" width="60" height="60"/><rect x="489" y="108" width="60" height="60"/>
+    </g>
+    <path d="M302,45 V169 M364,45 V169 M426,45 V169 M488,45 V169 M240,107 H550" fill="none" stroke="#777777" stroke-width="1.3"/>
+    <g fill="#222222">
+      <circle cx="333" cy="76" r="8"/><circle cx="457" cy="76" r="8"/>
+      <circle cx="271" cy="138" r="8"/><circle cx="395" cy="138" r="8"/><circle cx="519" cy="138" r="8"/>
+    </g>
+    <text x="600" y="83">01010</text><text x="600" y="145">10101</text>
+    <text x="395" y="218" text-anchor="middle">01010 &amp; 10101 = 00000</text>
+    <text x="395" y="251" text-anchor="middle" fill="#777777" font-size="17">同行不相邻，相邻两行不同列</text>
+  </g>
+</svg>

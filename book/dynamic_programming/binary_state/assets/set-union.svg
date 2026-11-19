@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="235" viewBox="0 0 760 235" role="img" aria-labelledby="title desc">
+  <title id="title">已覆盖集合与当前包取并集</title>
+  <desc id="desc">从左到右依次为口味三、二、一。已覆盖集合零一一与当前包一一零按位或得到一一一，覆盖全部三种口味。</desc>
+  <rect width="760" height="235" fill="white"/>
+  <g font-family="Noto Sans CJK SC, Source Han Sans SC, sans-serif" fill="#222222" font-size="18">
+    <g text-anchor="middle" fill="#777777" font-size="16">
+      <text x="311" y="28">口味 3</text><text x="373" y="28">口味 2</text><text x="435" y="28">口味 1</text>
+    </g>
+    <text x="35" y="72">已覆盖 S</text><text x="35" y="135">当前包 p</text><text x="35" y="198">合并 S ∪ p</text>
+    <g stroke="#777777" stroke-width="1.2" fill="white">
+      <rect x="280" y="43" width="186" height="42"/>
+      <rect x="280" y="106" width="186" height="42"/>
+      <rect x="280" y="169" width="186" height="42"/>
+    </g>
+    <g fill="#f4f4f4">
+      <rect x="343" y="44" width="122" height="40"/>
+      <rect x="281" y="107" width="123" height="40"/>
+      <rect x="281" y="170" width="184" height="40"/>
+    </g>
+    <path d="M342,43 V85 M404,43 V85 M342,106 V148 M404,106 V148 M342,169 V211 M404,169 V211" stroke="#777777" stroke-width="1.2"/>
+    <g text-anchor="middle" font-size="22">
+      <text x="311" y="72">0</text><text x="373" y="72">1</text><text x="435" y="72">1</text>
+      <text x="311" y="135">1</text><text x="373" y="135">1</text><text x="435" y="135">0</text>
+      <text x="311" y="198">1</text><text x="373" y="198">1</text><text x="435" y="198">1</text>
+    </g>
+    <text x="510" y="72">{1,2}</text><text x="510" y="135">{2,3}</text><text x="510" y="198">{1,2,3}</text>
+  </g>
+</svg>

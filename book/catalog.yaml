@@ -132,6 +132,8 @@
       path: "lis"
     - title: "LCS"
       path: "lcs"
+    - title: "区间DP"
+      path: "interval_dp"
     - title: "树形DP"
       path: "tree_dp"
       children:
@@ -176,7 +178,7 @@
           path: "exercises/整数划分/problem.md"
     - title: "sparse table"
       path: "sparse_table"
-    - title: "状态压缩"
+    - title: "状压DP"
       path: "binary_state"
     - title: "连通块DP"
       path: "component_dp"

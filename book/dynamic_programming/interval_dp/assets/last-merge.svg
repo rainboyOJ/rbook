@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="270" viewBox="0 0 760 270" role="img" aria-labelledby="title desc">
+  <title id="title">最后一次合并</title>
+  <desc id="desc">区间 l 到 r 在 k 与 k 加一之间分割，两段各自合并后，最后一次合并的代价为整个区间的质量和。</desc>
+  <defs><marker id="arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7" fill="#777777"/></marker></defs>
+  <rect width="760" height="270" fill="white"/>
+  <g font-family="Noto Sans CJK SC, Source Han Sans SC, sans-serif" font-size="18" fill="#222222" text-anchor="middle">
+    <g fill="#f4f4f4" stroke="#222222" stroke-width="1.3">
+      <rect x="60" y="35" width="74" height="48"/>
+      <rect x="165" y="35" width="74" height="48"/>
+      <rect x="270" y="35" width="74" height="48"/>
+      <rect x="405" y="35" width="74" height="48"/>
+      <rect x="510" y="35" width="74" height="48"/>
+      <rect x="615" y="35" width="74" height="48"/>
+    </g>
+    <text x="97" y="66">a[l]</text><text x="202" y="66">…</text><text x="307" y="66">a[k]</text>
+    <text x="442" y="66">a[k+1]</text><text x="547" y="66">…</text><text x="652" y="66">a[r]</text>
+    <path d="M60,98 V107 H344 V98 M405,98 V107 H689 V98" fill="none" stroke="#222222" stroke-width="1.3"/>
+    <line x1="375" y1="24" x2="375" y2="113" stroke="#777777" stroke-dasharray="5 5"/>
+    <text x="202" y="143">左段：[l,k]</text><text x="547" y="143">右段：[k+1,r]</text>
+    <text x="202" y="173">内部代价 f[l][k]</text><text x="547" y="173">内部代价 f[k+1][r]</text>
+    <path d="M232,187 L348,220 M517,187 L401,220" fill="none" stroke="#777777" stroke-width="1.3" marker-end="url(#arrow)"/>
+    <text x="375" y="251">最后合并：再付 s[r] − s[l−1]</text>
+  </g>
+</svg>

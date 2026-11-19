@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="300" viewBox="0 0 760 300" role="img" aria-labelledby="title desc">
+  <title id="title">炮兵需要记住最近两行</title>
+  <desc id="desc">上上行和当前行在第二列各有一支炮兵，上一行为空。两支炮兵仍在纵向距离二的攻击范围内，因此仅检查上一行不够。</desc>
+  <rect width="760" height="300" fill="white"/>
+  <g font-family="Noto Sans CJK SC, Source Han Sans SC, sans-serif" fill="#222222" font-size="18">
+    <text x="38" y="66">上上行 u</text><text x="38" y="128">上一行 t</text><text x="38" y="190">当前行 s</text>
+    <rect x="250" y="28" width="186" height="186" fill="white" stroke="#777777" stroke-width="1.3"/>
+    <path d="M312,28 V214 M374,28 V214 M250,90 H436 M250,152 H436" fill="none" stroke="#777777" stroke-width="1.3"/>
+    <path d="M343,76 V166" fill="none" stroke="#222222" stroke-width="1.7" stroke-dasharray="5 5"/>
+    <circle cx="343" cy="59" r="10" fill="#222222"/><circle cx="343" cy="183" r="10" fill="#222222"/>
+    <text x="500" y="66">010</text><text x="500" y="128">000</text><text x="500" y="190">010</text>
+    <text x="343" y="256" text-anchor="middle">s &amp; t = 0，但 s &amp; u ≠ 0</text>
+  </g>
+</svg>
