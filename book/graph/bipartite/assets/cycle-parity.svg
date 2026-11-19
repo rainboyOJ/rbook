@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="335" viewBox="0 0 800 335" role="img" aria-labelledby="title desc">
+  <title id="title">偶环与奇环的染色</title>
+  <desc id="desc">左侧四边形的一三号点为黑色，二四号点为白色，全部边两端异色。右侧三角形从一号黑点开始，二三号都被强制为白色，连接它们的虚线边产生同色冲突。</desc>
+  <rect width="800" height="335" fill="white"/>
+  <g font-family="Noto Sans CJK SC, Source Han Sans SC, sans-serif" font-size="18" fill="#222222" text-anchor="middle">
+    <path d="M90,90 H270 V230 H90 Z M490,230 L590,60 L690,230" fill="none" stroke="#222222" stroke-width="1.5"/>
+    <path d="M490,230 H690" fill="none" stroke="#222222" stroke-width="2" stroke-dasharray="6 5"/>
+    <g stroke="#222222" stroke-width="1.5">
+      <g fill="#222222"><circle cx="90" cy="90" r="22"/><circle cx="270" cy="230" r="22"/><circle cx="590" cy="60" r="22"/></g>
+      <g fill="white"><circle cx="270" cy="90" r="22"/><circle cx="90" cy="230" r="22"/><circle cx="490" cy="230" r="22"/><circle cx="690" cy="230" r="22"/></g>
+    </g>
+    <g fill="white"><text x="90" y="97">1</text><text x="270" y="237">3</text><text x="590" y="67">1</text></g>
+    <text x="270" y="97">2</text><text x="90" y="237">4</text><text x="490" y="237">2</text><text x="690" y="237">3</text>
+    <text x="590" y="265" font-size="17">同色冲突边</text>
+    <text x="180" y="310">偶环：能够黑白交替</text><text x="590" y="310">奇环：无法黑白交替</text>
+  </g>
+</svg>

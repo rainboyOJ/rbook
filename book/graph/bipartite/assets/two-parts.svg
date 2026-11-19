@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="330" viewBox="0 0 800 330" role="img" aria-labelledby="title desc">
+  <title id="title">同一张图的二分划分</title>
+  <desc id="desc">左图是按一二三四排列的四边形。右图把一三放在左侧，二四放在右侧，保留全部四条边，右侧两条边交叉但交叉处不是顶点。</desc>
+  <defs><marker id="arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7" fill="#777777"/></marker></defs>
+  <rect width="800" height="330" fill="white"/>
+  <g font-family="Noto Sans CJK SC, Source Han Sans SC, sans-serif" font-size="18" fill="#222222" text-anchor="middle">
+    <g stroke="#222222" stroke-width="1.5" fill="none">
+      <path d="M90,85 H270 V225 H90 Z"/>
+      <path d="M510,85 H690 M510,225 H690 M510,85 L690,225 M510,225 L690,85"/>
+    </g>
+    <g stroke="#222222" stroke-width="1.5">
+      <g fill="#222222"><circle cx="90" cy="85" r="22"/><circle cx="270" cy="225" r="22"/><circle cx="510" cy="85" r="22"/><circle cx="510" cy="225" r="22"/></g>
+      <g fill="white"><circle cx="270" cy="85" r="22"/><circle cx="90" cy="225" r="22"/><circle cx="690" cy="85" r="22"/><circle cx="690" cy="225" r="22"/></g>
+    </g>
+    <g fill="white"><text x="90" y="92">1</text><text x="270" y="232">3</text><text x="510" y="92">1</text><text x="510" y="232">3</text></g>
+    <text x="270" y="92">2</text><text x="90" y="232">4</text><text x="690" y="92">2</text><text x="690" y="232">4</text>
+    <path d="M333,155 H429" fill="none" stroke="#777777" stroke-width="1.3" marker-end="url(#arrow)"/>
+    <text x="380" y="192" fill="#777777" font-size="17">重新排列</text>
+    <text x="510" y="42">L</text><text x="690" y="42">R</text>
+    <text x="180" y="282">原图</text><text x="600" y="282">L = {1,3}，R = {2,4}</text>
+    <text x="600" y="313" fill="#777777" font-size="16">交叉处没有顶点，连接关系不变</text>
+  </g>
+</svg>

@@ -225,6 +225,8 @@
       path: "save"
     - title: "遍历"
       path: "traversal"
+    - title: "二分图判定"
+      path: "bipartite"
     - title: "欧拉路与欧拉回路"
       path: "eulerian-path"
     - title: "拓扑排序 TopSort"
