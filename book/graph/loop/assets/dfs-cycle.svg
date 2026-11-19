@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="365" viewBox="0 0 760 365" role="img" aria-labelledby="title desc">
+  <title id="title">从回边恢复环而非整个搜索栈</title>
+  <desc id="desc">DFS 树从一到二到三到四，三还连接叶子五。四通过回边连接祖先二，所以二三四构成环，栈前缀中的一与叶子五不在该环上。</desc>
+  <rect width="760" height="365" fill="white"/>
+  <g font-family="Noto Sans CJK SC, Source Han Sans SC, sans-serif" font-size="18" fill="#222222" text-anchor="middle">
+    <path d="M130,50 L310,115 M490,180 L660,255" fill="none" stroke="#777777" stroke-width="1.3"/>
+    <path d="M310,115 L490,180 L310,255" fill="none" stroke="#222222" stroke-width="2"/>
+    <path d="M310,255 V115" fill="none" stroke="#222222" stroke-width="2" stroke-dasharray="6 5"/>
+    <g fill="white" stroke="#222222" stroke-width="1.8"><circle cx="310" cy="115" r="22"/><circle cx="490" cy="180" r="22"/><circle cx="310" cy="255" r="22"/></g>
+    <g fill="#f4f4f4" stroke="#777777" stroke-width="1.3"><circle cx="130" cy="50" r="22"/><circle cx="660" cy="255" r="22"/></g>
+    <text x="130" y="57">1</text><text x="310" y="122">2</text><text x="490" y="187">3</text><text x="310" y="262">4</text><text x="660" y="262">5</text>
+    <text x="252" y="190">回边</text>
+    <text x="380" y="318">当前栈：[1,2,3,4]；恢复环：[2,3,4]</text>
+    <text x="380" y="349" fill="#777777" font-size="16">灰色部分不属于本次找到的环</text>
+  </g>
+</svg>

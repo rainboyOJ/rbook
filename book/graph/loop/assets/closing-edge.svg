@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="340" viewBox="0 0 760 340" role="img" aria-labelledby="title desc">
+  <title id="title">第四条边使两端闭合成环</title>
+  <desc id="desc">边按输入编号，一号边连接一四，二号边连接一二，三号边连接二三，四号边连接三四，五号边连接二五。第四条边加入时三四已经连通，因此它是环边。</desc>
+  <rect width="760" height="340" fill="white"/>
+  <g font-family="Noto Sans CJK SC, Source Han Sans SC, sans-serif" font-size="18" fill="#222222" text-anchor="middle">
+    <path d="M480,65 H220 V215 H480 M220,215 L75,280" fill="none" stroke="#222222" stroke-width="1.6"/>
+    <path d="M480,215 V65" fill="none" stroke="#222222" stroke-width="2" stroke-dasharray="6 5"/>
+    <g fill="white" stroke="#222222" stroke-width="1.5"><circle cx="220" cy="65" r="22"/><circle cx="480" cy="65" r="22"/><circle cx="480" cy="215" r="22"/><circle cx="220" cy="215" r="22"/><circle cx="75" cy="280" r="22"/></g>
+    <text x="220" y="72">1</text><text x="480" y="72">4</text><text x="480" y="222">3</text><text x="220" y="222">2</text><text x="75" y="287">5</text>
+    <g font-size="17" fill="#777777"><text x="350" y="46">边 1</text><text x="180" y="146">边 2</text><text x="350" y="245">边 3</text><text x="132" y="235">边 5</text></g>
+    <text x="574" y="146">边 4：闭环</text>
+    <text x="380" y="320">已有路径 3–2–1–4，再接上边 (3,4)</text>
+  </g>
+</svg>

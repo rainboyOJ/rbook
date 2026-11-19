@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="375" viewBox="0 0 760 375" role="img" aria-labelledby="title desc">
+  <title id="title">剥叶剩余不一定都是环上点</title>
+  <desc id="desc">三角形一二三与三角形四五六通过路径三七四连接。全部顶点度数至少为二，七号点与两条桥不会被剥叶删除，却不在任何简单环上。</desc>
+  <rect width="760" height="375" fill="white"/>
+  <g font-family="Noto Sans CJK SC, Source Han Sans SC, sans-serif" font-size="18" fill="#222222" text-anchor="middle">
+    <path d="M80,170 L220,65 V275 Z M540,170 L680,65 V275 Z" fill="none" stroke="#222222" stroke-width="1.6"/>
+    <path d="M220,275 H380 L540,170" fill="none" stroke="#777777" stroke-width="1.6" stroke-dasharray="6 5"/>
+    <g fill="white" stroke="#222222" stroke-width="1.5"><circle cx="80" cy="170" r="22"/><circle cx="220" cy="65" r="22"/><circle cx="220" cy="275" r="22"/><circle cx="540" cy="170" r="22"/><circle cx="680" cy="65" r="22"/><circle cx="680" cy="275" r="22"/></g>
+    <circle cx="380" cy="275" r="22" fill="#f4f4f4" stroke="#777777" stroke-width="1.5"/>
+    <text x="80" y="177">1</text><text x="220" y="72">2</text><text x="220" y="282">3</text><text x="540" y="177">4</text><text x="680" y="72">5</text><text x="680" y="282">6</text><text x="380" y="282">7</text>
+    <text x="380" y="319" fill="#777777" font-size="16">点 7 不在环上</text>
+    <text x="380" y="358">没有叶子可删，但两条虚线边都是桥</text>
+  </g>
+</svg>
