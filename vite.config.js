@@ -57,9 +57,10 @@ function collectAnimationEntries() {
     return entries
 }
 
-function articleDevPlugin(animationEntries, runtimeEntry) {
+function articleDevPlugin(animationEntries, runtimeEntry, formulaEntry) {
     const animationUrls = new Map(Object.entries(animationEntries).map(([name, source]) => [`/${name}.js`, source]))
     animationUrls.set('/js/animation-runtime.js', runtimeEntry)
+    animationUrls.set('/js/formula-tools.js', formulaEntry)
 
     return {
         name: 'rbook-article-dev',
@@ -223,11 +224,12 @@ function loadMenuHtml() {
 // https://vitejs.dev/config/
 const animationEntries = collectAnimationEntries()
 const runtimeEntry = resolve(__dirname, 'packages/animation/src/runtime.ts')
+const formulaEntry = resolve(__dirname, 'src/formula-tools.js')
 
 export default defineConfig({
     plugins: [
         videoAssetsPlugin(),
-        articleDevPlugin(animationEntries, runtimeEntry),
+        articleDevPlugin(animationEntries, runtimeEntry, formulaEntry),
         ViteEjsPlugin({
             menu: {
                 html: loadMenuHtml()
@@ -243,6 +245,7 @@ export default defineConfig({
             input: {
                 index: resolve(__dirname, 'src/home.html'),
                 'js/animation-runtime': runtimeEntry,
+                'js/formula-tools': formulaEntry,
                 ...animationEntries,
             },
             output: {

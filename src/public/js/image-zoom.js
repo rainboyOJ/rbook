@@ -12,6 +12,7 @@
  * - 打开后：适应窗口起步，滚轮/双击以光标为锚点缩放，溢出后拖拽平移，
  *   右下角短暂显示百分比；Esc / 点遮罩空白 / ✕ 关闭，点图片本身不关闭。
  * - <gallery> 内可 ‹ 3 / 5 › 翻页（← → 键，触屏左右滑）。
+ * - 块级公式从操作菜单进入，保留 KaTeX HTML，初始最多放到正文的 2 倍。
  * - 无第三方依赖，无 JS 时页面行为完全不变（`zoom-in` 光标由脚本加类才出现）。
  */
 (function() {
@@ -37,7 +38,7 @@
     let overlay = null
     let stage = null
     let figure = null
-    let media = null               // 当前内容节点：<img> 或克隆出来的 <svg>
+    let media = null               // 当前内容节点：<img>、克隆的 <svg> 或公式
     let captionEl = null
     let scaleEl = null
     let pagerEl = null
@@ -247,7 +248,7 @@
     function naturalSize() {
         const entry = session && session.images[session.index]
         if (!entry) return { width: 0, height: 0 }
-        if (entry.kind === 'svg') return entry.size
+        if (entry.kind === 'svg' || entry.kind === 'formula') return entry.size
         if (!media) return { width: 0, height: 0 }
         const width = num(media.naturalWidth)
         const height = num(media.naturalHeight)
@@ -258,7 +259,7 @@
 
     function maxScale() {
         const entry = session && session.images[session.index]
-        const base = entry && entry.kind === 'svg' ? MAX_SCALE_SVG : MAX_SCALE
+        const base = entry && entry.kind !== 'img' ? MAX_SCALE_SVG : MAX_SCALE
         // 「适应窗口」可能已经超过基准上限（很小的 SVG 填满窗口时可以到几十倍），
         // 上限必须至少包容 fit，否则打开就会被 clamp 成比 fit 还小。
         return Math.max(base, session.fit * 2)
@@ -276,7 +277,10 @@
         media.style.height = natural.height + 'px'
         // 矢量图按实际可用空间放大（图小也能填满窗口）；位图最多到 100%。
         const entry = session.images[session.index]
-        session.fit = fitScale(natural, box, entry.kind === 'svg')
+        // 公式起步最多放到正文的 2 倍，仍按 HTML 排版，继续放大也不会糊。
+        session.fit = entry.kind === 'formula'
+            ? Math.min(2, fitScale(natural, box, true))
+            : fitScale(natural, box, entry.kind === 'svg')
         session.scale = session.fit
         session.tx = 0
         session.ty = 0
@@ -469,10 +473,32 @@
         const wantSvg = entry.kind === 'svg'
         const currentSvg = isSvg(media)
 
+        if (entry.kind === 'formula') {
+            if (media && media.parentNode === figure) figure.removeChild(media)
+            media = document.createElement('div')
+            media.className = 'rbook-image-zoom__formula katex-display'
+            const clone = entry.formula.cloneNode(true)
+            clone.style.fontSize = entry.fontSize
+            clone.style.width = 'max-content'
+            clone.style.maxWidth = 'none'
+            clone.style.margin = '0'
+            clone.removeAttribute('tabindex')
+            clone.removeAttribute('role')
+            clone.removeAttribute('data-formula-actions')
+            clone.removeAttribute('aria-controls')
+            clone.removeAttribute('aria-expanded')
+            clone.removeAttribute('aria-haspopup')
+            clone.removeAttribute('aria-label')
+            media.appendChild(clone)
+            figure.appendChild(media)
+            resetFit()
+            return
+        }
+
         // <img> 翻页时复用同一个元素，只换 src：文本缓存命中时也仍需一帧
         // 重新解码，重建元素会让图组翻页闪一下。<svg> 克隆体无法“换源”，
         // 换图或两种类型互换时才需要重建。
-        if (media && media.parentNode === figure && !wantSvg && !currentSvg) {
+        if (media && media.parentNode === figure && !wantSvg && !currentSvg && tagOf(media) === 'img') {
             figure.style.transform = ''
             media.style.width = ''
             media.style.height = ''
@@ -516,6 +542,10 @@
         const entry = session.images[session.index]
         if (!entry) return
         figure.style.transform = ''
+        const isFormula = entry.kind === 'formula'
+        figure.classList.toggle('is-formula', isFormula)
+        overlay.setAttribute('aria-label', isFormula ? '公式预览' : '图片预览')
+        closeButton.setAttribute('aria-label', isFormula ? '关闭公式预览' : '关闭图片预览')
 
         if (entry.caption) {
             captionEl.textContent = entry.caption
@@ -798,6 +828,23 @@
         const medias = galleryMedias(el)
         open(medias.map(snapshot), medias.indexOf(el), el)
     }
+
+    // 与公式菜单共用同一个遮罩和手势实现；公式保留 KaTeX 的 HTML，不转位图。
+    document.addEventListener('rbook:preview-formula', function(event) {
+        const formula = event.detail && event.detail.formula
+        if (!formula || !formula.closest('.katex-display') || !formula.closest('.markdown-body')) return
+        const rect = rectOf(formula)
+        const size = {
+            width: Math.max(num(formula.scrollWidth), num(rect && rect.width)),
+            height: Math.max(num(formula.scrollHeight), num(rect && rect.height)),
+        }
+        if (!size.width || !size.height) return
+        open([{
+            kind: 'formula', formula: formula, size: size,
+            fontSize: window.getComputedStyle(formula).fontSize,
+            caption: '',
+        }], 0, formula)
+    })
 
     // 按下到抬起位移过大或按住太久，说明用户是在拖动浏览、选字或长按，
     // 不该弹出遮罩。

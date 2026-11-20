@@ -20,6 +20,76 @@
     box-shadow: 0 0 0 1px color-mix(in srgb, var(--rbook-accent) 35%, transparent);
 }
 
+.rbook-article .markdown-body .katex[data-formula-actions]:focus-visible {
+    outline: 2px solid var(--rbook-accent);
+    outline-offset: 4px;
+}
+
+// 挂在 body 上，避免被公式自身的横向滚动容器裁掉。
+.rbook-formula-menu {
+    position: fixed;
+    z-index: 100001;
+    display: flex;
+    flex-direction: column;
+    width: 176px;
+    max-width: calc(100vw - 16px);
+    padding: 4px;
+    border: 1px solid var(--rbook-border);
+    border-radius: 10px;
+    background: var(--rbook-surface);
+    color: var(--rbook-text);
+    box-shadow: 0 8px 24px var(--rbook-shadow);
+
+    &[hidden] { display: none; }
+
+    button {
+        min-height: 44px;
+        padding: 8px 12px;
+        border: 0;
+        border-radius: 6px;
+        background: transparent;
+        color: inherit;
+        font: 14px/1.5 var(--rbook-font-heading);
+        text-align: left;
+        cursor: pointer;
+
+        &:hover, &:focus-visible {
+            outline: none;
+            background: var(--rbook-accent-muted);
+            color: var(--rbook-accent);
+        }
+    }
+}
+
+// 临时离屏的导出节点，排版不受正文宽度、主题颜色和悬停状态影响。
+.rbook-formula-export {
+    position: fixed;
+    left: -100000px;
+    top: 0;
+    display: block;
+    width: max-content;
+    max-width: none;
+    margin: 0;
+    padding: 12px;
+    background: #fff;
+    font-family: KaTeX_Main, 'Times New Roman', serif;
+    line-height: normal;
+    pointer-events: none;
+
+    > .katex {
+        display: block;
+        width: max-content;
+        max-width: none;
+        margin: 0;
+    }
+
+    &, * { color: #000 !important; }
+}
+
+@media print {
+    .rbook-formula-menu, .rbook-formula-export { display: none !important; }
+}
+
 // 复制反馈：fixed 底部居中，挂在 body 上，不受文章排版影响。
 .rbook-toast {
     position: fixed;

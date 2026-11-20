@@ -99,6 +99,28 @@
     transition: opacity 0.12s ease;
 }
 
+// 公式直接放大 HTML，保留分式、根号和矩阵的矢量排版。
+.rbook-image-zoom__figure.is-formula {
+    // 先让底板按完整公式宽度铺开，再整体缩放；否则 flex 会先把底板
+    // 压到窗口宽，长公式溢出白底并向右偏移。
+    flex-shrink: 0;
+    max-width: none;
+    max-height: none;
+}
+
+.rbook-image-zoom__formula.katex-display {
+    display: block;
+    flex: none;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    line-height: normal;
+    user-select: none;
+    pointer-events: none;
+
+    &, * { color: #000 !important; }
+}
+
 // 内联 <svg> 的克隆体：尺寸和透明度同样由脚本接管，这里只兜住正文里
 // 图表样式的干扰和浏览器默认的 inline 排版。
 .rbook-image-zoom__figure > svg {

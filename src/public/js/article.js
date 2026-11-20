@@ -75,7 +75,7 @@
         sync()
     })
 
-    // 公式复制：点击 KaTeX 公式，复制它的 LaTeX 源码。
+    // 行内公式直接复制；块级公式在增强模块就绪后打开操作菜单。
     // 源码就存在 KaTeX 隐藏 MathML 的 annotation 里，无需给公式额外打标记。
     let formulaToast = null
     let formulaToastTimer = 0
@@ -119,8 +119,14 @@
         if (!latex) return
 
         const isDisplay = Boolean(katex.closest('.katex-display'))
-        const text = isDisplay ? `$$${latex}$$` : `$${latex}$`
         event.stopPropagation()
+        if (isDisplay && katex.hasAttribute('data-formula-actions')) {
+            document.dispatchEvent(new CustomEvent('rbook:formula-menu', {
+                detail: { formula: katex, copyText, showToast },
+            }))
+            return
+        }
+        const text = isDisplay ? `$$\n${latex}\n$$` : `$${latex}$`
         copyText(text)
             .then(() => showToast('已复制 LaTeX'))
             .catch(() => showToast('复制失败'))

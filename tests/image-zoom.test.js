@@ -242,7 +242,7 @@ function page({ blocks = [], stage = { width: 1000, height: 800 } } = {}) {
         },
     }
 
-    const window = { innerWidth: 1280, innerHeight: 900 }
+    const window = { innerWidth: 1280, innerHeight: 900, getComputedStyle: () => ({ fontSize: '22px' }) }
     const sandbox = {
         document,
         window,
@@ -421,6 +421,56 @@ it('滚轮缩放不越过原始尺寸，缩回适应窗口后归零平移', () =
 })
 
 // ---- 内联 SVG（graphviz / mermaid） ----
+
+function openFormula(p, { width = 200, height = 60, scrollWidth = width } = {}) {
+    const display = element('span', { classes: ['katex-display'] })
+    const formula = element('span', {
+        classes: ['katex'], rect: { width, height },
+        attrs: { tabindex: '0', role: 'button', 'data-formula-actions': '' },
+    })
+    formula.scrollWidth = scrollWidth
+    formula.scrollHeight = height
+    p.markdown.appendChild(display)
+    display.appendChild(formula)
+    p.document.dispatch('rbook:preview-formula', { detail: { formula } })
+    return formula
+}
+
+it('公式预览以正文两倍起步，滚轮放大、Esc 关闭后焦点返回原公式', () => {
+    const p = page()
+    const formula = openFormula(p)
+    const figure = p.node('rbook-image-zoom__figure')
+    assert.equal(p.overlay().getAttribute('aria-label'), '公式预览')
+    assert.equal(figure.classList.contains('is-formula'), true)
+    assert.match(figure.style.transform, /scale\(2\)/)
+    const clone = p.node('rbook-image-zoom__formula').childNodes[0]
+    assert.equal(clone.style.fontSize, '22px')
+    assert.equal(clone.getAttribute('tabindex'), null)
+    assert.equal(clone.getAttribute('data-formula-actions'), null)
+    figure.dispatch('wheel', { deltaY: -100, clientX: 500, clientY: 400 })
+    assert.match(figure.style.transform, /scale\(2.3\)/)
+    p.document.dispatch('keydown', { key: 'Escape', preventDefault() {} })
+    assert.equal(formula.focused, 1)
+    assert.equal(p.document.documentElement.classList.contains('rbook-image-zoom-open'), false)
+})
+
+it('超长公式按完整滚动宽度适应窗口，不能只预览正文可见部分', () => {
+    const p = page({ stage: { width: 390, height: 844 } })
+    openFormula(p, { width: 342, scrollWidth: 3000 })
+    assert.equal(p.node('rbook-image-zoom__formula').style.width, '3000px')
+    const scale = Number(p.node('rbook-image-zoom__figure').style.transform.match(/scale\(([\d.]+)\)/)[1])
+    assert.ok(Math.abs(scale - (390 - 48) / 3000) < 0.0001)
+})
+
+it('公式预览关闭后再打开图片，恢复图片标签和媒体类型', () => {
+    const p = page({ blocks: [{ parent: 'p', images: [{ src: '/after-formula.png' }] }] })
+    openFormula(p)
+    p.document.dispatch('keydown', { key: 'Escape', preventDefault() {} })
+    openFirst(p, '/after-formula.png')
+    assert.equal(p.overlay().getAttribute('aria-label'), '图片预览')
+    assert.equal(p.node('rbook-image-zoom__figure').classList.contains('is-formula'), false)
+    assert.equal(p.node('rbook-image-zoom__figure').childNodes[0].tagName, 'IMG')
+})
 
 it('graphviz 的内联 SVG 也能接管，其 100% 取声明的绘制尺寸（pt 换算成 px）', () => {
     const p = page({
