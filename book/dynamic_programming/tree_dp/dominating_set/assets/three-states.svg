@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="320" viewBox="0 0 800 320" role="img" aria-labelledby="title desc">
+  <title id="title">树上支配集三种状态的划分依据</title>
+  <desc id="desc">对比节点 u 选或不选的三种情况：(a) 选 u，u 已被自己覆盖，对父节点 p 无要求；(b) 不选 u 但至少选一个孩子，u 被孩子覆盖，对父节点 p 无要求；(c) 不选 u 且不选孩子，u 尚未被覆盖，要求父节点 p 必须被选。</desc>
+  <defs>
+    <marker id="arrow-accent" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 9 5 L 0 8.5 z" fill="#2F5D8A"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="800" height="320" fill="#F2F2F2" stroke="none"/>
+
+  <!-- 子树 T_u 外框 -->
+  <g fill="#FFFFFF" stroke="#999999" stroke-width="1.2" stroke-dasharray="5 4">
+    <rect x="45" y="114" width="180" height="134"/>
+    <rect x="305" y="114" width="180" height="134"/>
+    <rect x="570" y="114" width="180" height="134"/>
+  </g>
+
+  <!-- 树边 -->
+  <g stroke="#777777" stroke-width="1.5" fill="none">
+    <!-- (a) -->
+    <line x1="135" y1="78" x2="135" y2="148" stroke-dasharray="4 3"/>
+    <line x1="135" y1="148" x2="93" y2="216"/>
+    <line x1="135" y1="148" x2="177" y2="216"/>
+    <!-- (b) -->
+    <line x1="395" y1="78" x2="395" y2="148" stroke-dasharray="4 3"/>
+    <line x1="395" y1="148" x2="353" y2="216"/>
+    <line x1="395" y1="148" x2="437" y2="216"/>
+    <!-- (c) -->
+    <line x1="660" y1="78" x2="660" y2="148" stroke-dasharray="4 3"/>
+    <line x1="660" y1="148" x2="618" y2="216"/>
+    <line x1="660" y1="148" x2="702" y2="216"/>
+  </g>
+
+  <!-- 覆盖方向指示 -->
+  <!-- (b) v1 覆盖 u -->
+  <line x1="348" y1="194" x2="371" y2="158" stroke="#2F5D8A" stroke-width="1.8" marker-end="url(#arrow-accent)"/>
+  <!-- (c) p 覆盖 u -->
+  <line x1="660" y1="98" x2="660" y2="124" stroke="#2F5D8A" stroke-width="1.8" stroke-dasharray="4 3" marker-end="url(#arrow-accent)"/>
+
+  <!-- 节点圆圈 -->
+  <!-- (a) p 可选，u 选中，v1/v2 可选(虚线表示状态任意) -->
+  <circle cx="135" cy="78" r="17" fill="#F2F2F2" stroke="#777777" stroke-width="1.4" stroke-dasharray="4 3"/>
+  <circle cx="135" cy="148" r="20" fill="#222222" stroke="#222222" stroke-width="1.6"/>
+  <circle cx="93" cy="216" r="17" fill="#FFFFFF" stroke="#777777" stroke-width="1.4" stroke-dasharray="4 3"/>
+  <circle cx="177" cy="216" r="17" fill="#FFFFFF" stroke="#777777" stroke-width="1.4" stroke-dasharray="4 3"/>
+
+  <!-- (b) p 可选，u 不选，v1 选中，v2 可选 -->
+  <circle cx="395" cy="78" r="17" fill="#F2F2F2" stroke="#777777" stroke-width="1.4" stroke-dasharray="4 3"/>
+  <circle cx="395" cy="148" r="20" fill="#FFFFFF" stroke="#222222" stroke-width="1.8"/>
+  <circle cx="353" cy="216" r="17" fill="#222222" stroke="#222222" stroke-width="1.6"/>
+  <circle cx="437" cy="216" r="17" fill="#FFFFFF" stroke="#777777" stroke-width="1.4" stroke-dasharray="4 3"/>
+
+  <!-- (c) p 必选，u 不选，v1/v2 均不选 -->
+  <circle cx="660" cy="78" r="17" fill="#2F5D8A" stroke="#2F5D8A" stroke-width="1.6"/>
+  <circle cx="660" cy="148" r="20" fill="#FFFFFF" stroke="#2F5D8A" stroke-width="1.8" stroke-dasharray="4 3"/>
+  <circle cx="618" cy="216" r="17" fill="#FFFFFF" stroke="#222222" stroke-width="1.5"/>
+  <circle cx="702" cy="216" r="17" fill="#FFFFFF" stroke="#222222" stroke-width="1.5"/>
+
+  <!-- 文本标签 -->
+  <g font-family="Noto Serif CJK SC, Source Han Serif SC, serif" text-anchor="middle" fill="#222222">
+    <!-- 顶部标题 -->
+    <text x="135" y="34" font-size="16" font-weight="bold">(a) 选 u：f[u][1]</text>
+    <text x="395" y="34" font-size="16" font-weight="bold">(b) 不选 u，被孩子覆盖：f[u][0]</text>
+    <text x="660" y="34" font-size="16" font-weight="bold">(c) 不选 u，等父亲覆盖：f[u][2]</text>
+
+    <!-- 子树标记 -->
+    <g font-size="13" fill="#666666" text-anchor="start">
+      <text x="53" y="132">T<tspan font-size="10" dy="3">u</tspan></text>
+      <text x="313" y="132">T<tspan font-size="10" dy="3">u</tspan></text>
+      <text x="578" y="132">T<tspan font-size="10" dy="3">u</tspan></text>
+    </g>
+
+    <!-- p 节点字母与右侧状态说明 -->
+    <g font-size="16" font-style="italic">
+      <text x="135" y="83" fill="#555555">p</text>
+      <text x="395" y="83" fill="#555555">p</text>
+      <text x="660" y="83" fill="#FFFFFF">p</text>
+    </g>
+    <g font-size="13" text-anchor="start" fill="#555555">
+      <text x="159" y="83">选或不选均可</text>
+      <text x="419" y="83">选或不选均可</text>
+      <text x="684" y="83" fill="#2F5D8A" font-weight="bold">必须选择</text>
+    </g>
+
+    <!-- u 节点字母 -->
+    <g font-size="18" font-style="italic">
+      <text x="135" y="153" fill="#FFFFFF">u</text>
+      <text x="395" y="153" fill="#222222">u</text>
+      <text x="660" y="153" fill="#2F5D8A">u</text>
+    </g>
+    <g font-size="12" text-anchor="start" fill="#2F5D8A">
+      <text x="686" y="152">待覆盖</text>
+    </g>
+
+    <!-- 孩子节点字母 -->
+    <g font-size="15" font-style="italic">
+      <text x="93" y="221" fill="#555555">v<tspan font-size="11" dy="3" font-style="normal">1</tspan></text>
+      <text x="177" y="221" fill="#555555">v<tspan font-size="11" dy="3" font-style="normal">2</tspan></text>
+
+      <text x="353" y="221" fill="#FFFFFF">v<tspan font-size="11" dy="3" font-style="normal">1</tspan></text>
+      <text x="437" y="221" fill="#555555">v<tspan font-size="11" dy="3" font-style="normal">2</tspan></text>
+
+      <text x="618" y="221" fill="#222222">v<tspan font-size="11" dy="3" font-style="normal">1</tspan></text>
+      <text x="702" y="221" fill="#222222">v<tspan font-size="11" dy="3" font-style="normal">2</tspan></text>
+    </g>
+
+    <!-- 底部结论 -->
+    <g font-size="14" fill="#333333">
+      <text x="135" y="274">u 已被自身覆盖</text>
+      <text x="135" y="296" fill="#666666">对父节点 p 无要求</text>
+
+      <text x="395" y="274">至少选 1 个孩子覆盖 u</text>
+      <text x="395" y="296" fill="#666666">对父节点 p 无要求</text>
+
+      <text x="660" y="274" fill="#2F5D8A">不选任何孩子，u 未覆盖</text>
+      <text x="660" y="296" fill="#2F5D8A">要求父节点 p 必须选择</text>
+    </g>
+  </g>
+</svg>
