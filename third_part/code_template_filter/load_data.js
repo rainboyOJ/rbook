@@ -44,6 +44,13 @@ var template_array = []
 
 async function load_data() {
 
+    // public/ 下的目录都是生成的模板。重建前清理，避免文章改名后仍发布旧路径。
+    const publicDir = Path.join(__dirname, 'public')
+    fse.ensureDirSync(publicDir)
+    for (const entry of fs.readdirSync(publicDir, { withFileTypes: true })) {
+        if (entry.isDirectory()) fse.removeSync(Path.join(publicDir, entry.name))
+    }
+
     //根据信息处理code_template
     function deal_code_template(d,code_template) {
         // console.log(d)

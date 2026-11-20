@@ -106,11 +106,14 @@ rsync -avp --delete --exclude='.user.ini' ./dist/ bohai:/www/wwwroot/rbook.roj.a
 # papers.conf（主配置会 include 它）。这样在面板里改「伪静态」或保存站点设置时，
 # 手写的 location 不会被重写掉。脚本幂等：内容没变就不动文件、不 reload；
 # 写了会先 nginx -t，语法错就回滚。失败不阻断发布，只警告。
+# 同时安装目录迁移后的旧地址跳转，兼容文章、模板和论文的旧链接。
 if [[ -f scripts/install-nginx-papers.sh ]]; then
-  bash scripts/install-nginx-papers.sh || \
-    echo "[deploy] 警告：/papers/ 的 nginx 配置安装失败，但发布已继续" >&2
+  for nginx_config in papers legacy-paths; do
+    bash scripts/install-nginx-papers.sh "$nginx_config" || \
+      echo "[deploy] 警告：${nginx_config} 的 nginx 配置安装失败，但发布已继续" >&2
+  done
 else
-  echo "[deploy] 未找到 scripts/install-nginx-papers.sh，跳过 /papers/ 配置" >&2
+  echo "[deploy] 未找到 scripts/install-nginx-papers.sh，跳过 nginx 配置安装" >&2
 fi
 
 # sync back

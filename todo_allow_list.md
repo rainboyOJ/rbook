@@ -73,8 +73,8 @@
 | 39 | `data_structure/splay/index.md` | 367B | 只有核心概念清单，`status: TODO`。平衡树整块缺口，值得写 |
 | 40 | `data_structure/treap/index.md` | 100B | 明确写着「这里是草稿，需要结合 rbook_old 上的 treap 查看」——基本空壳 |
 | 41 | `ReadingNotes/preface.md` | 155B | 读书笔记总前言（4 行） |
-| 42 | `ReadingNotes/近世代数/chapter_1.md` | 451B | 近世代数第一章，内容很少 |
-| 43 | `ReadingNotes/近世代数/preface.md` | 73B | 只有书目/视频链接 |
+| 42 | `ReadingNotes/abstract_algebra/chapter_1.md` | 451B | 近世代数第一章，内容很少 |
+| 43 | `ReadingNotes/abstract_algebra/preface.md` | 73B | 只有书目/视频链接 |
 | 44 | `base/number_dis/start.md` | 783B | 「数字距离」，2 张 `asym/*.svg` 图缺失 |
 | 45 | `recursion/dynamic_loop/index.md` | 99B | 递归实现多重循环；引用了不存在的绝对路径 `/algo_template/enumerate/递归实现多重循环.cpp` |
 | 47 | `string/Boyer-Moore/index.md` | 50B | 只有一个参考链接 |
@@ -112,7 +112,7 @@
 | `algorithm/discrete/start.md` | 与已发布的 `base/discrete` 重复（旧目录） → 删 |
 | `math/combinatorics/Inclusion–exclusion_principle.md` | 空文件，且与 T1 的 `math/inclusion-exclusion/` 重复 → 删 |
 | `math/numberTheory/exgcd/index.md` | 只有 4 个标题，无内容；扩展欧几里得是好题材，但现状等于空 → 先补写 |
-| `math/numberTheory/约数/index.md` | 只有 3 个外链 → 先补写 |
+| `math/numberTheory/divisors/index.md` | 只有 3 个外链 → 先补写 |
 | `math/排序不等式.md` | 只有 1 个百度百科链接 → 先补写 |
 | `data_structure/segment_tree/other.md` | 30 字节的一句备忘（线段树分裂/优化建图/矩阵优化 DP） → 并入「线段树」章的待办，或删 |
 | `appendix/program_environment/noilinux2.0/myos.md` | 正文就是「TODO」 → 删或写 |

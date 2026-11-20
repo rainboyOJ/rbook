@@ -1,5 +1,6 @@
 #!/bin/bash
-# 安装 /papers/ 的 nginx location 到 bohai 的 extension 目录。
+# 安装站点的 nginx 配置到 bohai 的 extension 目录。
+# 默认安装 papers.conf；传入 legacy-paths 安装目录迁移的旧地址跳转。
 #
 # 为什么单独一个脚本：deploy.sh 只负责把 dist/ 同步上去，不改服务器配置。
 # 但 /papers/ 需要一段 location，而这段不能写进主 vhost 配置——那是宝塔面板
@@ -10,18 +11,24 @@
 
 set -uo pipefail
 
+CONFIG_NAME="${1:-papers}"
+case "$CONFIG_NAME" in
+  papers|legacy-paths) ;;
+  *) echo "用法: $0 [papers|legacy-paths]" >&2; exit 1 ;;
+esac
+
 REMOTE="${RBOOK_NGINX_REMOTE:-bohai}"
 REMOTE_DIR="/www/server/panel/vhost/nginx/extension/rbook.roj.ac.cn"
-REMOTE_FILE="$REMOTE_DIR/papers.conf"
-LOCAL_FILE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/deploy/nginx/papers.conf"
+REMOTE_FILE="$REMOTE_DIR/$CONFIG_NAME.conf"
+LOCAL_FILE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/deploy/nginx/$CONFIG_NAME.conf"
 
 if [[ ! -f "$LOCAL_FILE" ]]; then
-  echo "[nginx-papers] 找不到 $LOCAL_FILE，跳过" >&2
+  echo "[nginx-$CONFIG_NAME] 找不到 $LOCAL_FILE，跳过" >&2
   exit 0
 fi
 
 if ! ssh -o BatchMode=yes -o ConnectTimeout=10 "$REMOTE" true 2>/dev/null; then
-  echo "[nginx-papers] 连不上 $REMOTE，跳过 /papers/ 配置安装" >&2
+  echo "[nginx-$CONFIG_NAME] 连不上 $REMOTE，跳过配置安装" >&2
   exit 0
 fi
 
@@ -30,7 +37,7 @@ remote_existing="$(ssh -o BatchMode=yes "$REMOTE" "cat '$REMOTE_FILE' 2>/dev/nul
 local_content="$(cat "$LOCAL_FILE")"
 
 if [[ "$remote_existing" == "$local_content" ]]; then
-  echo "[nginx-papers] 配置无变化，跳过"
+  echo "[nginx-$CONFIG_NAME] 配置无变化，跳过"
   exit 0
 fi
 
@@ -38,20 +45,20 @@ fi
 if ssh -o BatchMode=yes "$REMOTE" "test -f '$REMOTE_FILE'"; then
   stamp="$(date +%Y%m%d%H%M%S)"
   ssh -o BatchMode=yes "$REMOTE" "cp '$REMOTE_FILE' '$REMOTE_FILE.bak.$stamp'" || {
-    echo "[nginx-papers] 备份旧配置失败，中止以免无法回滚" >&2
+    echo "[nginx-$CONFIG_NAME] 备份旧配置失败，中止以免无法回滚" >&2
     exit 1
   }
-  echo "[nginx-papers] 已备份旧配置到 $REMOTE_FILE.bak.$stamp"
+  echo "[nginx-$CONFIG_NAME] 已备份旧配置到 $REMOTE_FILE.bak.$stamp"
 fi
 
 ssh -o BatchMode=yes "$REMOTE" "mkdir -p '$REMOTE_DIR' && cat > '$REMOTE_FILE'" < "$LOCAL_FILE" || {
-  echo "[nginx-papers] 写入 $REMOTE:$REMOTE_FILE 失败" >&2
+  echo "[nginx-$CONFIG_NAME] 写入 $REMOTE:$REMOTE_FILE 失败" >&2
   exit 1
 }
 
 # 写完必须 nginx -t。语法错就回滚，绝不能让一个坏配置留在服务器上。
 if ! ssh -o BatchMode=yes "$REMOTE" 'nginx -t' 2>&1 | tail -2; then
-  echo "[nginx-papers] nginx -t 失败，回滚" >&2
+  echo "[nginx-$CONFIG_NAME] nginx -t 失败，回滚" >&2
   ssh -o BatchMode=yes "$REMOTE" "
     latest=\$(ls -t '$REMOTE_FILE'.bak.* 2>/dev/null | head -1)
     if [[ -n \"\$latest\" ]]; then mv \"\$latest\" '$REMOTE_FILE'; else rm -f '$REMOTE_FILE'; fi
@@ -60,8 +67,8 @@ if ! ssh -o BatchMode=yes "$REMOTE" 'nginx -t' 2>&1 | tail -2; then
 fi
 
 ssh -o BatchMode=yes "$REMOTE" 'nginx -s reload' || {
-  echo "[nginx-papers] nginx reload 失败" >&2
+  echo "[nginx-$CONFIG_NAME] nginx reload 失败" >&2
   exit 1
 }
 
-echo "[nginx-papers] 已安装并 reload：$REMOTE:$REMOTE_FILE"
+echo "[nginx-$CONFIG_NAME] 已安装并 reload：$REMOTE:$REMOTE_FILE"

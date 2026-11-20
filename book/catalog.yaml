@@ -136,7 +136,7 @@
     - title: "双机流水调度"
       path: "johnson"
     - title: "均分纸牌"
-      path: "均分纸牌"
+      path: "equalize_cards"
     - title: "删数字"
       path: "delete_number"
 - title: "动态规划"
@@ -186,7 +186,7 @@
         - title: "问法变化"
           path: "scheme_count"
         - title: "习题1: 整数划分"
-          path: "exercises/整数划分/problem.md"
+          path: "exercises/integer_partition/problem.md"
     - title: "树形DP"
       path: "tree_dp"
       search_aliases: [树形dp, 树dp, treedp]
@@ -324,7 +324,7 @@
         - title: "严格次小生成树"
           path: "second"
     - title: "图论及其应用读书笔记"
-      path: "图论及其应用读书笔记"
+      path: "graph_theory_notes"
 - title: "数据结构"
   path: "data_structure"
   children:
@@ -425,7 +425,7 @@
       path: "brute-force"
       search_aliases: [暴力匹配, bruteforce]
     - title: "字符串哈希"
-      path: "进制hash"
+      path: "string_hash"
       search_aliases: [字符串hash, rollinghash]
     - title: "Manacher"
       path: "manacher"
@@ -440,7 +440,7 @@
       path: "ac-automaton"
       search_aliases: [ac, acam, ac自动机, aho-corasick]
     - title: "最小表示法"
-      path: "最小表示法"
+      path: "minimal_rotation"
     - title: "Boyer–Moore"
       path: "Boyer-Moore"
       search_aliases: [bm, boyermoore]
@@ -522,7 +522,7 @@
         - title: "整除"
           path: "divisible"
         - title: "约数"
-          path: "约数"
+          path: "divisors"
         - title: "余数"
           path: "remainder"
         - title: "素数"
