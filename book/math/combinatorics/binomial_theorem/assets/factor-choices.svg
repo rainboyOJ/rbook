@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="355" viewBox="0 0 760 355" role="img" aria-labelledby="title desc">
+<title id="title">二项式系数来自因子选择</title><desc id="desc">展开三个 x 加 y 的因子的乘积，要得到 x 平方乘 y，分别可以在第一、第二或第三个因子中取 y，其余取 x，共三种选择。</desc>
+<rect width="760" height="355" fill="white"/>
+<defs><marker id="arrow" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><path d="M0 0L8 3.5L0 7" fill="none" stroke="#222" stroke-width="1.5"/></marker></defs>
+<text x="145" y="40" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="19" fill="#222">因子 1</text>
+<text x="285" y="40" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="19" fill="#222">因子 2</text>
+<text x="425" y="40" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="19" fill="#222">因子 3</text>
+<rect x="100" y="76" width="90" height="48" fill="#f4f4f4" stroke="#777"/>
+<text x="145" y="107" text-anchor="middle" font-family="serif" font-size="25" fill="#222">y</text>
+<rect x="240" y="76" width="90" height="48" fill="white" stroke="#777"/>
+<text x="285" y="107" text-anchor="middle" font-family="serif" font-size="25" fill="#222">x</text>
+<rect x="380" y="76" width="90" height="48" fill="white" stroke="#777"/>
+<text x="425" y="107" text-anchor="middle" font-family="serif" font-size="25" fill="#222">x</text>
+<path d="M495 100H555" stroke="#222" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="625" y="107" text-anchor="middle" font-family="serif" font-size="25" fill="#222">x²y</text>
+<rect x="100" y="156" width="90" height="48" fill="white" stroke="#777"/>
+<text x="145" y="187" text-anchor="middle" font-family="serif" font-size="25" fill="#222">x</text>
+<rect x="240" y="156" width="90" height="48" fill="#f4f4f4" stroke="#777"/>
+<text x="285" y="187" text-anchor="middle" font-family="serif" font-size="25" fill="#222">y</text>
+<rect x="380" y="156" width="90" height="48" fill="white" stroke="#777"/>
+<text x="425" y="187" text-anchor="middle" font-family="serif" font-size="25" fill="#222">x</text>
+<path d="M495 180H555" stroke="#222" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="625" y="187" text-anchor="middle" font-family="serif" font-size="25" fill="#222">x²y</text>
+<rect x="100" y="236" width="90" height="48" fill="white" stroke="#777"/>
+<text x="145" y="267" text-anchor="middle" font-family="serif" font-size="25" fill="#222">x</text>
+<rect x="240" y="236" width="90" height="48" fill="white" stroke="#777"/>
+<text x="285" y="267" text-anchor="middle" font-family="serif" font-size="25" fill="#222">x</text>
+<rect x="380" y="236" width="90" height="48" fill="#f4f4f4" stroke="#777"/>
+<text x="425" y="267" text-anchor="middle" font-family="serif" font-size="25" fill="#222">y</text>
+<path d="M495 260H555" stroke="#222" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="625" y="267" text-anchor="middle" font-family="serif" font-size="25" fill="#222">x²y</text>
+<text x="380" y="335" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-size="19" fill="#222">三个因子中选一处取 y：合并后得到 3x²y</text>
+</svg>
