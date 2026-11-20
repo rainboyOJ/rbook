@@ -209,15 +209,13 @@ function loadMenuHtml() {
     const { PathPolicy } = require(policyEntry)
     const catalog = loadCatalog(resolve(__dirname, 'book/catalog.yaml'))
     const policy = new PathPolicy(__dirname)
-    const hrefByCatalogPath = new Map(flattenCatalog(catalog).map(leaf => {
-        const source = resolveArticleSource(leaf, policy.book).source.filePath
-        return [leaf, policy.publishHref(source)]
-    }))
+    const sources = new Map(flattenCatalog(catalog).map(leaf => [leaf, resolveArticleSource(leaf, policy.book)]))
 
     return new MenuRenderer({
         templateDir: resolve(__dirname, 'src', 'ejs'),
         root: resolve(__dirname, 'src'),
-        leafHref: leaf => hrefByCatalogPath.get(leaf) || `/${leaf}`,
+        leafHref: leaf => sources.has(leaf) ? policy.publishHref(sources.get(leaf).source.filePath) : `/${leaf}`,
+        leafMeta: leaf => ({ menuTitle: sources.get(leaf)?.metadata.menuTitle, articleId: sources.get(leaf)?.metadata.id }),
     }).render(catalog)
 }
 

@@ -47,15 +47,13 @@ export function createCli(opts: CliOptions): Command {
             templateDir: path.join(opts.projectRoot, 'src', 'ejs'),
             root: opts.projectRoot,
             leafHref: leaf => policy.publishHref(resolveArticleSource(leaf, policy.book).source.filePath),
-            // 与正式构建同源：config.title → frontmatter title，取不到再用清单名。
+            // 菜单短名与文章 id 和正式构建同源。
             leafMeta: leaf => {
                 const resolved = resolveArticleSource(leaf, policy.book)
-                // 菜单名空着就回退到清单名；正文标题只进 data-*，别填「未知」。
+                // 菜单名空着就回退到清单名。
                 return {
                     menuTitle: resolved.metadata.menuTitle,
                     articleId: resolved.metadata.id,
-                    articleTitle: (resolved.metadata.title || '').trim()
-                        || frontMatterTitle(resolved.source.raw),
                 }
             },
         }).render(initialCatalog),

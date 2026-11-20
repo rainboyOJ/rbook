@@ -6,24 +6,76 @@ function sidebarSearchTerms(query) {
     return [...new Set(query.trim().toLowerCase().split(/\s+/u).filter(Boolean))]
 }
 
+function parseSidebarAliases(value) {
+    try {
+        const aliases = JSON.parse(value || '[]')
+        return Array.isArray(aliases) ? aliases.filter(alias => typeof alias === 'string' && alias.trim()) : []
+    }
+    catch { return [] }
+}
+
+// 有界编辑距离：支持插入、删除、替换和相邻字母交换，限于英文单词。
+function sidebarTypoMatch(word, term) {
+    if (!/^[a-z][a-z0-9_-]*$/.test(word) || word.length < 3) return false
+    const limit = Math.min(word.length, term.length) >= 7 ? 2 : 1
+    if (Math.abs(word.length - term.length) > limit) return false
+    let previous = Array.from({ length: word.length + 1 }, (_, i) => i)
+    let beforePrevious
+    for (let i = 1; i <= term.length; i++) {
+        const row = [i]
+        for (let j = 1; j <= word.length; j++) {
+            row[j] = Math.min(row[j - 1] + 1, previous[j] + 1, previous[j - 1] + Number(term[i - 1] !== word[j - 1]))
+            if (i > 1 && j > 1 && term[i - 1] === word[j - 2] && term[i - 2] === word[j - 1]) {
+                row[j] = Math.min(row[j], beforePrevious[j - 2] + 1)
+            }
+        }
+        if (Math.min(...row) > limit) return false
+        beforePrevious = previous
+        previous = row
+    }
+    return previous[word.length] <= limit
+}
+
+function sidebarMatchRank(value, term, literalOnly = false) {
+    if (value === term) return 0
+    if (value.startsWith(term)) return 1
+    // dp、st 这类短缩写只允许完整词或词前缀，避免命中 id 中的任意两个字母。
+    if (/^[a-z]{1,2}$/.test(term)) {
+        return (value.match(/[a-z0-9]+/g) || []).some(word => word.startsWith(term)) ? 1 : Infinity
+    }
+    if (value.includes(term)) return 2
+    if (literalOnly) return Infinity
+    if (term.length >= 2 && /^[\p{L}\p{N}_-]+$/u.test(term)) {
+        let offset = 0
+        for (const char of value) if (char === term[offset]) offset++
+        if (offset === term.length) return 3
+    }
+    if (/^[a-z][a-z0-9_-]{2,}$/.test(term)) {
+        const words = new Set([value, ...(value.match(/[a-z0-9_-]+/g) || [])])
+        if ([...words].some(word => sidebarTypoMatch(word, term))) return 4
+    }
+    return Infinity
+}
+
 function filterSidebarEntries(entries, query) {
     const terms = sidebarSearchTerms(query)
     if (!terms.length) return []
-    return entries.filter(entry => {
-        // 菜单名 + 面包屑 + 英文 id + 正文长标题：菜单显示「LIS」时，搜 topsort
-        // 或「最长上升子序列」也要能找到同一篇。
-        const text = `${entry.title} ${entry.breadcrumb} ${entry.articleId || ''} ${entry.articleTitle || ''}`.toLowerCase()
-        return terms.every(term => text.includes(term))
-    }).sort((a, b) => {
-        const score = entry => {
-            const title = entry.title.toLowerCase()
-            if (title === terms.join(' ')) return 0
-            if (title.startsWith(terms.join(' '))) return 1
-            if (terms.every(term => title.includes(term))) return 2
-            return 3
-        }
-        return score(a) - score(b)
+    const phrase = terms.join(' ')
+    // 已配置的别名表达明确意图：bit 不应从 binary_tree 里凑字母命中。
+    const knownAliases = new Set(entries.flatMap(entry => entry.searchAliases || [])
+        .filter(alias => typeof alias === 'string' && alias.trim())
+        .map(alias => alias.trim().toLowerCase()))
+    return entries.map((entry, index) => {
+        // 路径和正文长标题仅用于展示/文章内容；搜索只读这三个字段。
+        const fields = [entry.title, entry.id, ...(entry.searchAliases || [])]
+            .filter(value => typeof value === 'string' && value.trim())
+            .map(value => value.trim().toLowerCase())
+        const ranks = fields.includes(phrase) ? [0] : terms.map(term => Math.min(...fields.map(value => sidebarMatchRank(value, term, knownAliases.has(term)))))
+        return { entry, index, rank: Math.max(...ranks), sum: ranks.reduce((sum, rank) => sum + rank, 0) }
     })
+        .filter(match => Number.isFinite(match.rank))
+        .sort((a, b) => a.rank - b.rank || a.sum - b.sum || a.index - b.index)
+        .map(match => match.entry)
 }
 
 function readSidebarSearch() {
@@ -253,8 +305,8 @@ if (sidebar) {
             return {
                 title: link.querySelector('.rbook-menu-title').textContent.trim(),
                 breadcrumb: names.join(' / '),
-                articleId: (link.dataset.articleId || '').trim(),
-                articleTitle: (link.dataset.articleTitle || '').trim(),
+                id: (link.dataset.articleId || '').trim(),
+                searchAliases: parseSidebarAliases(link.dataset.searchAliases),
                 href: link.href,
                 current: link === currentLink,
             }
@@ -312,7 +364,7 @@ if (sidebar) {
             if (!matches.length) {
                 const empty = document.createElement('p')
                 empty.className = 'rbook-sidebar-search__empty'
-                empty.textContent = '没有找到相关文章，试试更短的关键词或所属目录。'
+                empty.textContent = '没有找到相关文章，试试算法名称、缩写或文章 ID。'
                 results.append(empty)
             }
             searchStatus.textContent = `找到 ${matches.length} 篇`

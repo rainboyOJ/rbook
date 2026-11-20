@@ -4,6 +4,8 @@ export interface CatalogEntry {
     title: string
     path?: string
     children?: CatalogEntry[]
+    /** 搜索别名，目录节点的别名由所有后代文章继承。 */
+    search_aliases?: string[]
     /** 标记站点首页文章（只能有一个，且必须是叶子条目） */
     home?: boolean
     /**

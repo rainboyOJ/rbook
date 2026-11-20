@@ -313,10 +313,10 @@ describe('侧边栏菜单短名 (config.menu_title)', () => {
         assert.ok(html.includes('最长上升子序列</span>'))
     })
 
-    it('叶子带 data-article-id 与 data-article-title，目录节点不带', () => {
-        const html = renderWithMeta({ menuTitle: 'LIS', articleId: 'lis', articleTitle: '最长上长子序列' })
+    it('叶子带 data-article-id，正文长标题不再进入搜索索引', () => {
+        const html = renderWithMeta({ menuTitle: 'LIS', articleId: 'lis' })
         assert.ok(html.includes('data-article-id="lis"'))
-        assert.ok(html.includes('data-article-title="最长上长子序列"'))
+        assert.ok(!html.includes('data-article-title='))
         assert.equal((html.match(/data-article-id=/g) || []).length, 1)
     })
 

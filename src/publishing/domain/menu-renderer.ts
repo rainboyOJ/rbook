@@ -12,11 +12,11 @@ export interface MenuRendererOptions {
     /** 叶子 catalog 路径对应的发布 URL。 */
     leafHref?: (catalogPath: string) => string
     /**
-     * 叶子的附加信息：菜单短名、文章 id、正文标题。
+     * 叶子的附加信息：菜单短名、文章 id。
      *
      * 菜单名走 `config.menu_title` → `catalog.yaml title` 两轨（见
      * docs/adr/0012-dual-track-article-titles.md）：菜单栏窄，正文标题可能很长。
-     * id 与正文标题只写进 `data-*`，供侧边栏搜索匹配，不显示。
+     * id 只写进 `data-*`，供侧边栏搜索匹配，不显示。
      */
     leafMeta?: (catalogPath: string) => LeafMeta | undefined
 }
@@ -27,8 +27,6 @@ export interface LeafMeta {
     menuTitle?: string
     /** 文章 id，写进 data-article-id，像 topsort 这种英文缩写靠它搜到 */
     articleId?: string
-    /** 正文标题（config.title 解析结果），写进 data-article-title */
-    articleTitle?: string
 }
 
 /**
@@ -62,22 +60,26 @@ export class MenuRenderer {
         return this.renderEntries('/', catalog.entries)
     }
 
-    private renderEntries(parentPath: string, entries: CatalogEntry[]): string {
+    private renderEntries(parentPath: string, entries: CatalogEntry[], parentAliases: string[] = []): string {
         let html = '<ul>\n'
         for (const entry of entries) {
             // hidden 的条目和它整棵子树都不进侧边栏；它们仍然会被构建和发布。
             if (entry.hidden === true) continue
-            html += this.renderEntry(parentPath, entry)
+            html += this.renderEntry(parentPath, entry, parentAliases)
         }
         html += '</ul>\n'
         return html
     }
 
-    private renderEntry(parentPath: string, entry: CatalogEntry): string {
+    private renderEntry(parentPath: string, entry: CatalogEntry, parentAliases: string[]): string {
         const childPath = '/' + joinCatalogPath(parentPath.replace(/^\//, ''), entry.path)
+        const ownAliases = Array.isArray(entry.search_aliases) ? entry.search_aliases : []
+        const searchAliases = [...new Set([...parentAliases, ...ownAliases]
+            .filter(alias => typeof alias === 'string' && alias.trim())
+            .map(alias => alias.trim().toLowerCase()))]
         let ul = ''
         if (entry.children && entry.children.length > 0) {
-            ul = this.renderEntries(childPath, entry.children)
+            ul = this.renderEntries(childPath, entry.children, searchAliases)
         }
         const isLeaf = ul.length === 0
         const link = isLeaf
@@ -94,7 +96,7 @@ export class MenuRenderer {
             link,
             directoryPath: childPath,
             articleId: meta?.articleId ?? '',
-            articleTitle: meta?.articleTitle ?? '',
+            searchAliases,
         })
     }
 }

@@ -71,7 +71,6 @@ export const prepareCatalog: BuildStage = {
             return [leaf.path, {
                 menuTitle: entry.metadata.menuTitle,
                 articleId: entry.id,
-                articleTitle: entry.title,
             }]
         }))
         ctx.stageResults['menuHtml'] = new MenuRenderer({

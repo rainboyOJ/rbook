@@ -4,7 +4,7 @@ import yaml from 'js-yaml'
 import { Catalog, CatalogEntry } from '../domain/catalog'
 import { Diagnostic } from '../domain/diagnostics'
 
-const KNOWN_KEYS = new Set(['title', 'path', 'children', 'home', 'hidden'])
+const KNOWN_KEYS = new Set(['title', 'path', 'children', 'home', 'hidden', 'search_aliases'])
 
 export function loadCatalog(catalogPath: string, diagnostics: Diagnostic[] = []): Catalog {
     if (!fs.existsSync(catalogPath)) {
@@ -75,6 +75,15 @@ function validateEntries(entries: CatalogEntry[], parentPath: string, diagnostic
         const fullPath = parentPath
             ? path.join(parentPath, entry.path ?? '')
             : entry.path ?? ''
+        if (entry.search_aliases !== undefined && (
+            !Array.isArray(entry.search_aliases)
+            || entry.search_aliases.some(alias => typeof alias !== 'string' || !alias.trim())
+        )) {
+            diagnostics.push({
+                phase: 'prepare-catalog', level: 'error',
+                message: `search_aliases 必须是非空字符串组成的数组 (path=${fullPath || '<none>'})`,
+            })
+        }
         if (entry.path && seen.has(entry.path)) {
             diagnostics.push({
                 phase: 'prepare-catalog',

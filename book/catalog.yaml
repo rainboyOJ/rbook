@@ -125,6 +125,7 @@
       path: "delete_number"
 - title: "动态规划"
   path: "dynamic_programming"
+  search_aliases: [动态规划, dp]
   children:
     - title: "前言"
       path: "intro"
@@ -186,6 +187,7 @@
           path: "reroot_max"
     - title: "sparse table"
       path: "sparse_table"
+      search_aliases: [st, 稀疏表]
     - title: "状压DP"
       path: "binary_state"
     - title: "连通块DP"
@@ -241,6 +243,7 @@
       path: "eulerian-path"
     - title: "拓扑排序 TopSort"
       path: "topsort"
+      search_aliases: [拓扑排序, topsort, toposort]
     - title: "图的割点"
       path: "tarjan/cut"
     - title: "点双连通分量"
@@ -267,6 +270,7 @@
       path: "floyd"
     - title: "最小生成树 MST"
       path: "mst"
+      search_aliases: [最小生成树, mst]
       children:
         - title: "最小生成树"
           path: "index.md"
@@ -297,6 +301,7 @@
       path: "heap"
     - title: "并查集"
       path: "disjoint_set"
+      search_aliases: [并查集, dsu, unionfind]
       children:
         - title: "基础"
           path: "index.md"
@@ -317,6 +322,7 @@
           path: "blocklist"
     - title: "树状数组"
       path: "BIT"
+      search_aliases: [树状数组, bit, fenwick]
       children:
         - title: "基础"
           path: "index.md"
@@ -334,6 +340,7 @@
           path: "two-dimensional"
     - title: "线段树"
       path: "segment_tree"
+      search_aliases: [线段树, sgt, segtree, segmenttree, xds]
       children:
         - title: "基础"
           path: "preface/"
