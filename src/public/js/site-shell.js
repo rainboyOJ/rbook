@@ -270,7 +270,7 @@ if (sidebar) {
                 tree.hidden = false
                 results.hidden = true
                 results.replaceChildren()
-                searchStatus.textContent = '搜索文章标题或目录路径'
+                searchStatus.textContent = '目录'
                 if (searching) sidebar.scrollTop = treeTop
                 searching = false
                 syncDirectoryActions()
@@ -315,7 +315,7 @@ if (sidebar) {
                 empty.textContent = '没有找到相关文章，试试更短的关键词或所属目录。'
                 results.append(empty)
             }
-            searchStatus.textContent = `找到 ${matches.length} 篇文章`
+            searchStatus.textContent = `找到 ${matches.length} 篇`
             sidebar.scrollTop = top
             saveScroll()
         }

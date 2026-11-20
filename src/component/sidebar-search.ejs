@@ -1,44 +1,47 @@
 <div class="rbook-sidebar-search" id="sidebar-search-box" hidden>
-    <label for="sidebar-search">搜索目录</label>
-    <div class="rbook-sidebar-search__field">
-        <input id="sidebar-search" type="search" placeholder="标题或分类，如 附录 脚本" autocomplete="off" spellcheck="false" aria-controls="sidebar-results" />
-        <button id="sidebar-search-clear" type="button" aria-label="清空搜索" hidden>×</button>
-    </div>
-    <p id="sidebar-search-status" role="status" aria-live="polite" aria-atomic="true">搜索文章标题或目录路径</p>
-    <div class="rbook-sidebar-actions" id="sidebar-actions" role="group" aria-label="目录操作" hidden>
-        <!--
-        Icons: Lucide unfold-vertical, fold-vertical, locate-fixed (https://lucide.dev).
-        ISC License — Copyright (c) 2026 Lucide Icons and Contributors
-        Permission to use, copy, modify, and/or distribute this software for any
-        purpose with or without fee is hereby granted, provided that the above
-        copyright notice and this permission notice appear in all copies.
-        THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
-        WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
-        MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
-        ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
-        WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
-        ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
-        OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-        -->
-        <div class="rbook-sidebar-actions__bulk" id="sidebar-bulk-actions">
+    <div class="rbook-sidebar-search__heading">
+        <span class="rbook-sidebar-search__title" id="sidebar-search-status" role="status" aria-live="polite" aria-atomic="true">目录</span>
+        <div class="rbook-sidebar-actions" id="sidebar-actions" role="group" aria-label="目录操作" hidden>
+            <!--
+            Icons: Lucide unfold-vertical, fold-vertical, locate-fixed (https://lucide.dev).
+            ISC License — Copyright (c) 2026 Lucide Icons and Contributors
+            Permission to use, copy, modify, and/or distribute this software for any
+            purpose with or without fee is hereby granted, provided that the above
+            copyright notice and this permission notice appear in all copies.
+            THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+            WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+            MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+            ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+            WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+            ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+            OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+            -->
+            <div class="rbook-sidebar-actions__bulk" id="sidebar-bulk-actions">
+                <span class="rbook-sidebar-action">
+                    <button id="sidebar-expand-all" type="button" aria-label="全部展开" aria-describedby="sidebar-expand-tooltip" aria-controls="sidebar-tree" aria-disabled="true">
+                        <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-6m0-8V2M4 12H2m8 0H8m8 0h-2m8 0h-2m-5 7-3 3-3-3m6-14-3-3-3 3"/></svg>
+                    </button>
+                    <span class="rbook-sidebar-action__tooltip" id="sidebar-expand-tooltip" role="tooltip">全部展开</span>
+                </span>
+                <span class="rbook-sidebar-action">
+                    <button id="sidebar-collapse-all" type="button" aria-label="全部收起" aria-describedby="sidebar-collapse-tooltip" aria-controls="sidebar-tree" aria-disabled="true">
+                        <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-6m0-8V2M4 12H2m8 0H8m8 0h-2m8 0h-2m-5 7-3-3-3 3m6-14-3 3-3-3"/></svg>
+                    </button>
+                    <span class="rbook-sidebar-action__tooltip" id="sidebar-collapse-tooltip" role="tooltip">全部收起</span>
+                </span>
+            </div>
             <span class="rbook-sidebar-action">
-                <button id="sidebar-expand-all" type="button" aria-label="全部展开" aria-describedby="sidebar-expand-tooltip" aria-controls="sidebar-tree" aria-disabled="true">
-                    <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-6m0-8V2M4 12H2m8 0H8m8 0h-2m8 0h-2m-5 7-3 3-3-3m6-14-3-3-3 3"/></svg>
+                <button id="sidebar-locate-current" type="button" aria-label="定位当前文章" aria-describedby="sidebar-locate-tooltip" aria-controls="sidebar-tree" aria-disabled="true">
+                    <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h3m14 0h3M12 2v3m0 14v3"/><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="3"/></svg>
                 </button>
-                <span class="rbook-sidebar-action__tooltip" id="sidebar-expand-tooltip" role="tooltip">全部展开</span>
-            </span>
-            <span class="rbook-sidebar-action">
-                <button id="sidebar-collapse-all" type="button" aria-label="全部收起" aria-describedby="sidebar-collapse-tooltip" aria-controls="sidebar-tree" aria-disabled="true">
-                    <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-6m0-8V2M4 12H2m8 0H8m8 0h-2m8 0h-2m-5 7-3-3-3 3m6-14-3 3-3-3"/></svg>
-                </button>
-                <span class="rbook-sidebar-action__tooltip" id="sidebar-collapse-tooltip" role="tooltip">全部收起</span>
+                <span class="rbook-sidebar-action__tooltip" id="sidebar-locate-tooltip" role="tooltip">定位当前文章</span>
             </span>
         </div>
-        <span class="rbook-sidebar-action">
-            <button id="sidebar-locate-current" type="button" aria-label="定位当前文章" aria-describedby="sidebar-locate-tooltip" aria-controls="sidebar-tree" aria-disabled="true">
-                <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h3m14 0h3M12 2v3m0 14v3"/><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="3"/></svg>
-            </button>
-            <span class="rbook-sidebar-action__tooltip" id="sidebar-locate-tooltip" role="tooltip">定位当前文章</span>
-        </span>
+    </div>
+    <label class="rbook-sidebar-search__label" for="sidebar-search">搜索目录</label>
+    <div class="rbook-sidebar-search__field">
+        <svg class="rbook-sidebar-search__icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>
+        <input id="sidebar-search" type="search" placeholder="搜索目录…" autocomplete="off" spellcheck="false" aria-controls="sidebar-results" />
+        <button id="sidebar-search-clear" type="button" aria-label="清空搜索" hidden>×</button>
     </div>
 </div>
