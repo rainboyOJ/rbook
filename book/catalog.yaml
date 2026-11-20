@@ -15,20 +15,25 @@
       path: "zero_number"
     - title: "前缀和"
       path: "presum"
+      search_aliases: [qzh, prefixsum]
     - title: "差分"
       path: "differential"
+      search_aliases: [chafen, diff]
     - title: "双指针"
       path: "two-pointer"
+      search_aliases: [tp, twopointers]
     - title: "排序不等于式"
       path: "rearrangement_inequality"
     - title: "二分分割"
       path: "binary_split"
     - title: "高精度"
       path: "bigNumber"
+      search_aliases: [gjd, bigint, 大整数]
     - title: "binary jump"
       path: "binary_jump"
     - title: "离散化"
       path: "discrete"
+      search_aliases: [lsh, 坐标压缩, coordinatecompression]
 - title: "递归"
   path: "recursion"
   children:
@@ -40,16 +45,20 @@
       path: "print_to_n"
     - title: "斐波那契数列"
       path: "fibonacci"
+      search_aliases: [斐波纳契数列, fib]
     - title: "汉诺塔"
       path: "hanoi"
+      search_aliases: [汉诺塔问题, towerofhanoi]
     - title: "整数划分"
       path: "div_number"
     - title: "动态层数循环"
       path: "dynamic_loop"
     - title: "二分查找"
       path: "binary_search/"
+      search_aliases: [bs, binarysearch, 二分搜索]
     - title: "二分记账法"
       path: "binary_search_ans/"
+      search_aliases: [二分答案, 答案二分]
     - title: "题目"
       path: "practice.md"
 - title: "枚举与排列组合"
@@ -79,6 +88,7 @@
   children:
     - title: "深度优先搜索"
       path: "dfs"
+      search_aliases: [深度优先搜索, dfs]
       children:
         - title: "序"
           path: "index.md"
@@ -86,16 +96,22 @@
       path: "pruning"
     - title: "迭代加深"
       path: "iterative_deepening"
+      search_aliases: [iddfs, 迭代加深搜索]
     - title: "IDA*"
       path: "ida_star"
+      search_aliases: [ida, idastar, 迭代加深启发式搜索]
     - title: "广度优先搜索"
       path: "bfs"
+      search_aliases: [bfs]
     - title: "双向 BFS"
       path: "bidirectional_bfs"
+      search_aliases: [双向广搜, 双向宽搜, bibfs]
     - title: "0-1 BFS"
       path: "zero_one_bfs"
+      search_aliases: [01bfs, 双端队列广搜]
     - title: "折半搜索"
       path: "meet_in_the_middle"
+      search_aliases: [mitm, meetinthemiddle]
 - title: "贪心"
   path: "greedy"
   children:
@@ -135,16 +151,21 @@
       path: "continuous_segment"
     - title: "状态机DP"
       path: "state_machine"
+      search_aliases: [状态机动态规划, statemachinedp]
     - title: "LCP"
       path: "lcp"
     - title: "LIS"
       path: "lis"
+      search_aliases: [lis, 最长上升子序列, 最长递增子序列]
     - title: "LCS"
       path: "lcs"
+      search_aliases: [lcs, 最长公共子序列]
     - title: "区间DP"
       path: "interval_dp"
+      search_aliases: [区间动态规划, intervaldp]
     - title: "背包"
       path: "knapsack"
+      search_aliases: [背包, knapsack]
       children:
         - title: "01背包"
           path: "01knapsack"
@@ -168,6 +189,7 @@
           path: "exercises/整数划分/problem.md"
     - title: "树形DP"
       path: "tree_dp"
+      search_aliases: [树形dp, 树dp, treedp]
       children:
         - title: "没有上司的舞会"
           path: "party"
@@ -183,13 +205,16 @@
           path: "course_selection"
         - title: "换根DP：距离和"
           path: "reroot_sum"
+          search_aliases: [换根动态规划, reroot, rerootdp]
         - title: "换根DP：最远距离"
           path: "reroot_max"
+          search_aliases: [换根动态规划, reroot, rerootdp]
     - title: "sparse table"
       path: "sparse_table"
       search_aliases: [st, 稀疏表]
     - title: "状压DP"
       path: "binary_state"
+      search_aliases: [状态压缩dp, 状态压缩动态规划, bitmaskdp]
     - title: "连通块DP"
       path: "component_dp"
     - title: "决策单调性"
@@ -198,6 +223,7 @@
       path: "slope"
     - title: "四边形不等式优化"
       path: "Quadrangle_Inequality_Optimization/"
+      search_aliases: [四边形不等式, 四边形不等式优化]
       children:
         - title: "四边形不等式优化（总览）"
           path: "index.md"
@@ -212,20 +238,27 @@
       path: "base"
     - title: "DFS序"
       path: "dfs-order"
+      search_aliases: [dfn, 深搜序]
     - title: "树的直径"
       path: "diameter"
+      search_aliases: [树直径, treediameter]
     - title: "树的重心"
       path: "centroid"
+      search_aliases: [树重心, treecentroid]
     - title: "点分治"
       path: "point-divide"
+      search_aliases: [dfz, 重心分治, centroiddecomposition]
     - title: "树上差分"
       path: "diff_on_tree"
+      search_aliases: [树差, 树差分, treediff]
     - title: "基环树"
       path: "spanning-tree"
     - title: "爬树法 LCA"
       path: "jump-lca"
+      search_aliases: [lca, 最近公共祖先]
     - title: "树链剖分（HLD）"
       path: "hld"
+      search_aliases: [hld, 树剖, 重链剖分]
 - title: "图"
   path: "graph"
   children:
@@ -241,33 +274,43 @@
       path: "bipartite"
     - title: "欧拉路与欧拉回路"
       path: "eulerian-path"
+      search_aliases: [欧拉通路, 欧拉回路, 一笔画]
     - title: "拓扑排序 TopSort"
       path: "topsort"
       search_aliases: [拓扑排序, topsort, toposort]
     - title: "图的割点"
       path: "tarjan/cut"
+      search_aliases: [割点, 割顶, cutvertex]
     - title: "点双连通分量"
       path: "tarjan/vertex-bcc"
+      search_aliases: [vbcc, 点双]
     - title: "图的割边"
       path: "tarjan/bridge"
+      search_aliases: [桥, 割边, bridge]
     - title: "边双连通分量"
       path: "tarjan/edge-bcc"
+      search_aliases: [ebcc, 边双]
     - title: "tarjan求强连通分量"
       path: "tarjan/scc"
+      search_aliases: [scc, 强连通分量]
     - title: "bellman-ford"
       path: "bellman-ford"
+      search_aliases: [bellmanford, 贝尔曼福特]
     - title: "Spfa"
       path: "spfa"
     - title: "Dijkstra"
       path: "dijkstra"
+      search_aliases: [dij, 迪杰斯特拉]
     - title: "分层图最短路"
       path: "layered_shortest_path"
     - title: "Dijkstra求次短路"
       path: "dijkstra_second_shortest"
     - title: "负圈"
       path: "negative_circle"
+      search_aliases: [负环, negativecycle]
     - title: "Floyd"
       path: "floyd"
+      search_aliases: [弗洛伊德, apsp, 全源最短路]
     - title: "最小生成树 MST"
       path: "mst"
       search_aliases: [最小生成树, mst]
@@ -289,14 +332,18 @@
       path: "stack"
     - title: "中缀表达式转后缀表达式"
       path: "infix_to_postfix"
+      search_aliases: [逆波兰表达式, 后缀表达式, rpn]
     - title: "队列"
       path: "queue"
     - title: "单调栈"
       path: "monotonic_stack"
+      search_aliases: [ddz, monotonicstack]
     - title: "笛卡尔树"
       path: "cartesian_tree"
+      search_aliases: [笛卡儿树, cartesiantree]
     - title: "单调队列"
       path: "monotonic_queue"
+      search_aliases: [monotonicqueue]
     - title: "堆"
       path: "heap"
     - title: "并查集"
@@ -311,6 +358,7 @@
           path: "带权并查集.md"
     - title: "二叉查找树"
       path: "binary_search_tree/"
+      search_aliases: [bst, 二叉搜索树, 二叉排序树]
     - title: "Treap 平衡树"
       path: "treap"
     - title: "块状数据"
@@ -375,27 +423,36 @@
       path: "index.md"
     - title: "朴素匹配"
       path: "brute-force"
+      search_aliases: [暴力匹配, bruteforce]
     - title: "字符串哈希"
       path: "进制hash"
+      search_aliases: [字符串hash, rollinghash]
     - title: "Manacher"
       path: "manacher"
+      search_aliases: [马拉车]
     - title: "KMP"
       path: "kmp"
+      search_aliases: [kmp, knuth-morris-pratt]
     - title: "Trie 字典树"
       path: "trie"
+      search_aliases: [前缀树, prefixtree]
     - title: "AC 自动机"
       path: "ac-automaton"
+      search_aliases: [ac, acam, ac自动机, aho-corasick]
     - title: "最小表示法"
       path: "最小表示法"
     - title: "Boyer–Moore"
       path: "Boyer-Moore"
+      search_aliases: [bm, boyermoore]
 - title: "排序"
   path: "sort"
   children:
     - title: "快速排序"
       path: "quicksort/"
+      search_aliases: [快排, qsort]
     - title: "三路快速排序"
       path: "quicksort_3way"
+      search_aliases: [快排, qsort, 三路快排]
 - title: "工具库"
   path: "utils"
   children:
@@ -421,6 +478,7 @@
           path: "set"
     - title: "快速幂"
       path: "quick_pow"
+      search_aliases: [ksm, qpow, binpow]
     - title: "对数"
       path: "logarithm"
     - title: "集合"
@@ -436,22 +494,28 @@
           path: "rule_of_product"
         - title: "catalan数"
           path: "catalan_number"
+          search_aliases: [卡特兰数, 卡塔兰数]
         - title: "组合数学"
           path: "combinatorics"
         - title: "二项式定理"
           path: "binomial_theorem"
         - title: "错排"
           path: "derangement"
+          search_aliases: [错位排列, 错排问题]
         - title: "鸽巢原理"
           path: "pigeonhole"
+          search_aliases: [抽屉原理, 鸽笼原理]
         - title: "技巧"
           path: "tricks"
         - title: "生成函数"
           path: "generating_function"
+          search_aliases: [母函数, generatingfunction]
         - title: "Lucas定理"
           path: "lucas"
+          search_aliases: [卢卡斯定理]
     - title: "容斥原理"
       path: "inclusion-exclusion/"
+      search_aliases: [容斥, rcyl, inclusionexclusion]
     - title: "数论"
       path: "numberTheory"
       children:
@@ -463,10 +527,13 @@
           path: "remainder"
         - title: "素数"
           path: "prime"
+          search_aliases: [质数]
         - title: "gcd"
           path: "gcd"
+          search_aliases: [最大公约数, 辗转相除法]
         - title: "exgcd"
           path: "exgcd/"
+          search_aliases: [扩展欧几里得, 扩欧]
         - title: "笔记"
           path: "book_note"
 - title: "其它"
