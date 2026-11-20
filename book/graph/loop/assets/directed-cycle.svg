@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="310" viewBox="0 0 760 310" role="img" aria-labelledby="title desc">
+  <title id="title">有向图三色 DFS 区分横叉边与回边</title>
+  <desc id="desc">左图展示 1 到 2、1 到 3、3 到 2：点 2 已退栈（color=2），3 指向 2 的有向边不构成环；右图展示 1 到 2 到 3 且 3 指回仍在当前路径中的 2（color=1），形成有向环 2 到 3 到 2。</desc>
+  <defs>
+    <marker id="arrow-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1.5 L 9 5 L 0 8.5 z" fill="#777777"/>
+    </marker>
+    <marker id="arrow-dark" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1.5 L 9 5 L 0 8.5 z" fill="#222222"/>
+    </marker>
+    <marker id="arrow-accent" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1.5 L 9 5 L 0 8.5 z" fill="#2F5D8A"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="760" height="310" fill="#F2F2F2" stroke="none"/>
+
+  <!-- 中央分隔线 -->
+  <line x1="380" y1="22" x2="380" y2="292" stroke="#D5D5D5" stroke-width="1"/>
+
+  <!-- (a) 边 -->
+  <line x1="178" y1="106" x2="133" y2="177" stroke="#777777" stroke-width="1.5" marker-end="url(#arrow-gray)"/>
+  <line x1="202" y1="106" x2="247" y2="177" stroke="#222222" stroke-width="2" marker-end="url(#arrow-dark)"/>
+  <line x1="238" y1="198" x2="144" y2="198" stroke="#777777" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#arrow-gray)"/>
+
+  <!-- (b) 边 -->
+  <line x1="500" y1="109" x2="500" y2="174" stroke="#222222" stroke-width="1.8" marker-end="url(#arrow-dark)"/>
+  <line x1="521" y1="196" x2="616" y2="196" stroke="#2F5D8A" stroke-width="2.2" marker-end="url(#arrow-accent)"/>
+  <path d="M 624 212 Q 570 246 518 214" fill="none" stroke="#2F5D8A" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#arrow-accent)"/>
+
+  <!-- (a) 节点 -->
+  <circle cx="190" cy="88" r="20" fill="#FFFFFF" stroke="#222222" stroke-width="2"/>
+  <circle cx="120" cy="198" r="20" fill="#E0E0E0" stroke="#777777" stroke-width="1.5"/>
+  <circle cx="260" cy="198" r="20" fill="#FFFFFF" stroke="#222222" stroke-width="2"/>
+
+  <!-- (b) 节点 -->
+  <circle cx="500" cy="88" r="20" fill="#FFFFFF" stroke="#222222" stroke-width="1.8"/>
+  <circle cx="500" cy="198" r="20" fill="#FFFFFF" stroke="#2F5D8A" stroke-width="2.2"/>
+  <circle cx="640" cy="198" r="20" fill="#FFFFFF" stroke="#2F5D8A" stroke-width="2.2"/>
+
+  <!-- 文本 -->
+  <g font-family="Noto Sans CJK SC, Source Han Sans SC, sans-serif" text-anchor="middle" fill="#222222">
+    <text x="190" y="36" font-size="16" font-weight="bold">(a) 遇到已退栈点 (color = 2)：不成环</text>
+    <text x="570" y="36" font-size="16" font-weight="bold">(b) 遇到路径上点 (color = 1)：成环</text>
+
+    <!-- 节点编号 -->
+    <g font-size="18">
+      <text x="190" y="95">1</text>
+      <text x="120" y="205" fill="#555555">2</text>
+      <text x="260" y="205">3</text>
+
+      <text x="500" y="95">1</text>
+      <text x="500" y="205" fill="#2F5D8A">2</text>
+      <text x="640" y="205" fill="#2F5D8A">3</text>
+    </g>
+
+    <!-- 状态小标签 -->
+    <g font-size="12" fill="#555555">
+      <text x="234" y="92">color=1</text>
+      <text x="72" y="202" fill="#666666">color=2</text>
+      <text x="304" y="202">color=1</text>
+      <text x="190" y="189" fill="#666666">横叉边</text>
+
+      <text x="544" y="92">color=1</text>
+      <text x="454" y="202" fill="#2F5D8A">color=1</text>
+      <text x="686" y="202" fill="#2F5D8A">color=1</text>
+      <text x="570" y="246" fill="#2F5D8A">回边</text>
+    </g>
+
+    <!-- 底部说明 -->
+    <g font-size="14" fill="#333333">
+      <text x="190" y="268">栈：[1, 3]；2 已退出当前路径</text>
+      <text x="190" y="290" fill="#666666">无从 2 回到 3 的有向路径</text>
+
+      <text x="570" y="272" fill="#2F5D8A">栈：[1, 2, 3]；3 指回栈中的 2</text>
+      <text x="570" y="294" fill="#2F5D8A">闭合为有向环 2 → 3 → 2</text>
+    </g>
+  </g>
+</svg>
