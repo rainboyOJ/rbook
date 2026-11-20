@@ -15,7 +15,7 @@ function eventTarget(extra = {}) {
             if (!listeners.has(name)) listeners.set(name, [])
             listeners.get(name).push(callback)
         },
-        dispatch(name) { for (const callback of listeners.get(name) || []) callback() },
+        dispatch(name, event = {}) { for (const callback of listeners.get(name) || []) callback(event) },
     }
 }
 
@@ -33,16 +33,23 @@ function classes() {
     }
 }
 
-function page({ store = new Map(), blocked = false, locate = false, mobile = false, currentURL, articleHref, fullTop = null } = {}) {
+function page({ store = new Map(), localStore = new Map([['rbook.sidebar.expanded.v1', '["/other"]']]), blocked = false, locate = false, toolbar = false, mobile = false, currentURL, articleHref, fullTop = null } = {}) {
+    function attributes(extra) {
+        return eventTarget({
+            ...extra,
+            setAttribute(name, value) { this[name] = value },
+            getAttribute(name) { return this[name] },
+            removeAttribute(name) { delete this[name] },
+        })
+    }
     const root = { classList: classes(), parentElement: { closest: () => null } }
-    const rootButton = eventTarget({ dataset: { directory: '/appendix' }, setAttribute() {}, closest: () => root })
+    const rootButton = attributes({ dataset: { directory: '/appendix' }, closest: () => root })
     root.querySelector = () => rootButton
     const group = { classList: classes(), parentElement: { closest: () => root } }
-    const button = eventTarget({ dataset: { directory: '/appendix/scripts' }, setAttribute() {}, closest: () => group })
+    const button = attributes({ dataset: { directory: '/appendix/scripts' }, closest: () => group })
     group.querySelector = () => button
     const other = { classList: classes() }
-    const otherButton = eventTarget({ dataset: { directory: '/other' }, setAttribute() {}, closest: () => other })
-    const localStore = new Map([['rbook.sidebar.expanded.v1', '["/other"]']])
+    const otherButton = attributes({ dataset: { directory: '/other' }, closest: () => other })
     let top = 0
     const sidebar = eventTarget({
         classList: classes(),
@@ -73,9 +80,16 @@ function page({ store = new Map(), blocked = false, locate = false, mobile = fal
     if (fullTop !== null) main.classList.add('full-article')
     const locateButton = eventTarget({ hidden: true, dataset: { articleHref } })
     const menuToggle = eventTarget({ setAttribute(name, value) { this[name] = value } })
+    const controls = Object.fromEntries(['expand-all', 'collapse-all', 'locate-current'].map(name => [name, attributes({ parentElement: attributes({}) })]))
+    const actionGroup = { hidden: true, querySelectorAll: () => Object.values(controls) }
+    const bulkActions = { hidden: false }
+    const actionIds = {
+        'sidebar-actions': actionGroup, 'sidebar-bulk-actions': bulkActions,
+        ...Object.fromEntries(Object.entries(controls).map(([name, control]) => ['sidebar-' + name, control])),
+    }
     const document = {
         querySelector: selector => selector === '.rbook-main' ? main : sidebar,
-        getElementById: id => id === 'show-in-menu' && locate ? locateButton : id === 'menu-toggle' ? menuToggle : null,
+        getElementById: id => id === 'show-in-menu' && locate ? locateButton : id === 'menu-toggle' ? menuToggle : toolbar ? actionIds[id] || null : null,
     }
     vm.runInNewContext(source, {
         window, document, URL,
@@ -93,7 +107,7 @@ function page({ store = new Map(), blocked = false, locate = false, mobile = fal
         clearTimeout(id) { timers.delete(id) },
     })
     return {
-        sidebar, window, link, store, localStore, root, group, other, button, rootButton, main, locateButton, menuToggle,
+        sidebar, window, link, store, localStore, root, group, other, button, rootButton, otherButton, main, locateButton, menuToggle, controls, actionGroup,
         flush() { while (frames.length) frames.shift()() },
         expireEmphasis() { for (const callback of timers.values()) callback(); timers.clear() },
     }
@@ -200,4 +214,67 @@ it('使用文章发布地址识别首页别名，目录外的关联文档仍不�
     assert.ok(home.link.classList.contains('is-located'))
     const related = page({ locate: true, currentURL: 'https://rbook.test/appendix/teach_plan.html', articleHref: '/appendix/teach_plan.html' })
     assert.equal(related.locateButton.hidden, true)
+})
+
+it('全部收起包括当前路径、回到顶部并记住空状态；进入文章时再打开当前路径', () => {
+    const p = page({ toolbar: true })
+    assert.equal(p.actionGroup.hidden, false)
+    assert.equal(p.controls['expand-all'].getAttribute('aria-disabled'), 'true')
+    p.controls['collapse-all'].dispatch('click')
+    assert.equal(p.sidebar.scrollTop, 0)
+    for (const button of [p.rootButton, p.button, p.otherButton]) {
+        assert.equal(button.getAttribute('aria-expanded'), 'false')
+        assert.equal(button.closest('li').classList.contains('active'), false)
+    }
+    assert.deepEqual(JSON.parse(p.localStore.get('rbook.sidebar.expanded.v1')), [])
+    assert.equal(p.controls['collapse-all'].getAttribute('aria-disabled'), 'true')
+    assert.equal(p.controls['expand-all'].getAttribute('aria-disabled'), 'false')
+    const next = page({ toolbar: true, localStore: p.localStore, store: p.store })
+    assert.ok(next.root.classList.contains('active'))
+    assert.ok(next.group.classList.contains('active'))
+    assert.equal(next.other.classList.contains('active'), false)
+})
+
+it('全部展开同步状态与存储，单独折叠一个目录后重新启用展开按钮', () => {
+    const p = page({ toolbar: true })
+    p.controls['collapse-all'].dispatch('click')
+    p.controls['expand-all'].dispatch('click')
+    for (const button of [p.rootButton, p.button, p.otherButton]) {
+        assert.equal(button.getAttribute('aria-expanded'), 'true')
+        assert.ok(button.closest('li').classList.contains('active'))
+    }
+    assert.deepEqual(JSON.parse(p.localStore.get('rbook.sidebar.expanded.v1')).sort(), ['/appendix', '/appendix/scripts', '/other'])
+    assert.equal(p.controls['expand-all'].getAttribute('aria-disabled'), 'true')
+    p.button.dispatch('click')
+    assert.equal(p.controls['expand-all'].getAttribute('aria-disabled'), 'false')
+    assert.equal(p.controls['collapse-all'].getAttribute('aria-disabled'), 'false')
+})
+
+it('侧栏定位按钮独立工作，展开当前路径并居中；没有当前文章时禁用', () => {
+    const p = page({ toolbar: true })
+    p.controls['collapse-all'].dispatch('click')
+    p.controls['locate-current'].dispatch('click')
+    assert.ok(p.root.classList.contains('active'))
+    assert.ok(p.group.classList.contains('active'))
+    assert.equal(p.other.classList.contains('active'), false)
+    const rect = p.link.getBoundingClientRect()
+    assert.equal((rect.top + rect.bottom) / 2, 300)
+    assert.ok(p.link.classList.contains('is-located'))
+    const missing = page({ toolbar: true, currentURL: 'https://rbook.test/missing.html' })
+    assert.equal(missing.controls['locate-current'].getAttribute('aria-disabled'), 'true')
+    missing.controls['locate-current'].dispatch('click')
+    assert.equal(missing.link.classList.contains('is-located'), false)
+})
+
+it('存储被禁用时批量操作仍可用，tooltip 可通过 Esc 收起', () => {
+    const p = page({ toolbar: true, blocked: true })
+    p.controls['expand-all'].dispatch('click')
+    assert.equal(p.controls['expand-all'].getAttribute('aria-disabled'), 'true')
+    p.controls['collapse-all'].dispatch('click')
+    assert.equal(p.controls['collapse-all'].getAttribute('aria-disabled'), 'true')
+    const button = p.controls['expand-all']
+    button.dispatch('keydown', { key: 'Escape' })
+    assert.equal(button.parentElement.getAttribute('data-tooltip-dismissed'), '')
+    button.dispatch('focus')
+    assert.equal(button.parentElement.getAttribute('data-tooltip-dismissed'), undefined)
 })

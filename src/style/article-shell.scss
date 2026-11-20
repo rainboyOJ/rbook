@@ -154,6 +154,57 @@ html, body {
     mark { padding: 0; background: var(--rbook-accent-muted); color: var(--rbook-accent); font-weight: 600; }
     .rbook-sidebar-search__empty { margin: 0; padding: 14px 10px; color: var(--rbook-muted); font-size: 14px; line-height: 24px; }
 }
+
+.rbook-sidebar-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 4px;
+    margin-top: 6px;
+
+    &__bulk { display: flex; gap: 4px; }
+}
+
+.rbook-sidebar-action {
+    position: relative;
+    display: flex;
+
+    // 44px 点击区域，图标本身保持 20px；aria-disabled 保留聚焦和 tooltip。
+    button {
+        display: grid;
+        place-items: center;
+        width: 44px;
+        height: 44px;
+        border-radius: 6px;
+        color: var(--rbook-muted);
+
+        &:hover, &:focus-visible { background: var(--rbook-accent-muted); color: var(--rbook-accent); }
+        &[aria-disabled="true"] { opacity: .4; cursor: default; background: transparent; color: var(--rbook-muted); }
+    }
+
+    svg { display: block; width: 20px; height: 20px; pointer-events: none; }
+
+    &__tooltip {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        z-index: 3;
+        width: max-content;
+        padding: 6px 9px;
+        border-radius: 5px;
+        background: var(--rbook-text);
+        color: var(--rbook-surface);
+        font: 12px/20px var(--rbook-font-heading);
+        white-space: nowrap;
+        box-shadow: 0 3px 10px var(--rbook-shadow);
+        visibility: hidden;
+    }
+
+    &:not([data-tooltip-dismissed]) > button:focus-visible + &__tooltip { visibility: visible; }
+
+    @media (hover: hover) {
+        &:not([data-tooltip-dismissed]):hover > &__tooltip { visibility: visible; }
+    }
+}
 .rbook-sidebar :is(.rbook-sidebar-results a, .rbook-sidebar-search button):focus-visible { outline: 2px solid var(--rbook-accent); outline-offset: -2px; }
 
 .rbook-main { min-width: 0; position: relative; background: var(--rbook-bg); color: var(--rbook-text); }

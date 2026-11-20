@@ -99,6 +99,12 @@ if (sidebar) {
     const searchStatus = document.getElementById('sidebar-search-status')
     const tree = document.getElementById('sidebar-tree')
     const results = document.getElementById('sidebar-results')
+    const actions = document.getElementById('sidebar-actions')
+    const bulkActions = document.getElementById('sidebar-bulk-actions')
+    const expandAll = document.getElementById('sidebar-expand-all')
+    const collapseAll = document.getElementById('sidebar-collapse-all')
+    const locateCurrent = document.getElementById('sidebar-locate-current')
+    const directoryButtons = Array.from(sidebar.querySelectorAll('[data-directory]'))
     const hasSearch = searchBox && searchInput && clearSearch && searchStatus && tree && results
     const restoredSearch = hasSearch ? readSidebarSearch() : null
     const restoringSearch = restoredSearch && sidebarSearchTerms(restoredSearch.query).length > 0
@@ -113,19 +119,30 @@ if (sidebar) {
     let currentLink
     let resetSidebarSearch = () => {}
 
+    function syncDirectoryActions() {
+        const openCount = directoryButtons.filter(button => button.closest('li')?.classList.contains('active')).length
+        expandAll?.setAttribute('aria-disabled', String(openCount === directoryButtons.length))
+        collapseAll?.setAttribute('aria-disabled', String(openCount === 0))
+        if (bulkActions) bulkActions.hidden = searching
+    }
+
+    function setDirectoryOpen(button, open) {
+        button.closest('li')?.classList.toggle('active', open)
+        button.setAttribute('aria-expanded', String(open))
+        if (open) expanded.add(button.dataset.directory)
+        else expanded.delete(button.dataset.directory)
+    }
+
     function expandCurrentPath() {
         let parent = currentLink?.closest('li')?.parentElement?.closest('li')
         while (parent) {
             const button = parent.querySelector(':scope > .directory')
-            const directory = button?.dataset.directory
-            parent.classList.add('active')
-            button?.setAttribute('aria-expanded', 'true')
-            if (directory) expanded.add(directory)
+            if (button) setDirectoryOpen(button, true)
             parent = parent.parentElement?.closest('li')
         }
     }
 
-    sidebar.querySelectorAll('[data-directory]').forEach(button => {
+    directoryButtons.forEach(button => {
         const directory = button.dataset.directory
         const item = button.closest('li')
         const open = expanded.has(directory)
@@ -133,11 +150,9 @@ if (sidebar) {
         button.setAttribute('aria-expanded', String(open))
         button.addEventListener('click', () => {
             const next = !item.classList.contains('active')
-            item.classList.toggle('active', next)
-            button.setAttribute('aria-expanded', String(next))
-            if (next) expanded.add(directory)
-            else expanded.delete(directory)
+            setDirectoryOpen(button, next)
             writeExpanded(expanded)
+            syncDirectoryActions()
         })
     })
 
@@ -153,6 +168,8 @@ if (sidebar) {
         }
     })
     writeExpanded(expanded)
+    syncDirectoryActions()
+    if (actions) actions.hidden = false
 
     // 先恢复整棵目录的展开状态，再设置 scrollTop，避免被折叠时的高度截断。
     // 使用 sessionStorage，让每个标签页的滚动位置各自独立。
@@ -188,6 +205,42 @@ if (sidebar) {
     window.addEventListener('pagehide', saveScroll)
     saveScroll()
 
+    function setAllDirectories(open) {
+        if (searching) return
+        // 展开新增内容时保留首个可见条目的屏幕位置，避免阅读中的目录突然跳走。
+        const viewport = sidebar.getBoundingClientRect()
+        const visibleTop = hasSearch ? searchBox.getBoundingClientRect().bottom : viewport.top
+        const anchor = open && Array.from(sidebar.querySelectorAll('.item')).find(item => {
+            const rect = item.getBoundingClientRect()
+            return rect.bottom > visibleTop && rect.top < viewport.bottom
+        })
+        const anchorTop = anchor && anchor.getBoundingClientRect().top
+        expanded.clear()
+        directoryButtons.forEach(button => setDirectoryOpen(button, open))
+        writeExpanded(expanded)
+        syncDirectoryActions()
+        if (!open) sidebar.scrollTop = 0
+        else if (anchor) sidebar.scrollTop += anchor.getBoundingClientRect().top - anchorTop
+        saveScroll()
+    }
+
+    expandAll?.addEventListener('click', () => {
+        if (expandAll.getAttribute('aria-disabled') !== 'true') setAllDirectories(true)
+    })
+    collapseAll?.addEventListener('click', () => {
+        if (collapseAll.getAttribute('aria-disabled') !== 'true') setAllDirectories(false)
+    })
+
+    // 自带 tooltip，不依赖 Bootstrap；Esc 收起后，下次聚焦或移入时恢复。
+    actions?.querySelectorAll('button').forEach(button => {
+        const wrapper = button.parentElement
+        button.addEventListener('keydown', event => {
+            if (event.key === 'Escape') wrapper.setAttribute('data-tooltip-dismissed', '')
+        })
+        button.addEventListener('focus', () => wrapper.removeAttribute('data-tooltip-dismissed'))
+        wrapper.addEventListener('pointerenter', () => wrapper.removeAttribute('data-tooltip-dismissed'))
+    })
+
     if (hasSearch) {
         const entries = Array.from(tree.querySelectorAll('a.document')).map(link => {
             const names = []
@@ -220,6 +273,7 @@ if (sidebar) {
                 searchStatus.textContent = '搜索文章标题或目录路径'
                 if (searching) sidebar.scrollTop = treeTop
                 searching = false
+                syncDirectoryActions()
                 try { sessionStorage.removeItem(SEARCH_KEY) }
                 catch { /* 存储被禁用时，搜索仍可使用。 */ }
                 saveScroll()
@@ -230,6 +284,7 @@ if (sidebar) {
                 saveScroll()
             }
             searching = true
+            syncDirectoryActions()
             tree.hidden = true
             results.hidden = false
             const matches = filterSidebarEntries(entries, query)
@@ -322,13 +377,15 @@ if (sidebar) {
         }
     }
 
-    if (showInMenu && currentLink) {
-        showInMenu.hidden = false
+    locateCurrent?.setAttribute('aria-disabled', String(!currentLink))
+    if (currentLink) {
+        if (showInMenu) showInMenu.hidden = false
         let emphasisTimer = 0
-        showInMenu.addEventListener('click', () => {
+        function locateArticle() {
             resetSidebarSearch()
             expandCurrentPath()
             writeExpanded(expanded)
+            syncDirectoryActions()
 
             const main = document.querySelector('.rbook-main')
             if (main?.classList.contains('full-article')) {
@@ -352,7 +409,9 @@ if (sidebar) {
             clearTimeout(emphasisTimer)
             emphasisTimer = setTimeout(() => currentLink.classList.remove('is-located'), 1600)
             saveScroll()
-        })
+        }
+        showInMenu?.addEventListener('click', locateArticle)
+        locateCurrent?.addEventListener('click', locateArticle)
     }
 }
 
