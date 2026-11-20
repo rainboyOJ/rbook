@@ -387,6 +387,8 @@
   children:
     - title: "快速排序"
       path: "quicksort/"
+    - title: "三路快速排序"
+      path: "quicksort_3way"
 - title: "工具库"
   path: "utils"
   children:
