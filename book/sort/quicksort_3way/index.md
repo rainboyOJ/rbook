@@ -49,15 +49,45 @@ int L = l, R = r, i = l;
 
 ![三路快速排序的四段区间不变量，以及小于 key 和大于 key 时的两种交换方式](./assets/three-way-partition.svg)
 
-每次查看 `a[i]`，只有三种情况：
+每次查看 `a[i]`，只有三种情况(分情况讨论)：
 
-1. **`a[i] < key`**：把 `a[i]` 换到左边，`swap(a[i], a[L])`，然后 **`L++` 且 `i++`**。  
+1. $a[i] < key$：
+    
+    > 把 `a[i]` 换到左边，`swap(a[i], a[L])`，然后 **`L++` 且 `i++`**。  
    因为 `L <= i`，`a[L]` 原先位于 `[L, i-1]`（已知 `== key`）或就是 `a[i]` 本身，换过来之后无需再检查，`i` 可以放心右移。
-2. **`a[i] > key`**：把 `a[i]` 换到右边，`swap(a[i], a[R])`，然后 **`R--`（`i` 不动）**。  
+2. $a[i] > key$：
+    > 把 `a[i]` 换到右边，`swap(a[i], a[R])`，然后 **`R--`（`i` 不动）**。  
    因为 `a[R]` 来自尚未检查的 `[i, R]`，换到 `i` 位置后可能是任何大小，必须留在原地再检查一次。
-3. **`a[i] == key`**：它本来就属于中间段，直接 **`i++`**。
+3. $a[i] == key$：
+    > 它本来就属于中间段，直接 **`i++`**。
 
 当 `i > R` 时，未检查区域 `[i, R]` 变为空集，此时 `[l, L-1]` 严格小于 `key`，`[L, R]` 全部等于 `key`，`[R+1, r]` 严格大于 `key`。
+
+::: pseudocode
+\begin{algorithm}
+\caption{三路快速排序 quick\_sort(l, r)}
+\begin{algorithmic}
+\IF{$l \ge r$}
+    \RETURN
+\ENDIF
+\STATE 随机选取区间 $[l, r]$ 内的基准值 $key$
+\STATE $L \gets l,\; R \gets r,\; i \gets l$
+\WHILE{$i \le R$}
+    \IF{$a[i] < key$}
+        \STATE $\text{swap}(a[i], a[L])$
+        \STATE $L \gets L + 1,\; i \gets i + 1$
+    \ELSIF{$a[i] > key$}
+        \STATE $\text{swap}(a[i], a[R])$
+        \STATE $R \gets R - 1$
+    \ELSE
+        \STATE $i \gets i + 1$
+    \ENDIF
+\ENDWHILE
+\STATE $\text{quick\_sort}(l, L - 1)$
+\STATE $\text{quick\_sort}(R + 1, r)$
+\end{algorithmic}
+\end{algorithm}
+:::
 
 ## 交互演示
 
