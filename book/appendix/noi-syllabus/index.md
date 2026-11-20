@@ -16,10 +16,11 @@ rbook:
 | --- | --- |
 | 大纲版本 | 2025 年修订版 |
 | 官方发布日期 | 2025 年 4 月 18 日 |
-| 本次核对日期 | 2026 年 11 月 18 日 |
+| 官方来源核对日期 | 2026 年 11 月 18 日 |
+| 本书内容核对日期 | 2026 年 11 月 20 日 |
 | NOIP 对应级别 | 提高级，同时包含入门级内容 |
 
-截至本次核对，查到的最新正式版本仍为 2025 年修订版。2026 年的官方通知也继续引用这一版本，不应把它改称“2026 年修订版”。[官方发布说明](https://www.noi.cn/cbw/2025-04-18/841594.shtml)、[2026 年官方通知](https://noi.ccf.org.cn/gs/xw/sx1/2026-07-16/915500.shtml)
+2026 年 11 月 18 日核对官方来源时，查到的最新正式版本为 2025 年修订版，2026 年的官方通知也继续引用这一版本，不应把它改称“2026 年修订版”。[官方发布说明](https://www.noi.cn/cbw/2025-04-18/841594.shtml)、[2026 年官方通知](https://noi.ccf.org.cn/gs/xw/sx1/2026-07-16/915500.shtml)
 
 原文入口：[官方大纲 PDF](https://www.noi.cn/upload/resources/file/2025/04/18/NOI_Syllabus_Edition_2025.pdf)。PDF 为双页排版，阅读器的页序号与页面底部印刷页码不同。
 
@@ -101,23 +102,32 @@ rbook:
 
 ## 本书对照
 
-以下为 **2026 年 11 月 18 日的人工核对记录**，以当时目录登记的 198 篇文章及相关正文为依据。新增本篇后，目录数会随之变化。
+以下为 **2026 年 11 月 20 日的人工核对记录**，依据当前目录与相关正文整理。目录共登记 **217 个发布条目**，包含算法文章、附录与工具页面等，不等于完成了 217 个知识点。
 
-“已有内容”表示能找到相关讲解，不表示所有文章的完整程度相同；只有题单、提纲、空标题或 `TODO`，不计为主题已经完成。下表不会随新文章自动更新。
+“已有内容”表示能找到相关讲解，不表示所有文章的完整程度相同；只有题单、提纲、空标题或 `TODO`，不计为主题已经完成。本页由人工维护，新增文章后需复核正文，再更新状态与链接。
 
 ### 已有内容
 
 | 板块 | 本书入口 |
 | --- | --- |
 | 基础方法 | [[[rbook: presum]]]、[[[rbook: differential]]]、[[[rbook: two-pointer]]]、[[[rbook: binary_search_ans]]]、[[[rbook: discrete]]] |
-| 搜索 | [[[rbook: bfs]]]、[[[rbook: zero_one_bfs]]]、[[[rbook: meet_in_the_middle]]] |
-| DP | [[[rbook: continuous_segment_dp]]]、[[[rbook: dp_state_machine]]]、[[[rbook: lis]]]、[[[rbook: lcs]]]及背包系列 |
-| 常用结构 | [[[rbook: disjoint_set]]]、[[[rbook: sparse_table]]]、[[[rbook: bit]]]、[[[rbook: sgt_preface]]] |
+| 搜索基础 | [[[rbook: bfs]]]、[[[rbook: zero_one_bfs]]]、[[[rbook: meet_in_the_middle]]] |
+| 搜索优化 | [[[rbook: search_pruning]]]、[[[rbook: bidirectional_bfs]]]、[[[rbook: iterative_deepening]]]、[[[rbook: ida_star]]] |
+| 线性与背包 DP | [[[rbook: continuous_segment_dp]]]、[[[rbook: dp_state_machine]]]、[[[rbook: lis]]]、[[[rbook: lcs]]]及背包系列 |
+| 区间与集合状态 DP | [[[rbook: interval_dp]]]覆盖六个典型问题；[[[rbook: binary_state]]]覆盖集合、路径与行间兼容状态。 |
+| 树形DP基础 | [[[rbook: tree_dp_party]]]、[[[rbook: tree_dp_strategic_game]]]、[[[rbook: tree_dp_dominating_set]]]、[[[rbook: tree_dp_counting]]] |
+| 树上背包 | [[[rbook: tree_dp_binary_apple_tree]]]、[[[rbook: tree_dp_course_selection]]] |
+| 换根DP | [[[rbook: tree_dp_reroot_sum]]]、[[[rbook: tree_dp_reroot_max]]] |
+| 常用结构 | [[[rbook: disjoint_set]]]、[[[rbook: sparse_table]]]、[[[rbook: bit]]]、[[[rbook: sgt_preface]]]、[[[rbook: cartesian_tree]]] |
 | 图论 | [[[rbook: dijkstra]]]、[[[rbook: floyd]]]、[[[rbook: topsort]]]、[[[rbook: graph_mst]]]、[[[rbook: graph_eulerian_path]]] |
+| 找环与染色 | [[[rbook: graph_tarjan_loop]]]、[[[rbook: graph_bipartite]]] |
 | 连通性 | [[[rbook: graph_tarjan_scc]]]、[[[rbook: graph_tarjan_cut]]]、[[[rbook: graph_tarjan_bridge]]]、[[[rbook: graph_vertex_bcc]]]、[[[rbook: graph_edge_bcc]]] |
 | 树 | [[[rbook: diameter]]]、[[[rbook: tree-centroid]]]、[[[rbook: dfs_order]]]、[[[rbook: diff_on_tree]]]、[[[rbook: jump_lca]]] |
 | 字符串 | [[[rbook: string-hash]]]、[[[rbook: kmp]]]、[[[rbook: manacher]]]、[[[rbook: trie]]] |
 | 计数 | [[[rbook: combinatorics]]]、[[[rbook: inclusion-exclusion]]]、[[[rbook: catalan_number]]] |
+| 组合数学专题 | [[[rbook: derangement]]]、[[[rbook: pigeonhole]]]、[[[rbook: binomial_theorem]]] |
+
+树形DP已形成八篇系列，覆盖子树状态、计数、树上背包与换根。区间DP、状压DP、二分图判定、搜索优化、笛卡尔树及上述组合数学专题也已成篇，移出原缺口清单。
 
 记忆化搜索在 [[[rbook: number_pyramid]]] 中已有实例；单调队列优化在 [[[rbook: multiple_knapsack]]] 中已有讲解，不应将它们误记为完全缺失。
 
@@ -125,46 +135,44 @@ rbook:
 
 | 主题 | 当前情况 | 后续工作 |
 | --- | --- | --- |
-| [[[rbook: binary_state]]] | 正文基本只有 `TODO`。 | 补位集合表示、状态含义、枚举与转移、完整例题。 |
 | [[[rbook: exgcd]]] | 只有标题，缺少推导和实现。 | 补裴蜀定理、递归回代、通解和边界。 |
 | [[[rbook: prime]]] | 欧拉筛未编写。 | 补两种筛法的实现、正确性和复杂度。 |
 | [[[rbook: bigNumber]]] | 只接入加法，其余运算文件为空。 | 补减法、乘法、除以普通整数及余数处理。 |
 | [[[rbook: dfs]]] | 以教学提纲为主。 | 补状态设计、恢复现场、完整例题和剪枝。 |
 | [[[rbook: quicksort]]] | 已有代码和部分讨论，仍有未完成段落。 | 补完整原理、边界和退化分析。 |
+| [[[rbook: stone_merger_quadrangle]]] | 只有标题与目录，尚无正文。 | 承接区间DP基础，补四边形不等式优化的适用条件、决策范围和完整实现。 |
 | 数论专题 | 欧拉函数、费马小定理、逆元等散在笔记或代码中。 | 整理成独立、连续的学习路线。 |
 
 ### 需要新建
 
 | 主题 | 当前缺口与编写方向 |
 | --- | --- |
-| 树形 DP | 依赖背包、基环树中已有应用，缺少统一入门。先讲子树状态与儿子合并，再接树上背包和换根。 |
-| 区间 DP | 已有优化文章，但缺少基础教学。先讲区间状态、最后一次合并、分割点和枚举顺序。石子合并的独立文章也需补正文。 |
 | 分治与归并 | 需要从拆分、合并和复杂度讲起，用归并排序及逆序对贯穿。 |
 | 复杂度分析 | 各篇分别分析，缺少统一基础。应讲循环、递归、空间和均摊分析。 |
-| 二分图判定 | 缺少完整的染色法、奇环解释和非连通图处理。 |
-| 搜索优化 | 剪枝、双向 BFS、迭代加深与启发式搜索缺少系统讲解。 |
 | 矩阵与高斯消元 | 缺少矩阵运算、快速幂与递推加速、线性方程组求解。 |
-| 笛卡尔树 | 缺少与单调栈的联系、线性构造和区间性质。 |
 | 哈夫曼树 | 贪心概览中仅作简述，需要补最优合并、证明与编码。 |
 | 基础链表 | 缺少单链表、双向链表、循环链表及数组模拟。 |
 | 哈希表 | 需补数值哈希、键的存取与冲突解决方法。 |
-| 排序 | 除快速排序外，还需补基础排序、归并、堆排序、桶与基数排序。 |
-| 组合数学补充 | 错排、鸽巢原理和二项式定理需形成完整讲解；现有文章中的提及不能替代专题。 |
+| 其他排序 | 基础排序、堆排序、计数排序、桶排序与基数排序仍需成篇。归并排序列入分治专题。 |
+
+### 配套题解
+
+[[[rbook: interval_dp]]] 中的括号匹配已给出状态、转移、边界与复杂度，配套的 POJ 2955 完整题解仍待补。本文将正文与配套题解的维护进度分别记录。
 
 ## 编写顺序
 
 以下是本书的编写安排建议，不是官方规定的教学顺序。
 
-1. 树形 DP。
-2. 区间 DP。
-3. 补完状态压缩 DP。
-4. 分治与归并排序。
-5. 二分图判定。
-6. 补完扩欧，接着编写乘法逆元。
-7. 矩阵与矩阵快速幂。
-8. 高斯消元。
-9. 搜索剪枝。
-10. 哈夫曼树。
+1. 复杂度分析：循环、递归、空间与均摊。
+2. 完善 DFS 基础：状态设计、恢复现场与完整例题。
+3. 分治与归并排序，同时完善快速排序的原理、边界和退化分析。
+4. 裴蜀定理、扩欧、同余方程与乘法逆元。
+5. 矩阵基础、矩阵乘法与矩阵快速幂。
+6. 高斯消元。
+7. 完善高精度四则运算与两种素数筛法。
+8. 哈夫曼树。
+9. 基础链表与哈希表。
+10. 其余排序专题。
 
 数论可按“质因数分解 → 裴蜀与扩欧 → 同余方程 → 逆元 → 费马与欧拉定理 → 中国剩余定理”整理。线性代数则先补矩阵基础，再进入快速幂和消元。
 
@@ -181,5 +189,6 @@ rbook:
 | 日期 | 记录 |
 | --- | --- |
 | 2026-11-18 | 核对 2025 年修订版官方大纲，建立范围索引与本书对照。 |
+| 2026-11-20 | 复核 217 个发布条目及相关正文，更新七组已成篇主题、剩余缺口和编写顺序，分别记录正文与配套题解进度。 |
 
-官方发布新版本后，先更新版本、来源和核对日期，再检查知识点的分级变化。每完成一篇待补文章，将对应记录改为站内链接，并复核是否已经形成完整教学内容。
+核对官方来源时，更新来源日期并检查版本与分级变化。新增或完善本书文章时，更新内容核对日期、目录条目数、状态与站内链接；配套题解缺口单独记录。
