@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="360" viewBox="0 0 820 360" role="img" aria-labelledby="title desc">
+  <title id="title">Kruskal 贪心证明示意图</title>
+  <desc id="desc">左图展示当前已选边集 F 将顶点切分为 S 与 V-S，跨界边 e 连接 u 与 v；右图展示若 MST T 不含 e，加入 e 后与 T 中原本连通 u 与 v 的路径构成环，删去路径上跨过边界的边 f 得到同样最优的 T'。</desc>
+  <rect width="820" height="360" fill="white"/>
+
+  <g font-family="Noto Sans CJK SC, Source Han Sans SC, sans-serif">
+    <!-- ==================== 左图 (a) ==================== -->
+    <text x="205" y="28" font-size="16" font-weight="600" fill="#222" text-anchor="middle">(a) 切分与最轻跨界边 e</text>
+
+    <!-- 集合 S 与 V-S 区域 -->
+    <rect x="28" y="48" width="142" height="218" rx="18" fill="#f8f8f8" stroke="#999" stroke-width="1.3" stroke-dasharray="5 4"/>
+    <text x="99" y="72" font-size="15" font-style="italic" fill="#444" text-anchor="middle">S</text>
+
+    <rect x="240" y="48" width="142" height="218" rx="18" fill="#f8f8f8" stroke="#999" stroke-width="1.3" stroke-dasharray="5 4"/>
+    <text x="311" y="72" font-size="15" font-style="italic" fill="#444" text-anchor="middle">V - S</text>
+
+    <!-- 块内已选边 F (粗黑线) -->
+    <line x1="65" y1="112" x2="128" y2="152" stroke="#222" stroke-width="2.6"/>
+    <line x1="65" y1="112" x2="72" y2="218" stroke="#222" stroke-width="2.6"/>
+    <line x1="282" y1="152" x2="345" y2="108" stroke="#222" stroke-width="2.6"/>
+    <line x1="345" y1="108" x2="338" y2="220" stroke="#222" stroke-width="2.6"/>
+
+    <!-- 跨界边 e = (u, v) -->
+    <line x1="128" y1="152" x2="282" y2="152" stroke="#2b5b84" stroke-width="2.8"/>
+    <rect x="194" y="124" width="22" height="20" fill="white"/>
+    <text x="205" y="139" font-size="16" font-style="italic" font-weight="600" fill="#2b5b84" text-anchor="middle">e</text>
+
+    <!-- 左图顶点 -->
+    <circle cx="65" cy="112" r="10" fill="white" stroke="#222" stroke-width="1.6"/>
+    <circle cx="72" cy="218" r="10" fill="white" stroke="#222" stroke-width="1.6"/>
+    <circle cx="128" cy="152" r="14" fill="white" stroke="#222" stroke-width="1.8"/>
+    <text x="128" y="157" font-size="15" font-style="italic" fill="#222" text-anchor="middle">u</text>
+
+    <circle cx="282" cy="152" r="14" fill="white" stroke="#222" stroke-width="1.8"/>
+    <text x="282" y="157" font-size="15" font-style="italic" fill="#222" text-anchor="middle">v</text>
+    <circle cx="345" cy="108" r="10" fill="white" stroke="#222" stroke-width="1.6"/>
+    <circle cx="338" cy="220" r="10" fill="white" stroke="#222" stroke-width="1.6"/>
+
+    <!-- 左图说明 -->
+    <text x="205" y="294" font-size="14" fill="#444" text-anchor="middle">F 中的边全在块内，e 是最轻跨界边之一</text>
+
+    <!-- 中间分隔线 -->
+    <line x1="410" y1="24" x2="410" y2="300" stroke="#e2e2e2" stroke-width="1"/>
+
+    <!-- ==================== 右图 (b) ==================== -->
+    <text x="615" y="28" font-size="16" font-weight="600" fill="#222" text-anchor="middle">(b) 加 e 成环，删 f 破环</text>
+
+    <!-- 集合 S 与 V-S 区域 -->
+    <rect x="438" y="48" width="142" height="218" rx="18" fill="#f8f8f8" stroke="#999" stroke-width="1.3" stroke-dasharray="5 4"/>
+    <text x="509" y="72" font-size="15" font-style="italic" fill="#444" text-anchor="middle">S</text>
+
+    <rect x="650" y="48" width="142" height="218" rx="18" fill="#f8f8f8" stroke="#999" stroke-width="1.3" stroke-dasharray="5 4"/>
+    <text x="721" y="72" font-size="15" font-style="italic" fill="#444" text-anchor="middle">V - S</text>
+
+    <!-- 块内已选边 F (粗黑线，同时也是 T 中连接 u 与 v 的块内路径) -->
+    <line x1="475" y1="112" x2="538" y2="152" stroke="#222" stroke-width="2.6"/>
+    <line x1="475" y1="112" x2="482" y2="218" stroke="#222" stroke-width="2.6"/>
+    <line x1="692" y1="152" x2="755" y2="108" stroke="#222" stroke-width="2.6"/>
+    <line x1="755" y1="108" x2="748" y2="220" stroke="#222" stroke-width="2.6"/>
+
+    <!-- 跨界边 f (属于 T 但不属于 F，将被删去) -->
+    <line x1="482" y1="218" x2="748" y2="220" stroke="#b5483a" stroke-width="2.4" stroke-dasharray="6 4"/>
+    <!-- 在 f 上画叉表示删去 -->
+    <line x1="609" y1="211" x2="621" y2="227" stroke="#b5483a" stroke-width="2"/>
+    <line x1="621" y1="211" x2="609" y2="227" stroke="#b5483a" stroke-width="2"/>
+    <rect x="556" y="230" width="118" height="20" fill="white"/>
+    <text x="615" y="245" font-size="14" fill="#b5483a" text-anchor="middle"><tspan font-style="italic">f</tspan> ∉ <tspan font-style="italic">F</tspan>，<tspan font-style="italic">w</tspan>(<tspan font-style="italic">e</tspan>) ≤ <tspan font-style="italic">w</tspan>(<tspan font-style="italic">f</tspan>)</text>
+
+    <!-- 新加入的边 e = (u, v) -->
+    <line x1="538" y1="152" x2="692" y2="152" stroke="#2b5b84" stroke-width="2.8"/>
+    <rect x="604" y="124" width="22" height="20" fill="white"/>
+    <text x="615" y="139" font-size="16" font-style="italic" font-weight="600" fill="#2b5b84" text-anchor="middle">e</text>
+
+    <!-- 右图顶点 -->
+    <circle cx="475" cy="112" r="10" fill="white" stroke="#222" stroke-width="1.6"/>
+    <circle cx="482" cy="218" r="10" fill="white" stroke="#222" stroke-width="1.6"/>
+    <circle cx="538" cy="152" r="14" fill="white" stroke="#222" stroke-width="1.8"/>
+    <text x="538" y="157" font-size="15" font-style="italic" fill="#222" text-anchor="middle">u</text>
+
+    <circle cx="692" cy="152" r="14" fill="white" stroke="#222" stroke-width="1.8"/>
+    <text x="692" y="157" font-size="15" font-style="italic" fill="#222" text-anchor="middle">v</text>
+    <circle cx="755" cy="108" r="10" fill="white" stroke="#222" stroke-width="1.6"/>
+    <circle cx="748" cy="220" r="10" fill="white" stroke="#222" stroke-width="1.6"/>
+
+    <!-- 右图说明 -->
+    <text x="615" y="294" font-size="14" fill="#444" text-anchor="middle">T' = T - f + e 仍是包含 F ∪ {e} 的 MST</text>
+
+    <!-- 底部图例 -->
+    <line x1="158" y1="335" x2="188" y2="335" stroke="#222" stroke-width="2.6"/>
+    <text x="196" y="340" font-size="14" fill="#333">已选边集 F</text>
+
+    <line x1="322" y1="335" x2="352" y2="335" stroke="#2b5b84" stroke-width="2.8"/>
+    <text x="360" y="340" font-size="14" fill="#333">待选边 e</text>
+
+    <line x1="472" y1="335" x2="502" y2="335" stroke="#b5483a" stroke-width="2.4" stroke-dasharray="6 4"/>
+    <text x="510" y="340" font-size="14" fill="#333">T 中被替换的跨界边 f</text>
+  </g>
+</svg>
