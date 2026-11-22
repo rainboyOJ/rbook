@@ -4,24 +4,23 @@
 
 using namespace std;
 
-int main() {
-    // 原数组
-    vector<int> a = {1000000000, 25, 1000000000, 4, 25};
-
-    // 1. 拷贝到辅助数组 b
+// 将 a 中的原值替换为从 1 开始的编号，返回不同数值的个数。
+int discrete(vector<int> &a) {
     vector<int> b = a;
 
-    // 2. 排序与去重
     sort(b.begin(), b.end());
-    b.erase(unique(b.begin(), b.end()), b.end());
+    auto it = unique(b.begin(), b.end());
+    int m = it - b.begin();  // 去重后的有效区间为 [b.begin(), it)
 
-    // b 的大小即为不同元素的个数 m
-    int m = static_cast<int>(b.size());
-
-    // 3. 查表映射：将原数组元素替换为 1-based 连续排名 [1, m]
     for (int &x : a) {
-        x = lower_bound(b.begin(), b.end(), x) - b.begin() + 1;
+        x = lower_bound(b.begin(), it, x) - b.begin() + 1;
     }
+    return m;
+}
+
+int main() {
+    vector<int> a = {1000000000, 25, 1000000000, 4, 25};
+    int m = discrete(a);
 
     cout << "不同元素个数 m = " << m << "\n";
     // 输出: 3 2 3 1 2
