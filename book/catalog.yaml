@@ -34,6 +34,9 @@
     - title: "离散化"
       path: "discrete"
       search_aliases: [lsh, 坐标压缩, coordinatecompression]
+    - title: "离线算法"
+      path: "offline"
+      search_aliases: [offline, 离线处理]
 - title: "递归"
   path: "recursion"
   children:
