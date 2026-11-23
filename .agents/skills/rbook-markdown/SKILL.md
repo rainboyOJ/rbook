@@ -66,6 +66,11 @@ book/<章>/<文章目录>/
   `<nav class="table-of-contents">`，收 h2、h3。宽屏时在正文右侧跟随阅读高亮，窄屏时在正文内折叠显示。没有这个占位符就没有页内目录
   （侧边栏菜单来自 catalog，与此无关）。
 
+### 正文强调
+
+- **文章正文需要强调时，统一用 `==重点==`。** 它会渲染成 `<mark>重点</mark>`。
+- `==` 要紧贴文字。句号后紧跟汉字时，把句号放在闭合标记外，例如 `==结论==。下一句`。
+
 ## 二、站内与题目链接
 
 | 写法 | 用途 | 渲染成 |
@@ -322,7 +327,7 @@ $\varphi(n)$ 表示 $1\sim n$ 中与 $n$ 互质的数的个数。
 - `xxx.excalidraw.svg` 会被包装成"图片 + Open in Excalidraw 按钮"。
 - 需要额外拷进 dist 的资产（如 `.py`、`.sh`、PDF）写进 config 的 `copy` 数组。
 - 原生 HTML 可以直接写（markdown-it `html: true`），例如
-  `<video src="/video/x.mp4" controls></video>`、`<kbd>`、`<mark>`、`<ins>`、`<details>`。
+  `<video src="/video/x.mp4" controls></video>`、`<kbd>`、`<ins>`、`<details>`。
 - **EJS 宏已废弃且实际上已经坏了**：`<%= video('x') %>`、`<%= dvideo('x') %>`、
   `<%= iframe(url, h) %>`、`<%= pid_to_url(...) %>` 仍会被求值，产生一条"EJS 内容宏已弃用"警告，
   但返回的 HTML 会被当成普通文字转义输出（页面上看到 `<video …>` 字样）。
@@ -335,7 +340,6 @@ $\varphi(n)$ 表示 $1\sim n$ 中与 $n$ 互质的数的个数。
 | `[[dijkstra]]`、`[[a\|别名]]` | 双链不存在，原样输出 | `[[[rbook: dijkstra]]]` |
 | `` `[[[rbook: x]]]` ``（反引号包住） | 变成代码里的字面量 | 去掉反引号 |
 | `++插入文字++` | 纯文本 | `<ins>…</ins>` |
-| `==高亮==` | 纯文本 | `<mark>…</mark>` |
 | 脚注 `[^1]` + `[^1]: 说明` | 变成指向说明文字的怪链接 | 直接写正文或括注 |
 | 任务列表 `- [ ]` | 普通列表项字面量 | 用 emoji 或纯文字 |
 | `:smile:` 短码 | 字面量 | 直接打 emoji 😄 |
@@ -402,7 +406,7 @@ node .agents/skills/rbook-markdown/scripts/render-check.js graph/spfa/index.md -
 脚本用**项目真实管线**（catalog + 文章 config + 全部插件）渲染指定文章，然后分两层体检：
 
 - **源码层**（先剥掉围栏与行内代码，所以正确转义过的示例不会被误报）：
-  未知的 `[[[type: …]]]`、双方括号、未注册的 `:::` 名字、`++`/`==`/脚注/`[g1:]` 空标签；
+  未知的 `[[[type: …]]]`、双方括号、未注册的 `:::` 名字、`++`/脚注/`[g1:]` 空标签；
 - **产物层**：`include-missing`、`rbook-animation--error`、`rbook-dsa-card--error`、`extra-link missing`。
 
 命中位置会给出源码行号，末尾打印全部诊断（含建议）。加 `--html` 可打印正文 HTML。

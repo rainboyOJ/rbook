@@ -87,6 +87,11 @@
     a { color: var(--rbook-accent); text-underline-offset: 3px; }
     a:hover { color: var(--rbook-accent-hover); }
     strong { font-family: var(--rbook-font-heading); font-weight: 600; }
+    mark {
+        padding: 0 .08em;
+        color: inherit;
+        background-color: var(--rbook-mark-bg);
+    }
     del { color: var(--rbook-muted); }
 
     img { max-width: 100%; height: auto; }

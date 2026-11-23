@@ -34,6 +34,7 @@
         "lokijs": "^1.5.12",
         "markdown-it": "^14.1.0",
         "markdown-it-anchor": "^9.2.1",
+        "markdown-it-mark": "^4.0.0",
         "markdown-it-texmath": "^1.0.0",
         "markdown-it-toc-done-right": "^4.2.0",
         "mkdirp": "^3.0.1",

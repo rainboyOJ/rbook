@@ -1,4 +1,5 @@
 import MarkdownIt from 'markdown-it'
+import markPlugin from 'markdown-it-mark'
 import mathPlugin from './plugins/math'
 import contentMacrosPlugin, { ContentMacrosOptions } from './plugins/content-macros'
 import includePlugin, { IncludeOptions } from './plugins/include'
@@ -32,6 +33,7 @@ export interface PluginRegistryOptions {
 export function registerPlugins(md: MarkdownIt, opts: PluginRegistryOptions): void {
     // 1. 标准语法
     md.use(mathPlugin, { diagnostics: opts.rbookLink.diagnostics })
+    md.use(markPlugin)
     md.use(tocPlugin)
 
     // 2. Rbook 内容扩展
