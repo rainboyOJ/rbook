@@ -1,0 +1,51 @@
+<%
+const limit = 3
+const groups = [
+    { key: 'pre', name: '前置知识', articles: learning.prerequisites },
+    { key: 'post', name: '后续文章', articles: learning.successors },
+]
+const hasLinks = groups.some(group => group.articles.length)
+%>
+<nav class="rbook-learning<%= learning.mapHref ? ' rbook-learning--has-map' : '' %>" aria-label="学习关系">
+    <% if (hasLinks) { %>
+        <details class="rbook-learning__panel" open>
+            <summary class="rbook-learning__summary">
+                <span class="rbook-learning__heading">学习关系</span>
+                <span class="rbook-learning__action">
+                    <span class="rbook-learning__when-closed">展开</span>
+                    <span class="rbook-learning__when-open">收起</span>
+                </span>
+            </summary>
+            <div class="rbook-learning__diagram">
+                <%- include('./learning-relation-group.ejs', { group: groups[0], limit }) %>
+                <div class="rbook-learning__column">
+                    <p class="rbook-learning__label">本文</p>
+                    <div class="rbook-learning__body">
+                        <div class="rbook-learning__node rbook-learning__node--current" title="<%= articleTitle %>">
+                            <span><%= articleTitle %></span>
+                        </div>
+                    </div>
+                </div>
+                <%- include('./learning-relation-group.ejs', { group: groups[1], limit }) %>
+            </div>
+            <% for (const group of groups.filter(group => group.articles.length > limit)) { %>
+                <details class="rbook-learning__more">
+                    <summary><%= group.name %>另 <%= group.articles.length - limit %> 篇</summary>
+                    <ul>
+                        <% for (const article of group.articles.slice(limit)) { %>
+                            <li><a href="<%= article.href %>"><%= article.title %></a></li>
+                        <% } %>
+                    </ul>
+                </details>
+            <% } %>
+        </details>
+    <% } else { %>
+        <div class="rbook-learning__empty">
+            <span class="rbook-learning__heading">学习关系</span>
+            <span>本文暂未登记学习关系</span>
+        </div>
+    <% } %>
+    <% if (learning.mapHref) { %>
+        <a class="rbook-learning__map" href="<%= learning.mapHref %>">全书关系图 <span aria-hidden="true">↗</span></a>
+    <% } %>
+</nav>

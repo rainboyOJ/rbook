@@ -6,7 +6,7 @@ const fs = require('fs')
 const PROJECT_ROOT = path.resolve(__dirname, '..')
 const { PathPolicy } = require(path.join(PROJECT_ROOT, '.tsbuild/publishing/content/path-policy.js'))
 const { loadCatalog } = require(path.join(PROJECT_ROOT, '.tsbuild/publishing/content/catalog-loader.js'))
-const { flattenCatalog } = require(path.join(PROJECT_ROOT, '.tsbuild/publishing/domain/catalog.js'))
+const { flattenCatalogLeaves } = require(path.join(PROJECT_ROOT, '.tsbuild/publishing/domain/catalog.js'))
 const { buildArticleIndex } = require(path.join(PROJECT_ROOT, '.tsbuild/publishing/domain/index.js'))
 const { resolveArticleSource } = require(path.join(PROJECT_ROOT, '.tsbuild/publishing/content/source-resolver.js'))
 const { PageTemplateRenderer } = require(path.join(PROJECT_ROOT, '.tsbuild/publishing/templates/page-template-renderer.js'))
@@ -18,16 +18,19 @@ describe('Phase 4: 文章渲染与模板写盘', () => {
     const policy = new PathPolicy(PROJECT_ROOT)
     const catalogPath = path.join(PROJECT_ROOT, 'book', 'catalog.yaml')
     const catalog = loadCatalog(catalogPath)
-    const leaves = flattenCatalog(catalog)
+    const leafEntries = flattenCatalogLeaves(catalog)
+    const leaves = leafEntries.map(leaf => leaf.path)
     const diag = []
-    const entries = leaves.map(leaf => {
-        const resolved = resolveArticleSource(leaf, policy.book, diag)
+    const entries = leafEntries.map(leaf => {
+        const resolved = resolveArticleSource(leaf.path, policy.book, diag)
         return {
             id: resolved.metadata.id,
             title: resolved.metadata.title,
             sourcePath: resolved.source.filePath,
             publishHref: policy.publishHref(resolved.source.filePath),
             metadata: resolved.metadata,
+            catalogTitle: leaf.title,
+            hidden: leaf.hidden,
         }
     })
     const index = buildArticleIndex(catalog, entries)
@@ -62,6 +65,29 @@ describe('Phase 4: 文章渲染与模板写盘', () => {
         assert.ok(result.view.title)
         assert.ok(result.html.includes('markdown-body'))
         assert.ok(result.html.includes('github.com'))
+    })
+
+    it('在正文前渲染直接前置与反向推导的后续文章', () => {
+        const result = renderArticle({
+            entryPath: 'math/combinatorics/combinatorics',
+            policy,
+            index,
+            templateRenderer,
+            includeLearningMap: true,
+        })
+        const learning = result.view.learning
+        assert.ok(learning.prerequisites.some(article => article.id === 'rule_of_sum'))
+        assert.ok(learning.successors.some(article => article.id === 'binomial_theorem'))
+        assert.ok(!learning.prerequisites.some(article => article.id === 'set'))
+
+        const start = result.html.indexOf('<nav class="rbook-learning')
+        const end = result.html.indexOf('<div class="markdown-body">')
+        assert.ok(start !== -1 && start < end)
+        const nav = result.html.slice(start, end)
+        for (const article of [...learning.prerequisites, ...learning.successors]) {
+            assert.ok(nav.includes(`href="${article.href}"`))
+        }
+        assert.match(nav, /href="\/brain_net_map\/\?article=combinatorics"/)
     })
 
     it('ArtifactWriter 缺失附件报告诊断', () => {

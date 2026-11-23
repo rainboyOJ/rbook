@@ -1,3 +1,5 @@
+import { LearningRelations } from './learning-relations'
+
 export interface ArticleMetadata {
     id: string
     /** 正文标题，可以长。页面 <title>、正文 H1、catalog.json 都用它。 */
@@ -23,6 +25,8 @@ export interface ArticleIndexEntry {
     sourcePath: string
     publishHref: string
     metadata: ArticleMetadata
+    catalogTitle?: string
+    hidden?: boolean
 }
 
 export interface ArticleIndex {
@@ -30,4 +34,5 @@ export interface ArticleIndex {
     bySourcePath: Map<string, ArticleIndexEntry>
     byPublishHref: Map<string, ArticleIndexEntry>
     all: ArticleIndexEntry[]
+    learning?: Map<string, LearningRelations>
 }

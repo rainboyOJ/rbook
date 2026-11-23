@@ -27,6 +27,7 @@ export interface RenderArticleOptions {
     diagnostics?: Diagnostic[]
     debug?: boolean
     contentMacros?: ContentMacrosOptions
+    includeLearningMap?: boolean
 }
 
 export interface RenderArticleResult {
@@ -110,6 +111,8 @@ export function renderArticle(opts: RenderArticleOptions): RenderArticleResult {
         }
     }
 
+    const indexed = opts.index.bySourcePath.get(resolved.source.filePath)
+    const learning = indexed ? opts.index.learning?.get(indexed.id) : undefined
     const view = buildArticleView({
         article: resolved.source,
         metadata: resolved.metadata,
@@ -120,8 +123,17 @@ export function renderArticle(opts: RenderArticleOptions): RenderArticleResult {
         gitLocation,
         teachPlanHref,
         // 索引里的 title 已在 prepare-catalog 阶段用 catalog.yaml 的标题兜过底。
-        catalogTitle: opts.index.bySourcePath.get(resolved.source.filePath)?.title,
+        catalogTitle: indexed?.title,
     })
+    if (indexed) {
+        view.learning = {
+            prerequisites: learning?.prerequisites ?? [],
+            successors: learning?.successors ?? [],
+            mapHref: learning && opts.includeLearningMap
+                ? `/brain_net_map/?article=${encodeURIComponent(indexed.id)}`
+                : undefined,
+        }
+    }
 
     const html = opts.templateRenderer.render(opts.templateName || 'article.html', view)
 

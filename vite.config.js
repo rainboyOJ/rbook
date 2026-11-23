@@ -9,6 +9,32 @@ import { ViteEjsPlugin } from "vite-plugin-ejs";
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const require = createRequire(import.meta.url)
 
+function learningMapDevPlugin() {
+    const mapDir = resolve(__dirname, 'third_part/brain_net_map')
+    return {
+        name: 'rbook-learning-map-dev',
+        apply: 'serve',
+        configureServer(server) {
+            const { loadRelations } = require(resolve(mapDir, 'load_data.js'))
+            server.middlewares.use(async (req, res, next) => {
+                const pathname = new URL(req.url || '/', 'http://rbook.local').pathname
+                if (!['/brain_net_map', '/brain_net_map/', '/brain_net_map/index.html'].includes(pathname)) return next()
+                try {
+                    const data = JSON.stringify(loadRelations()).replaceAll('<', '\\u003c')
+                    const html = fs.readFileSync(resolve(mapDir, 'index.html'), 'utf8')
+                        .replace('<meta charset="UTF-8">', charset => `${charset}<script src="/js/theme-controller.js"></script><script>globalThis.RELATION_DATA = ${data}</script>`)
+                        .replace('src="./app.js"', `src="/@fs${resolve(mapDir, 'app.js')}"`)
+                    res.setHeader('Content-Type', 'text/html; charset=utf-8')
+                    res.end(await server.transformIndexHtml(pathname, html))
+                }
+                catch (error) {
+                    next(error)
+                }
+            })
+        },
+    }
+}
+
 function videoAssetsPlugin() {
     const videoDir = resolve(__dirname, 'video')
     let outputDir
@@ -77,28 +103,31 @@ function articleDevPlugin(animationEntries, runtimeEntry, formulaEntry) {
             const renderEntry = resolve(__dirname, '.tsbuild/publishing/pipeline/render-article.js')
             const { PathPolicy } = require(policyEntry)
             const { loadCatalog } = require(catalogEntry)
-            const { flattenCatalog, findHomeLeaf } = require(domainCatalogEntry)
+            const { flattenCatalogLeaves, findHomeLeaf } = require(domainCatalogEntry)
             const { resolveArticleSource } = require(sourceEntry)
             const { buildArticleIndex } = require(indexEntry)
             const { PageTemplateRenderer } = require(templateEntry)
             const { renderArticle } = require(renderEntry)
 
             const policy = new PathPolicy(__dirname)
-            const catalog = loadCatalog(resolve(__dirname, 'book/catalog.yaml'))
-            const leaves = flattenCatalog(catalog)
-            // 站点根路径直出 catalog 的 home 文章，与构建产物保持一致
-            const homeLeaf = findHomeLeaf(catalog)
-            const entries = leaves.map(leaf => {
-                const resolved = resolveArticleSource(leaf, policy.book, [])
-                return {
-                    id: resolved.metadata.id,
-                    title: resolved.metadata.title,
-                    sourcePath: resolved.source.filePath,
-                    publishHref: policy.publishHref(resolved.source.filePath),
-                    metadata: resolved.metadata,
-                }
-            })
-            const index = buildArticleIndex(catalog, entries)
+            const catalogPath = resolve(policy.book, 'catalog.yaml')
+            function readArticleCatalog() {
+                const catalog = loadCatalog(catalogPath)
+                const entries = flattenCatalogLeaves(catalog).map(leaf => {
+                    const { metadata, source } = resolveArticleSource(leaf.path, policy.book, [])
+                    return {
+                        id: metadata.id,
+                        title: metadata.title.trim() || leaf.title,
+                        sourcePath: source.filePath,
+                        publishHref: policy.publishHref(source.filePath),
+                        metadata,
+                        catalogTitle: leaf.title,
+                        hidden: leaf.hidden,
+                    }
+                })
+                return { index: buildArticleIndex(catalog, entries), homeLeaf: findHomeLeaf(catalog) }
+            }
+            let articleCatalog
             const templateRenderer = new PageTemplateRenderer({
                 templateDir: resolve(__dirname, 'src/ejs'),
                 root: __dirname,
@@ -107,7 +136,10 @@ function articleDevPlugin(animationEntries, runtimeEntry, formulaEntry) {
 
             server.watcher.add(resolve(__dirname, 'book'))
             server.watcher.on('change', changed => {
-                if (/\.(md|animation\.ts)$/.test(changed)) {
+                if (inside(policy.book, changed) && (changed.endsWith('.md') || changed === catalogPath)) {
+                    articleCatalog = undefined
+                }
+                if (/\.(md|animation\.ts)$/.test(changed) || changed === catalogPath) {
                     server.ws.send({ type: 'full-reload', path: '*' })
                 }
             })
@@ -133,13 +165,14 @@ function articleDevPlugin(animationEntries, runtimeEntry, formulaEntry) {
                 // 与构建产物 dist/index.html（alias-home 阶段）保持一致。
                 const isHomeRequest = pathname === '/' || pathname === '/index.html'
                 if (isHomeRequest || pathname.endsWith('.html')) {
-                    const relative = isHomeRequest
-                        ? homeLeaf
-                        : pathname.replace(/^\//, '').replace(/\.html$/, '.md')
-                    if (!relative) return next()
-                    const sourcePath = resolve(policy.book, relative)
-                    if (!inside(policy.book, sourcePath) || !fs.existsSync(sourcePath)) return next()
                     try {
+                        const { index, homeLeaf } = articleCatalog ??= readArticleCatalog()
+                        const relative = isHomeRequest
+                            ? homeLeaf
+                            : pathname.replace(/^\//, '').replace(/\.html$/, '.md')
+                        if (!relative) return next()
+                        const sourcePath = resolve(policy.book, relative)
+                        if (!inside(policy.book, sourcePath) || !fs.existsSync(sourcePath)) return next()
                         const result = renderArticle({
                             entryPath: relative,
                             policy,
@@ -147,6 +180,7 @@ function articleDevPlugin(animationEntries, runtimeEntry, formulaEntry) {
                             templateRenderer,
                             diagnostics: [],
                             debug: true,
+                            includeLearningMap: true,
                         })
                         const html = await server.transformIndexHtml(pathname, result.html)
                         res.statusCode = 200
@@ -227,6 +261,7 @@ const formulaEntry = resolve(__dirname, 'src/formula-tools.js')
 export default defineConfig({
     plugins: [
         videoAssetsPlugin(),
+        learningMapDevPlugin(),
         articleDevPlugin(animationEntries, runtimeEntry, formulaEntry),
         ViteEjsPlugin({
             menu: {

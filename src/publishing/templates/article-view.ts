@@ -1,6 +1,7 @@
 import { ArticleSource } from '../domain/article'
 import { ArticleMetadata } from '../domain/metadata'
 import { resolveArticleTitle } from '../domain/article-title'
+import { LearningRelations } from '../domain/learning-relations'
 
 export interface ArticleView {
     title: string
@@ -16,6 +17,7 @@ export interface ArticleView {
     metadata: ArticleMetadata
     teachPlanHref?: string
     badges?: { label: string; href: string }[]
+    learning?: LearningRelations & { mapHref?: string }
 }
 
 export function buildArticleView(params: {

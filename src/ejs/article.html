@@ -62,6 +62,9 @@
             <%}%>
         </div>
     </div>
+    <% if (data.learning) { %>
+        <%- include("./component/learning-relations.ejs", { learning: data.learning, articleTitle: data.title }) %>
+    <% } %>
     <div class="markdown-body">
         <%- content %>
     </div>

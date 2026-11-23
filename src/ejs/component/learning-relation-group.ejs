@@ -1,0 +1,39 @@
+<%
+const shown = group.articles.slice(0, limit)
+const isPre = group.key === 'pre'
+const row = 44
+const step = 52
+const height = row + (shown.length - 1) * step
+const middle = height / 2
+const points = shown.map((article, index) => row / 2 + index * step)
+%>
+<section class="rbook-learning__column rbook-learning__column--<%= group.key %><%= shown.length ? ' rbook-learning__column--linked' : '' %>" aria-labelledby="rbook-learning-<%= group.key %>">
+    <p class="rbook-learning__label" id="rbook-learning-<%= group.key %>"><%= group.name %></p>
+    <div class="rbook-learning__body">
+        <% if (shown.length) { %>
+            <ul class="rbook-learning__nodes">
+                <% for (const article of shown) { %>
+                    <li><a class="rbook-learning__node" href="<%= article.href %>" title="<%= article.title %>"><span><%= article.label %></span></a></li>
+                <% } %>
+            </ul>
+            <svg class="rbook-learning__links" width="48" height="<%= height %>" viewBox="0 0 48 <%= height %>" preserveAspectRatio="none" aria-hidden="true">
+                <% if (isPre) { %>
+                    <path d="M24 <%= points[0] %> V<%= points.at(-1) %> M24 <%= middle %> H44 M39 <%= middle - 4 %> L44 <%= middle %> L39 <%= middle + 4 %>"/>
+                    <% for (const point of points) { %>
+                        <path d="M0 <%= point %> H24"/>
+                    <% } %>
+                <% } else { %>
+                    <path d="M24 <%= points[0] %> V<%= points.at(-1) %> M0 <%= middle %> H24"/>
+                    <% for (const point of points) { %>
+                        <path d="M24 <%= point %> H44 M39 <%= point - 4 %> L44 <%= point %> L39 <%= point + 4 %>"/>
+                    <% } %>
+                <% } %>
+            </svg>
+            <svg class="rbook-learning__down" width="12" height="22" viewBox="0 0 12 22" aria-hidden="true">
+                <path d="M6 1 V19 M2 15 L6 19 L10 15"/>
+            </svg>
+        <% } else { %>
+            <p class="rbook-learning__none">暂未登记<%= isPre ? '前置' : '后续' %>文章</p>
+        <% } %>
+    </div>
+</section>

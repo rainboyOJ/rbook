@@ -399,4 +399,13 @@ $('graph').addEventListener('pointercancel', endTouch, true)
 // Development-only handle for browser interaction checks.
 
 if (import.meta.env.DEV) window.__knowledgeMap = () => ({ graph, mode, chapter, selected, shown, busy })
-run(() => rebuild())
+const articleParam = new URLSearchParams(location.search).get('article')
+run(async () => {
+    if (byId.has(articleParam)) {
+        selected = articleParam
+        mode = 'radial'
+        $('layout').value = mode
+    }
+    await rebuild()
+    if (selected) await choose(selected, true)
+})

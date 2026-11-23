@@ -28,6 +28,7 @@ export interface BuildStageContext {
     blogUrl?: string
     rojBaseUrl?: string
     contentMacros?: ContentMacrosOptions
+    includeLearningMap?: boolean
     stageResults: Record<string, unknown>
 }
 
@@ -59,6 +60,8 @@ export const prepareCatalog: BuildStage = {
                 sourcePath: resolved.source.filePath,
                 publishHref: ctx.policy.publishHref(resolved.source.filePath),
                 metadata: resolved.metadata,
+                catalogTitle: leaf.title,
+                hidden: leaf.hidden,
             }
         })
         const index = buildArticleIndex(catalog, entries)
@@ -109,6 +112,7 @@ export const renderPages: BuildStage = {
             withRelated: true,
             debug: false,
             contentMacros: ctx.contentMacros,
+            includeLearningMap: ctx.includeLearningMap,
         })
         ctx.stageResults['renderResult'] = result
         console.log(`[render-pages] 成功: ${result.succeeded}, 失败: ${result.failed}`)

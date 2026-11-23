@@ -47,6 +47,7 @@ export class PageTemplateRenderer {
                     file_dir: view.sourcePath.substring(0, view.sourcePath.lastIndexOf('/')),
                 },
                 teach_plan_href: view.teachPlanHref,
+                learning: view.learning,
             },
             header: view.header,
             content: view.content,

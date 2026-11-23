@@ -262,6 +262,7 @@ export function createCli(opts: CliOptions): Command {
                     blogUrl: opts.blogUrl,
                     rojBaseUrl: opts.rojBaseUrl,
                     contentMacros: opts.contentMacros,
+                    includeLearningMap: profile.name === 'full',
                     stageResults: {},
                 }
                 const ok = runStages(profile.stages, ctx)
