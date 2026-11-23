@@ -15,6 +15,17 @@
     margin-inline: auto;
 }
 
+.rbook-article .markdown-body .katex-display > .katex:has(> .katex-html > .tag) {
+    width: max-content;
+    min-width: 100%;
+    max-width: none;
+    margin-inline: 0;
+}
+
+.katex-display > .katex > .katex-html:has(> .tag) {
+    padding-inline: 2.5em;
+}
+
 .rbook-article .markdown-body .katex:hover {
     background-color: var(--rbook-accent-muted);
     box-shadow: 0 0 0 1px color-mix(in srgb, var(--rbook-accent) 35%, transparent);
