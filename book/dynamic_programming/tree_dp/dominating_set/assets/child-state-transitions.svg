@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="308" viewBox="0 0 720 308" role="img" aria-labelledby="title desc">
+  <title id="title">节点 u 的三种状态如何限制孩子</title>
+  <desc id="desc">状态 0 时 u 放保安，每个孩子可以取 0、1、2。状态 1 时 u 不放，孩子只能取 0 或 1，图中 v1 取 0 并覆盖 u。状态 2 时 u 等父亲覆盖，所有孩子只能取 1。</desc>
+  <defs>
+    <marker id="cover" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0,0 L 10,5 L 0,10 Z" fill="#2F5D8A"/>
+    </marker>
+  </defs>
+  <rect width="720" height="308" fill="#F2F2F2"/>
+
+  <path d="M 244,24 V 254 M 476,24 V 254" stroke="#B8B8B8"/>
+  <g fill="none" stroke="#555555" stroke-width="1.6">
+    <path d="M 76,176 L 128,108 L 180,176"/>
+    <path d="M 360,108 L 412,176"/>
+    <path d="M 540,176 L 592,108 L 644,176"/>
+  </g>
+  <g fill="none" stroke="#2F5D8A" stroke-width="2.1" marker-end="url(#cover)">
+    <path d="M 320,160 L 347,126"/>
+    <path d="M 592,75 V 87" stroke-dasharray="3 2"/>
+  </g>
+
+  <g fill="#FFFFFF" stroke="#333333" stroke-width="1.6">
+    <circle cx="128" cy="108" r="19" fill="#222222"/>
+    <circle cx="360" cy="108" r="19"/>
+    <circle cx="592" cy="108" r="19"/>
+    <circle cx="592" cy="59" r="16" fill="#222222"/>
+    <circle cx="76" cy="176" r="18" stroke-dasharray="4 3"/>
+    <circle cx="180" cy="176" r="18" stroke-dasharray="4 3"/>
+    <circle cx="308" cy="176" r="18" fill="#222222"/>
+    <circle cx="412" cy="176" r="18" stroke-dasharray="4 3"/>
+    <circle cx="540" cy="176" r="18"/>
+    <circle cx="644" cy="176" r="18"/>
+  </g>
+
+  <g font-family="Georgia, serif" font-style="italic" font-size="20" text-anchor="middle" fill="#222222">
+    <text x="128" y="114" fill="#FFFFFF">u</text>
+    <text x="360" y="114">u</text>
+    <text x="592" y="114">u</text>
+    <text x="592" y="64" fill="#FFFFFF">p</text>
+    <text x="76" y="181">v<tspan dy="4" font-size="13" font-style="normal">1</tspan></text>
+    <text x="180" y="181">v<tspan dy="4" font-size="13" font-style="normal">2</tspan></text>
+    <text x="308" y="181" fill="#FFFFFF">v<tspan dy="4" font-size="13" font-style="normal">1</tspan></text>
+    <text x="412" y="181">v<tspan dy="4" font-size="13" font-style="normal">2</tspan></text>
+    <text x="540" y="181">v<tspan dy="4" font-size="13" font-style="normal">1</tspan></text>
+    <text x="644" y="181">v<tspan dy="4" font-size="13" font-style="normal">2</tspan></text>
+  </g>
+
+  <g font-family="Noto Sans CJK SC, Microsoft YaHei, sans-serif" text-anchor="middle" fill="#222222">
+    <g font-size="20" font-weight="600">
+      <text x="128" y="32">状态 0</text>
+      <text x="360" y="32">状态 1</text>
+      <text x="592" y="32">状态 2</text>
+    </g>
+    <text x="620" y="65" text-anchor="start" font-size="17" fill="#2F5D8A">父亲须放</text>
+    <g font-size="18">
+      <text x="76" y="220">{0, 1, 2}</text>
+      <text x="180" y="220">{0, 1, 2}</text>
+      <text x="308" y="220" fill="#2F5D8A" font-weight="600">0</text>
+      <text x="412" y="220">{0, 1}</text>
+      <text x="540" y="220">1</text>
+      <text x="644" y="220">1</text>
+      <text x="128" y="249">各孩子可独立选择</text>
+      <text x="360" y="249">至少一个孩子取 0</text>
+      <text x="592" y="249">所有孩子都取 1</text>
+    </g>
+    <text x="360" y="287" font-size="17" fill="#444444">实心表示放保安，空心表示不放，虚线圆表示两者皆可</text>
+  </g>
+</svg>

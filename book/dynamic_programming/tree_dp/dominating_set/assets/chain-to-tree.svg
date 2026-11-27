@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="328" viewBox="0 0 700 328" role="img" aria-labelledby="title desc">
+  <title id="title">从链的后缀到树的子树</title>
+  <desc id="desc">左图把链从左到右的顺序竖着画。虚线框包含 i 到 n，左邻居 i−1 在框外。右图的虚线框包含以 u 为根的子树，父节点 fa(u) 在框外，u 可以有多个孩子。</desc>
+  <rect width="700" height="328" fill="#F2F2F2"/>
+
+  <g fill="#FFFFFF" stroke="#777777" stroke-width="1.4" stroke-dasharray="5 4">
+    <rect x="47" y="112" width="242" height="193"/>
+    <rect x="386" y="112" width="267" height="193"/>
+  </g>
+
+  <g fill="none" stroke="#555555" stroke-width="1.6">
+    <path d="M 168,88 V 125 M 168,161 V 179"/>
+    <path d="M 168,215 V 232" stroke-dasharray="2 4"/>
+    <path d="M 520,88 V 125 M 506,153 L 450,187 M 520,161 V 179 M 534,153 L 590,187"/>
+    <path d="M 427,210 L 411,241 M 441,210 L 458,241 M 520,215 V 239 M 606,215 V 239"/>
+  </g>
+
+  <g fill="#FFFFFF" stroke="#333333" stroke-width="1.5">
+    <ellipse cx="168" cy="70" rx="26" ry="18"/>
+    <ellipse cx="520" cy="70" rx="32" ry="18"/>
+    <circle cx="168" cy="143" r="18" fill="#DFE8F0" stroke="#2F5D8A" stroke-width="2"/>
+    <ellipse cx="168" cy="197" rx="26" ry="18"/>
+    <circle cx="168" cy="250" r="18"/>
+    <circle cx="520" cy="143" r="18" fill="#DFE8F0" stroke="#2F5D8A" stroke-width="2"/>
+    <circle cx="434" cy="197" r="18"/>
+    <circle cx="520" cy="197" r="18"/>
+    <circle cx="606" cy="197" r="18"/>
+    <circle cx="408" cy="247" r="6"/>
+    <circle cx="461" cy="247" r="6"/>
+    <circle cx="520" cy="247" r="6"/>
+    <circle cx="606" cy="247" r="6"/>
+  </g>
+
+  <g font-family="Noto Sans CJK SC, Microsoft YaHei, sans-serif" text-anchor="middle" fill="#222222">
+    <g font-size="21" font-weight="600">
+      <text x="168" y="35">链</text>
+      <text x="520" y="35">有根树</text>
+    </g>
+    <g font-size="18">
+      <text x="168" y="291">后缀 i…n</text>
+      <text x="520" y="291">以 u 为根的子树</text>
+    </g>
+  </g>
+
+  <g font-family="Georgia, serif" font-size="20" text-anchor="middle" fill="#222222">
+    <text x="168" y="77"><tspan font-style="italic">i</tspan>−1</text>
+    <text x="168" y="150" font-style="italic">i</text>
+    <text x="168" y="204"><tspan font-style="italic">i</tspan>+1</text>
+    <text x="168" y="257" font-style="italic">n</text>
+    <text x="520" y="77">fa(<tspan font-style="italic">u</tspan>)</text>
+    <text x="520" y="149" font-style="italic">u</text>
+    <text x="434" y="202"><tspan font-style="italic">v</tspan><tspan font-size="13" dy="4">1</tspan></text>
+    <text x="520" y="202"><tspan font-style="italic">v</tspan><tspan font-size="13" dy="4">2</tspan></text>
+    <text x="606" y="202"><tspan font-style="italic">v</tspan><tspan font-size="13" dy="4">3</tspan></text>
+  </g>
+</svg>
