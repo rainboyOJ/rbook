@@ -188,6 +188,8 @@
           path: "generalized_item"
         - title: "问法变化"
           path: "scheme_count"
+        - title: "排列背包"
+          path: "permutation_knapsack"
         - title: "习题1: 整数划分"
           path: "exercises/integer_partition/problem.md"
     - title: "树形DP"
